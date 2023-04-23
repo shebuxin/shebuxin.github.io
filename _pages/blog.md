@@ -1,7 +1,9 @@
+---
 layout: archive
 title: "Blog"
 permalink: /blog/
 author_profile: true
+---
 
 I worte some articles regarding efficient work flow, programming, control theory and AI/power paper review. They are writen in Chinese and posted on Chinese 'Quora' platform —— [Zhihu](https://www.zhihu.com/people/she-bu-xin/posts).
 
