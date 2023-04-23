@@ -30,32 +30,43 @@ A funny thing about my 'unique' name: whatever you search my name in Chinese or 
 ---
 # Review Service and Awards
 
-* Journal Editor 
+* **Journal Editor**
 
   I am serving as the student guest editor of the IET Renewable Power Generation 2023.
-* Journal Reviewer
+* **Journal Reviewer**
 
   I am serving as the reviewer of the following journals: 
   
     IEEE Transaction on Smart Grid; 
+
     IEEE Transaction on Power system;
+
     IEEE Transaction on Sustainable Energy;
+
     Open Access Journal of Power and Energy;
-    IET Generation, Transmission \& Distribution;
+
+    IET Generation, Transmission & Distribution;
+
     Journal of Modern Power Systems and Clean Energy;
-    International Journal of Electrical Power \& Energy Systems;
-    Reliability engineering \& system safety;
+
+    International Journal of Electrical Power & Energy Systems;
+
+    Reliability engineering & system safety;
+
     Protection and control of modern power systems.
-* Conference Reviewer
+* **Conference Reviewer**
 
   I served as the reviewer of the following conference:
 
   IEEE PES General Meeting 2022-2023;
+
   IEEE IAS Industrial and Commercial Power System Asia 2023;
+
   IEEE IAS Annual Meeting 2023.
-* Awards
+* **Awards**
   I received the best reviewer awards from the following journals:
 
   Excellent Reviewer of Journal of Modern Power Systems and Clean Energy (MPCE) 2022;
+  
   Best Reviewer of Open Access Journal of Power and Energy (OAJPE) 2020;
 
