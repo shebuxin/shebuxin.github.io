@@ -6,11 +6,8 @@ main:
   - title: "Research"
     url: /research/
 
-  - title: "Teaching"
-    url: /teaching/
-
-  - title: "Software"
-    url: /software/
+  - title: "Blog"
+    url: /blog/
 
   - title: "Posts"
     url: /posts/
