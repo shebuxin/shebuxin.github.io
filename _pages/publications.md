@@ -6,7 +6,7 @@ author_profile: true
 ---
 
 
-This page lists my publications.
+This page lists my publications ("\*" marks the corresponding author ).
 
 [2023](#2023); [2022](#2022); [2021](#2021); [2020](#2020); [2019](#2019); [2018](#2018)
 
