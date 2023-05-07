@@ -16,7 +16,9 @@ This page lists my publications ("\*" marks the corresponding author ).
 <div id='2023'/>
 # 2023
 
-* **Buxin She**, Fangxing Li\*, Hantao Cui, Jinning Wang, Min Liang, Oroghene Oboreh Snapps, Rui Bo, "[Decentralized and Coordinated Vf Control for Islanded Microgrids Considering DER Inadequacy and Demand Control](https://arxiv.org/abs/2206.11407)", *IEEE Transactions on Energy Conversion*, Accepted, 2023.
+* **Buxin She**, Fangxing Li\*, Hantao Cui, Hang Shuai, Oroghene Oboreh Snapps, Rui Bo, Nattapat Praisuwanna, Jingxin Wang,  Leon M. Tolbert, "Inverter PQ Control with Trajectory Tracking Capability for Microgrids Based on Physics-informed Reinforcement Learning", *IEEE Transactions on Smart Grid*, Accepted, 2023.
+
+* **Buxin She**, Fangxing Li\*, Hantao Cui, Jinning Wang, Min Liang, Oroghene Oboreh Snapps, Rui Bo,  "[Decentralized and Coordinated Vf Control for Islanded Microgrids Considering DER Inadequacy and Demand Control](https://arxiv.org/abs/2206.11407)", *IEEE Transactions on Energy Conversion*, 2023, doi: 10.1109/TEC.2023.3258919.
 
 * Zhenglai Shen, Som Shrestha, Daniel Howard, Tianli Feng, Diana Hun, **Buxin She**, "[Machine learning–assisted prediction of heat fluxes through thermally anisotropic building envelopes](https://www.sciencedirect.com/science/article/pii/S0360132323001841)", *Building and Environment*, vol. 234, 15 April, 2023, doi: https://doi.org/10.1016/j.buildenv.2023.110157.
 
