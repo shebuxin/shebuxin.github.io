@@ -9,7 +9,7 @@ redirect_from:
 ---
 Welcome to my personal website!
 
-I am currently a fourth-year PhD student in the Department of Electrical Engineering and Computer Science at [the University of Tennessee Knoxville](https://www.eecs.utk.edu), advised by [Dr. Fangxing Li](http://web.eecs.utk.edu/~fli6/). And I'm going to join [optimization and control group](https://www.pnnl.gov/electricity-infrastructure-buildings-division-groups) of [Pacific Northwest National Laboratory (PNNL)](https://www.pnnl.gov/) as a power system engineering starting at September 2023.
+I am currently a fourth-year PhD student in the Department of Electrical Engineering and Computer Science at [the University of Tennessee Knoxville](https://www.eecs.utk.edu), advised by [Dr. Fangxing Li](http://web.eecs.utk.edu/~fli6/). And I'm going to join [optimization and control group](https://www.pnnl.gov/electricity-infrastructure-buildings-division-groups) of [Pacific Northwest National Laboratory (PNNL)](https://www.pnnl.gov/) as a power system engineer starting at September 2023.
 
 My research interests lie in control, optimization and machine learning for power systems, which specifically include microgrid control, IBR control, security-constrained economic dispatch, and distribution system operation and plan. The employed theories include but are not limited to control theory, convex optimization (including SDP and LMI), deep learning, and deep reinforcement learning.
 

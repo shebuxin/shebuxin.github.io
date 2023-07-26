@@ -11,6 +11,8 @@ I worte some articles regarding efficient work flow, programming, control theory
 
 # Power system
 
+* [逆变器功率轨迹追踪控制：一种融合物理知识的强化学习方法](https://zhuanlan.zhihu.com/p/630834753)
+* [考虑新能源容量约束和被动负荷响应的微网下垂协调控制](https://zhuanlan.zhihu.com/p/615949213)
 * [开源的电力系统仿真软件](https://zhuanlan.zhihu.com/p/591677864)
 * [强化学习和微电网控制的融合与展望](https://zhuanlan.zhihu.com/p/586183408)
 
