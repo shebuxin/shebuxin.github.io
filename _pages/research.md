@@ -16,7 +16,7 @@ Specificlly, the topics include microgrid control, security-constrained economic
 
 I have worked on P-Q control, V-f control, transient-stability guaranteed control, and HVDC damping control.
 
-* **Inverter PQ Control with Trajectory Tracking Capability**
+* [**Inverter PQ Control with Trajectory Tracking Capability**](https://ieeexplore.ieee.org/abstract/document/10128154)
 
   I designed a P-Q controller for microgrid grid-following inverters with trajectory tracking capability, based on physics-informed reinforcement learning. By tuning the PI gains in real-time, the inverter output can perfectly track the predefined exponential trajectories with any time constant. I performed model-based analysis first, and then implemented the twin delayed deeper deterministic policy gradient algorithm (a model-free deep RL algorithm). The proposed algorithm was finally tested on [CURENT](https://curent.utk.edu/files/8414/8709/3719/Tolbert_Fact_Sheet_Web.pdf.
 * [**Decentralized and Cooperated V-f Control**](https://ieeexplore.ieee.org/document/10078029)

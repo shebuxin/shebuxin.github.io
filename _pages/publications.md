@@ -8,7 +8,7 @@ author_profile: true
 
 This page lists my publications ("\*" marks the corresponding author ).
 
-[2023](#2023); [2022](#2022); [2021](#2021); [2020](#2020); [2019](#2019); [2018](#2018)
+[2023](#2023); [2022](#2022); [2021](#2021); [2020](#2020); [2019](#2019); [2018](#2018); [2017](#2017)
 
 
 ---
@@ -16,7 +16,9 @@ This page lists my publications ("\*" marks the corresponding author ).
 <div id='2023'/>
 # 2023
 
-* **Buxin She**, Fangxing Li\*, Hantao Cui, Hang Shuai, Oroghene Oboreh Snapps, Rui Bo, Nattapat Praisuwanna, Jingxin Wang,  Leon M. Tolbert, "Inverter PQ Control with Trajectory Tracking Capability for Microgrids Based on Physics-informed Reinforcement Learning", *IEEE Transactions on Smart Grid*, Accepted, 2023.
+* Qiwei Zhang, Fangxing Li\*, Jin Zhao, **Buxin She**, "[False Data Injection Attack and Corresponding Countermeasure in Multienergy Systems](https://ieeexplore.ieee.org/abstract/document/10126114)", *IEEE Transactions on Power System*, 2023, 10.1109/TPWRS.2023.3276736.
+
+* **Buxin She**, Fangxing Li\*, Hantao Cui, Hang Shuai, Oroghene Oboreh Snapps, Rui Bo, Nattapat Praisuwanna, Jingxin Wang,  Leon M. Tolbert, "[Inverter PQ Control with Trajectory Tracking Capability for Microgrids Based on Physics-informed Reinforcement Learning](https://ieeexplore.ieee.org/abstract/document/10128154)", *IEEE Transactions on Smart Grid*, 2023, doi:10.1109/TSG.2023.3277330.
 
 * **Buxin She**, Fangxing Li\*, Hantao Cui, Jinning Wang, Min Liang, Oroghene Oboreh Snapps, Rui Bo,  "[Decentralized and Coordinated Vf Control for Islanded Microgrids Considering DER Inadequacy and Demand Control](https://arxiv.org/abs/2206.11407)", *IEEE Transactions on Energy Conversion*, 2023, doi: 10.1109/TEC.2023.3258919.
 
@@ -70,6 +72,12 @@ This page lists my publications ("\*" marks the corresponding author ).
 
 * Jun xiao, Yuqing Qu\*, Chenhui Song, Baoqiang Zhang, **Buxin She**, and Qisi Lin, "[Security Region and Total Supply Capability under N-0 for Urban Distribution Network](https://ieeexplore.ieee.org/abstract/document/9281818)," *2020 IEEE Power & Energy Society General Meeting (PESGM)*, page 2-6, Dec. 2020.
 
+* 肖峻, 焦衡\*, 屈玉清, **佘步鑫**, "[配电网安全域的特殊二维图像：发现、机理及用途](https://chn.oversea.cnki.net/kns/Detail?sfield=fn&QueryID=0&CurRec=6&recid=&FileName=ZGDC202016003&DbName=CJFDLAST2020&DbCode=CJFD&yx=A&pr=&URLID=11.2107.TM.20200318.1649.005)", 中国电机工程学报, 2020.
+
+* 肖峻, 曹严, 张宝强, **佘步鑫**, "[配电网安全域的全维直接观测](https://chn.oversea.cnki.net/kns/Detail?sfield=fn&QueryID=0&CurRec=5&recid=&FileName=DGJS202019018&DbName=CJFDLAST2020&DbCode=CJFD&yx=A&pr=&URLID=11.2188.TM.20200622.1833.004)", 电工技术学报, 2020.
+
+* 肖峻, 周欢\*, **佘步鑫**, "[基于文献综述的配电网供电能力术语规范化建议](https://chn.oversea.cnki.net/KCMS/detail/detail.aspx?dbcode=CJFD&dbname=CJFDLAST2020&filename=DGJS202019018&uniplatform=OVERSEA&v=0JM_PR5xNqoySwhXFKANH2ro2bC-l9oIJYEEyzdwpMw4YE5oWGmKoG1RUMZXipO6)", 
+
 ---
 
 <div id='2019'/>
@@ -77,9 +85,15 @@ This page lists my publications ("\*" marks the corresponding author ).
 
 * Xun Jiang, Jun Xiao, **Buxin She\***, and Guoqiang Zu. "[Locating and sizing of partition flexible interconnection converter station in large urban power grids](https://digital-library.theiet.org/content/journals/10.1049/iet-gtd.2018.6871)." *IET Generation, Transmission & Distribution*, vol.13, issue 21, Nov. 2019.
 
+* **佘步鑫\***, "[配电网的供电能力曲线和消纳能力曲线](https://chn.oversea.cnki.net/kns/Detail?sfield=fn&QueryID=0&CurRec=7&FileName=1021723903.nh&DbName=CMFD202201&DbCode=CMFD)", 硕士论文(Master Thesis), 2019.
+
 * 肖峻, **佘步鑫\***, 周欢, 张苗苗, "[配电网供电能力曲线的规律与机理](https://www.cnki.com.cn/Article/CJFDTotal-ZGDC201916009.htm)", 中国电机工程学报, 2019.
 
 * 肖峻, **佘步鑫\***, "[配电网接线模式的综合效率评价](https://www.cnki.com.cn/Article/CJFDTotal-DWJS201910037.htm)", 电网技术, 2019.
+
+* 肖峻, 伊丽达, **佘步鑫**, 张宝强, "[部分元件N-1下的配电网供电能力与安全域](https://chn.oversea.cnki.net/kns/Detail?sfield=fn&QueryID=0&CurRec=11&recid=&FileName=DWJS201904047&DbName=CJFDLAST2019&DbCode=CJFD&yx=A&pr=&URLID=11.2410.TM.20190307.1608.007)", 电网技术， 2019.
+
+* 肖峻, 苏亚贝\*, 张宝强, **佘步鑫**, "[配电网安全域的N*N形式维度](https://chn.oversea.cnki.net/kns/Detail?sfield=fn&QueryID=0&CurRec=9&recid=&FileName=DWJS201907027&DbName=CJFDLAST2019&DbCode=CJFD&yx=A&pr=&URLID=11.2410.TM.20190424.1336.001)", 电网技术, 2019.
 
 ---
 
@@ -87,3 +101,10 @@ This page lists my publications ("\*" marks the corresponding author ).
 # 2018
 
 * Jun Xiao, Miaomiao Zhang, Linquan Bai\*, **Buxin She**, and Baoqiang Zhang. "[Boundary supply capability for distribution systems: concept, indices and calculation](https://ietresearch.onlinelibrary.wiley.com/doi/full/10.1049/iet-gtd.2017.0725)," *IET Generation, Transmission & Distribution* vol.12, issue 2, Jan. 2018.
+
+---
+
+<div id='2017'/>
+# 2017
+
+* 肖峻, 张苗苗\*, 司超然, **佘步鑫**, 张宝强, "[配电网的供电能力分布](https://chn.oversea.cnki.net/KCMS/detail/detail.aspx?dbcode=CJFD&dbname=CJFDLAST2017&filename=DWJS201710031&uniplatform=OVERSEA&v=_rnILaSK9Q2eK_zGoW1foE6m7wPD7byiZ29vl1gORV7SgJkj02R7_ebZqYt8CIHk)", 电网技术， 2017.
