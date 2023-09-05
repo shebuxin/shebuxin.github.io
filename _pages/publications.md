@@ -16,6 +16,8 @@ This page lists my publications ("\*" marks the corresponding author ).
 <div id='2023'/>
 # 2023
 
+* Oroghene Oboreh-Snapps, **Buxin She**, Shah Fahad, Haotian Chen, Jonathan Kimball, Fangxing Li, Hantao Cui, Rui Bo\*, "Virtual Synchronous Generator Control Using Twin Delayed Deep Deterministic Policy Gradient Method", *IEEE Transactions on Energy Conversion*, 2023, doi:10.1109/TEC.2023.3309955.
+
 * Qiwei Zhang, Fangxing Li\*, Jin Zhao, **Buxin She**, "[False Data Injection Attack and Corresponding Countermeasure in Multienergy Systems](https://ieeexplore.ieee.org/abstract/document/10126114)", *IEEE Transactions on Power System*, 2023, 10.1109/TPWRS.2023.3276736.
 
 * **Buxin She**, Fangxing Li\*, Hantao Cui, Hang Shuai, Oroghene Oboreh Snapps, Rui Bo, Nattapat Praisuwanna, Jingxin Wang,  Leon M. Tolbert, "[Inverter PQ Control with Trajectory Tracking Capability for Microgrids Based on Physics-informed Reinforcement Learning](https://ieeexplore.ieee.org/abstract/document/10128154)", *IEEE Transactions on Smart Grid*, 2023, doi:10.1109/TSG.2023.3277330.
