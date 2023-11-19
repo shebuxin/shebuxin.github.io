@@ -16,9 +16,9 @@ This page lists my publications ("\*" marks the corresponding author ).
 <div id='2023'/>
 # 2023
 
-* **Buxin She**, Jianzhe Liu\*, Feng Qiu, Hantao Cui, Nattapat Praisuwanna, Jingxin Wang, Leon M. Tolbert, and Fangxing Li\*, "Systematic Controller Design for Inverter-Based Microgrids With Certified Large-Signal Stability and Domain of Attraction", *IEEE Transactions on Smart Grid*, 2023, doi: 10.1109/TSG.2023.3330705.
+* **Buxin She**, Jianzhe Liu\*, Feng Qiu, Hantao Cui, Nattapat Praisuwanna, Jingxin Wang, Leon M. Tolbert, and Fangxing Li\*, "[Systematic Controller Design for Inverter-Based Microgrids With Certified Large-Signal Stability and Domain of Attraction](https://ieeexplore.ieee.org/abstract/document/10310265)", *IEEE Transactions on Smart Grid*, 2023, doi: 10.1109/TSG.2023.3330705.
 
-* **Buxin She**, Fangxing Li\*, Hantao Cui, Jinning Wang, Qiwei Zhang, Rui Bo, "Virtual Inertia Scheduling (VIS) for Real-time Economic Dispatch of IBRs-penetrated Power Systems", *IEEE Transactions on Sustainalbe Energy*, September 2023, doi: 10.1109/TSTE.2023.3319307.
+* **Buxin She**, Fangxing Li\*, Hantao Cui, Jinning Wang, Qiwei Zhang, Rui Bo, "[Virtual Inertia Scheduling (VIS) for Real-time Economic Dispatch of IBRs-penetrated Power Systems](https://ieeexplore.ieee.org/abstract/document/10264213)", *IEEE Transactions on Sustainalbe Energy*, September 2023, doi: 10.1109/TSTE.2023.3319307.
 
 * Oroghene Oboreh-Snapps, **Buxin She**, Shah Fahad, Haotian Chen, Jonathan Kimball, Fangxing Li, Hantao Cui, Rui Bo\*, "Virtual Synchronous Generator Control Using Twin Delayed Deep Deterministic Policy Gradient Method", *IEEE Transactions on Energy Conversion*, 2023, doi:10.1109/TEC.2023.3309955.
 
