@@ -33,9 +33,9 @@ A funny thing about my 'unique' name: whatever you search my name in Chinese or 
 
 # Working Experience
 
-* **Pacific Northwest National Laboratory (PNNL)** (*Janunary 2020 - December 2023*)
+* **Pacific Northwest National Laboratory (PNNL)** (*September 2023 - Now*)
 
-  Electrical Engineer 
+  Electrical Engineer
 * **Argonne National Laboratory (ANL)** (*July 2022 - December 2022*)
 
   Research Aide Technical
