@@ -9,7 +9,7 @@ redirect_from:
 ---
 Welcome to my personal website!
 
-I am currently a fourth-year PhD student in the Department of Electrical Engineering and Computer Science at [the University of Tennessee Knoxville](https://www.eecs.utk.edu), advised by [Dr. Fangxing Li](http://web.eecs.utk.edu/~fli6/). I joined [optimization and control group](https://www.pnnl.gov/electricity-infrastructure-buildings-division-groups) of [Pacific Northwest National Laboratory (PNNL)](https://www.pnnl.gov/) as a power system engineer from September 2023.
+I am currently an Electrical Engineer in the [optimization and control group](https://www.pnnl.gov/electricity-infrastructure-buildings-division-groups) of [Pacific Northwest National Laboratory (PNNL)](https://www.pnnl.gov/). I completed my Ph.D. studies in the Department of Electrical Engineering and Computer Science at [the University of Tennessee Knoxville](https://www.eecs.utk.edu), advised by [Dr. Fangxing(Fran) Li](http://web.eecs.utk.edu/~fli6/).
 
 My research interests lie in control, optimization and machine learning for power systems, which specifically include microgrid control, IBR control, security-constrained economic dispatch, and distribution system operation and plan. The employed theories include but are not limited to control theory, convex optimization (including SDP and LMI), deep learning, and deep reinforcement learning.
 
@@ -19,15 +19,29 @@ A funny thing about my 'unique' name: whatever you search my name in Chinese or 
 
 # Education
 
-* **University of Tennessee Knoxville** (*Jan 2020 - Now*)
+* **University of Tennessee Knoxville** (*Jaunuary 2020 - December 2023*)
 
   Phd student in Electrical and Computer Engineering
-* **Tianjin University** (*Sep 2017 - Dec 2019*)
+* **Tianjin University** (*September 2017 - December 2019*)
 
   MS in Electrical and Information Engineering
-* **Tianjin University** (*Sep 2013 - Jun 2017*)
+* **Tianjin University** (*September 2013 - June 2017*)
 
   BA in Electrical and Information Engineering
+
+---
+
+# Working Experience
+
+* **Pacific Northwest National Laboratory (PNNL)** (*Janunary 2020 - December 2023*)
+
+  Electrical Engineer 
+* **Argonne National Laboratory (ANL)** (*July 2022 - December 2022*)
+
+  Research Aide Technical
+* **University of Tennessee Knoxville** (*Janunary 2020 - September 2023*)
+
+  Graduate Research Assistant
 
 <!-- ---
 

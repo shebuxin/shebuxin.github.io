@@ -25,7 +25,7 @@ I have worked on P-Q control, V-f control, transient-stability guaranteed contro
 * [**Fusion of Model-free Reinforcement Learning (MFRL) with Microgrid Control**](https://ieeexplore.ieee.org/document/9951405)
 
   I wrote a review paper to summarize how MFRL can be integrated into the existing microgrid control framework. The contributions include: 1)Plotting of a high-level research map of microgrid control; 2) Development of modularized control blocks to dive into grid-following and grid-forming inverters; 3) Introduction of the mainstream MFRL algorithms and summary of MFRL application guidelines; 4) Discussion of the primary challenges associated with adopting MFRL in microgrid control and providing insights for addressing these concerns.
-* **Microgrid Controller Design with Certified Stability and Domain of Attraction**
+* [**Microgrid Controller Design with Certified Stability and Domain of Attraction**](https://ieeexplore.ieee.org/abstract/document/10310265)
 
   I developed a systematic controller design approach that integrates the analytical transient stability conditions to guarantee the domain of attraction, based on nonlinear state-space modeling (electromagnetic transient modeling) of islanded microgrids. *This work was done during my internship at Argonne National Laboratory under the supervision of [Dr. Jianzhe Liu](https://www.anl.gov/profile/jianzhe-liu).*
 * [**Time Delay Compensation of HVDC Damping Control**](https://www.frontiersin.org/articles/10.3389/fenrg.2022.895163/full)
@@ -38,12 +38,12 @@ I have worked on P-Q control, V-f control, transient-stability guaranteed contro
 
 I have worked on the security-constrained economic dispatch of IBR-based microgrid/power system.
 
-* **Security-constrained real-time economic dispatch**
+* [**Virtual Inertia Scheduling (VIS) for IBR-penetrated Power System**](https://ieeexplore.ieee.org/abstract/document/10264213)
 
   I proposed the concept of virtual inertia scheduling (VIS) for IBR-dominant power systems. VIS is an inertia management framework that targets security-constrained and economy-oriented inertia scheduling and generation dispatch of power systems with a large scale of renewable generations. Specifically, it schedules the proper power setting points and reserved capacities of both synchronous generators and IBRs, as well as the control modes and control parameters of IBRs to provide secure and cost-effective inertia support.
-* **VIS with certified stability and dynamic performance under N-1 Contingency**
+* [**Microgrid VIS with certified stability and dynamic performance**](https://ltb.curent.org/showcase/microvis/)
 
-  I plan to extend the concept of VIS to microgrids under N-1 contingency, while also certifying the transient stability and dynamic performance.
+  The concept of VIS is exteded to microgrids to actively harnesses the controllability and flexibility of IBRs, while also certifying the transient stability, small signal stability, and dynamic performance. An efficient workflow is developed to facilitate the integration of data-driven methods into microgrid-VIS, involving data generation, cleaning, and labeling to alleviate computational burdens.
 
 ---
 
@@ -56,13 +56,3 @@ I worked on the plan and operation of distribution system under the supervision 
 ## Thermal Energy Storage
 
 I participated in research led by ORNL research scientist [Dr. Zhenglai Shen](https://www.ornl.gov/staff-profile/zhenglai-shen) and his manager [Dr. Som S Shrestha](https://www.ornl.gov/staff-profile/som-s-shrestha).
-
-<!-- <nbsp>
-
-{% include base_path %}
-
-{% assign ordered_pages = site.research | sort:"order_number" %}
-
-{% for post in ordered_pages %}
-  {% include archive-single.html type="grid" %}
-{% endfor %} -->
