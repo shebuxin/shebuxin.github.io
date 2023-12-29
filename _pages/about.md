@@ -17,6 +17,20 @@ A funny thing about my 'unique' name: whatever you search my name in Chinese or 
 
 ---
 
+# Working Experience
+
+* **Pacific Northwest National Laboratory (PNNL)** (*September 2023 - Now*)
+
+  Electrical Engineer
+* **Argonne National Laboratory (ANL)** (*July 2022 - December 2022*)
+
+  Research Aide Technical
+* **University of Tennessee Knoxville (UTK)** (*Janunary 2020 - September 2023*)
+
+  Graduate Research Assistant
+
+---
+
 # Education
 
 * **University of Tennessee Knoxville** (*Jaunuary 2020 - December 2023*)
@@ -29,19 +43,7 @@ A funny thing about my 'unique' name: whatever you search my name in Chinese or 
 
   BA in Electrical and Information Engineering
 
----
 
-# Working Experience
-
-* **Pacific Northwest National Laboratory (PNNL)** (*September 2023 - Now*)
-
-  Electrical Engineer
-* **Argonne National Laboratory (ANL)** (*July 2022 - December 2022*)
-
-  Research Aide Technical
-* **University of Tennessee Knoxville** (*Janunary 2020 - September 2023*)
-
-  Graduate Research Assistant
 
 <!-- ---
 

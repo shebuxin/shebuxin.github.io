@@ -11,6 +11,8 @@ I worte some articles regarding efficient work flow, programming, control theory
 
 # Power system
 
+* [一种保证微电网大信号稳定性和给定稳定域的控制器设计方法](https://zhuanlan.zhihu.com/p/667142086)
+* [电力系统惯量可以调度吗](https://zhuanlan.zhihu.com/p/660665010)
 * [逆变器功率轨迹追踪控制：一种融合物理知识的强化学习方法](https://zhuanlan.zhihu.com/p/630834753)
 * [考虑新能源容量约束和被动负荷响应的微网下垂协调控制](https://zhuanlan.zhihu.com/p/615949213)
 * [开源的电力系统仿真软件](https://zhuanlan.zhihu.com/p/591677864)
@@ -20,6 +22,7 @@ I worte some articles regarding efficient work flow, programming, control theory
 
 # Work flow
 
+* [博士学习经验交流](https://zhuanlan.zhihu.com/p/649798614)
 * [科研神器：Sympy推公式，无缝latex输出](https://zhuanlan.zhihu.com/p/491831883)
 * [生产力max之笔记工具篇: To do和OneNote](https://zhuanlan.zhihu.com/p/388611846)
 

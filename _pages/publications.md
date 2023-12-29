@@ -8,8 +8,17 @@ author_profile: true
 
 This page lists my publications ("\*" marks the corresponding author ).
 
-[2023](#2023); [2022](#2022); [2021](#2021); [2020](#2020); [2019](#2019); [2018](#2018); [2017](#2017)
+[2024](#2024); [2023](#2023); [2022](#2022); [2021](#2021); [2020](#2020); [2019](#2019); [2018](#2018); [2017](#2017)
 
+---
+
+<div id='2024'/>
+
+# 2024
+
+* Jun Xiao, Heng Jiao\*, Chenhui Song, Guoqiang Zu, Chengjin Li, Zhongwei Cai, **Buxin She**, "[Judgment Theorem of Security Boundary for Distribution Systems]()," *International Journal of Electrical Power & Energy Systems*, Accepted, 2024.
+
+* Jun Xiao, Ruiwan Liu, **Buxin She**\*, Guowei He, Ziyu Liang, Zhongwei Cai, "[The influence mechanism of substation transformer on total supply capability (TSC) of distribution networks](https://www.sciencedirect.com/science/article/pii/S0378779623009793)", *Electric Power Systems Research*, 2023, doi: https://doi.org/10.1016/j.epsr.2023.110092.
 
 ---
 
@@ -41,10 +50,6 @@ This page lists my publications ("\*" marks the corresponding author ).
 # 2022 
 
 * **Buxin She**, Fangxing Li\*, Hantao Cui, Jingqiu Zhang, Rui Bo, "[Fusion of Microgrid Control with Model-free Reinforcement Learning: Review and Vision](https://ieeexplore.ieee.org/abstract/document/9951405)", *IEEE Transactions on Smart Grid*, 2022, doi: 10.1109/TSG.2022.3222323.
-
-* **Buxin She**, Fangxing Li\*, Hantao Cui, Jinnng Wang, Qiwei Zhang, Rui Bo, "[Virtual Inertia Scheduling for Power Systems with High Penetration of Inverter-based Resources](https://arxiv.org/abs/2209.06677)", arXiv preprint arXiv:2209.06677.
-
-* **Buxin She**, Fangxing Li, Hantao Cui, Jinning Wang, Oroghene Oboreh Snapps, Rui Bo, "[Decentralized and Coordinated Vf Control for Islanded Microgrids Considering DER Inadequacy and Demand Control](https://arxiv.org/abs/2206.11407)", arXiv preprint arXiv:2206.11407.
 
 * Jun Xiao, Yuqing Qu, **Buxin She\***, Chenhui Song, "[Operational boundary of flow network](https://www.sciencedirect.com/science/article/abs/pii/S0951832022005890)", *Reliability Engineering & System Safety*, 2022 Nov 13:108974.
 
