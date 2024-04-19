@@ -9,9 +9,9 @@ redirect_from:
 ---
 Welcome to my personal website!
 
-I am currently an Electrical Engineer in the [optimization and control group](https://www.pnnl.gov/electricity-infrastructure-buildings-division-groups) of [Pacific Northwest National Laboratory (PNNL)](https://www.pnnl.gov/). I completed my Ph.D. studies in the Department of Electrical Engineering and Computer Science at [the University of Tennessee Knoxville](https://www.eecs.utk.edu), advised by [Dr. Fangxing(Fran) Li](http://web.eecs.utk.edu/~fli6/).
+I am currently an Research Engineer in the [optimization and control group](https://www.pnnl.gov/electricity-infrastructure-buildings-division-groups) of [Pacific Northwest National Laboratory (PNNL)](https://www.pnnl.gov/). I completed my Ph.D. studies in the Department of Electrical Engineering and Computer Science at [the University of Tennessee Knoxville](https://www.eecs.utk.edu), advised by [Dr. Fangxing(Fran) Li](http://web.eecs.utk.edu/~fli6/). I lead one PNNL LDRD Project under Resilience Through Data-Driven, Intelligently Designed Control (RD2C) Initiative.
 
-My research interests lie in control, optimization and machine learning for power systems, which specifically include microgrid control, IBR control, security-constrained economic dispatch, and distribution system operation and plan. The employed theories include but are not limited to control theory, convex optimization (including SDP and LMI), deep learning, and deep reinforcement learning.
+My research interests lie in control, optimization and machine learning for power systems, including microgrid control, IBR control, security-constrained economic dispatch, distribution system operation and plan, cybersecurity, and resilience. The employed theories include but are not limited to control theory, convex optimization, deep learning, and deep reinforcement learning.
 
 A funny thing about my 'unique' name: whatever you search my name in Chinese or English, it's all about me because my name is "unique" in the context of Chinese and English.
 
@@ -42,8 +42,6 @@ A funny thing about my 'unique' name: whatever you search my name in Chinese or 
 * **Tianjin University** (*September 2013 - June 2017*)
 
   BA in Electrical and Information Engineering
-
-
 
 <!-- ---
 
