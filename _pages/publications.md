@@ -13,9 +13,10 @@ This page lists my publications ("\*" marks the corresponding author ).
 <div id='2024'/>
 
 # 2024
-
+* **Buxin She**, Hisham Mahmood, Marcelo Elizondo, Veronica Adetola, Yuqing Dong, "Configuration and EMT Simulation of the 240-bus MiniWECC System Integrating Offshore Wind Farms (OWFs)[https://arxiv.org/abs/2403.07988]", arXiv preprint, 2024.
+* Hang Shuai, **Buxin She**, Jinning Wang, Fangxing Li\*, "[Safe Reinforcement Learning for Grid-Forming Inverter Based Frequency Regulation with Stability Guarantee](https://ieeexplore.ieee.org/abstract/document/10495852)," *Journal of Modern Power Systems and Clean Energy*, 2024, doi: 10.35833/MPCE.2023.000882.
 * Jinning Wang, Fangxing Li\*, Xin Fang, Wenbo Wang, Hantao Cui, Qiwei Zhang, and **Buxin She**, "[Electric Vehicles Charging Time Constrained Deliverable Provision of Secondary Frequency Regulation](https://ieeexplore.ieee.org/abstract/document/10411057)," *IEEE Transactions on Smart Grid*, 2023, doi: 10.1109/TSG.2024.3356948.
-* Jun Xiao, Heng Jiao\*, Chenhui Song, Guoqiang Zu, Chengjin Li, Zhongwei Cai, **Buxin She**, "[Judgment Theorem of Security Boundary for Distribution Systems](https://www.sciencedirect.com/science/article/pii/S0142061523008062)," *International Journal of Electrical Power & Energy Systems*, Accepted, 2024.
+* Jun Xiao, Heng Jiao\*, Chenhui Song, Guoqiang Zu, Chengjin Li, Zhongwei Cai, **Buxin She**, "[Judgment Theorem of Security Boundary for Distribution Systems](https://www.sciencedirect.com/science/article/pii/S0142061523008062)," *International Journal of Electrical Power & Energy Systems*, 2024, doi: https://doi.org/10.1016/j.epsr.2023.110092.
 * Jun Xiao, Ruiwan Liu, **Buxin She**\*, Guowei He, Ziyu Liang, Zhongwei Cai, "[The influence mechanism of substation transformer on total supply capability (TSC) of distribution networks](https://www.sciencedirect.com/science/article/pii/S0378779623009793)", *Electric Power Systems Research*, 2024, doi: https://doi.org/10.1016/j.epsr.2023.110092.
 
 ---

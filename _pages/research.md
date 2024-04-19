@@ -8,7 +8,7 @@ header:
 ---
 My research interests lie in control, optimization and machine learning for power systems.
 
-Specificlly, the topics include microgrid control, security-constrained economic dispatch, and distribution system operation and plan.
+Specificlly, the topics include microgrid control, security-constrained economic dispatch, distribution system operation and plan, and cybersecutiy in power system (to be updated).
 
 ---
 
