@@ -7,13 +7,19 @@ redirect_from:
   - /about/
   - /about.html
 ---
+
 Welcome to my personal website!
 
-I am currently an Research Engineer in the [optimization and control group](https://www.pnnl.gov/electricity-infrastructure-buildings-division-groups) of [Pacific Northwest National Laboratory (PNNL)](https://www.pnnl.gov/). I completed my Ph.D. studies in the Department of Electrical Engineering and Computer Science at [the University of Tennessee Knoxville](https://www.eecs.utk.edu), advised by [Dr. Fangxing(Fran) Li](http://web.eecs.utk.edu/~fli6/). I lead one PNNL LDRD Project under Resilience Through Data-Driven, Intelligently Designed Control (RD2C) Initiative.
+Buxin She is currently an Research Engineer in the [optimization and control group](https://www.pnnl.gov/electricity-infrastructure-buildings-division-groups) of [Pacific Northwest National Laboratory (PNNL)](https://www.pnnl.gov/). He was a guest editor of IET Renewable Power Generation (2023). He was an outstanding reviewer of IEEE Open Access Journal of Power and Energy (2020) and Journal of Modern Power Systems and Clean Energy (2022 and 2023). His research include:
 
-My research interests lie in control, optimization and machine learning for power systems, including microgrid control, IBR control, security-constrained economic dispatch, distribution system operation and plan, cybersecurity, and resilience. The employed theories include but are not limited to control theory, convex optimization, deep learning, and deep reinforcement learning.
+* Modeling, control, and stability analysis of inverter-based resources (IBRs)
+* Security-constrained operation and planning of power system
+* Application of AI in power systems
+* Resilience analysis of power systems
 
-A funny thing about my 'unique' name: whatever you search my name in Chinese or English, it's all about me because my name is "unique" in the context of Chinese and English.
+He leads two PNNL LDRD projects, one focusing on resilience analysis of cyber-physical (power) system under [Resilience Through Data-Driven, Intelligently Designed Control (RD2C) Initiative](https://www.pnnl.gov/projects/rd2c-initiative) and one on stability characterization of power electronics-dominant power system under the [Energy System Co-Design with Multiple Objectives and Power Electronics (E-COMP) Initiative](https://www.pnnl.gov/projects/e-comp). He also co-leads one project sponsored by the DOE Wind Energy Technologies Office (WETO).
+
+A funny thing about his 'unique' name: whatever you search my name in Chinese or English, it's all about me because my name is "unique" in the context of Chinese and English.
 
 ---
 
@@ -43,47 +49,11 @@ A funny thing about my 'unique' name: whatever you search my name in Chinese or 
 
   BA in Electrical and Information Engineering
 
-<!-- ---
+# Selected Publications
 
-# Review Service and Awards
-
-* **Journal Editor**
-
-  I am serving as the student guest editor of the IET Renewable Power Generation 2023.
-* **Journal Reviewer**
-
-  I am serving as the reviewer of the following journals:
-
-  IEEE Transaction on Smart Grid;
-
-  IEEE Transaction on Power system;
-
-  IEEE Transaction on Sustainable Energy;
-
-  Open Access Journal of Power and Energy;
-
-  IET Generation, Transmission & Distribution;
-
-  Journal of Modern Power Systems and Clean Energy;
-
-  International Journal of Electrical Power & Energy Systems;
-
-  Reliability engineering & system safety;
-
-  Protection and control of modern power systems.
-* **Conference Reviewer**
-
-  I served as the reviewer of the following conference:
-
-  IEEE PES General Meeting 2022-2023;
-
-  IEEE IAS Industrial and Commercial Power System Asia 2023;
-
-  IEEE IAS Annual Meeting 2023.
-* **Awards**
-
-  I received the best reviewer awards from the following journals:
-
-  Excellent Reviewer of Journal of Modern Power Systems and Clean Energy (MPCE) 2022;
-
-  Best Reviewer of Open Access Journal of Power and Energy (OAJPE) 2020; -->
+* **Buxin She**, Fangxing Li\*, Hantao Cui, Hang Shuai, Oroghene Oboreh Snapps, Rui Bo, Nattapat Praisuwanna, Jingxin Wang,  Leon M. Tolbert, "[Inverter PQ Control with Trajectory Tracking Capability for Microgrids Based on Physics-informed Reinforcement Learning](https://ieeexplore.ieee.org/abstract/document/10128154)", *IEEE Transactions on Smart Grid*, 2023, doi:10.1109/TSG.2023.3277330. <u>**ESI Highly Cited Paper + Popular Paper on TSG**</u>.
+* **Buxin She**, Fangxing Li\*, Hantao Cui, Jingqiu Zhang, Rui Bo, "[Fusion of Microgrid Control with Model-free Reinforcement Learning: Review and Vision](https://ieeexplore.ieee.org/abstract/document/9951405)", *IEEE Transactions on Smart Grid*, 2022, doi: 10.1109/TSG.2022.3222323. -- <u>**Popular Paper on TSG**</u>.
+* **Buxin She**, Fangxing Li\*, Hantao Cui, Jinning Wang, Qiwei Zhang, Rui Bo, "[Virtual Inertia Scheduling (VIS) for Real-time Economic Dispatch of IBRs-penetrated Power Systems](https://ieeexplore.ieee.org/abstract/document/10264213)", *IEEE Transactions on Sustainalbe Energy*, September 2023, doi: 10.1109/TSTE.2023.3319307. -- <u>**Popular Paper on TSTE**</u>.
+* **Buxin She**, Fangxing Li\*, Jinning Wang, Hantao Cui, Xiaofei Wang, Rui Bo, "[Virtual Inertia Scheduling (VIS) for Microgrids with Static and Dynamic Security Constraints](https://ieeexplore.ieee.org/abstract/document/10729702)", *IEEE Transactions on Sustainalbe Energy*, 2024, doi: [10.1109/TSTE.2023.3319307](https://doi.org/10.1109/TSTE.2024.3481239). -- <u>**Popular Paper on TSTE**</u>.
+* **Buxin She**, Jianzhe Liu\*, Feng Qiu, Hantao Cui, Nattapat Praisuwanna, Jingxin Wang, Leon M. Tolbert, and Fangxing Li\*, "[Systematic Controller Design for Inverter-Based Microgrids With Certified Large-Signal Stability and Domain of Attraction](https://ieeexplore.ieee.org/abstract/document/10310265)", *IEEE Transactions on Smart Grid*, 2023, doi: 10.1109/TSG.2023.3330705.
+* **Buxin She**, Fangxing Li\*, Hantao Cui, Jinning Wang, Min Liang, Oroghene Oboreh Snapps, Rui Bo,  "[Decentralized and Coordinated Vf Control for Islanded Microgrids Considering DER Inadequacy and Demand Control](https://arxiv.org/abs/2206.11407)", *IEEE Transactions on Energy Conversion*, 2023, doi: 10.1109/TEC.2023.3258919.
