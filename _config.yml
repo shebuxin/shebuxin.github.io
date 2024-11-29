@@ -77,7 +77,7 @@ social:
 analytics:
   provider               : "google" # false (default), "google", "google-universal", "custom", "goatcounter"
   google:
-    tracking_id          : G-XE2523KVK9
+    tracking_id          : G-1WP181865T
     goatcounter:
     code		             : 
 
@@ -92,7 +92,7 @@ author:
   pubmed           :
   orcid            : "https://orcid.org/0000-0002-2624-560X"
   googlescholar    : "https://scholar.google.com/citations?user=qqcJQ4UAAAAJ&hl=en"
-  email            : "bshe@vols.utk.edu"
+  email            : "shebuxin@gmail.com"
   researchgate     : "https://www.researchgate.net/profile/She-Buxin" # example: "https://www.researchgate.net/profile/yourprofile"
   uri              :
   bitbucket        :
