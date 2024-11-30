@@ -75,10 +75,11 @@ social:
 
 # Analytics
 analytics:
-  provider               : "google" # false (default), "google", "google-universal", "custom", "goatcounter"
+  provider               : "goatcounter" # false (default), "google", "google-universal", "custom", "goatcounter"
+  goatcounter_code       : buxin.goatcounter.com
   google:
-    tracking_id          : G-1WP181865T
-    goatcounter:
+    tracking_id          :
+    goatcounter          :
     code		             : 
 
 
