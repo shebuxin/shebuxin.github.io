@@ -1,6 +1,6 @@
 ---
 permalink: /
-title: "Buxin's Personal Website'"
+title: "Buxin's Personal Website"
 excerpt: "About me"
 author_profile: true
 redirect_from: 
