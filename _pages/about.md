@@ -1,6 +1,6 @@
 ---
 permalink: /
-title: "About me"
+title: "Buxin She"
 excerpt: "About me"
 author_profile: true
 redirect_from: 
@@ -8,7 +8,19 @@ redirect_from:
   - /about.html
 ---
 
-Welcome to my personal website!
+Welcome to my personal website!  
+
+* [About Me](#me)
+* [Work Experience](#work)
+* [Education](#edu)
+* [Selected Publications](#pub)
+* [Awards](#award)
+
+---
+
+<div id='me'/>
+
+# About me
 
 Buxin She is currently an Research Engineer in the [optimization and control group](https://www.pnnl.gov/electricity-infrastructure-buildings-division-groups) of [Pacific Northwest National Laboratory (PNNL)](https://www.pnnl.gov/). He was a guest editor of IET Renewable Power Generation (2023). He was an outstanding reviewer of IEEE Open Access Journal of Power and Energy (2020) and Journal of Modern Power Systems and Clean Energy (2022 and 2023). His research include:
 
@@ -22,6 +34,8 @@ He leads two PNNL LDRD projects, one focusing on resilience analysis of cyber-ph
 A funny thing about his 'unique' name: whatever you search my name in Chinese or English, it's all about me because my name is "unique" in the context of Chinese and English.
 
 ---
+
+<div id='work'/>
 
 # Working Experience
 
@@ -37,6 +51,8 @@ A funny thing about his 'unique' name: whatever you search my name in Chinese or
 
 ---
 
+<div id='edu'/>
+
 # Education
 
 * **University of Tennessee Knoxville** (*Jaunuary 2020 - December 2023*)
@@ -49,6 +65,11 @@ A funny thing about his 'unique' name: whatever you search my name in Chinese or
 
   BA in Electrical and Information Engineering
 
+
+---
+
+<div id='pub'/>
+
 # Selected Publications
 
 * **Buxin She**, Fangxing Li\*, Hantao Cui, Hang Shuai, Oroghene Oboreh Snapps, Rui Bo, Nattapat Praisuwanna, Jingxin Wang,  Leon M. Tolbert, "[Inverter PQ Control with Trajectory Tracking Capability for Microgrids Based on Physics-informed Reinforcement Learning](https://ieeexplore.ieee.org/abstract/document/10128154)", *IEEE Transactions on Smart Grid*, 2023, doi:10.1109/TSG.2023.3277330. -- **<u>ESI Highly Cited Paper + Popular Paper on TSG</u>**.
@@ -57,3 +78,14 @@ A funny thing about his 'unique' name: whatever you search my name in Chinese or
 * **Buxin She**, Fangxing Li\*, Jinning Wang, Hantao Cui, Xiaofei Wang, Rui Bo, "[Virtual Inertia Scheduling (VIS) for Microgrids with Static and Dynamic Security Constraints](https://ieeexplore.ieee.org/abstract/document/10729702)", *IEEE Transactions on Sustainalbe Energy*, 2024, doi: [10.1109/TSTE.2023.3319307](https://doi.org/10.1109/TSTE.2024.3481239). -- **<u>Popular Paper on TSTE</u>**.
 * **Buxin She**, Jianzhe Liu\*, Feng Qiu, Hantao Cui, Nattapat Praisuwanna, Jingxin Wang, Leon M. Tolbert, and Fangxing Li\*, "[Systematic Controller Design for Inverter-Based Microgrids With Certified Large-Signal Stability and Domain of Attraction](https://ieeexplore.ieee.org/abstract/document/10310265)", *IEEE Transactions on Smart Grid*, 2023, doi: 10.1109/TSG.2023.3330705.
 * **Buxin She**, Fangxing Li\*, Hantao Cui, Jinning Wang, Min Liang, Oroghene Oboreh Snapps, Rui Bo,  "[Decentralized and Coordinated Vf Control for Islanded Microgrids Considering DER Inadequacy and Demand Control](https://arxiv.org/abs/2206.11407)", *IEEE Transactions on Energy Conversion*, 2023, doi: 10.1109/TEC.2023.3258919.
+
+---
+
+<div id='award'/>
+
+# Awards
+
+* UT [Volunteer of Distinction](https://provost.utk.edu/volunteer-of-distinction-winners/) honor, 2024.
+* Excent reviewer of Journal of Modern Power Systems and Clean Energy, 2022 and 2023.
+* UT Graduate Fellowship, 2022-2024.
+* Outstanding reviewer of IEEE Open Access Journal of Power and Energy, 2020.
