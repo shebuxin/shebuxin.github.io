@@ -35,7 +35,7 @@ A funny thing about his 'unique' name: whatever you search his name in Chinese o
 
 <div id='work'/>
 
-# Working Experience
+# Work Experience
 
 * **Pacific Northwest National Laboratory (PNNL)** (*September 2023 - Now*)
 
