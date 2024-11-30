@@ -70,6 +70,8 @@ A funny thing about his 'unique' name: whatever you search his name in Chinese o
 
 # Selected Publications
 
+Click to view [full publications](https://shebuxin.github.io//publications/)
+
 * **Buxin She**, Fangxing Li\*, Hantao Cui, Hang Shuai, Oroghene Oboreh Snapps, Rui Bo, Nattapat Praisuwanna, Jingxin Wang,  Leon M. Tolbert, "[Inverter PQ Control with Trajectory Tracking Capability for Microgrids Based on Physics-informed Reinforcement Learning](https://ieeexplore.ieee.org/abstract/document/10128154)", *IEEE Transactions on Smart Grid*, 2023, doi:10.1109/TSG.2023.3277330. -- **<u>ESI Highly Cited Paper + Popular Paper on TSG</u>**.
 * **Buxin She**, Fangxing Li\*, Hantao Cui, Jingqiu Zhang, Rui Bo, "[Fusion of Microgrid Control with Model-free Reinforcement Learning: Review and Vision](https://ieeexplore.ieee.org/abstract/document/9951405)", *IEEE Transactions on Smart Grid*, 2022, doi: 10.1109/TSG.2022.3222323. -- **<u>Popular Paper on TSG</u>**.
 * **Buxin She**, Fangxing Li\*, Hantao Cui, Jinning Wang, Qiwei Zhang, Rui Bo, "[Virtual Inertia Scheduling (VIS) for Real-time Economic Dispatch of IBRs-penetrated Power Systems](https://ieeexplore.ieee.org/abstract/document/10264213)", *IEEE Transactions on Sustainalbe Energy*, September 2023, doi: 10.1109/TSTE.2023.3319307. -- **<u>Popular Paper on TSTE</u>**.

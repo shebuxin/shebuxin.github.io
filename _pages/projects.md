@@ -22,7 +22,7 @@ A visualization tool was developed for visualizing the American results. Dynamic
 
 This is an ongoing project. We will characterize the stability of power electronics-dominant power systems and develop stability criteria to guide their co-design. The project will quantify the relationships among co-design decision variables, controller parameters, and stability conditions.
 
-* **DOE-WETO -- 
+* **DOE-WETO** -- 
 
 To be released.
 
