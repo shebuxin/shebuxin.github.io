@@ -1,14 +1,12 @@
 ---
 permalink: /
-title: "Buxin She"
+title: "Buxin's Personal Website'"
 excerpt: "About me"
 author_profile: true
 redirect_from: 
   - /about/
   - /about.html
 ---
-
-Welcome to my personal website!  
 
 * [About Me](#me)
 * [Work Experience](#work)
@@ -31,7 +29,7 @@ Buxin She is currently an Research Engineer in the [optimization and control gro
 
 He leads two PNNL LDRD projects, one focusing on resilience analysis of cyber-physical (power) system under [Resilience Through Data-Driven, Intelligently Designed Control (RD2C) Initiative](https://www.pnnl.gov/projects/rd2c-initiative) and one on stability characterization of power electronics-dominant power system under the [Energy System Co-Design with Multiple Objectives and Power Electronics (E-COMP) Initiative](https://www.pnnl.gov/projects/e-comp). He also co-leads one project sponsored by the DOE Wind Energy Technologies Office (WETO).
 
-A funny thing about his 'unique' name: whatever you search my name in Chinese or English, it's all about me because my name is "unique" in the context of Chinese and English.
+A funny thing about his 'unique' name: whatever you search his name in Chinese or English, it's all about him because my name is "unique" in the context of Chinese and English.
 
 ---
 
