@@ -6,15 +6,24 @@ author_profile: true
 ---
 This page lists my publications ("\*" marks the corresponding author ).
 
-[2024](#2024); [2023](#2023); [2022](#2022); [2021](#2021); [2020](#2020); [2019](#2019); [2018](#2018); [2017](#2017)
+[2025](#2025); [2024](#2024); [2023](#2023); [2022](#2022); [2021](#2021); [2020](#2020); [2019](#2019); [2018](#2018); [2017](#2017)
+
+---
+
+<div id='2025'/>
+# 2025
+
+* Jinning Wang, Fangxing Li\*, Xin Fang, Hantao Cui, **Buxin She**, Hang Shuai, Qiwei Zhang, Kevin Tomsovic, "[Dynamics-incorporated Modeling Framework for Stability Constrained Scheduling Under High-penetration of Renewable Energy]()", *IEEE Transactions on Sustainalbe Energy*, 2025, Accepted.
+* Jun Xiao, Yupeng Zhou, **Buxin She**\*, Zhenyu Bao, "[A general simplification and acceleration method for distribution system optimization problems](https://ieeexplore.ieee.org/abstract/document/10811844)", *Protection and Control of Modern Power Systems*, 2025, doi: [10.23919/PCMP.2023.000210](https://doi.org/10.23919/PCMP.2023.000210).
 
 ---
 
 <div id='2024'/>
-
 # 2024
+
 * **Buxin She**, Fangxing Li\*, Jinning Wang, Hantao Cui, Xiaofei Wang, Rui Bo, "[Virtual Inertia Scheduling (VIS) for Microgrids with Static and Dynamic Security Constraints](https://ieeexplore.ieee.org/abstract/document/10729702)", *IEEE Transactions on Sustainalbe Energy*, 2024, doi: [10.1109/TSTE.2023.3319307](https://doi.org/10.1109/TSTE.2024.3481239).
 * **Buxin She**, Hisham Mahmood, Marcelo Elizondo, Veronica Adetola, Yuqing Dong, "[Configuration and EMT Simulation of the 240-bus MiniWECC System Integrating Offshore Wind Farms (OWFs)](https://arxiv.org/abs/2403.07988)", arXiv preprint, 2024.
+* Zaid Ibn Mahmood, Hantao Cui\*, **Buxin She**, Fangxing Fran Li, "[Evaluating the Equivalent Inertia of Grid-Following and Grid-Forming Inverter-Based Resources](https://ieeexplore.ieee.org/abstract/document/10810743)", *IEEE Transactions on Energy Conversion*, 2024, doi: [10.1109/TEC.2024.3520383](https://doi.org/10.1109/TEC.2024.3520383).
 * Jun Xiao, Chengjin Li\*, **Buxin She**, Heng Jiao, Chuanqi Wang, Shihao Zhang, "[Distribution System Security Region with Energy Storage Systems](https://www.sciencedirect.com/science/article/pii/S0360544224036193)", *Energy*, 2024, https://doi.org/10.1016/j.energy.2024.133841.
 * Wei Qiu, Yuqing Dong\*, He Yin, Minjun He, **Buxin She**, Yilu Liu, "[Rapid Monitoring and Defense Approach for Resilience Improvement of Grid Cyber Security](https://ieeexplore.ieee.org/abstract/document/10700973)" *IEEE Transactions on Industry Application*, 2024, doi: [10.1109/TIA.2024.3471734](https://doi.org/10.1109/TIA.2024.3471734).
 * Nattapat Praisuwanna, Jingxin Wang, Leon M Tolbert, **Buxin She**, Fangxing Li, Min H Kao, "[Converter-Based Microgrid Platform Development for Inverter Based Resource Control Parameters Testing](https://ieeexplore.ieee.org/abstract/document/10509271)", *2024 IEEE Applied Power Electronics Conference and Exposition (APEC)*, 2024, https://doi.org/10.1109/APEC48139.2024.10509271.
@@ -23,12 +32,14 @@ This page lists my publications ("\*" marks the corresponding author ).
 * [Guest Editorial: Operational and structural resilience of power grids with high penetration of renewables](https://ietresearch.onlinelibrary.wiley.com/doi/10.1049/rpg2.13002), 2024, https://doi.org/10.1049/rpg2.13002.
 * Jun Xiao, Heng Jiao\*, Chenhui Song, Guoqiang Zu, Chengjin Li, Zhongwei Cai, **Buxin She**, "[Judgment Theorem of Security Boundary for Distribution Systems](https://www.sciencedirect.com/science/article/pii/S0142061523008062)," *International Journal of Electrical Power & Energy Systems*, 2024, doi: https://doi.org/10.1016/j.epsr.2023.110092.
 * Jun Xiao, Ruiwan Liu, **Buxin She**\*, Guowei He, Ziyu Liang, Zhongwei Cai, "[The influence mechanism of substation transformer on total supply capability (TSC) of distribution networks](https://www.sciencedirect.com/science/article/pii/S0378779623009793)", *Electric Power Systems Research*, 2024, doi: https://doi.org/10.1016/j.epsr.2023.110092.
+* <u>US Patent</u>: [METHODS AND APPARATUS FOR CONTROLLING AN INVERTER](https://www.freepatentsonline.com/y2024/0421599.html). Inventors: Fangxing Li, **Buxin She**, Jinning Wang, Hantao Cui, Rui Bo.
 
 ---
 
 <div id='2023'/>
 # 2023
 
+* **Buxin She**, "[Enhancing Microgrid Flexibility, Stability, and Economy with Inverter-based Resources](https://trace.tennessee.edu/utk_graddiss/9141/)", PhD Dissertation,2024.
 * **Buxin She**, Jianzhe Liu\*, Feng Qiu, Hantao Cui, Nattapat Praisuwanna, Jingxin Wang, Leon M. Tolbert, and Fangxing Li\*, "[Systematic Controller Design for Inverter-Based Microgrids With Certified Large-Signal Stability and Domain of Attraction](https://ieeexplore.ieee.org/abstract/document/10310265)", *IEEE Transactions on Smart Grid*, 2023, doi: 10.1109/TSG.2023.3330705.
 * **Buxin She**, Fangxing Li\*, Hantao Cui, Jinning Wang, Qiwei Zhang, Rui Bo, "[Virtual Inertia Scheduling (VIS) for Real-time Economic Dispatch of IBRs-penetrated Power Systems](https://ieeexplore.ieee.org/abstract/document/10264213)", *IEEE Transactions on Sustainalbe Energy*, September 2023, doi: 10.1109/TSTE.2023.3319307.
 * **Buxin She**, Fangxing Li\*, Hantao Cui, Hang Shuai, Oroghene Oboreh Snapps, Rui Bo, Nattapat Praisuwanna, Jingxin Wang,  Leon M. Tolbert, "[Inverter PQ Control with Trajectory Tracking Capability for Microgrids Based on Physics-informed Reinforcement Learning](https://ieeexplore.ieee.org/abstract/document/10128154)", *IEEE Transactions on Smart Grid*, 2023, doi:10.1109/TSG.2023.3277330.
