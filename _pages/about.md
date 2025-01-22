@@ -19,14 +19,14 @@ redirect_from:
 
 # About me
 
-Buxin She is currently an Research Engineer in the [optimization and control group](https://www.pnnl.gov/electricity-infrastructure-buildings-division-groups) of [Pacific Northwest National Laboratory (PNNL)](https://www.pnnl.gov/). He was a guest editor of IET Renewable Power Generation (2023). He was an outstanding reviewer of IEEE Open Access Journal of Power and Energy (2020) and Journal of Modern Power Systems and Clean Energy (2022 and 2023). His research include:
+Buxin She is currently an Research Engineer in the [optimization and control group](https://www.pnnl.gov/electricity-infrastructure-buildings-division-groups) of [Pacific Northwest National Laboratory (PNNL)](https://www.pnnl.gov/), where he leads two PNNL Laboratory Directed Research and Development (LDRD) projects, one focusing on resilience analysis of cyber-physical (power) system under [Resilience Through Data-Driven, Intelligently Designed Control (RD2C) Initiative](https://www.pnnl.gov/projects/rd2c-initiative) and one on stability characterization of power electronics-dominant power system under the [Energy System Co-Design with Multiple Objectives and Power Electronics (E-COMP) Initiative](https://www.pnnl.gov/projects/e-comp). He also co-leads one project sponsored by the DOE Wind Energy Technologies Office (WETO).
+
+He serves as the chair of the IEEE Task Force on *Virtual Inertia Scheduling and Control for IBR-dominant Power Systems*. He was a guest editor of IET Renewable Power Generation (2023). He was an outstanding reviewer of IEEE Open Access Journal of Power and Energy (2020) and Journal of Modern Power Systems and Clean Energy (2022 and 2023). His research include:
 
 * Modeling, control, and stability analysis of inverter-based resources (IBRs)
 * Security-constrained operation and planning of power system
 * Application of AI in power systems
 * Resilience analysis of power systems
-
-He leads two PNNL LDRD projects, one focusing on resilience analysis of cyber-physical (power) system under [Resilience Through Data-Driven, Intelligently Designed Control (RD2C) Initiative](https://www.pnnl.gov/projects/rd2c-initiative) and one on stability characterization of power electronics-dominant power system under the [Energy System Co-Design with Multiple Objectives and Power Electronics (E-COMP) Initiative](https://www.pnnl.gov/projects/e-comp). He also co-leads one project sponsored by the DOE Wind Energy Technologies Office (WETO).
 
 A funny thing about his 'unique' name: whatever you search his name in Chinese or English, it's all about him because his name is "unique" in the context of Chinese and English.
 
