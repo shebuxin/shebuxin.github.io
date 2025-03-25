@@ -4,27 +4,26 @@ title: "Projects"
 permalink: /projects/
 author_profile: true
 ---
-
 This page lists my projects.
 
 ---
 
 # Principal Investigator (PI/Co-PI)
 
-I lead two Laboratory Directed Research and Development (LDRD) projects at PNNL and one DOE one project sponsored by the DOE Wind Energy Technologies Office (WETO)
+I lead two Laboratory Directed Research and Development (LDRD) projects at PNNL and co-lead one DOE one project sponsored by the DOE Wind Energy Technologies Office (WETO)
 
-* **PNNL LDRD -- Resilience Metrics for Cyber-physical (Power) Systems**
-        
+* **PNNL-LDRD -- Resilience Metrics for Cyber-physical (Power) Systems** [\$ 140k]
+
 Outage-based, topological, and operation envelope-based metrics are developed to quantify the resilience of cyber-physical power system. Outage results are developed based on [EAGLE-I Outage Data](https://figshare.com/articles/dataset/The_Environment_for_Analysis_of_Geo-Located_Energy_Information_s_Recorded_Electricity_Outages_2014-2022/24237376) and [EIA Annual Disturbance Events Data](https://www.eia.gov/electricity/data/disturbance/disturb_events_archive.html).
 A visualization tool was developed for visualizing the American results. Dynamic operation envelop is developed for quantifying resilience results under extreme heat wave and cold wave, considering the flexibiltiy from virtual power plants.
-        
-* **PNNL-LDRD -- Stability Characterization for Co-design of Power Electronics-dominant Power Systems**
+
+* **PNNL-LDRD -- Stability Characterization for Co-design of Power Electronics-dominant Power Systems** [\$ 200k]
 
 This is an ongoing project. We will characterize the stability of power electronics-dominant power systems and develop stability criteria to guide their co-design. The project will quantify the relationships among co-design decision variables, controller parameters, and stability conditions.
 
-* **DOE-WETO** -- 
+* **DOE-WETO -- Stability-Informed Co-Design for Grid-Forming Inverters Deployment in IBR-Dominant Power Systems** [\$ 1.4 Million]
 
-To be released.
+Ongoing project. Technical details to be released.
 
 <!-- Stability-Informed Co-Design for Grid-Forming Inverters Deployment in IBR-Dominant Power Systems** -->
 
@@ -32,7 +31,7 @@ To be released.
 
 # Task lead
 
-I worked as task lead on the follwoing DOE and DOD sponsered projects.
+I worked as task lead on the follwoing DOE, DOD, and PNNL sponsered projects.
 
 * **DOD-ESTCP -- Model-Free Adaptive Control for Autonomous and Resilient Operation of Microgrids**
 

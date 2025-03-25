@@ -13,7 +13,11 @@ This page lists my publications ("\*" marks the corresponding author ).
 <div id='2025'/>
 # 2025
 
-* Jinning Wang, Fangxing Li\*, Xin Fang, Hantao Cui, **Buxin She**, Hang Shuai, Qiwei Zhang, Kevin Tomsovic, "[Dynamics-incorporated Modeling Framework for Stability Constrained Scheduling Under High-penetration of Renewable Energy]()", *IEEE Transactions on Sustainalbe Energy*, 2025, dio: [10.1109/TSTE.2025.3528027](https://doi.org/10.1109/TSTE.2025.3528027). 
+* **Buxin She**, Wei Wang\*, Veronica Adetola, Di Wu, "Virtual Inertia Scheduling in Unit Commitment for IBR-Penetrated Low-Inertia Systems". *IEEE PES General Meeting*, 2025 (Accepted).
+* **Buxin She\***, Thiagarajan Ramachandran, Laurentiu Marinovici, Wei Wang, and Veronica Adetola, "Dynamic Operating Envelopes of Distribution Systems with Virtual Power Plants Under Heat and Cold Waves". *American Control Conference*, 2025 (Accepted).
+* Wei Wang, Himanshu Sharma\*, Bowen Huang, **Buxin She**, Thiagarajan Ramachandran, and Veronica Adetola, "Co-design of Multi-Terminal DC Transmission Systems Topology and Energy Storage for Offshore Wind Farm Grid Interconnection", *American Control Conference*, 2025 (Accepted).
+* Shah Fahad, **Buxin She**, Junjie Yin, Fangxing Li, Hantao Cui, and Rui Bo\*, "A Data-driven Adaptive Control Approach for Enhancing the Dynamic Response of VSGs in Varying Grid Conditions", *IEEE Transactions on Power Delivery*, Accepted.
+* Jinning Wang, Fangxing Li\*, Xin Fang, Hantao Cui, **Buxin She**, Hang Shuai, Qiwei Zhang, Kevin Tomsovic, "[Dynamics-incorporated Modeling Framework for Stability Constrained Scheduling Under High-penetration of Renewable Energy](https://ieeexplore.ieee.org/abstract/document/10836855)", *IEEE Transactions on Sustainalbe Energy*, 2025, dio: [10.1109/TSTE.2025.3528027](https://doi.org/10.1109/TSTE.2025.3528027).
 * Jun Xiao, Yupeng Zhou, **Buxin She**\*, Zhenyu Bao, "[A general simplification and acceleration method for distribution system optimization problems](https://ieeexplore.ieee.org/abstract/document/10811844)", *Protection and Control of Modern Power Systems*, 2025, doi: [10.23919/PCMP.2023.000210](https://doi.org/10.23919/PCMP.2023.000210).
 
 ---
