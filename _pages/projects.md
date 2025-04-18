@@ -45,6 +45,10 @@ I contributed to the development [large scale testbed (LTB)](https://ltb.curent.
 
 I developed an analytical EMT model of inverter-based microgrids and proposed a controller design approach with guaranteed large signal stability. The approach is validated through power hardware-in-the-loop experiments in [CURENT HTB](https://curent.utk.edu/wp-content/uploads/2024/07/Tolbert_Fact_Sheet_Web.pdf)
 
+* **DOE-PNNL -- Energy Storage Portfolio**
+
+I lead several tasks focused on fast control and resilience analysis for Energy Storage Systems (ESS). I also contribute to the development of the [PNNL Energy Storage Evaluation Tool (ESET)](https://eset.pnnl.gov/).
+
 * **PNNL-LDRD -- Control Oriented Models for Co-design Optimization**
 
 I developed an EMT model of a 240-bus miniWECC system in PSCAD, integrating offshore wind farms, IBRs, and HVDC/MTDC. This model was transformed from PSS/e using ETran. Additionally, I developed analytical and numerical wind turbine models in Python using Sympy.
