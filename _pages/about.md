@@ -85,6 +85,7 @@ Click to view [full publications](https://shebuxin.github.io//publications/).
 
 # Awards
 
+* PNNL Outstanding Performance Award for leadership of the DOE OE Energy Storage program, 2025.
 * PNNL Exceptional Contribution Award, 2024.
 * UT [Volunteer of Distinction](https://provost.utk.edu/volunteer-of-distinction-winners/) honor, 2024.
 * Excent reviewer of Journal of Modern Power Systems and Clean Energy, 2022 and 2023.
