@@ -25,9 +25,9 @@ He serves as the chair of the IEEE Task Force on [*Virtual Inertia Scheduling an
 
 He serves as an Associate Editor of *IEEE Data Description* and *Chinese Journal of Electrical Engineering (CJEE)*. He was a Guest Editor of *International Journal of Electrical Power and Energy Systems (IJEPES)* and *IET Renewable Power Generation*. 
 He is also a member of the Young Advisory Board of *IET Energy Conversion and Economics*. 
-He was recognized as an Outstanding Reviewer by the multiple top journals.
+He was recognized as an Outstanding Reviewer by multiple top journals.
 
-He leads the **I**ntelligent **P**ower (IP) Lab with the mission of advancing power systems through inverter-based resources (IBRs) and artificial intelligence (AI) to enable secure, resilient, and economical power supply. 
+He leads the **I**ntelligent **P**ower (IP) Lab in KSU with the mission of advancing power systems through inverter-based resources (IBRs) and artificial intelligence (AI) to enable secure, resilient, and economical power supply. 
 His research focuses on:
 
 * Modeling, control, and stability analysis of inverter-based resources (IBRs)
@@ -65,7 +65,7 @@ His research focuses on:
 
 * **University of Tennessee Knoxville** (*Jaunuary 2020 - December 2023*)
 
-  Phd student in Electrical and Computer Engineering
+  Phd in Electrical and Computer Engineering
 * **Tianjin University** (*September 2017 - December 2019*)
 
   MS in Electrical and Information Engineering
