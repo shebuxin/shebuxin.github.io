@@ -10,7 +10,7 @@ locale                   : "en-US"
 title                    : "Buxin She"
 title_separator          : "-"
 name                     : &name "Buxin She"
-description              : &description "Research Engineer (PNNL)"
+description              : &description "Assistant Professor (KSU)"
 url                      : https://shebuxin.github.io/ # the base hostname & protocol for your site e.g. "https://mmistakes.github.io"
 baseurl                  : "" # the subpath of your site, e.g. "/blog"
 repository               : "shebuxin/shebuxin.github.io"
@@ -86,8 +86,8 @@ analytics:
 # Site Author
 author:
   name             : "Buxin She"
-  avatar           : "BuxinShe.jpg"
-  bio              : "Research Engineer (PNNL)"
+  avatar           : "BuxinShe.png"
+  bio              : "Assistant Professor (KSU)"
   location         :
   employer         :
   pubmed           :

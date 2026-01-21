@@ -6,13 +6,36 @@ author_profile: true
 ---
 This page lists my publications ("\*" marks the corresponding author ).
 
-[2025](#2025); [2024](#2024); [2023](#2023); [2022](#2022); [2021](#2021); [2020](#2020); [2019](#2019); [2018](#2018); [2017](#2017)
+[2026](#2026); 
+[2025](#2025); 
+[2024](#2024); 
+[2023](#2023); 
+[2022](#2022); 
+[2021](#2021); 
+[2020](#2020); 
+[2019](#2019); 
+[2018](#2018); 
+[2017](#2017)
+
+
+
+
+
+---
+
+<div id='2026'/>
+# 2026
+
+* Himanshu Sharma, Wei Wang, Bowen Huang, **Buxin She**, Thiagarajan Ramachandran, “[Control co-design under uncertainty for offshore wind farms: Optimizing grid integration, energy storage, and market participation](https://www.sciencedirect.com/science/article/abs/pii/S1755008425001280)", Renewable Energy Focus, January 2026.
 
 ---
 
 <div id='2025'/>
 # 2025
 
+* ESIG Large Load Task Force Team, “[Forecasting for Large Loads: Current Practices and Recommendations](https://www.esig.energy/large-loads-task-force/forecasting/)”, available: ESIG: https://www.esig.energy/large-loads-task-force/forecasting/, 2025.
+* Hisham Mahmood, **Buxin She**, Giancarlo Paramo, Roshan L Kini, Priya T Mana, Marcelo A Elizondo, “[Control Oriented Models for Co-Design: Technical Overview of MT HVDC, MVDC, and Solid State Transformer Building Blocks](https://www.osti.gov/biblio/3001923)", 
+Pacific Northwest National Laboratory (PNNL), Richland, WA (United States)
 * **Buxin She\***, Veronica Adetola, Ji Young Yun, "[Descriptor: United States Event-Correlated Power Outage Dataset (USECPO)](https://ieeexplore.ieee.org/abstract/document/11123501)", *IEEE Data Description*, 2025, doi: https://doi.org/10.1109/IEEEDATA.2025.3598229.
 * **Buxin She**, Wei Wang\*, Veronica Adetola, Di Wu, "Virtual Inertia Scheduling in Unit Commitment for IBR-Penetrated Low-Inertia Systems". *IEEE PES General Meeting*, 2025.
 * **Buxin She\***, Thiagarajan Ramachandran, Laurentiu Marinovici, Wei Wang, and Veronica Adetola, "[Dynamic Operating Envelopes of Distribution Systems with Virtual Power Plants Under Heat and Cold Waves](https://ieeexplore.ieee.org/abstract/document/11107536)". *American Control Conference*, 2025， doi:https://doi.org/10.23919/ACC63710.2025.11107536.
