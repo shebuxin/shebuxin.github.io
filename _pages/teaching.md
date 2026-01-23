@@ -3,11 +3,11 @@ permalink: /teaching/
 title: "Teaching"
 ---
 
-## Courses
+# Courses
 
 To be released.
 
-## Student Mentoring
+# Student Mentoring
 
 I have mentored or co-mentored undergraduate and graduate interns on topics spanning power systems, AI, and cybersecurity.
 

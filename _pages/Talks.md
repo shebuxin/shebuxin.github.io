@@ -13,15 +13,17 @@ This page lists my talks and presentations.
 * **Panel Topic**: Grid Reliability and Resilience
 * **Presentation Titile**: Energy Storage Benefit Quantification for Grid Reliability and Resilience
 * **Date**: August 25, 2025
+* **Slide**: Click [here](https://www.sandia.gov/app/uploads/sites/82/2026/01/903_Buxin_She_Grid-Reliability-and-Resilience_OE_COMMENTS_and_Update_FIXED.pdf) to veiw.
+
 
 ---
 
-## IEEE PES Taskforce Kickoff Meeting
+## [IEEE PES Taskforce Kickoff Meeting](https://cmte.ieee.org/pes-visc/activities/)
 
 * **Taksforce Title**: Virtual Inertia Scheduling and Control (VISC) for IBR-penetrated Power Systems
-* Chair: Buxin She; Co-chair: Alexandre Nasif; Ying Zhang, Secretary
+* **Chair**: Buxin She; Co-chair: Alexandre Nasif; Ying Zhang, Secretary
 * **Date**: Tuesday, July 29, 2025
-* **Slide**: Visit [activitiy page](https://cmte.ieee.org/pes-visc/activities/) of our taskforce.
+* **Slide**: Click [here](https://cmte.ieee.org/pes-visc/wp-content/uploads/sites/235/2025/08/IEEE_Taskforce_Kick-off_GM25.pdf) to veiw.
 
 ---
 
