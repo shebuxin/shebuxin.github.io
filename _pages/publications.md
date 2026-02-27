@@ -26,6 +26,8 @@ This page lists my publications ("\*" marks the corresponding author ).
 <div id='2026'/>
 # 2026
 
+* **Buxin She**, Ramij R Hossain, Soumya Kundu, Marcelo Elizondo, Veronica Adetola, “[Hybrid Symbolic-Numerical Modeling and Parametric Stability Analysis of DC-AC Power Systems](https://ieeexplore.ieee.org/abstract/document/11407964)", IEEE Open Access Journal of Power and Energy, February 2026.
+
 * Himanshu Sharma, Wei Wang, Bowen Huang, **Buxin She**, Thiagarajan Ramachandran, “[Control co-design under uncertainty for offshore wind farms: Optimizing grid integration, energy storage, and market participation](https://www.sciencedirect.com/science/article/abs/pii/S1755008425001280)", Renewable Energy Focus, January 2026.
 
 ---

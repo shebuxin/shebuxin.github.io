@@ -23,7 +23,7 @@ Buxin She is an Assistant Professor of Electrical and Computer Engineering at [K
 
 He serves as the chair of the IEEE Task Force on [*Virtual Inertia Scheduling and Control for IBR-dominant Power Systems*](https://cmte.ieee.org/pes-visc/). He is also the Sub-Team Lead of the Modeling Requirements and Data Collection Subteam within the ESIG Large Loads Task Force.
 
-He serves as an Associate Editor of *IEEE Data Description* and *Chinese Journal of Electrical Engineering (CJEE)*. He was a Guest Editor of *International Journal of Electrical Power and Energy Systems (IJEPES)* and *IET Renewable Power Generation*. 
+He serves as an Associate Editor of [*IEEE Data Description*](https://www.ieee-data.org/), [*Unconventional Resources*](https://www.sciencedirect.com/journal/unconventional-resources), and [*Chinese Journal of Electrical Engineering (CJEE)*](https://ieeexplore.ieee.org/xpl/RecentIssue.jsp?punumber=7873788). He was a Guest Editor of *International Journal of Electrical Power and Energy Systems (IJEPES)* and *IET Renewable Power Generation*. 
 He is also a member of the Young Advisory Board of *IET Energy Conversion and Economics*. 
 He was recognized as an Outstanding Reviewer by multiple top journals.
 
