@@ -5,7 +5,7 @@ permalink: /blog/
 author_profile: true
 ---
 
-I worte some articles regarding efficient work flow, programming, control theory and AI/power paper review. They are writen in Chinese and posted on Chinese 'Quora' platform —— [Zhihu](https://www.zhihu.com/people/she-bu-xin/posts).
+I write articles on research workflow, programming, control theory, and AI for power systems. Most posts are written in Chinese and published on [Zhihu](https://www.zhihu.com/people/she-bu-xin/posts).
 
 ---
 
@@ -20,7 +20,7 @@ I worte some articles regarding efficient work flow, programming, control theory
 
 ---
 
-# Work flow
+# Workflow
 
 * [博士学习经验交流](https://zhuanlan.zhihu.com/p/649798614)
 * [科研神器：Sympy推公式，无缝latex输出](https://zhuanlan.zhihu.com/p/491831883)

@@ -1,10 +1,10 @@
 # main links links
 main:
+  - title: "Research"
+    url: /research/
+
   - title: "Projects"
     url: /projects/
-
-  # - title: "Research"
-  #   url: /research/
 
   - title: "Talks"
     url: /talks/
@@ -18,5 +18,5 @@ main:
   - title: "Blog"
     url: /blog/
 
-  # - title: "CV"
-  #   url: /cv/
+  - title: "CV"
+    url: /cv/

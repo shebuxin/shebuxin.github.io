@@ -4,59 +4,58 @@ title: "Projects"
 permalink: /projects/
 author_profile: true
 ---
-This page lists my projects.
+This page highlights selected projects that I have led or supported in academia, national laboratories, and DOE-sponsored programs.
 
 ---
 
-# Principal Investigator (PI/Co-PI)
+# Principal Investigator / Co-Principal Investigator
 
-I lead two Laboratory Directed Research and Development (LDRD) projects at PNNL and co-lead one DOE one project sponsored by the DOE Wind Energy Technologies Office (WETO)
+I led two Laboratory Directed Research and Development (LDRD) projects at PNNL and co-led one DOE project sponsored by the Wind Energy Technologies Office (WETO).
 
 * **PNNL-LDRD -- Resilience Metrics for Cyber-physical (Power) Systems** [\$ 140k]
 
-Outage-based, topological, and operation envelope-based metrics are developed to quantify the resilience of cyber-physical power system. Outage results are developed based on [EAGLE-I Outage Data](https://figshare.com/articles/dataset/The_Environment_for_Analysis_of_Geo-Located_Energy_Information_s_Recorded_Electricity_Outages_2014-2022/24237376) and [EIA Annual Disturbance Events Data](https://www.eia.gov/electricity/data/disturbance/disturb_events_archive.html).
-A visualization tool was developed for visualizing the American results. Dynamic operation envelop is developed for quantifying resilience results under extreme heat wave and cold wave, considering the flexibiltiy from virtual power plants.
+  This project develops outage-based, topological, and operating-envelope-based metrics to quantify resilience of cyber-physical power systems. The work uses [EAGLE-I outage data](https://figshare.com/articles/dataset/The_Environment_for_Analysis_of_Geo-Located_Energy_Information_s_Recorded_Electricity_Outages_2014-2022/24237376) and [EIA annual disturbance event data](https://www.eia.gov/electricity/data/disturbance/disturb_events_archive.html), together with visualization tools and dynamic operating envelopes for extreme heat and cold events.
 
 * **PNNL-LDRD -- Stability Characterization for Co-design of Power Electronics-dominant Power Systems** [\$ 200k]
 
-This is an ongoing project. We will characterize the stability of power electronics-dominant power systems and develop stability criteria to guide their co-design. The project will quantify the relationships among co-design decision variables, controller parameters, and stability conditions.
+  This project characterizes stability in power-electronics-dominant power systems and develops criteria to guide system co-design. It focuses on relationships among design variables, controller parameters, and stability margins.
 
 * **DOE-WETO -- Stability-Informed Co-Design for Grid-Forming Inverters Deployment in IBR-Dominant Power Systems** [\$ 1.4 Million]
 
-Ongoing project. Technical details to be released.
+  Ongoing project. Technical details will be released as results become public.
 
 <!-- Stability-Informed Co-Design for Grid-Forming Inverters Deployment in IBR-Dominant Power Systems** -->
 
 ---
 
-# Task lead
+# Task Lead
 
-I worked as task lead on the follwoing DOE, DOD, and PNNL sponsered projects.
+I served as a task lead on the following DOE, DOD, and PNNL-sponsored projects.
 
 * **DOD-ESTCP -- Model-Free Adaptive Control for Autonomous and Resilient Operation of Microgrids**
 
-I conducted a few groups of work under this project, including: 1) Inverter PQ control with trajectory tracking capability based on physical-informed reinforcement learning; 2) Decentralized and coordinated V-f control for islanded microgrids considering DER adequacy and demand control; 3) Virtual inertia scheduling for real-time economic dispatch of IBR-penetrated power system; 4) Virtual inertia scheduling for microgrids with static and dynamic security constraints
+  I led work on inverter P-Q control with trajectory tracking using physics-informed reinforcement learning, decentralized and coordinated V-f control for islanded microgrids, and virtual inertia scheduling for both bulk power systems and microgrids under static and dynamic security constraints.
 
 * **DOE -- Large Scale Testbed for Cyber-physical Power Grid Simulation**
 
-I contributed to the development [large scale testbed (LTB)](https://ltb.curent.org/) for cyber-physical power grid simulation. Specifically, a power market simulator [AMS](https://docs.andes.app/en/latest/?badge=latest). Check teams on the [website](https://ltb.curent.org/team/).
+  I contributed to the [Large Scale Testbed (LTB)](https://ltb.curent.org/) for cyber-physical power grid simulation, including development of the power-market simulator [AMS](https://docs.andes.app/en/latest/?badge=latest). Team information is available on the [LTB website](https://ltb.curent.org/team/).
 
 * **DOE -- Advanced Grid Modeling of Future Power Systems**
 
-I developed an analytical EMT model of inverter-based microgrids and proposed a controller design approach with guaranteed large signal stability. The approach is validated through power hardware-in-the-loop experiments in [CURENT HTB](https://curent.utk.edu/wp-content/uploads/2024/07/Tolbert_Fact_Sheet_Web.pdf)
+  I developed analytical EMT models of inverter-based microgrids and proposed a controller design method with guaranteed large-signal stability. The approach was validated through power hardware-in-the-loop experiments on the [CURENT hardware testbed](https://curent.utk.edu/wp-content/uploads/2024/07/Tolbert_Fact_Sheet_Web.pdf).
 
 * **DOE-PNNL -- Energy Storage Portfolio**
 
-I lead several tasks focused on fast control and resilience analysis for Energy Storage Systems (ESS). I also contribute to the development of the [PNNL Energy Storage Evaluation Tool (ESET)](https://eset.pnnl.gov/).
+  I led several tasks on fast control and resilience analysis for energy storage systems and contributed to the [PNNL Energy Storage Evaluation Tool (ESET)](https://eset.pnnl.gov/).
 
 * **PNNL-LDRD -- Control Oriented Models for Co-design Optimization**
 
-I developed an EMT model of a 240-bus miniWECC system in PSCAD, integrating offshore wind farms, IBRs, and HVDC/MTDC. This model was transformed from PSS/e using ETran. Additionally, I developed analytical and numerical wind turbine models in Python using Sympy.
+  I developed an EMT model of a 240-bus miniWECC system in PSCAD with offshore wind farms, IBRs, and HVDC/MTDC components. The model was converted from PSS/e using ETran, and I also built analytical and numerical wind-turbine models in Python with SymPy.
 
 * **PNNL-LDRD -- Multi-Objective Co-design Optimization for Pareto-Set Identification**
 
-I developed dynamic constraints for power system co-design (planning) problems. This work is tailored for offshore wind farms connected to the main grid through HVDC/MTDC, and equipped with frequency support capabilities.
+  I developed dynamic constraints for power-system co-design and planning problems, especially for offshore wind farms connected through HVDC/MTDC and equipped with frequency-support capabilities.
 
 * **PNNL-LDRD -- Predictive Risk Informed Data-driven Resilient Controls**
 
-I developed a dispatch-dynamic co-simulation platform for power systems. This platform emulates denial-of-service and false data injection attacks, integrating them into the workflow for batch data generation and computational attack detection.
+  I developed a dispatch-dynamics co-simulation platform for power systems that emulates denial-of-service and false-data-injection attacks, supporting batch data generation and computational attack detection.

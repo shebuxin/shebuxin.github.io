@@ -10,7 +10,7 @@ locale                   : "en-US"
 title                    : "Buxin She"
 title_separator          : "-"
 name                     : &name "Buxin She"
-description              : &description "Assistant Professor (KSU)"
+description              : &description "Assistant Professor of Electrical and Computer Engineering at Kansas State University"
 url                      : https://shebuxin.github.io/ # the base hostname & protocol for your site e.g. "https://mmistakes.github.io"
 baseurl                  : "" # the subpath of your site, e.g. "/blog"
 repository               : "shebuxin/shebuxin.github.io"
@@ -19,7 +19,6 @@ breadcrumbs              : false # true, false (default)
 words_per_minute         : 160
 future                   : false
 read_more                : "disabled" # if enabled, adds "Read more" links to excerpts
-talkmap_link             : false #change to true to add link to talkmap on talks page
 comments:
   provider               : # false (default), "disqus", "discourse", "facebook", "google-plus", "staticman", "custom"
   disqus:
@@ -87,7 +86,7 @@ analytics:
 author:
   name             : "Buxin She"
   avatar           : "BuxinShe.png"
-  bio              : "Assistant Professor (KSU)"
+  bio              : "Assistant Professor, Kansas State University"
   location         :
   employer         :
   pubmed           :
@@ -182,19 +181,6 @@ kramdown:
   enable_coderay: false
 
 
-# Collections
-collections:
-  publications:
-    output: true
-    permalink: /:collection/:path/
-  research:
-    output: true
-    permalink: /:collection/:path/
-  talks:
-    output: true
-    permalink: /:collection/:path/
-
-
 # Defaults
 defaults:
   # _posts
@@ -224,33 +210,6 @@ defaults:
       author_profile: true
       share: true
       comments: true
-  # _publications
-  - scope:
-      path: ""
-      type: publications
-    values:
-      layout: single
-      author_profile: true
-      share: true
-      comments: true
-  # _research
-  - scope:
-      path: ""
-      type: research
-    values:
-      layout: single
-      author_profile: true
-      share: true
-      comment: true
-  # _talks
-  - scope:
-      path: ""
-      type: talks
-    values:
-      layout: talk
-      author_profile: true
-      share: true
-
 # Sass/SCSS
 sass:
   sass_dir: _sass
