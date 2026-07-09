@@ -25,6 +25,12 @@ author_profile: true
 <div id='2026'/>
 # 2026
 
+* **Buxin She**, Di Wu, Kyung-bin Kwon, "[A review of energy storage for power system resilience: Functions, metrics, and applications](https://www.sciencedirect.com/science/article/pii/S0306261926007087)", *Applied Energy*, vol. 420, 128056, 2026, doi: [10.1016/j.apenergy.2026.128056](https://doi.org/10.1016/j.apenergy.2026.128056).
+
+* Boqiang Li, Luanzheng Guo, **Buxin She**, Nathan R. Tallent, Veronica Adetola, Rong Ge, "[PowerMorph: Shaping LLM Training for Data Center Demand Response](https://doi.org/10.1109/IPDPS65963.2026.00100)", *2026 IEEE International Parallel and Distributed Processing Symposium (IPDPS)*, 2026, doi: [10.1109/IPDPS65963.2026.00100](https://doi.org/10.1109/IPDPS65963.2026.00100).
+
+* **Buxin She**, Brian Chen, Luanzheng Guo, Fangxing Li, "[PFAgent: A Tractable and Self-Evolving Power-Flow Agent for Interactive Grid Analysis](https://arxiv.org/abs/2604.10846)", arXiv preprint arXiv:2604.10846, 2026.
+
 * **Buxin She**, Ramij R Hossain, Soumya Kundu, Marcelo Elizondo, Veronica Adetola, “[Hybrid Symbolic-Numerical Modeling and Parametric Stability Analysis of DC-AC Power Systems](https://ieeexplore.ieee.org/abstract/document/11407964)", IEEE Open Access Journal of Power and Energy, February 2026.
 
 * Himanshu Sharma, Wei Wang, Bowen Huang, **Buxin She**, Thiagarajan Ramachandran, “[Control co-design under uncertainty for offshore wind farms: Optimizing grid integration, energy storage, and market participation](https://www.sciencedirect.com/science/article/abs/pii/S1755008425001280)", Renewable Energy Focus, January 2026.

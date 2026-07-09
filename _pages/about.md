@@ -99,6 +99,8 @@ For a complete list, see the [publications page](/publications/).
 
 # Awards and Service
 
+* [IEEE PES Prize Paper Award](https://ieee-pes.org/news/just-announced-2026-ieee-power-energy-society-award-recipients/) for "Virtual Inertia Scheduling (VIS) for Real-Time Economic Dispatch of IBR-Penetrated Power Systems", 2026.
+* K-State ADVANCE Distinguished Lecture Series Award, 2026.
 * PNNL Outstanding Performance Award for leadership of the DOE OE Energy Storage program, 2025.
 * Excellent Reviewer of *IEEE Transactions on Sustainable Energy*, 2025.
 * Outstanding Reviewer of *Energy and Economics*, 2025.

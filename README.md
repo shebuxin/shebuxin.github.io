@@ -6,6 +6,6 @@ This repository contains the source for [https://shebuxin.github.io](https://she
 
 1. Install Ruby, Bundler, and Node.js.
 1. Run `bundle install`.
-1. Run `bundle exec jekyll serve`.
+1. Run `bundle exec jekyll serve --config _config.yml,_config.dev.yml`.
 
 The site will be available at `http://localhost:4000`.
