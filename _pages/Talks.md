@@ -8,11 +8,11 @@ Selected invited talks, panels, and conference presentations.
 
 ---
 
-## [2025 DOE OE Energy Storage Peer Review](https://doepeerreview.sandia.gov/2025-agenda/)
+## [2025 DOE OE Energy Storage Peer Review](https://www.sandia.gov/ess/events/conference-archive/peer-review-2025)
 
 * **Panel Topic**: Grid Reliability and Resilience
 * **Presentation Title**: Energy Storage Benefit Quantification for Grid Reliability and Resilience
-* **Date**: August 25, 2025
+* **Date**: August 7, 2025
 * **Slides**: [View PDF](https://www.sandia.gov/app/uploads/sites/82/2026/01/903_Buxin_She_Grid-Reliability-and-Resilience_OE_COMMENTS_and_Update_FIXED.pdf)
 
 

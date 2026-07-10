@@ -8,7 +8,7 @@ This page highlights selected projects that I have led or supported in academia,
 
 ---
 
-# Principal Investigator / Co-Principal Investigator
+## Principal Investigator / Co-Principal Investigator
 
 I led two Laboratory Directed Research and Development (LDRD) projects at PNNL and co-led one DOE project sponsored by the Wind Energy Technologies Office (WETO).
 
@@ -28,7 +28,7 @@ I led two Laboratory Directed Research and Development (LDRD) projects at PNNL a
 
 ---
 
-# Task Lead
+## Task Lead
 
 I served as a task lead on the following DOE, DOD, and PNNL-sponsored projects.
 
@@ -36,9 +36,9 @@ I served as a task lead on the following DOE, DOD, and PNNL-sponsored projects.
 
   I led work on inverter P-Q control with trajectory tracking using physics-informed reinforcement learning, decentralized and coordinated V-f control for islanded microgrids, and virtual inertia scheduling for both bulk power systems and microgrids under static and dynamic security constraints.
 
-* **DOE -- Large Scale Testbed for Cyber-physical Power Grid Simulation**
+* **DOE -- Large-Scale Testbed for Cyber-physical Power Grid Simulation**
 
-  I contributed to the [Large Scale Testbed (LTB)](https://ltb.curent.org/) for cyber-physical power grid simulation, including development of the power-market simulator [AMS](https://docs.andes.app/en/latest/?badge=latest). Team information is available on the [LTB website](https://ltb.curent.org/team/).
+  I contributed to the [CURENT Large-scale Testbed (LTB)](https://curent.utk.edu/research/system-testbeds/large-scale-testbed/) for cyber-physical power grid simulation, including development of the power-market simulator [AMS](https://docs.andes.app/en/latest/?badge=latest).
 
 * **DOE -- Advanced Grid Modeling of Future Power Systems**
 

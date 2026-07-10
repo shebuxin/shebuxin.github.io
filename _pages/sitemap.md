@@ -10,28 +10,25 @@ author_profile: true
 A list of all the posts and pages found on the site. For you robots out there is an [XML version]({{ base_path }}/sitemap.xml) available for digesting as well.
 
 <h2>Pages</h2>
-{% for post in site.pages %}
+{% assign human_pages = site.pages | sort: "title" %}
+{% for post in human_pages %}
+  {% if post.title and post.url != page.url and post.sitemap != false and post.layout != "redirect" and post.redirect_to == nil %}
   {% include archive-single.html %}
+  {% endif %}
 {% endfor %}
 
+{% if site.posts.size > 0 %}
 <h2>Posts</h2>
-{% for post in site.posts %}
+  {% for post in site.posts %}
   {% include archive-single.html %}
-{% endfor %}
-
-{% capture written_label %}'None'{% endcapture %}
+  {% endfor %}
+{% endif %}
 
 {% for collection in site.collections %}
-{% unless collection.output == false or collection.label == "posts" %}
-  {% capture label %}{{ collection.label }}{% endcapture %}
-  {% if label != written_label %}
-  <h2>{{ label }}</h2>
-  {% capture written_label %}{{ label }}{% endcapture %}
+  {% if collection.output != false and collection.label != "posts" and collection.docs.size > 0 %}
+  <h2>{{ collection.label | capitalize }}</h2>
+    {% for post in collection.docs %}
+    {% include archive-single.html %}
+    {% endfor %}
   {% endif %}
-{% endunless %}
-{% for post in collection.docs %}
-  {% unless collection.output == false or collection.label == "posts" %}
-  {% include archive-single.html %}
-  {% endunless %}
-{% endfor %}
 {% endfor %}

@@ -76,13 +76,6 @@ a:focus {
   @extend %tab-focus;
 }
 
-/* Remove outline from links */
-
-a:hover,
-a:active {
-  outline: 0;
-}
-
 /* Prevent sub and sup affecting line-height in all browsers */
 
 sub,
@@ -130,6 +123,13 @@ textarea {
   margin: 0;
   font-size: 100%;
   vertical-align: middle;
+}
+
+button:focus,
+input:focus,
+select:focus,
+textarea:focus {
+  @extend %tab-focus;
 }
 
 button,
