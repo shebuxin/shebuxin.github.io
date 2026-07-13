@@ -25,6 +25,8 @@ author_profile: true
 ## 2026
 {: #2026}
 
+* Qihui Yang, Bo Liu, Hongyu Wu, **Buxin She**, "[Graph-Theoretic Meter Encoding for Detecting False Data Injection Attacks in Partially Measured Transmission Systems](https://ieeexplore.ieee.org/document/11598837/)", *IEEE Transactions on Smart Grid*, 2026, doi: [10.1109/TSG.2026.3711001](https://doi.org/10.1109/TSG.2026.3711001).
+
 * **Buxin She**, Di Wu, Kyung-bin Kwon, "[A review of energy storage for power system resilience: Functions, metrics, and applications](https://www.sciencedirect.com/science/article/pii/S0306261926007087)", *Applied Energy*, vol. 420, 128056, 2026, doi: [10.1016/j.apenergy.2026.128056](https://doi.org/10.1016/j.apenergy.2026.128056).
 
 * Boqiang Li, Luanzheng Guo, **Buxin She**, Nathan R. Tallent, Veronica Adetola, Rong Ge, "[PowerMorph: Shaping LLM Training for Data Center Demand Response](https://doi.org/10.1109/IPDPS65963.2026.00100)", *2026 IEEE International Parallel and Distributed Processing Symposium (IPDPS)*, 2026, doi: [10.1109/IPDPS65963.2026.00100](https://doi.org/10.1109/IPDPS65963.2026.00100).

@@ -7,7 +7,12 @@ title: "Teaching"
 
 ### IEEE Learning Network
 
-* **Instructor**, [AI for Power & Energy Systems: Generative AI and Large Language Models](https://iln.ieee.org/Public/ContentDetails.aspx?id=FD79BE256C2B4944A65F89EDED1DE6AA), IEEE Power & Energy Society, 2026. Co-instructed with Dr. Fangxing (Fran) Li. This online professional course introduces generative AI and large language models and examines their applications, capabilities, and limitations in power and energy systems. It is part of the [Artificial Intelligence for Power & Energy Systems](https://iln.ieee.org/public/contentdetails.aspx?id=48A92EF8188E4D2E8331E1381CAF98E7) course program.
+* **Program co-instructor**, [Artificial Intelligence for Power & Energy Systems](https://iln.ieee.org/public/contentdetails.aspx?id=48A92EF8188E4D2E8331E1381CAF98E7), IEEE Power & Energy Society, 2026. This five-course online program is co-instructed with Dr. Fangxing (Fran) Li. I teach the following four courses:
+
+  * [AI for Power & Energy Systems: Computation Acceleration in Modeling Analysis and Control](https://iln.ieee.org/Public/ContentDetails.aspx?id=21D915950CBE4139A40C62BBE7A59556)
+  * [AI for Power & Energy Systems: Forecasting, Awareness, and Data Augmentation](https://iln.ieee.org/Public/ContentDetails.aspx?id=550105AB2F69474BA043C35CEC71E0A3)
+  * [AI for Power & Energy Systems: Physics-Informed, Explainable, and Safe AI Applications](https://iln.ieee.org/Public/ContentDetails.aspx?id=0CFD1158E2D14CD1B97AD88BCF6FD38A)
+  * [AI for Power & Energy Systems: Generative AI and Large Language Models](https://iln.ieee.org/Public/ContentDetails.aspx?id=FD79BE256C2B4944A65F89EDED1DE6AA)
 
 ## Student Mentoring
 
