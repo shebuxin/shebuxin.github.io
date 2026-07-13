@@ -1,0 +1,152 @@
+- id: eastern-united-states
+  label: Eastern United States
+  longitude: -83.9
+  latitude: 35.9
+  institutions:
+    - University of Tennessee, Knoxville / CURENT
+    - Oak Ridge National Laboratory
+    - Clemson University
+    - Mississippi State University
+  collaborators:
+    - Boqiang Li
+    - Daniel Howard
+    - Diana Hun
+    - Fangxing (Fran) Li
+    - Hang Shuai
+    - Jinning Wang
+    - Jingxin Wang
+    - Junjie Yin
+    - Jin Zhao
+    - Kevin Tomsovic
+    - Leon M. Tolbert
+    - Nattapat Praisuwanna
+    - Qiwei Zhang
+    - Rong Ge
+    - Som Shrestha
+    - Tianli Feng
+    - Xiaofei Wang
+    - Xin Fang
+    - Yilu Liu
+    - Zhenglai Shen
+
+- id: pacific-northwest
+  label: Pacific Northwest, United States
+  longitude: -119.3
+  latitude: 46.3
+  institutions:
+    - Pacific Northwest National Laboratory
+  collaborators:
+    - Bowen Huang
+    - Di Wu
+    - Giancarlo Paramo
+    - Himanshu Sharma
+    - Hisham Mahmood
+    - Ji Young Yun
+    - Kyung-bin Kwon
+    - Laurentiu Marinovici
+    - Luanzheng Guo
+    - Marcelo A. Elizondo
+    - Nathan R. Tallent
+    - Priya T. Mana
+    - Ramij R. Hossain
+    - Roshan L. Kini
+    - Soumya Kundu
+    - Thiagarajan Ramachandran
+    - Veronica Adetola
+    - Wei Wang
+    - Yuqing Dong
+
+- id: central-united-states
+  label: Central United States
+  longitude: -94.5
+  latitude: 38.8
+  institutions:
+    - Kansas State University
+    - Missouri University of Science and Technology
+    - Oklahoma State University
+    - Argonne National Laboratory
+  collaborators:
+    - Bo Liu
+    - Feng Qiu
+    - Haotian Chen
+    - Hantao Cui
+    - Hongyu Wu
+    - Jianzhe Liu
+    - Jonathan Kimball
+    - Oroghene Oboreh-Snapps
+    - Qihui Yang
+    - Rui Bo
+    - Shah Fahad
+    - Zaid Ibn Mahmood
+
+- id: western-united-states
+  label: Western United States
+  longitude: -117.5
+  latitude: 38.5
+  institutions:
+    - University of California, Riverside
+    - Stanford University
+    - National Renewable Energy Laboratory
+  collaborators:
+    - Brian Chen
+    - Min Liang
+    - Wenbo Wang
+
+- id: china
+  label: China
+  longitude: 116.0
+  latitude: 35.0
+  institutions:
+    - Tianjin University
+    - Partner institutions in China
+  collaborators:
+    - Baoqiang Zhang
+    - Chengjin Li
+    - Chenhui Song
+    - Chuanqi Wang
+    - Feilong Chen
+    - Guoqiang Zu
+    - Guowei He
+    - He Yin
+    - Heng Jiao
+    - Huan Zhou
+    - Jun Xiao
+    - Liangfu Lv
+    - Linquan Bai
+    - Miaomiao Zhang
+    - Qisi Lin
+    - Ruiwan Liu
+    - Shihao Zhang
+    - Wei Qiu
+    - Xinsong Zhang
+    - Xun Jiang
+    - Yupeng Zhou
+    - Yuqing Qu
+    - Zekai Qiu
+    - Zhenyu Bao
+    - Zhe Sun
+    - Zhongwei Cai
+    - Ziyu Liang
+    - 曹严
+    - 伊丽达
+    - 苏亚贝
+    - 司超然
+
+- id: singapore
+  label: Singapore
+  longitude: 103.8
+  latitude: 1.35
+  institutions:
+    - National University of Singapore
+  collaborators:
+    - Jingqiu Zhang
+    - Jimmy Chih-Hsien Peng
+
+- id: southern-europe
+  label: Southern Europe
+  longitude: 11.3
+  latitude: 44.5
+  institutions:
+    - University of Bologna
+  collaborators:
+    - Minjun He

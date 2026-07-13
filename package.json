@@ -23,7 +23,8 @@
   "devDependencies": {
     "jquery": "3.7.1",
     "onchange": "7.1.0",
-    "uglify-js": "3.19.3"
+    "uglify-js": "3.19.3",
+    "world-countries": "5.1.0"
   },
   "scripts": {
     "build": "npm run build:js",

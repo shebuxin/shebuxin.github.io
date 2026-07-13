@@ -32,7 +32,21 @@ jobs:
         run: npm audit
 
       - name: Verify generated JavaScript
-        run: npm run check:js
+        run: |
+          npm run check:js
+          node --check assets/js/collaborator-map.js
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.13"
+          cache: pip
+          cache-dependency-path: scripts/requirements-visitor-map.txt
+
+      - name: Test visitor-map updater
+        run: |
+          python -m pip install -r scripts/requirements-visitor-map.txt
+          python -m unittest discover -s tests
 
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1

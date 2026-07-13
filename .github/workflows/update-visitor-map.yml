@@ -1,0 +1,89 @@
+name: Update visitor map
+
+on:
+  schedule:
+    - cron: "17 7 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+
+concurrency:
+  group: update-visitor-map
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the publishing branch
+        uses: actions/checkout@v5
+        with:
+          ref: master
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v5
+        with:
+          node-version-file: .node-version
+          cache: npm
+
+      - name: Install country-centroid data
+        run: npm ci --ignore-scripts
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.13"
+          cache: pip
+          cache-dependency-path: scripts/requirements-visitor-map.txt
+
+      - name: Install country-code data
+        run: python -m pip install -r scripts/requirements-visitor-map.txt
+
+      - name: Test the visitor-map updater
+        run: python -m unittest discover -s tests
+
+      - name: Refresh aggregate website visitor countries
+        env:
+          GOATCOUNTER_API_TOKEN: ${{ secrets.GOATCOUNTER_API_TOKEN }}
+          GOATCOUNTER_SITE: buxin.goatcounter.com
+          GOATCOUNTER_TIMEZONE: ${{ vars.GOATCOUNTER_TIMEZONE || 'America/Chicago' }}
+          VISITOR_MAP_MIN_COUNT: ${{ vars.VISITOR_MAP_MIN_COUNT || '2' }}
+        run: python scripts/update_visitor_countries.py
+
+      - name: Check for a data change
+        id: changes
+        run: |
+          if git diff --quiet -- _data/visitor_countries.json; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Set up Ruby
+        if: steps.changes.outputs.changed == 'true'
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: .ruby-version
+          bundler-cache: true
+
+      - name: Verify the generated site
+        if: steps.changes.outputs.changed == 'true'
+        env:
+          JEKYLL_ENV: production
+        run: bundle exec jekyll build --strict_front_matter
+
+      - name: Commit and push the snapshot
+        if: steps.changes.outputs.changed == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add _data/visitor_countries.json
+          git commit -m "Update website visitor map data"
+          git push origin HEAD:master
+
+      - name: Request a GitHub Pages rebuild
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh api --method POST "repos/${GITHUB_REPOSITORY}/pages/builds"

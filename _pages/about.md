@@ -13,6 +13,7 @@ redirect_from:
 * [Education](#edu)
 * [Selected Publications](#pub)
 * [Awards and Service](#award)
+* [Global Collaborations and Website Visitors](#connections)
 
 ---
 
@@ -103,3 +104,10 @@ For a complete list, see the [publications page](/publications/).
 * Excellent Reviewer of *Journal of Modern Power Systems and Clean Energy*, 2022, 2023, and 2025.
 * UT Graduate Fellowship, 2022-2024.
 * Outstanding Reviewer of *IEEE Open Access Journal of Power and Energy*, 2020.
+
+---
+
+## Global Collaborations and Website Visitors
+{: #connections}
+
+{% include collaborator-map.html %}

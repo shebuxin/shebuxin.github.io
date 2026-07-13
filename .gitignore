@@ -6,6 +6,10 @@ _site/
 .bundle/
 vendor/
 node_modules/
+__pycache__/
+*.py[cod]
+.venv/
+goatcounter-export-*.zip
 
 .DS_Store
 .Rproj.user/
