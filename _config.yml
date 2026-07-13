@@ -118,6 +118,8 @@ exclude:
   - node_modules
   - package.json
   - package-lock.json
+  - scripts
+  - tests
   - tmp
   - vendor
 keep_files:

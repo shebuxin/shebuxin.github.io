@@ -38,3 +38,248 @@
 .container:hover .overlay {
   opacity: 0.25;
 }
+
+/*
+   Global collaboration map
+   ========================================================================== */
+
+.collaborator-map {
+  margin: 1.5em 0 2em;
+
+  [hidden] {
+    display: none !important;
+  }
+
+  &__intro {
+    color: $dark-gray;
+  }
+
+  &__stage {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 48 / 25;
+  }
+
+  &__svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  &__sphere {
+    fill: mix($background-color, $info-color, 93%);
+  }
+
+  &__country {
+    fill: mix($background-color, $light-gray, 55%);
+    stroke: $background-color;
+    stroke-width: 0.75;
+    vector-effect: non-scaling-stroke;
+
+    &--visitor-level-1 {
+      fill: mix($background-color, $warning-color, 78%);
+    }
+
+    &--visitor-level-2 {
+      fill: mix($background-color, $warning-color, 64%);
+    }
+
+    &--visitor-level-3 {
+      fill: mix($background-color, $warning-color, 50%);
+    }
+
+    &--visitor-level-4 {
+      fill: mix($background-color, $warning-color, 34%);
+    }
+
+    &--visitor-level-5 {
+      fill: mix($background-color, $warning-color, 18%);
+    }
+
+    &--visitor.is-selected {
+      stroke: $darker-gray;
+      stroke-width: 2.5;
+    }
+  }
+
+  &__marker-halo {
+    fill: rgba($info-color, 0.18);
+    stroke: $info-color;
+    stroke-width: 1.5;
+    vector-effect: non-scaling-stroke;
+  }
+
+  &__marker-dot {
+    fill: $info-color;
+  }
+
+  &__visitor-marker-halo {
+    fill: rgba($warning-color, 0.22);
+    stroke: mix($darker-gray, $warning-color, 20%);
+    stroke-width: 1.5;
+    vector-effect: non-scaling-stroke;
+  }
+
+  &__visitor-marker-dot {
+    fill: $warning-color;
+  }
+
+  &__selection-ring {
+    fill: none;
+    stroke: $darker-gray;
+    stroke-width: 2;
+    vector-effect: non-scaling-stroke;
+    opacity: 0;
+  }
+
+  &__marker.is-selected &__selection-ring,
+  &__visitor-marker.is-selected &__selection-ring {
+    opacity: 1;
+  }
+
+  &__status {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    color: $dark-gray;
+    text-align: center;
+  }
+
+  &__legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5em 1.25em;
+    margin: 0.5em 0 0;
+    padding: 0;
+    list-style: none;
+
+    li {
+      display: flex;
+      align-items: center;
+      margin: 0;
+    }
+  }
+
+  &__legend-marker {
+    display: inline-block;
+    height: 0.75em;
+    margin-right: 0.45em;
+    flex: 0 0 auto;
+
+    &--collaborator {
+      width: 0.75em;
+      background-color: $info-color;
+      border-radius: 50%;
+    }
+
+    &--visitor {
+      width: 1.4em;
+      background: linear-gradient(to right,
+        mix($background-color, $warning-color, 78%),
+        mix($background-color, $warning-color, 18%));
+      border: 1px solid mix($background-color, $warning-color, 35%);
+      border-radius: 2px;
+    }
+  }
+
+  &__empty {
+    margin: 0.5em 0 0 !important;
+    color: $dark-gray;
+    font-size: 0.9em;
+  }
+
+  &__controls {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5em 0.75em;
+    margin-top: 0.75em;
+
+    label {
+      margin: 0;
+      font-weight: 500;
+    }
+
+    select {
+      max-width: 100%;
+      padding: 0.35em 2em 0.35em 0.5em;
+      color: $text-color;
+      background-color: $background-color;
+      border: 1px solid $light-gray;
+      border-radius: $border-radius;
+      font: inherit;
+    }
+  }
+
+  &__detail {
+    margin-top: 1em;
+
+    h3 {
+      margin: 0 0 0.25em;
+      font-weight: 500;
+    }
+  }
+
+  &__meta {
+    margin-bottom: 0.5em !important;
+    color: $dark-gray;
+  }
+
+  &__summary {
+    margin-bottom: 0.35em !important;
+    font-weight: 500;
+  }
+
+  &__people,
+  &__visitor-note {
+    margin: 0.65em 0 0 !important;
+  }
+
+  &__source {
+    margin: 0.9em 0 0 !important;
+    color: $dark-gray;
+    font-size: 0.75em;
+  }
+
+  &__fallback h3 {
+    margin-top: 1.25em;
+    font-weight: 500;
+  }
+
+  &.is-ready &__fallback {
+    display: none;
+  }
+}
+
+.no-js .collaborator-map__status {
+  display: none;
+}
+
+.js .collaborator-map__fallback {
+  display: none;
+}
+
+.js .collaborator-map.has-error .collaborator-map__fallback {
+  display: block;
+}
+
+@media (max-width: $small) {
+  .collaborator-map {
+    &__controls {
+      display: block;
+
+      label,
+      select {
+        display: block;
+        width: 100%;
+      }
+
+      select {
+        margin-top: 0.35em;
+      }
+    }
+  }
+}

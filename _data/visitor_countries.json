@@ -1,0 +1,257 @@
+{
+  "source": "GoatCounter JSON export",
+  "scope": "all_paths",
+  "updated_at": "2026-07-13",
+  "period": {
+    "start": "2024-11-30",
+    "end": "2026-07-13"
+  },
+  "privacy": {
+    "minimum_country_visitors": 2
+  },
+  "total_visitors": 2491,
+  "displayed_visitors": 2481,
+  "suppressed_visitors": 10,
+  "unmapped_visitors": 0,
+  "countries": [
+    {
+      "iso3": "USA",
+      "name": "United States",
+      "visitors": 1894,
+      "latitude": 38.0,
+      "longitude": -97.0
+    },
+    {
+      "iso3": "HKG",
+      "name": "Hong Kong",
+      "visitors": 74,
+      "latitude": 22.267,
+      "longitude": 114.188
+    },
+    {
+      "iso3": "SGP",
+      "name": "Singapore",
+      "visitors": 54,
+      "latitude": 1.36666666,
+      "longitude": 103.8
+    },
+    {
+      "iso3": "GBR",
+      "name": "United Kingdom",
+      "visitors": 48,
+      "latitude": 54.0,
+      "longitude": -2.0
+    },
+    {
+      "iso3": "JPN",
+      "name": "Japan",
+      "visitors": 37,
+      "latitude": 36.0,
+      "longitude": 138.0
+    },
+    {
+      "iso3": "KOR",
+      "name": "South Korea",
+      "visitors": 35,
+      "latitude": 37.0,
+      "longitude": 127.5
+    },
+    {
+      "iso3": "CHN",
+      "name": "China",
+      "visitors": 29,
+      "latitude": 35.0,
+      "longitude": 105.0
+    },
+    {
+      "iso3": "IRL",
+      "name": "Ireland",
+      "visitors": 28,
+      "latitude": 53.0,
+      "longitude": -8.0
+    },
+    {
+      "iso3": "NPL",
+      "name": "Nepal",
+      "visitors": 27,
+      "latitude": 28.0,
+      "longitude": 84.0
+    },
+    {
+      "iso3": "RUS",
+      "name": "Russia",
+      "visitors": 25,
+      "latitude": 60.0,
+      "longitude": 100.0
+    },
+    {
+      "iso3": "PAK",
+      "name": "Pakistan",
+      "visitors": 24,
+      "latitude": 30.0,
+      "longitude": 70.0
+    },
+    {
+      "iso3": "IND",
+      "name": "India",
+      "visitors": 23,
+      "latitude": 20.0,
+      "longitude": 77.0
+    },
+    {
+      "iso3": "BGD",
+      "name": "Bangladesh",
+      "visitors": 19,
+      "latitude": 24.0,
+      "longitude": 90.0
+    },
+    {
+      "iso3": "CAN",
+      "name": "Canada",
+      "visitors": 18,
+      "latitude": 60.0,
+      "longitude": -95.0
+    },
+    {
+      "iso3": "DEU",
+      "name": "Germany",
+      "visitors": 18,
+      "latitude": 51.0,
+      "longitude": 9.0
+    },
+    {
+      "iso3": "SAU",
+      "name": "Saudi Arabia",
+      "visitors": 18,
+      "latitude": 25.0,
+      "longitude": 45.0
+    },
+    {
+      "iso3": "IRN",
+      "name": "Iran",
+      "visitors": 15,
+      "latitude": 32.0,
+      "longitude": 53.0
+    },
+    {
+      "iso3": "AUS",
+      "name": "Australia",
+      "visitors": 14,
+      "latitude": -27.0,
+      "longitude": 133.0
+    },
+    {
+      "iso3": "TWN",
+      "name": "Taiwan",
+      "visitors": 11,
+      "latitude": 23.5,
+      "longitude": 121.0
+    },
+    {
+      "iso3": "ESP",
+      "name": "Spain",
+      "visitors": 10,
+      "latitude": 40.0,
+      "longitude": -4.0
+    },
+    {
+      "iso3": "BRA",
+      "name": "Brazil",
+      "visitors": 9,
+      "latitude": -10.0,
+      "longitude": -55.0
+    },
+    {
+      "iso3": "TUR",
+      "name": "Turkey",
+      "visitors": 7,
+      "latitude": 39.0,
+      "longitude": 35.0
+    },
+    {
+      "iso3": "NLD",
+      "name": "Netherlands",
+      "visitors": 6,
+      "latitude": 52.5,
+      "longitude": 5.75
+    },
+    {
+      "iso3": "SWE",
+      "name": "Sweden",
+      "visitors": 6,
+      "latitude": 62.0,
+      "longitude": 15.0
+    },
+    {
+      "iso3": "CHE",
+      "name": "Switzerland",
+      "visitors": 6,
+      "latitude": 47.0,
+      "longitude": 8.0
+    },
+    {
+      "iso3": "FRA",
+      "name": "France",
+      "visitors": 5,
+      "latitude": 46.0,
+      "longitude": 2.0
+    },
+    {
+      "iso3": "NGA",
+      "name": "Nigeria",
+      "visitors": 5,
+      "latitude": 10.0,
+      "longitude": 8.0
+    },
+    {
+      "iso3": "MYS",
+      "name": "Malaysia",
+      "visitors": 3,
+      "latitude": 2.5,
+      "longitude": 112.5
+    },
+    {
+      "iso3": "THA",
+      "name": "Thailand",
+      "visitors": 3,
+      "latitude": 15.0,
+      "longitude": 100.0
+    },
+    {
+      "iso3": "DNK",
+      "name": "Denmark",
+      "visitors": 2,
+      "latitude": 56.0,
+      "longitude": 10.0
+    },
+    {
+      "iso3": "FIN",
+      "name": "Finland",
+      "visitors": 2,
+      "latitude": 64.0,
+      "longitude": 26.0
+    },
+    {
+      "iso3": "GHA",
+      "name": "Ghana",
+      "visitors": 2,
+      "latitude": 8.0,
+      "longitude": -2.0
+    },
+    {
+      "iso3": "ITA",
+      "name": "Italy",
+      "visitors": 2,
+      "latitude": 42.83333333,
+      "longitude": 12.83333333
+    },
+    {
+      "iso3": "LTU",
+      "name": "Republic of Lithuania",
+      "visitors": 2,
+      "latitude": 56.0,
+      "longitude": 24.0
+    }
+  ],
+  "imported_at": "2026-07-13T17:40:35Z"
+}
