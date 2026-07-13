@@ -13,7 +13,7 @@
 {% endif %}
 
 <div class="{{ include.type | default: "list" }}__item">
-  <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
     {% if include.type == "grid" and teaser %}
       <div class="archive__item-teaser">
         <img src=
@@ -78,7 +78,7 @@
     {% endif %}
     
     {% if post.excerpt and post.collection == 'research' and site.read_more != 'enabled' %}
-      <p class="archive__item-excerpt" itemprop="description">
+      <div class="archive__item-excerpt" itemprop="description">
         <a href="{{ base_path }}{{ post.url }}" rel="permalink">
         <div class="container">
           {{ post.excerpt }}
@@ -86,16 +86,15 @@
           </div>
         </div>
         </a>
-      </p>
+      </div>
     {% elsif post.excerpt and site.read_more != 'enabled' %}
-    <p class="archive__item-excerpt" itemprop="description">{{ post.excerpt | markdownify }}</p>
+      <p class="archive__item-excerpt" itemprop="description">{{ post.excerpt | markdownify | remove: '<p>' | remove: '</p>' }}</p>
     {% elsif post.excerpt and site.read_more == 'enabled' %}
       <p class="archive__item-excerpt" itemprop="description">
-        <p>{{ post.excerpt | markdownify | remove: '<p>' | remove: '</p>' }}
-          <strong>
-            <a href="{{ base_path }}{{ post.url }}" rel="permalink"> Read more</a>
-          </strong>
-        </p>
+        {{ post.excerpt | markdownify | remove: '<p>' | remove: '</p>' }}
+        <strong>
+          <a href="{{ base_path }}{{ post.url }}" rel="permalink"> Read more</a>
+        </strong>
       </p>
     {% endif %}
     

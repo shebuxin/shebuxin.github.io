@@ -116,10 +116,6 @@ a {
     @extend %tab-focus;
   }
 
-  &:hover,
-  &:active {
-    outline: 0;
-  }
 }
 
 /* code */

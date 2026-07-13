@@ -18,7 +18,7 @@ I have worked on P-Q control, V-f control, controller design with transient-stab
 
 * [**Inverter PQ Control with Trajectory Tracking Capability**](https://ieeexplore.ieee.org/abstract/document/10128154)
 
-  I designed a P-Q controller for grid-following inverters in microgrids with trajectory-tracking capability using physics-informed reinforcement learning. By tuning PI gains in real time, the inverter output can follow predefined exponential trajectories with user-specified time constants. The approach combines model-based analysis with the twin delayed deep deterministic policy gradient algorithm and was validated on the [CURENT hardware testbed](https://curent.utk.edu/files/8414/8709/3719/Tolbert_Fact_Sheet_Web.pdf).
+  I designed a P-Q controller for grid-following inverters in microgrids with trajectory-tracking capability using physics-informed reinforcement learning. By tuning PI gains in real time, the inverter output can follow predefined exponential trajectories with user-specified time constants. The approach combines model-based analysis with the twin delayed deep deterministic policy gradient algorithm and was validated on the [CURENT hardware testbed](https://curent.utk.edu/wp-content/uploads/2024/07/Tolbert_Fact_Sheet_Web.pdf).
 * [**Decentralized and Cooperated V-f Control**](https://ieeexplore.ieee.org/document/10078029)
 
   I proposed a V-f control framework for islanded microgrids that explicitly accounts for DER inadequacy and demand control. The framework regulates each grid-forming inverter accurately and improves DC-side stability under resource scarcity.
@@ -41,18 +41,18 @@ I have worked on security-constrained economic dispatch for IBR-based microgrids
 * [**Virtual Inertia Scheduling (VIS) for IBR-penetrated Power System**](https://ieeexplore.ieee.org/abstract/document/10264213)
 
   I proposed the concept of virtual inertia scheduling (VIS) for IBR-dominant power systems. VIS is an inertia-management framework for jointly scheduling generation and inertia support under security and economic constraints. It determines power setpoints, reserve capacities, control modes, and control parameters for both synchronous generators and IBRs.
-* [**Microgrid VIS with certified stability and dynamic performance**](https://ltb.curent.org/showcase/microvis/)
+* [**Microgrid VIS with certified stability and dynamic performance**](https://doi.org/10.1109/TSTE.2024.3481239)
 
   I extended VIS to microgrids to better use the controllability and flexibility of IBRs while certifying transient stability, small-signal stability, and dynamic performance. I also developed a workflow for integrating data-driven methods into microgrid VIS through data generation, cleaning, and labeling.
 
 ---
 
-## Distribution system operation and plan
+## Distribution system operation and planning
 
 I worked on planning and operation of distribution systems under the supervision of Dr. Jun Xiao at Tianjin University.
 
 ---
 
-## Thermal Energy Storage
+## Thermal energy storage
 
 I participated in research led by ORNL research scientist [Dr. Zhenglai Shen](https://www.ornl.gov/staff-profile/zhenglai-shen) and his manager [Dr. Som S Shrestha](https://www.ornl.gov/staff-profile/som-s-shrestha).

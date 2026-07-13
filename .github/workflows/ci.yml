@@ -1,0 +1,132 @@
+name: CI
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v5
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v5
+        with:
+          node-version-file: .node-version
+          cache: npm
+
+      - name: Install JavaScript dependencies
+        run: npm ci
+
+      - name: Audit JavaScript dependencies
+        run: npm audit
+
+      - name: Verify generated JavaScript
+        run: npm run check:js
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: .ruby-version
+          bundler-cache: true
+
+      - name: Build site
+        env:
+          JEKYLL_ENV: production
+        run: bundle exec jekyll build --strict_front_matter
+
+      - name: Check generated HTML
+        run: |
+          python3 - <<'PY'
+          from html.parser import HTMLParser
+          from pathlib import Path
+          from urllib.parse import unquote, urljoin, urlsplit
+
+          site = Path("_site").resolve()
+          site_hosts = {"shebuxin.github.io", "www.shebuxin.github.io"}
+
+          class PageParser(HTMLParser):
+              def __init__(self):
+                  super().__init__(convert_charrefs=True)
+                  self.anchors = set()
+                  self.duplicate_anchors = set()
+                  self.references = []
+
+              def handle_starttag(self, tag, attrs):
+                  attrs = dict(attrs)
+                  if attrs.get("id"):
+                      if attrs["id"] in self.anchors:
+                          self.duplicate_anchors.add(attrs["id"])
+                      self.anchors.add(attrs["id"])
+                  if tag == "a" and attrs.get("name"):
+                      self.anchors.add(attrs["name"])
+                  for attribute in ("href", "src"):
+                      if attrs.get(attribute):
+                          self.references.append(attrs[attribute])
+
+          pages = {}
+          for html_file in site.rglob("*.html"):
+              parser = PageParser()
+              parser.feed(html_file.read_text(encoding="utf-8"))
+              pages[html_file] = parser
+
+          def page_url(path):
+              relative = path.relative_to(site).as_posix()
+              if relative == "index.html":
+                  return "/"
+              if relative.endswith("/index.html"):
+                  return "/" + relative[:-10]
+              return "/" + relative
+
+          def candidates(url_path):
+              relative = unquote(url_path).lstrip("/")
+              target = site / relative
+              options = [target]
+              if url_path.endswith("/"):
+                  options.append(target / "index.html")
+              elif not target.suffix:
+                  options.extend((Path(str(target) + ".html"), target / "index.html"))
+              return options
+
+          failures = [
+              f"{path.relative_to(site)}: duplicate id #{anchor}"
+              for path, parser in pages.items()
+              for anchor in sorted(parser.duplicate_anchors)
+          ]
+          ignored_schemes = {"data", "javascript", "mailto", "tel"}
+          for source, parser in pages.items():
+              base = "https://shebuxin.github.io" + page_url(source)
+              for reference in parser.references:
+                  parsed_reference = urlsplit(reference)
+                  if parsed_reference.scheme in ignored_schemes or reference.startswith("//"):
+                      continue
+                  if parsed_reference.scheme and parsed_reference.scheme not in {"http", "https"}:
+                      continue
+                  if parsed_reference.scheme in {"http", "https"} and parsed_reference.hostname not in site_hosts:
+                      continue
+
+                  resolved = urlsplit(urljoin(base, reference))
+                  matches = [path for path in candidates(resolved.path) if path.is_file()]
+                  if not matches:
+                      failures.append(f"{source.relative_to(site)}: missing {reference}")
+                      continue
+
+                  if resolved.fragment:
+                      target = next((path for path in matches if path.is_file() and path.suffix == ".html"), None)
+                      if target and unquote(resolved.fragment) not in pages[target].anchors:
+                          failures.append(f"{source.relative_to(site)}: missing anchor {reference}")
+
+          if failures:
+              raise SystemExit("Generated HTML problems:\n" + "\n".join(failures))
+          print(f"Checked {len(pages)} HTML files; IDs are unique and internal references resolve.")
+          PY

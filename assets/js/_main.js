@@ -23,11 +23,31 @@ $(document).ready(function(){
   // FitVids init
   $("#main").fitVids();
 
+  // Keep overflow navigation disclosure state available to assistive technology.
+  var $navToggle = $("#site-nav > button"),
+    $overflowNav = $("#site-nav .hidden-links"),
+    syncNavigationDisclosure = function() {
+      var expanded = !$navToggle.hasClass("hidden") && !$overflowNav.hasClass("hidden");
+      $navToggle.attr("aria-expanded", expanded);
+      $overflowNav.attr("aria-hidden", !expanded);
+    };
+
+  $navToggle.on("click", syncNavigationDisclosure);
+  $(window).resize(syncNavigationDisclosure);
+  syncNavigationDisclosure();
+
   // init sticky sidebar
   $(".sticky").Stickyfill();
 
+  var $authorLinksButton = $(".author__urls-wrapper button"),
+    $authorLinks = $(".author__urls"),
+    setAuthorDisclosureState = function(expanded) {
+      $authorLinksButton.attr("aria-expanded", expanded).toggleClass("open", expanded);
+      $authorLinks.attr("aria-hidden", !expanded);
+    };
+
   var stickySideBar = function(){
-    var show = $(".author__urls-wrapper button").length === 0 ? $(window).width() > 1024 : !$(".author__urls-wrapper button").is(":visible");
+    var show = $authorLinksButton.length === 0 ? $(window).width() > 1024 : !$authorLinksButton.is(":visible");
     // console.log("has button: " + $(".author__urls-wrapper button").length === 0);
     // console.log("Window Width: " + windowWidth);
     // console.log("show: " + show);
@@ -36,11 +56,13 @@ $(document).ready(function(){
       // fix
       Stickyfill.rebuild();
       Stickyfill.init();
-      $(".author__urls").show();
+      $authorLinks.show();
+      setAuthorDisclosureState(true);
     } else {
       // unfix
       Stickyfill.stop();
-      $(".author__urls").hide();
+      $authorLinks.hide();
+      setAuthorDisclosureState(false);
     }
   };
 
@@ -52,9 +74,10 @@ $(document).ready(function(){
 
   // Follow menu drop down
 
-  $(".author__urls-wrapper button").on("click", function() {
-    $(".author__urls").fadeToggle("fast", function() {});
-    $(".author__urls-wrapper button").toggleClass("open");
+  $authorLinksButton.on("click", function() {
+    var expanded = !$authorLinks.is(":visible");
+    $authorLinks.stop(true, true).fadeToggle("fast");
+    setAuthorDisclosureState(expanded);
   });
 
   // init smooth scroll

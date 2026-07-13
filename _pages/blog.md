@@ -9,7 +9,7 @@ I write articles on research workflow, programming, control theory, and AI for p
 
 ---
 
-# Power system
+## Power system
 
 * [一种保证微电网大信号稳定性和给定稳定域的控制器设计方法](https://zhuanlan.zhihu.com/p/667142086)
 * [电力系统惯量可以调度吗](https://zhuanlan.zhihu.com/p/660665010)
@@ -20,7 +20,7 @@ I write articles on research workflow, programming, control theory, and AI for p
 
 ---
 
-# Workflow
+## Workflow
 
 * [博士学习经验交流](https://zhuanlan.zhihu.com/p/649798614)
 * [科研神器：Sympy推公式，无缝latex输出](https://zhuanlan.zhihu.com/p/491831883)
@@ -28,7 +28,7 @@ I write articles on research workflow, programming, control theory, and AI for p
 
 ---
 
-# Programming
+## Programming
 
 * [Win下安装配置Matlab-MOSEK/CVX](https://zhuanlan.zhihu.com/p/565512257)
 * [Python与Simulink交互补充——MacOS/Ubuntu下用miniconda配置Matlab engine](https://zhuanlan.zhihu.com/p/422095662)
@@ -37,7 +37,7 @@ I write articles on research workflow, programming, control theory, and AI for p
 
 ---
 
-# Control theory
+## Control theory
 
 * [为什么控制理论要引入数学中的“空间”和“范数”概念？](https://zhuanlan.zhihu.com/p/358719067)
 * [现代控制理论：速成/不求甚解版（上）](https://zhuanlan.zhihu.com/p/356938640)
@@ -60,7 +60,7 @@ I write articles on research workflow, programming, control theory, and AI for p
 
 ---
 
-# Paper review
+## Paper review
 
 * [文献笔记：深度学习求解代数问题](https://zhuanlan.zhihu.com/p/402257456)
 * [Review: 联邦学习 Federated learning](https://zhuanlan.zhihu.com/p/397260277)
@@ -71,7 +71,7 @@ I write articles on research workflow, programming, control theory, and AI for p
 
 ---
 
-# Others
+## Others
 
 * [中美iphone以旧换新/年年焕新政策对比：震惊！美行力度这么大？](https://zhuanlan.zhihu.com/p/417496712)
 * [美国 Oklahoma State Ph.D招生帖：EE方向](https://zhuanlan.zhihu.com/p/410162303)
