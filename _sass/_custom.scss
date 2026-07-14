@@ -214,39 +214,14 @@
     }
   }
 
-  &__detail {
-    margin-top: 1em;
-
-    h3 {
-      margin: 0 0 0.25em;
-      font-weight: 500;
-    }
-  }
-
-  &__meta {
-    margin-bottom: 0.5em !important;
-    color: $dark-gray;
-  }
-
-  &__summary {
-    margin-bottom: 0.35em !important;
-    font-weight: 500;
-  }
-
-  &__people,
-  &__visitor-note {
-    margin: 0.65em 0 0 !important;
-  }
-
   &__source {
     margin: 0.9em 0 0 !important;
     color: $dark-gray;
     font-size: 0.75em;
   }
 
-  &__fallback h3 {
-    margin-top: 1.25em;
-    font-weight: 500;
+  &__fallback p {
+    margin: 0.75em 0 0 !important;
   }
 
   &.is-ready &__fallback {
