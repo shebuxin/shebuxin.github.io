@@ -37,27 +37,16 @@ async function renderCollaboratorMap(root) {
   const legend = root.querySelector("[data-map-legend]");
   const controls = root.querySelector("[data-map-controls]");
   const select = root.querySelector("[data-location-select]");
-  const detail = root.querySelector("[data-map-detail]");
-  const detailName = root.querySelector("[data-detail-name]");
-  const detailSummary = root.querySelector("[data-detail-summary]");
-  const detailMeta = root.querySelector("[data-detail-meta]");
-  const collaboratorDetail = root.querySelector("[data-collaborator-detail]");
-  const collaboratorPeople = root.querySelector("[data-collaborator-people]");
-  const visitorDetail = root.querySelector("[data-visitor-detail]");
-  const visitorNote = root.querySelector("[data-visitor-note]");
 
   if (!collaboratorDataElement || !visitorDataElement || !svg || !mapLayer ||
-      !markerLayer || !status || !legend || !controls || !select || !detail ||
-      !detailName || !detailSummary || !detailMeta || !collaboratorDetail ||
-      !collaboratorPeople || !visitorDetail || !visitorNote) {
+      !markerLayer || !status || !legend || !controls || !select) {
     return;
   }
 
   try {
     const regions = JSON.parse(collaboratorDataElement.textContent).map((region) => ({
       ...region,
-      collaborators: region.collaborators || [],
-      institutions: region.institutions || []
+      collaborator_count: Number(region.collaborator_count) || 0
     }));
     const visitorData = JSON.parse(visitorDataElement.textContent);
     const visitorCountries = (visitorData.countries || []).filter((country) =>
@@ -65,7 +54,6 @@ async function renderCollaboratorMap(root) {
       country.visitors > 0 && Number.isFinite(country.latitude) &&
       Number.isFinite(country.longitude)
     );
-    const visitorByCountry = new Map(visitorCountries.map((country) => [country.iso3, country]));
     const visitorByAtlasCountry = new Map(visitorCountries.map((country) => [
       ATLAS_COUNTRY_ALIASES.get(country.iso3) || country.iso3,
       country
@@ -116,7 +104,7 @@ async function renderCollaboratorMap(root) {
     });
 
     const collaboratorPoints = regions
-      .filter((region) => region.collaborators.length > 0)
+      .filter((region) => region.collaborator_count > 0)
       .map((region) => projection([region.longitude, region.latitude]))
       .filter(Boolean);
     const visitorMarkers = new Map();
@@ -165,7 +153,7 @@ async function renderCollaboratorMap(root) {
     const markers = new Map();
     regions.forEach((region) => {
       const point = projection([region.longitude, region.latitude]);
-      if (!point || region.collaborators.length === 0) return;
+      if (!point || region.collaborator_count === 0) return;
 
       const marker = document.createElementNS(namespace, "g");
       marker.setAttribute("class", "collaborator-map__marker");
@@ -173,7 +161,7 @@ async function renderCollaboratorMap(root) {
       marker.setAttribute("transform", `translate(${point[0]},${point[1]})`);
 
       const title = document.createElementNS(namespace, "title");
-      title.textContent = `${region.label}: ${pluralize(region.collaborators.length, "collaborator")}`;
+      title.textContent = `${region.label}: ${pluralize(region.collaborator_count, "collaborator")}`;
 
       const selectionRing = document.createElementNS(namespace, "circle");
       selectionRing.setAttribute("class", "collaborator-map__selection-ring");
@@ -204,33 +192,15 @@ async function renderCollaboratorMap(root) {
 
       clearSelection();
       select.value = `collaborator:${region.id}`;
-      detailName.textContent = region.label;
-      detailSummary.textContent = pluralize(region.collaborators.length, "collaborator");
-      detailMeta.textContent = region.institutions.join(" · ");
-      collaboratorPeople.textContent = region.collaborators.join(", ");
-      collaboratorDetail.hidden = false;
-      visitorDetail.hidden = true;
       markers.get(region.id)?.classList.add("is-selected");
     }
 
     function selectVisitorCountry(iso3) {
-      const country = visitorByCountry.get(iso3);
+      const country = visitorCountries.find((item) => item.iso3 === iso3);
       if (!country) return;
 
       clearSelection();
       select.value = `visitor:${country.iso3}`;
-      detailName.textContent = country.name;
-      detailSummary.textContent = pluralize(country.visitors, "aggregate website visit");
-      detailMeta.textContent = "Approximate country-level location reported by GoatCounter";
-
-      const periodEnd = visitorData.period?.end ? ` through ${visitorData.period.end}` : "";
-      const threshold = visitorData.privacy?.minimum_country_visitors;
-      const thresholdNote = threshold > 1
-        ? ` Countries with fewer than ${threshold} visitors are not displayed.`
-        : "";
-      visitorNote.textContent = `GoatCounter reports aggregate visits, not identified individuals. Data collected since ${visitorData.period?.start || "tracking began"}${periodEnd}.${thresholdNote}`;
-      collaboratorDetail.hidden = true;
-      visitorDetail.hidden = false;
       countryPaths.get(country.iso3)?.classList.add("is-selected");
       visitorMarkers.get(country.iso3)?.classList.add("is-selected");
     }
@@ -248,7 +218,6 @@ async function renderCollaboratorMap(root) {
     svg.removeAttribute("hidden");
     legend.hidden = false;
     controls.hidden = false;
-    detail.hidden = false;
     status.hidden = true;
     root.classList.add("is-ready");
   } catch (error) {
