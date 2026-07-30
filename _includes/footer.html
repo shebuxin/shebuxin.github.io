@@ -1,1 +1,1 @@
-<div class="page__footer-copyright">&copy; {{ site.time | date: '%Y' }} {{ site.name | default: site.title }}. Built with <a href="https://jekyllrb.com/" rel="nofollow">Jekyll</a>.</div>
+<div class="page__footer-copyright">&copy; {{ site.time | date: '%Y' }} {% if page.lang == "zh" %}{{ site.author.name_zh | default: site.name | default: site.title }}。使用 <a href="https://jekyllrb.com/" rel="nofollow">Jekyll</a> 构建。{% else %}{{ site.name | default: site.title }}. Built with <a href="https://jekyllrb.com/" rel="nofollow">Jekyll</a>.{% endif %}</div>

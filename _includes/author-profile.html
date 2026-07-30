@@ -4,23 +4,30 @@
   {% assign author = site.data.authors[page.author] %}{% else %}{% assign author = site.author %}
 {% endif %}
 
+{% assign author_name = author.name %}
+{% assign author_bio = author.bio %}
+{% if page.lang == "zh" %}
+  {% assign author_name = author.name_zh | default: author.name %}
+  {% assign author_bio = author.bio_zh | default: author.bio %}
+{% endif %}
+
 <div itemscope itemtype="https://schema.org/Person">
 
   <div class="author__avatar">
     {% if author.avatar contains "://" %}
-      <img src="{{ author.avatar }}" alt="{{ author.name }}" width="350" height="350" decoding="async">
+      <img src="{{ author.avatar }}" alt="{{ author_name }}" width="350" height="350" decoding="async">
     {% else %}
-      <img src="{{ author.avatar | prepend: "/images/" | prepend: base_path }}" class="author__avatar" alt="{{ author.name }}" width="350" height="350" decoding="async">
+      <img src="{{ author.avatar | prepend: "/images/" | prepend: base_path }}" class="author__avatar" alt="{{ author_name }}" width="350" height="350" decoding="async">
     {% endif %}
   </div>
 
   <div class="author__content">
-    <h3 class="author__name">{{ author.name }}</h3>
-    {% if author.bio %}<p class="author__bio">{{ author.bio }}</p>{% endif %}
+    <h3 class="author__name">{{ author_name }}</h3>
+    {% if author_bio %}<p class="author__bio">{{ author_bio }}</p>{% endif %}
   </div>
 
   <div class="author__urls-wrapper">
-    <button class="btn btn--inverse" type="button" aria-label="Toggle contact and profile links" aria-controls="author-profile-links" aria-expanded="false">Follow</button>
+    <button class="btn btn--inverse" type="button" aria-label="{% if page.lang == 'zh' %}展开联系方式与学术主页链接{% else %}Toggle contact and profile links{% endif %}" aria-controls="author-profile-links" aria-expanded="false">{% if page.lang == "zh" %}联系方式{% else %}Follow{% endif %}</button>
     <ul id="author-profile-links" class="author__urls social-icons">
       {% if author.location %}
         <li><i class="fa fa-fw fa-map-marker-alt" aria-hidden="true" style="padding-right: 1.5em;"></i>{{ author.location }}</li>
@@ -32,7 +39,7 @@
         <li><a href="{{ author.uri | escape }}"><i class="fas fa-fw fa-link" aria-hidden="true" style="padding-right: 1.5em;"></i>{{ site.data.ui-text[site.locale].website_label | default: "Website" }}</a></li>
       {% endif %}
       {% if author.email %}
-        <li><a href="mailto:{{ author.email }}"><i class="fas fa-fw fa-envelope" aria-hidden="true" style="padding-right: 1.5em;"></i>{{ site.data.ui-text[site.locale].email_label | default: "Email" }}</a></li>
+        <li><a href="mailto:{{ author.email }}"><i class="fas fa-fw fa-envelope" aria-hidden="true" style="padding-right: 1.5em;"></i>{% if page.lang == "zh" %}邮箱{% else %}{{ site.data.ui-text[site.locale].email_label | default: "Email" }}{% endif %}</a></li>
       {% endif %}
       {% if author.keybase %}
         <li><a href="https://keybase.io/{{ author.keybase }}"><i class="fas fa-fw fa-key" aria-hidden="true" style="padding-right: 1.5em;"></i>Keybase</a></li>

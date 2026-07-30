@@ -18,6 +18,20 @@
 
 {% assign canonical_url = page.url | replace: "index.html", "" | prepend: seo_url %}
 
+{% if page.lang == "zh" %}
+  {% assign chinese_path = page.url %}
+  {% if page.url == "/zh/" %}
+    {% assign english_path = "/" %}
+  {% else %}
+    {% assign english_path = page.url | remove_first: "/zh" %}
+  {% endif %}
+{% else %}
+  {% assign english_path = page.url %}
+  {% assign chinese_path = "/zh" | append: page.url %}
+{% endif %}
+{% assign english_alternate_url = english_path | prepend: seo_url %}
+{% assign chinese_alternate_url = chinese_path | prepend: seo_url %}
+
 <title>{{ seo_title }}{% if paginator %}{% unless paginator.page == 1 %} {{ site.title_separator }} {{ site.data.ui-text[site.locale].page | default: "Page" }} {{ paginator.page }}{% endunless %}{% endif %}</title>
 
 {% if page.description %}
@@ -62,13 +76,17 @@
   {% assign seo_author_twitter = seo_author_twitter | replace: "@", "" %}
 {% endif %}
 
-<meta property="og:locale" content="{{ site.locale | default: "en" }}">
+<meta property="og:locale" content="{% if page.lang == 'zh' %}zh_CN{% else %}{{ site.locale | default: 'en_US' | replace: '-', '_' }}{% endif %}">
+<meta property="og:locale:alternate" content="{% if page.lang == 'zh' %}en_US{% else %}zh_CN{% endif %}">
 <meta property="og:site_name" content="{{ site.title }}">
 <meta property="og:title" content="{{ page.title | default: site.title | markdownify | strip_html | strip_newlines | escape_once }}">
 <meta property="og:type" content="{% if page.date %}article{% else %}website{% endif %}">
 
 {% if seo_url %}
   <link rel="canonical" href="{{ canonical_url }}">
+  <link rel="alternate" hreflang="en" href="{{ english_alternate_url }}">
+  <link rel="alternate" hreflang="zh-CN" href="{{ chinese_alternate_url }}">
+  <link rel="alternate" hreflang="x-default" href="{{ english_alternate_url }}">
   <meta property="og:url" content="{{ canonical_url }}">
 {% endif %}
 

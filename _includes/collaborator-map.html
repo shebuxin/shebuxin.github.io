@@ -1,48 +1,76 @@
 {% assign collaboration_regions = site.data.collaborators %}
 {% assign visitor_data = site.data.visitor_countries %}
 
-<div class="collaborator-map" data-collaborator-map>
+{% if page.lang == "zh" %}
+  {% assign map_intro = "蓝色圆点表示合作者所在的大致区域；橙色国家填充或菱形标记表示 GoatCounter 汇总的网站访客来源，颜色越深表示访问人数越多。" %}
+  {% assign map_title = "全球合作与网站访客来源" %}
+  {% assign map_description = "世界地图：蓝色圆点表示合作者区域，橙色国家或菱形标记表示汇总的网站访客来源。" %}
+  {% assign map_loading = "全球地图加载中……" %}
+  {% assign map_categories = "地图类别" %}
+  {% assign collaborator_label = "合作者区域" %}
+  {% assign visitor_label = "网站访客来源（橙色越深，访问人数越多）" %}
+  {% assign empty_label = "首次同步 GoatCounter 数据后，这里将显示网站访客来源。" %}
+  {% assign explore_label = "浏览地图" %}
+  {% assign visitor_group_label = "网站访客来源" %}
+{% else %}
+  {% assign map_intro = "Blue circles show approximate collaborator regions. Orange country shading or diamonds show aggregate website visit locations reported by GoatCounter; darker shading indicates more visits." %}
+  {% assign map_title = "Global collaborations and website visitor countries" %}
+  {% assign map_description = "A world map with blue circular markers for collaborator regions and orange-filled countries or diamond markers for aggregate website visitor locations." %}
+  {% assign map_loading = "Loading global map…" %}
+  {% assign map_categories = "Map categories" %}
+  {% assign collaborator_label = "Collaborator regions" %}
+  {% assign visitor_label = "Website visitor countries (orange; darker = more)" %}
+  {% assign empty_label = "Website visitor data will appear after the first GoatCounter sync." %}
+  {% assign explore_label = "Explore the map" %}
+  {% assign visitor_group_label = "Website visitor countries" %}
+{% endif %}
+
+<div class="collaborator-map" data-collaborator-map data-map-lang="{{ page.lang | default: 'en' }}">
   <p class="collaborator-map__intro" id="collaborator-map-description">
-    Blue circles show approximate collaborator regions. Orange country shading or diamonds show aggregate website visit locations reported by GoatCounter; darker shading indicates more visits.
+    {{ map_intro }}
   </p>
 
   <div class="collaborator-map__stage">
     <svg class="collaborator-map__svg" viewBox="0 0 960 500" role="img"
       aria-labelledby="collaborator-map-title"
       aria-describedby="collaborator-map-svg-description collaborator-map-description" hidden>
-      <title id="collaborator-map-title">Global collaborations and website visitor countries</title>
+      <title id="collaborator-map-title">{{ map_title }}</title>
       <desc id="collaborator-map-svg-description">
-        A world map with blue circular markers for collaborator regions and orange-filled countries or diamond markers for aggregate website visitor locations.
+        {{ map_description }}
       </desc>
       <g data-map-layer></g>
       <g data-marker-layer></g>
     </svg>
-    <p class="collaborator-map__status" data-map-status>Loading global map…</p>
+    <p class="collaborator-map__status" data-map-status>{{ map_loading }}</p>
   </div>
 
-  <ul class="collaborator-map__legend" aria-label="Map categories" data-map-legend hidden>
-    <li><span class="collaborator-map__legend-marker collaborator-map__legend-marker--collaborator" aria-hidden="true"></span>Collaborator regions</li>
-    <li><span class="collaborator-map__legend-marker collaborator-map__legend-marker--visitor" aria-hidden="true"></span>Website visitor countries (orange; darker = more)</li>
+  <ul class="collaborator-map__legend" aria-label="{{ map_categories }}" data-map-legend hidden>
+    <li><span class="collaborator-map__legend-marker collaborator-map__legend-marker--collaborator" aria-hidden="true"></span>{{ collaborator_label }}</li>
+    <li><span class="collaborator-map__legend-marker collaborator-map__legend-marker--visitor" aria-hidden="true"></span>{{ visitor_label }}</li>
   </ul>
 
   {% if visitor_data.countries.size == 0 %}
-    <p class="collaborator-map__empty">Website visitor data will appear after the first GoatCounter sync.</p>
+    <p class="collaborator-map__empty">{{ empty_label }}</p>
   {% endif %}
 
   <div class="collaborator-map__controls" data-map-controls hidden>
-    <label for="global-map-location">Explore the map</label>
+    <label for="global-map-location">{{ explore_label }}</label>
     <select id="global-map-location" data-location-select>
-      <optgroup label="Collaborator regions">
+      <optgroup label="{{ collaborator_label }}">
         {% for region in collaboration_regions %}
           <option value="collaborator:{{ region.id | escape }}">
-            {{ region.label | escape }} ({{ region.collaborators | size }})
+            {% if page.lang == "zh" %}{{ region.label_zh | default: region.label | escape }}{% else %}{{ region.label | escape }}{% endif %} ({{ region.collaborators | size }})
           </option>
         {% endfor %}
       </optgroup>
       {% if visitor_data.countries.size > 0 %}
-        <optgroup label="Website visitor countries">
+        <optgroup label="{{ visitor_group_label }}">
           {% for country in visitor_data.countries %}
-            <option value="visitor:{{ country.iso3 | escape }}">{{ country.name | escape }} ({{ country.visitors }})</option>
+            {% assign visitor_country_name = country.name %}
+            {% if page.lang == "zh" %}
+              {% assign visitor_country_name = site.data.country_names_zh[country.iso3] | default: country.name %}
+            {% endif %}
+            <option value="visitor:{{ country.iso3 | escape }}">{{ visitor_country_name | escape }} ({{ country.visitors }})</option>
           {% endfor %}
         </optgroup>
       {% endif %}
@@ -50,11 +78,11 @@
   </div>
 
   <p class="collaborator-map__source">
-    Country centroid data from <a href="https://github.com/mledoze/countries">mledoze/countries</a>, available under the <a href="https://opendatacommons.org/licenses/odbl/1-0/">ODbL 1.0</a>.
+    {% if page.lang == "zh" %}国家中心点数据来自 <a href="https://github.com/mledoze/countries">mledoze/countries</a>，并依据 <a href="https://opendatacommons.org/licenses/odbl/1-0/">ODbL 1.0</a> 许可使用。{% else %}Country centroid data from <a href="https://github.com/mledoze/countries">mledoze/countries</a>, available under the <a href="https://opendatacommons.org/licenses/odbl/1-0/">ODbL 1.0</a>.{% endif %}
   </p>
 
   <div class="collaborator-map__fallback" data-map-fallback>
-    <p>The interactive map is unavailable.</p>
+    <p>{% if page.lang == "zh" %}互动地图暂时无法使用。{% else %}The interactive map is unavailable.{% endif %}</p>
   </div>
 
   {% capture collaborator_map_data %}
@@ -62,7 +90,7 @@
       {% for region in collaboration_regions %}
         {
           "id": {{ region.id | jsonify }},
-          "label": {{ region.label | jsonify }},
+          "label": {% if page.lang == "zh" %}{{ region.label_zh | default: region.label | jsonify }}{% else %}{{ region.label | jsonify }}{% endif %},
           "longitude": {{ region.longitude | jsonify }},
           "latitude": {{ region.latitude | jsonify }},
           "collaborator_count": {{ region.collaborators | size }}
@@ -72,4 +100,5 @@
   {% endcapture %}
   <script type="application/json" data-collaborator-data>{{ collaborator_map_data | strip_newlines | replace: '</', '<\/' }}</script>
   <script type="application/json" data-visitor-data>{{ visitor_data | jsonify | replace: '</', '<\/' }}</script>
+  <script type="application/json" data-country-names-zh>{{ site.data.country_names_zh | jsonify | replace: '</', '<\/' }}</script>
 </div>

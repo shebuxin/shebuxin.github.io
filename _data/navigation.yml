@@ -17,3 +17,22 @@ main:
 
   - title: "CV"
     url: /cv/
+
+main_zh:
+  - title: "研究"
+    url: /zh/research/
+
+  - title: "项目"
+    url: /zh/projects/
+
+  - title: "报告"
+    url: /zh/talks/
+
+  - title: "论文"
+    url: /zh/publications/
+
+  - title: "教学"
+    url: /zh/teaching/
+
+  - title: "简历"
+    url: /zh/cv/
