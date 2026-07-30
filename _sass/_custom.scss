@@ -40,6 +40,67 @@
 }
 
 /*
+   Language switch
+   ========================================================================== */
+
+.masthead__menu {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+
+  .greedy-nav {
+    min-width: 0;
+    flex: 1 1 auto;
+  }
+}
+
+.language-switch {
+  display: inline-flex;
+  align-items: center;
+  flex: 0 0 auto;
+  gap: 0.35rem;
+  padding: 0.25rem 0.55rem;
+  color: $gray;
+  border: 1px solid $border-color;
+  border-radius: 999px;
+  font-size: $type-size-7;
+  line-height: 1.4;
+  white-space: nowrap;
+
+  a {
+    color: $gray;
+    text-decoration: none;
+
+    &:hover,
+    &:focus {
+      color: $link-color-hover;
+    }
+
+    &.is-active {
+      color: $text-color;
+      font-weight: 700;
+    }
+  }
+}
+
+@media (max-width: $small) {
+  .masthead__inner-wrap {
+    padding-right: 0.5em;
+    padding-left: 0.5em;
+  }
+
+  .masthead__menu {
+    gap: 0.4rem;
+  }
+
+  .language-switch {
+    gap: 0.25rem;
+    padding: 0.2rem 0.4rem;
+    font-size: 0.65rem;
+  }
+}
+
+/*
    Global collaboration map
    ========================================================================== */
 

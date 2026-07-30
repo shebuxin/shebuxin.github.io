@@ -1,15 +1,33 @@
 {% include base_path %}
 
+{% if page.lang == "zh" %}
+  {% assign home_url = "/zh/" %}
+  {% assign home_label = site.author.name_zh | default: site.title %}
+  {% assign navigation_links = site.data.navigation.main_zh %}
+  {% if page.url == "/zh/" %}
+    {% assign english_url = "/" %}
+  {% else %}
+    {% assign english_url = page.url | remove_first: "/zh" %}
+  {% endif %}
+  {% assign chinese_url = page.url %}
+{% else %}
+  {% assign home_url = "/" %}
+  {% assign home_label = site.title %}
+  {% assign navigation_links = site.data.navigation.main %}
+  {% assign english_url = page.url %}
+  {% assign chinese_url = "/zh" | append: page.url %}
+{% endif %}
+
 <div class="masthead">
   <div class="masthead__inner-wrap">
     <div class="masthead__menu">
-      <nav id="site-nav" class="greedy-nav" aria-label="Primary navigation">
-        <button class="hidden" type="button" aria-label="Toggle navigation menu" aria-controls="site-nav-hidden-links" aria-expanded="false">
+      <nav id="site-nav" class="greedy-nav" aria-label="{% if page.lang == 'zh' %}主导航{% else %}Primary navigation{% endif %}">
+        <button class="hidden" type="button" aria-label="{% if page.lang == 'zh' %}展开导航菜单{% else %}Toggle navigation menu{% endif %}" aria-controls="site-nav-hidden-links" aria-expanded="false">
           <span class="navicon" aria-hidden="true"></span>
         </button>
         <ul class="visible-links">
-          <li class="masthead__menu-item masthead__menu-item--lg"><a href="{{ base_path }}/">{{ site.title }}</a></li>
-          {% for link in site.data.navigation.main %}
+          <li class="masthead__menu-item masthead__menu-item--lg"><a href="{{ home_url | prepend: base_path }}">{{ home_label }}</a></li>
+          {% for link in navigation_links %}
             {% if link.url contains 'http' %}
               {% assign domain = '' %}
               {% else %}
@@ -19,6 +37,11 @@
           {% endfor %}
         </ul>
         <ul id="site-nav-hidden-links" class="hidden-links hidden" aria-hidden="true"></ul>
+      </nav>
+      <nav class="language-switch" aria-label="{% if page.lang == 'zh' %}语言选择{% else %}Language selection{% endif %}">
+        <a href="{{ english_url | prepend: base_path }}" hreflang="en" lang="en"{% unless page.lang == "zh" %} class="is-active" aria-current="page"{% endunless %}>English</a>
+        <span aria-hidden="true">/</span>
+        <a href="{{ chinese_url | prepend: base_path }}" hreflang="zh-CN" lang="zh-CN"{% if page.lang == "zh" %} class="is-active" aria-current="page"{% endif %}>中文</a>
       </nav>
     </div>
   </div>

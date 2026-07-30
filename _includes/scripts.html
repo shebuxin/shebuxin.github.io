@@ -1,6 +1,6 @@
 <script src="{{ base_path }}/assets/js/main.min.js"></script>
 
-{% if page.url == "/" %}
+{% if page.url == "/" or page.url == "/zh/" %}
   <script type="module" src="{{ '/assets/js/collaborator-map.js' | relative_url }}"></script>
 {% endif %}
 

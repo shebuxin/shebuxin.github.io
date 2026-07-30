@@ -72,8 +72,10 @@ analytics:
 # Site Author
 author:
   name             : "Buxin She"
+  name_zh          : "佘步鑫"
   avatar           : "BuxinShe.webp"
   bio              : "Assistant Professor, Kansas State University"
+  bio_zh           : "堪萨斯州立大学电气与计算机工程系助理教授"
   orcid            : "https://orcid.org/0000-0002-2624-560X"
   googlescholar    : "https://scholar.google.com/citations?user=qqcJQ4UAAAAJ&hl=en"
   email            : "shebuxin@gmail.com"

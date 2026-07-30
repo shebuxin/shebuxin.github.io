@@ -12,7 +12,7 @@ A list of all the posts and pages found on the site. For you robots out there is
 <h2>Pages</h2>
 {% assign human_pages = site.pages | sort: "title" %}
 {% for post in human_pages %}
-  {% if post.title and post.url != page.url and post.sitemap != false and post.layout != "redirect" and post.redirect_to == nil %}
+  {% if post.lang != "zh" and post.title and post.url != page.url and post.sitemap != false and post.layout != "redirect" and post.redirect_to == nil %}
   {% include archive-single.html %}
   {% endif %}
 {% endfor %}
@@ -20,7 +20,9 @@ A list of all the posts and pages found on the site. For you robots out there is
 {% if site.posts.size > 0 %}
 <h2>Posts</h2>
   {% for post in site.posts %}
+    {% if post.lang != "zh" %}
   {% include archive-single.html %}
+    {% endif %}
   {% endfor %}
 {% endif %}
 
@@ -28,7 +30,9 @@ A list of all the posts and pages found on the site. For you robots out there is
   {% if collection.output != false and collection.label != "posts" and collection.docs.size > 0 %}
   <h2>{{ collection.label | capitalize }}</h2>
     {% for post in collection.docs %}
+      {% if post.lang != "zh" %}
     {% include archive-single.html %}
+      {% endif %}
     {% endfor %}
   {% endif %}
 {% endfor %}

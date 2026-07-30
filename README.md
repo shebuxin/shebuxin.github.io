@@ -43,6 +43,12 @@ For a production build, run:
 JEKYLL_ENV=production bundle exec jekyll build --strict_front_matter
 ```
 
+## Bilingual content
+
+English pages keep their existing URLs. Simplified Chinese mirrors live under `_pages/zh/` and publish under `/zh/`. The header language switch derives the matching URL from that shared path structure, so each public English page should have a Chinese page with the same trailing path.
+
+The Chinese publications page reuses the English publication list and translates only its framing and generic labels. Update publication entries in `_pages/publications.md`; do not duplicate them in the Chinese page.
+
 ## Checks
 
 Run the same deterministic JavaScript checks used by CI:

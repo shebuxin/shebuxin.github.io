@@ -28,8 +28,10 @@ function pluralize(count, singular, plural = `${singular}s`) {
 }
 
 async function renderCollaboratorMap(root) {
+  const isChinese = root.dataset.mapLang === "zh";
   const collaboratorDataElement = root.querySelector("[data-collaborator-data]");
   const visitorDataElement = root.querySelector("[data-visitor-data]");
+  const countryNamesElement = root.querySelector("[data-country-names-zh]");
   const svg = root.querySelector(".collaborator-map__svg");
   const mapLayer = root.querySelector("[data-map-layer]");
   const markerLayer = root.querySelector("[data-marker-layer]");
@@ -38,10 +40,17 @@ async function renderCollaboratorMap(root) {
   const controls = root.querySelector("[data-map-controls]");
   const select = root.querySelector("[data-location-select]");
 
-  if (!collaboratorDataElement || !visitorDataElement || !svg || !mapLayer ||
+  if (!collaboratorDataElement || !visitorDataElement || !countryNamesElement || !svg || !mapLayer ||
       !markerLayer || !status || !legend || !controls || !select) {
     return;
   }
+
+  const visitorCountLabel = (count) => isChinese
+    ? `${numberFormatter.format(count)} 位网站访客`
+    : pluralize(count, "website visitor");
+  const collaboratorCountLabel = (count) => isChinese
+    ? `${numberFormatter.format(count)} 位合作者`
+    : pluralize(count, "collaborator");
 
   try {
     const regions = JSON.parse(collaboratorDataElement.textContent).map((region) => ({
@@ -49,11 +58,15 @@ async function renderCollaboratorMap(root) {
       collaborator_count: Number(region.collaborator_count) || 0
     }));
     const visitorData = JSON.parse(visitorDataElement.textContent);
+    const countryNames = isChinese ? JSON.parse(countryNamesElement.textContent) : {};
     const visitorCountries = (visitorData.countries || []).filter((country) =>
       /^[A-Z]{3}$/.test(country.iso3) && Number.isFinite(country.visitors) &&
       country.visitors > 0 && Number.isFinite(country.latitude) &&
       Number.isFinite(country.longitude)
-    );
+    ).map((country) => ({
+      ...country,
+      name: countryNames[country.iso3] || country.name
+    }));
     const visitorByAtlasCountry = new Map(visitorCountries.map((country) => [
       ATLAS_COUNTRY_ALIASES.get(country.iso3) || country.iso3,
       country
@@ -95,7 +108,7 @@ async function renderCollaboratorMap(root) {
           `collaborator-map__country--visitor-level-${level}`
         );
         const title = document.createElementNS(namespace, "title");
-        title.textContent = `${visitorCountry.name}: ${pluralize(visitorCountry.visitors, "website visitor")}`;
+        title.textContent = `${visitorCountry.name}: ${visitorCountLabel(visitorCountry.visitors)}`;
         countryPath.appendChild(title);
         countryPaths.set(visitorCountry.iso3, countryPath);
       }
@@ -123,7 +136,7 @@ async function renderCollaboratorMap(root) {
       marker.setAttribute("transform", `translate(${markerX},${point[1]})`);
 
       const title = document.createElementNS(namespace, "title");
-      title.textContent = `${country.name}: ${pluralize(country.visitors, "website visitor")}`;
+      title.textContent = `${country.name}: ${visitorCountLabel(country.visitors)}`;
 
       const selectionRing = document.createElementNS(namespace, "circle");
       selectionRing.setAttribute("class", "collaborator-map__selection-ring");
@@ -161,7 +174,7 @@ async function renderCollaboratorMap(root) {
       marker.setAttribute("transform", `translate(${point[0]},${point[1]})`);
 
       const title = document.createElementNS(namespace, "title");
-      title.textContent = `${region.label}: ${pluralize(region.collaborator_count, "collaborator")}`;
+      title.textContent = `${region.label}: ${collaboratorCountLabel(region.collaborator_count)}`;
 
       const selectionRing = document.createElementNS(namespace, "circle");
       selectionRing.setAttribute("class", "collaborator-map__selection-ring");
@@ -221,7 +234,9 @@ async function renderCollaboratorMap(root) {
     status.hidden = true;
     root.classList.add("is-ready");
   } catch (error) {
-    status.textContent = "The interactive map could not be loaded. Collaborator regions and website visitor countries are listed below.";
+    status.textContent = isChinese
+      ? "互动地图暂时无法加载，请稍后重试。"
+      : "The interactive map could not be loaded. Please try again later.";
     root.classList.add("has-error");
     console.error("Unable to load the global map.", error);
   }

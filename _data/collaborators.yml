@@ -1,5 +1,6 @@
 - id: eastern-united-states
   label: Eastern United States
+  label_zh: 美国东部
   longitude: -83.9
   latitude: 35.9
   institutions:
@@ -31,6 +32,7 @@
 
 - id: pacific-northwest
   label: Pacific Northwest, United States
+  label_zh: 美国太平洋西北地区
   longitude: -119.3
   latitude: 46.3
   institutions:
@@ -58,6 +60,7 @@
 
 - id: central-united-states
   label: Central United States
+  label_zh: 美国中部
   longitude: -94.5
   latitude: 38.8
   institutions:
@@ -81,6 +84,7 @@
 
 - id: western-united-states
   label: Western United States
+  label_zh: 美国西部
   longitude: -117.5
   latitude: 38.5
   institutions:
@@ -94,6 +98,7 @@
 
 - id: china
   label: China
+  label_zh: 中国
   longitude: 116.0
   latitude: 35.0
   institutions:
@@ -134,6 +139,7 @@
 
 - id: singapore
   label: Singapore
+  label_zh: 新加坡
   longitude: 103.8
   latitude: 1.35
   institutions:
@@ -144,6 +150,7 @@
 
 - id: southern-europe
   label: Southern Europe
+  label_zh: 南欧
   longitude: 11.3
   latitude: 44.5
   institutions:
