@@ -2,7 +2,7 @@
 permalink: /zh/
 title: "佘步鑫"
 excerpt: "关于我"
-description: "佘步鑫的中文个人主页：研究方向、工作经历、教育背景、代表性论文、荣誉与学术服务。"
+description: "佘步鑫的中文个人主页：研究方向、工作经历、教育背景、代表性论文与荣誉。"
 lang: zh
 author_profile: true
 ---
@@ -11,8 +11,8 @@ author_profile: true
 * [工作经历](#work)
 * [教育背景](#edu)
 * [代表性论文](#pub)
-* [荣誉与学术服务](#award)
-* [全球合作与网站访客](#connections)
+* [荣誉](#award)
+* [全球合作](#connections)
 
 ---
 
@@ -23,7 +23,7 @@ author_profile: true
 
 加入堪萨斯州立大学之前，他曾任[太平洋西北国家实验室](https://www.pnnl.gov/)（PNNL）[优化与控制组](https://www.pnnl.gov/electricity-infrastructure-buildings-division-groups)高级研究工程师。在 PNNL 期间，他主持了两项实验室自主研究与开发（Laboratory Directed Research and Development, LDRD）项目，分别研究电力信息物理系统的韧性分析，以及电力电子设备占主导的电力系统稳定性表征；同时，他还共同负责了一项由美国能源部风能技术办公室（Wind Energy Technologies Office, WETO）资助的项目。
 
-他担任 IEEE *Virtual Inertia Scheduling and Control for IBR-Dominant Power Systems* [任务组](https://cmte.ieee.org/pes-visc/)主席，并担任 ESIG 大型负荷任务组建模需求与数据采集分组负责人。他同时是 IEEE 教育委员会讲师。
+他担任 IEEE *Virtual Inertia Scheduling and Control for IBR-Dominant Power Systems* [任务组](https://cmte.ieee.org/pes-visc/)主席，并担任 ESIG 大型负荷任务组建模需求与数据采集分组负责人。他还担任 IEEE PES 教育委员会在 IEEE Learning Network 推出的 [*Artificial Intelligence for Power and Energy Systems*](https://iln.ieee.org/public/contentdetails.aspx?id=48A92EF8188E4D2E8331E1381CAF98E7) 项目的课程讲师。
 
 他现任 [*IEEE Data Descriptions*](https://www.ieee-data.org/)、[*Unconventional Resources*](https://www.sciencedirect.com/journal/unconventional-resources) 和 [*Chinese Journal of Electrical Engineering*](https://ieeexplore.ieee.org/xpl/RecentIssue.jsp?punumber=7873788) 副编辑。他还曾担任 *International Journal of Electrical Power & Energy Systems* 和 *IET Renewable Power Generation* 客座编辑，以及 *IET Energy Conversion and Economics* 青年顾问委员会委员。
 
@@ -81,15 +81,15 @@ author_profile: true
 
 完整论文列表请参见[论文页面](/zh/publications/)。
 
-* **Buxin She**, Fangxing Li\*, Hantao Cui, Hang Shuai, Oroghene Oboreh Snapps, Rui Bo, Nattapat Praisuwanna, Jingxin Wang, Leon M. Tolbert, "[Inverter PQ Control with Trajectory Tracking Capability for Microgrids Based on Physics-informed Reinforcement Learning](https://ieeexplore.ieee.org/abstract/document/10128154)", *IEEE Transactions on Smart Grid*, 2023, doi: 10.1109/TSG.2023.3277330。—— ***ESI 高被引论文、TSG 热门论文***。
+* **Buxin She**, Fangxing Li\*, Hantao Cui, Jinning Wang, Qiwei Zhang, Rui Bo, "[Virtual Inertia Scheduling (VIS) for Real-Time Economic Dispatch of IBR-Penetrated Power Systems](https://ieeexplore.ieee.org/abstract/document/10264213)", *IEEE Transactions on Sustainable Energy*, 2023, doi: 10.1109/TSTE.2023.3319307。—— ***[2026 IEEE PES Prize Paper Award](https://ieee-pes.org/news/just-announced-2026-ieee-power-energy-society-award-recipients/)、TSTE 热门论文***。
 * **Buxin She**, Fangxing Li\*, Hantao Cui, Jingqiu Zhang, Rui Bo, "[Fusion of Microgrid Control with Model-free Reinforcement Learning: Review and Vision](https://ieeexplore.ieee.org/abstract/document/9951405)", *IEEE Transactions on Smart Grid*, 2022, doi: 10.1109/TSG.2022.3222323。—— ***TSG 热门论文***。
-* **Buxin She**, Fangxing Li\*, Hantao Cui, Jinning Wang, Qiwei Zhang, Rui Bo, "[Virtual Inertia Scheduling (VIS) for Real-Time Economic Dispatch of IBR-Penetrated Power Systems](https://ieeexplore.ieee.org/abstract/document/10264213)", *IEEE Transactions on Sustainable Energy*, 2023, doi: 10.1109/TSTE.2023.3319307。—— ***TSTE 热门论文***。
 * **Buxin She**, Fangxing Li\*, Jinning Wang, Hantao Cui, Xiaofei Wang, Rui Bo, "[Virtual Inertia Scheduling (VIS) for Microgrids with Static and Dynamic Security Constraints](https://ieeexplore.ieee.org/abstract/document/10729702)", *IEEE Transactions on Sustainable Energy*, 2024, doi: [10.1109/TSTE.2024.3481239](https://doi.org/10.1109/TSTE.2024.3481239)。—— ***TSTE 热门论文***。
-* **Buxin She**, Jianzhe Liu\*, Feng Qiu, Hantao Cui, Nattapat Praisuwanna, Jingxin Wang, Leon M. Tolbert, and Fangxing Li\*, "[Systematic Controller Design for Inverter-Based Microgrids With Certified Large-Signal Stability and Domain of Attraction](https://ieeexplore.ieee.org/abstract/document/10310265)", *IEEE Transactions on Smart Grid*, 2023, doi: 10.1109/TSG.2023.3330705。
+* **Buxin She**, Fangxing Li\*, Hantao Cui, Hang Shuai, Oroghene Oboreh Snapps, Rui Bo, Nattapat Praisuwanna, Jingxin Wang, Leon M. Tolbert, "[Inverter PQ Control with Trajectory Tracking Capability for Microgrids Based on Physics-informed Reinforcement Learning](https://ieeexplore.ieee.org/abstract/document/10128154)", *IEEE Transactions on Smart Grid*, 2023, doi: 10.1109/TSG.2023.3277330。—— ***ESI 高被引论文、TSG 热门论文***。
+* **Buxin She**, Di Wu, Kyung-bin Kwon, "[A review of energy storage for power system resilience: Functions, metrics, and applications](https://www.sciencedirect.com/science/article/pii/S0306261926007087)", *Applied Energy*, vol. 420, 128056, 2026, doi: [10.1016/j.apenergy.2026.128056](https://doi.org/10.1016/j.apenergy.2026.128056)。
 
 ---
 
-## 荣誉与学术服务
+## 荣誉
 {: #award}
 
 * [IEEE PES Prize Paper Award](https://ieee-pes.org/news/just-announced-2026-ieee-power-energy-society-award-recipients/)，获奖论文为 “Virtual Inertia Scheduling (VIS) for Real-Time Economic Dispatch of IBR-Penetrated Power Systems”，2026 年。
@@ -105,7 +105,7 @@ author_profile: true
 
 ---
 
-## 全球合作与网站访客
+## 全球合作
 {: #connections}
 
 {% include collaborator-map.html %}

@@ -58,7 +58,6 @@ $research-amber: #a65d00;
 
 .research-jump-nav a,
 .research-vision__themes a,
-.research-bridges a,
 .research-action {
   text-decoration: none;
 }
@@ -130,6 +129,7 @@ $research-amber: #a65d00;
 .research-jump-nav {
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
   gap: 0.5rem;
 
   a {
@@ -320,45 +320,6 @@ $research-amber: #a65d00;
   li {
     margin-bottom: 0.2rem;
     font-size: 0.74rem;
-  }
-}
-
-.research-bridges {
-  margin-top: 1rem;
-  padding-top: 1rem;
-  border-top: 1px solid $border-color;
-
-  h3 {
-    margin: 0 0 0.65rem;
-    font-size: 0.85rem;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-  }
-
-  ul {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-    margin: 0;
-    padding: 0;
-    list-style: none;
-  }
-
-  li {
-    margin: 0;
-  }
-
-  a {
-    display: inline-flex;
-    min-height: 2.75rem;
-    align-items: center;
-    padding: 0.45rem 0.7rem;
-    color: mix(#000, $research-amber, 22%);
-    background: mix($background-color, $warning-color, 91%);
-    border: 1px solid mix($background-color, $research-amber, 58%);
-    border-radius: 999px;
-    font-size: 0.76rem;
-    font-weight: 650;
   }
 }
 
@@ -604,6 +565,10 @@ $research-amber: #a65d00;
 }
 
 @include breakpoint($medium-wide) {
+  .research-landscape[data-language="en"] .research-vision h3 {
+    min-block-size: 2.4em;
+  }
+
   .research-logic {
     grid-template-columns: repeat(4, minmax(0, 1fr));
   }

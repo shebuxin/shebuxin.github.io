@@ -85,16 +85,6 @@
       {% endfor %}
     </ol>
 
-    <div class="research-bridges" aria-labelledby="research-bridges-title">
-      <h3 id="research-bridges-title">{{ landscape.labels.bridge[language] }}</h3>
-      <ul>
-        {% for bridge in landscape.bridges %}
-          {% assign bridge_theme_id = bridge.target | remove_first: "theme-" %}
-          {% assign bridge_theme = landscape.themes[bridge_theme_id] %}
-          <li><a href="#{{ bridge.target }}" data-theme-link data-theme-id="{{ bridge_theme_id }}" data-vision="{{ bridge_theme.vision }}">{{ bridge.title[language] }}</a></li>
-        {% endfor %}
-      </ul>
-    </div>
   </section>
 
   <section id="research-themes" class="research-section research-section--themes" aria-labelledby="research-themes-title">

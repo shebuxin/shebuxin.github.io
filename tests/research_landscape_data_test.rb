@@ -60,7 +60,7 @@ class ResearchLandscapeDataTest < Minitest::Test
     end
   end
 
-  def test_logic_and_bridge_targets_exist
+  def test_logic_targets_exist
     referenced_theme_ids = []
 
     @data.fetch("logic").each do |step|
@@ -74,12 +74,6 @@ class ResearchLandscapeDataTest < Minitest::Test
 
     assert_empty @themes.keys - referenced_theme_ids.uniq,
                  "Every theme should appear in the research logic"
-
-    valid_targets = @themes.keys.map { |theme_id| "theme-#{theme_id}" }
-    @data.fetch("bridges").each do |bridge|
-      assert_localized_text(bridge.fetch("title"))
-      assert_includes valid_targets, bridge.fetch("target")
-    end
   end
 
   def test_calls_to_action_are_bilingual_and_safe

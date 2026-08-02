@@ -94,10 +94,10 @@ class ResearchRenderedPagesTest(unittest.TestCase):
             self.assertEqual([], page.unwired_theme_links)
 
         self.assertIn(
-            "Physics-grounded intelligence for verifiable power-system decisions",
+            "Physics-grounded intelligence for IBR-dominant Power System",
             english.text,
         )
-        self.assertIn("以物理机理与可信智能支撑可验证的电力系统决策", chinese.text)
+        self.assertIn("电力电子与人工智能驱动的新型电力系统", chinese.text)
         self.assertIn(
             "Public poster record; technical claims are not summarized here pending source review.",
             english.text,
@@ -117,6 +117,38 @@ class ResearchRenderedPagesTest(unittest.TestCase):
 
         home = self.parse("index.html")
         self.assertFalse(any(src.endswith("/research-landscape.js") for src in home.scripts))
+
+    def test_home_publications_and_teaching_refinements(self):
+        english_home = (self.site / "index.html").read_text(encoding="utf-8")
+        chinese_home = (self.site / "zh/index.html").read_text(encoding="utf-8")
+        english_teaching = (self.site / "teaching/index.html").read_text(encoding="utf-8")
+        chinese_teaching = (self.site / "zh/teaching/index.html").read_text(encoding="utf-8")
+        chinese_publications = (self.site / "zh/publications/index.html").read_text(encoding="utf-8")
+
+        self.assertIn("IEEE PES Education Committee", english_home)
+        self.assertIn("IEEE PES 教育委员会", chinese_home)
+        self.assertNotIn("Awards and Service", english_home)
+        self.assertNotIn("荣誉与学术服务", chinese_home)
+        self.assertNotIn("Global Collaborations and Website Visitors", english_home)
+        self.assertNotIn("全球合作与网站访客", chinese_home)
+
+        selected_titles = [
+            "Virtual Inertia Scheduling (VIS) for Real-Time Economic Dispatch",
+            "Fusion of Microgrid Control with Model-free Reinforcement Learning",
+            "Virtual Inertia Scheduling (VIS) for Microgrids",
+            "Inverter PQ Control with Trajectory Tracking Capability",
+            "A review of energy storage for power system resilience",
+        ]
+        positions = [english_home.index(title) for title in selected_titles]
+        self.assertEqual(positions, sorted(positions))
+        self.assertIn("2026 IEEE PES Prize Paper Award", english_home)
+        self.assertIn("2026 IEEE PES Prize Paper Award", chinese_home)
+
+        self.assertEqual(1, english_teaching.count("Contributed to:"))
+        self.assertEqual(3, english_teaching.count("Responsible for:"))
+        self.assertEqual(1, chinese_teaching.count("参与："))
+        self.assertEqual(3, chinese_teaching.count("负责："))
+        self.assertNotIn("正式标题保留其原始发表语言", chinese_publications)
 
 
 if __name__ == "__main__":

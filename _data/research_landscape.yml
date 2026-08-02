@@ -1,7 +1,7 @@
 hero:
   statement:
-    en: "Physics-grounded intelligence for verifiable power-system decisions"
-    zh: "以物理机理与可信智能支撑可验证的电力系统决策"
+    en: "Physics-grounded intelligence for IBR-dominant Power System"
+    zh: "电力电子与人工智能驱动的新型电力系统"
   lede:
     en: "My research connects fast power-system dynamics with control, optimization, and trustworthy AI. The goal is to make modern grids with inverter-based resources secure, resilient, flexible, and economically efficient."
     zh: "我的研究将电力系统快速动态与控制、优化和可信人工智能相连接，旨在提升含基于逆变器的资源（IBRs）的现代电网在安全性、韧性、灵活性与经济性方面的表现。"
@@ -104,9 +104,6 @@ labels:
   published:
     en: "Public"
     zh: "已公开"
-  bridge:
-    en: "Cross-cutting questions"
-    zh: "贯穿性研究问题"
 
 logic:
   - id: "models"
@@ -152,20 +149,6 @@ logic:
       - "engineering-agents"
       - "ai-infrastructure"
 
-bridges:
-  - title:
-      en: "Stability characterization and certification"
-      zh: "稳定性表征与认证"
-    target: "theme-ibr-dynamics"
-  - title:
-      en: "Dynamic-security-constrained decisions"
-      zh: "动态安全约束决策"
-    target: "theme-dynamic-decisions"
-  - title:
-      en: "Energy-system co-design for AI infrastructure"
-      zh: "面向 AI 基础设施的能源系统协同设计"
-    target: "theme-ai-infrastructure"
-
 vision_order:
   - "physical-systems"
   - "intelligent-systems"
@@ -184,7 +167,7 @@ visions:
       zh: "建立统一的模型、稳定边界、控制与优化方法，将 IBR 快速动态与安全、韧性和经济高效的系统级决策连接起来。"
     keywords:
       en:
-        - "Inverter-Based Resources"
+        - "IBR"
         - "Dynamic Stability"
         - "Control and Optimization"
         - "Dynamic Security"
