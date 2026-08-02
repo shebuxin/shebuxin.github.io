@@ -55,6 +55,14 @@
   url: https://www.sciencedirect.com/science/article/abs/pii/S1755008425001280
   theme_ids:
   - dynamic-decisions
+- id: WRK-074
+  title: Power-Flow Benchmark for LLM-based Power System Agent Evaluation (PFBench)
+  title_language: en
+  year: '2026'
+  venue: IEEE DataPort
+  url: https://doi.org/10.21227/jnrm-q720
+  theme_ids:
+  - engineering-agents
 - id: WRK-007
   title: 'Forecasting for Large Loads: Current Practices and Recommendations'
   title_language: en
@@ -248,6 +256,14 @@
   url: https://www.freepatentsonline.com/y2024/0421599.html
   theme_ids:
   - ibr-dynamics
+- id: WRK-063
+  title: Empowering Scientific Datasets with Large Language Models
+  title_language: en
+  year: '2024'
+  venue: SC24 Research Poster
+  url: https://scholar.google.com/citations?view_op=view_citation&hl=en&user=qqcJQ4UAAAAJ&cstart=20&pagesize=80&citation_for_view=qqcJQ4UAAAAJ:M3NEmzRMIkIC
+  theme_ids:
+  - engineering-agents
 - id: WRK-028
   title: Enhancing Microgrid Flexibility, Stability, and Economy with Inverter-based
     Resources

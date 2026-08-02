@@ -66,8 +66,8 @@ sections:
       en: "Research themes"
       zh: "研究主题"
     intro:
-      en: "Each theme states the core research questions and methods, highlights one representative work, and groups all related publications."
-      zh: "每个主题概括核心研究问题与主要方法，突出一项代表性成果，并汇集所有相关论文。"
+      en: "Each theme states the core research questions and methods, highlights one representative work, and groups all related research outputs."
+      zh: "每个主题概括核心研究问题与主要方法，突出一项代表性成果，并汇集所有相关成果。"
   evidence:
     title:
       en: "Explore the evidence and collaborations"
@@ -99,11 +99,11 @@ labels:
     en: "Representative work"
     zh: "代表性成果"
   related_publications:
-    en: "Related publications"
-    zh: "相关论文"
+    en: "Related research outputs"
+    zh: "相关成果"
   details:
-    en: "Explore questions and related publications"
-    zh: "展开研究问题与相关论文"
+    en: "Explore questions and related outputs"
+    zh: "展开研究问题与相关成果"
 
 logic:
   - id: "models"

@@ -21,13 +21,22 @@ THEME_KEYS = {
   "THM-008" => "ai-infrastructure"
 }.freeze
 
-# This export mirrors the 60 entries currently listed on the website's
-# Publications page. Site-specific additions preserve the user's explicit
-# cross-theme classification without changing ResearchOS relationships.
+PUBLIC_WORK_IDS = ((1..60).map { |number| format("WRK-%03d", number) } +
+  %w[WRK-063 WRK-074]).freeze
+
+# This export mirrors the entries currently listed on the website's
+# Publications page and adds explicitly requested public research outputs.
+# Site-specific mappings preserve the user's explicit website classification
+# without changing ResearchOS relationships.
 # PFAgent (WRK-004) is intentionally included and selected as a representative
 # public preprint at the user's request; this snapshot makes no lifecycle claim.
 SITE_THEME_ADDITIONS = {
   "WRK-040" => ["decision-intelligence"]
+}.freeze
+
+SITE_THEME_OVERRIDES = {
+  "WRK-063" => ["engineering-agents"],
+  "WRK-074" => ["engineering-agents"]
 }.freeze
 
 # The Publications page groups online-first records by the year shown there.
@@ -43,16 +52,18 @@ PUBLICATION_YEAR_OVERRIDES = {
   "WRK-031" => "2023",
   "WRK-033" => "2023",
   "WRK-034" => "2023",
-  "WRK-040" => "2022"
+  "WRK-040" => "2022",
+  "WRK-074" => "2026"
 }.freeze
 
 VENUE_OVERRIDES = {
   "WRK-004" => "arXiv preprint",
   "WRK-017" => "arXiv preprint",
-  "WRK-027" => "U.S. Patent"
+  "WRK-027" => "U.S. Patent",
+  "WRK-074" => "IEEE DataPort"
 }.freeze
 
-ORIGINAL_LANGUAGE_TITLES = {
+TITLE_OVERRIDES = {
   "WRK-050" => "配电网安全域的特殊二维图像：发现、机理及用途",
   "WRK-051" => "配电网安全域的全维直接观测",
   "WRK-052" => "基于文献综述的配电网供电能力术语规范化建议",
@@ -61,7 +72,12 @@ ORIGINAL_LANGUAGE_TITLES = {
   "WRK-056" => "配电网接线模式的综合效率评价",
   "WRK-057" => "部分元件 N-1 下的配电网供电能力与安全域",
   "WRK-058" => "配电网安全域的 N×N 形式维度",
-  "WRK-060" => "配电网的供电能力分布"
+  "WRK-060" => "配电网的供电能力分布",
+  "WRK-074" => "Power-Flow Benchmark for LLM-based Power System Agent Evaluation (PFBench)"
+}.freeze
+
+URL_OVERRIDES = {
+  "WRK-063" => "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=qqcJQ4UAAAAJ&cstart=20&pagesize=80&citation_for_view=qqcJQ4UAAAAJ:M3NEmzRMIkIC"
 }.freeze
 
 def front_matter(path)
@@ -83,8 +99,7 @@ end
 
 works = RESEARCH_OS.join("40-works").glob("WRK-*.md").filter_map do |path|
   work = front_matter(path)
-  number = work.fetch("id").delete_prefix("WRK-").to_i
-  next unless (1..60).cover?(number)
+  next unless PUBLIC_WORK_IDS.include?(work.fetch("id"))
 
   problem_ids = [work["parent"], *Array(work["contributes_to"])]
     .compact
@@ -98,23 +113,26 @@ works = RESEARCH_OS.join("40-works").glob("WRK-*.md").filter_map do |path|
     THEME_KEYS[theme_link&.slice(/THM-\d+/)]
   end
 
+  theme_ids = SITE_THEME_OVERRIDES.fetch(work.fetch("id"), theme_ids)
   theme_ids.concat(SITE_THEME_ADDITIONS.fetch(work.fetch("id"), []))
   theme_ids.uniq!
 
   doi = work["doi"].to_s.strip
   external_link = Array(work["output_links"]).find { |link| link.to_s.start_with?("http") }
-  year = PUBLICATION_YEAR_OVERRIDES.fetch(work.fetch("id"), work.fetch("publication_year").to_s)
-  url = if !doi.empty?
-          "https://doi.org/#{doi}"
-        elsif external_link == "https://shebuxin.github.io/publications/"
-          "/publications/##{year}"
-        else
-          external_link
-        end
+  year = PUBLICATION_YEAR_OVERRIDES.fetch(work.fetch("id")) { work.fetch("publication_year").to_s }
+  url = URL_OVERRIDES.fetch(work.fetch("id")) do
+    if !doi.empty?
+      "https://doi.org/#{doi}"
+    elsif external_link == "https://shebuxin.github.io/publications/"
+      "/publications/##{year}"
+    else
+      external_link
+    end
+  end
   abort "Missing public link: #{work.fetch('id')}" unless url
   abort "Missing research theme: #{work.fetch('id')}" if theme_ids.empty?
 
-  title = ORIGINAL_LANGUAGE_TITLES.fetch(work.fetch("id"), work.fetch("title"))
+  title = TITLE_OVERRIDES.fetch(work.fetch("id"), work.fetch("title"))
 
   {
     "id" => work.fetch("id"),
@@ -127,7 +145,7 @@ works = RESEARCH_OS.join("40-works").glob("WRK-*.md").filter_map do |path|
   }
 end
 
-expected_ids = (1..60).map { |number| format("WRK-%03d", number) }
+expected_ids = PUBLIC_WORK_IDS
 actual_ids = works.map { |work| work.fetch("id") }
 missing_ids = expected_ids - actual_ids
 extra_ids = actual_ids - expected_ids

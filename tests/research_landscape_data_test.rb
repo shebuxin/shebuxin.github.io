@@ -24,7 +24,7 @@ class ResearchLandscapeDataTest < Minitest::Test
     "dynamic-decisions" => 13,
     "resilience-security" => 8,
     "trustworthy-ai" => 6,
-    "engineering-agents" => 1,
+    "engineering-agents" => 3,
     "decision-intelligence" => 5,
     "ai-infrastructure" => 2
   }.freeze
@@ -92,8 +92,8 @@ class ResearchLandscapeDataTest < Minitest::Test
   end
 
   def test_all_website_publications_are_classified_without_lifecycle_fields
-    assert_equal 60, @publications.size
-    expected_ids = (1..60).map { |number| format("WRK-%03d", number) }
+    assert_equal 62, @publications.size
+    expected_ids = (1..60).map { |number| format("WRK-%03d", number) } + %w[WRK-063 WRK-074]
     assert_equal expected_ids.sort, @publications.map { |work| work.fetch("id") }.sort
 
     @publications.each do |work|
@@ -123,6 +123,25 @@ class ResearchLandscapeDataTest < Minitest::Test
     pfagent = @publications.find { |publication| publication.fetch("id") == "WRK-004" }
     assert_equal "arXiv preprint", pfagent.fetch("venue")
     assert_equal "https://arxiv.org/abs/2604.10846", pfagent.fetch("url")
+    scientific_datasets = @publications.find { |publication| publication.fetch("id") == "WRK-063" }
+    assert_equal "Empowering Scientific Datasets with Large Language Models", scientific_datasets.fetch("title")
+    assert_equal "2024", scientific_datasets.fetch("year")
+    assert_equal "SC24 Research Poster", scientific_datasets.fetch("venue")
+    scholar_url = "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=qqcJQ4UAAAAJ&cstart=20&pagesize=80&citation_for_view=qqcJQ4UAAAAJ:M3NEmzRMIkIC"
+    assert_equal scholar_url, scientific_datasets.fetch("url")
+    assert_equal ["engineering-agents"], scientific_datasets.fetch("theme_ids")
+
+    pfbench = @publications.find { |publication| publication.fetch("id") == "WRK-074" }
+    assert_equal "Power-Flow Benchmark for LLM-based Power System Agent Evaluation (PFBench)", pfbench.fetch("title")
+    assert_equal "2026", pfbench.fetch("year")
+    assert_equal "IEEE DataPort", pfbench.fetch("venue")
+    assert_equal "https://doi.org/10.21227/jnrm-q720", pfbench.fetch("url")
+    assert_equal ["engineering-agents"], pfbench.fetch("theme_ids")
+
+    engineering_outputs = @publications.filter_map do |publication|
+      publication.fetch("id") if publication.fetch("theme_ids").include?("engineering-agents")
+    end
+    assert_equal %w[WRK-004 WRK-063 WRK-074], engineering_outputs.sort
     assert_equal 8, @publications.count { |work| work.fetch("url").start_with?("/publications/#") }
 
     actual_counts = @themes.to_h do |theme_id, _theme|

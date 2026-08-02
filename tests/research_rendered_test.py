@@ -91,7 +91,7 @@ class ResearchRenderedPagesTest(unittest.TestCase):
         "dynamic-decisions": 13,
         "resilience-security": 8,
         "trustworthy-ai": 6,
-        "engineering-agents": 1,
+        "engineering-agents": 3,
         "decision-intelligence": 5,
         "ai-infrastructure": 2,
     }
@@ -135,10 +135,10 @@ class ResearchRenderedPagesTest(unittest.TestCase):
         )
         self.assertIn("电力电子与人工智能驱动的新型电力系统", chinese.text)
         self.assertIn("Representative work", english.text)
-        self.assertIn("Related publications", english.text)
+        self.assertIn("Related research outputs", english.text)
         self.assertIn("代表性成果", chinese.text)
-        self.assertIn("相关论文", chinese.text)
-        self.assertTrue(any(text.startswith("展开研究问题与相关论文：") for text in chinese.text))
+        self.assertIn("相关成果", chinese.text)
+        self.assertTrue(any(text.startswith("展开研究问题与相关成果：") for text in chinese.text))
         self.assertIn("代表性", chinese.text)
         self.assertIn("研究成果", chinese.text)
         self.assertNotIn("精选", chinese.text)
@@ -150,8 +150,12 @@ class ResearchRenderedPagesTest(unittest.TestCase):
                 {theme_id: len(work_ids) for theme_id, work_ids in page.theme_publications.items()},
             )
             self.assertEqual(
-                {f"WRK-{number:03d}" for number in range(1, 61)},
+                {f"WRK-{number:03d}" for number in range(1, 61)} | {"WRK-063", "WRK-074"},
                 {work_id for work_ids in page.theme_publications.values() for work_id in work_ids},
+            )
+            self.assertEqual(
+                {"WRK-004", "WRK-063", "WRK-074"},
+                set(page.theme_publications["engineering-agents"]),
             )
 
         english_html = (self.site / "research/index.html").read_text(encoding="utf-8")
@@ -162,6 +166,14 @@ class ResearchRenderedPagesTest(unittest.TestCase):
         self.assertNotIn("精选公开产出", chinese_html)
         self.assertNotIn("公开研究成果", chinese_html)
         self.assertNotIn("rejected", english_html.lower())
+        self.assertNotIn("under review", english_html.lower())
+        for html in (english_html, chinese_html):
+            self.assertIn("Empowering Scientific Datasets with Large Language Models", html)
+            self.assertIn("Power-Flow Benchmark for LLM-based Power System Agent Evaluation (PFBench)", html)
+            self.assertIn('data-publication-id="WRK-063"', html)
+            self.assertIn('data-publication-id="WRK-074"', html)
+            self.assertIn("citation_for_view=qqcJQ4UAAAAJ:M3NEmzRMIkIC", html)
+            self.assertIn("https://doi.org/10.21227/jnrm-q720", html)
         self.assertIn('href="/publications/#2020"', english_html)
         self.assertIn('href="/zh/publications/#2020"', chinese_html)
         self.assertNotIn('href="/publications/#', chinese_html)
