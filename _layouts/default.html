@@ -13,6 +13,10 @@ layout: compress
 
   <body>
 
+    {% if page.research_landscape %}
+      <a class="screen-reader-shortcut" href="#main">{% if page.lang == "zh" %}跳到主要内容{% else %}Skip to main content{% endif %}</a>
+    {% endif %}
+
     {% include masthead.html %}
 
     {{ content }}

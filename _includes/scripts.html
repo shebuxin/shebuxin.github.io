@@ -4,5 +4,9 @@
   <script type="module" src="{{ '/assets/js/collaborator-map.js' | relative_url }}"></script>
 {% endif %}
 
+{% if page.research_landscape %}
+  <script type="module" src="{{ '/assets/js/research-landscape.js' | relative_url }}"></script>
+{% endif %}
+
 {% include analytics.html %}
 {% include /comments-providers/scripts.html %}

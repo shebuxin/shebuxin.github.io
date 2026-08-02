@@ -1,0 +1,30 @@
+---
+layout: default
+---
+
+{% if page.header.overlay_color or page.header.overlay_image or page.header.image %}
+  {% include page__hero.html %}
+{% endif %}
+
+{% if page.url != "/" and site.breadcrumbs %}
+  {% unless paginator %}
+    {% include breadcrumbs.html %}
+  {% endunless %}
+{% endif %}
+
+<main id="main" class="research-main" tabindex="-1">
+  <article class="research-page" itemscope itemtype="https://schema.org/CollectionPage">
+    {% unless page.header.overlay_color or page.header.overlay_image %}
+      <header class="research-page__header">
+        <p class="research-page__eyebrow">
+          {% if page.lang == "zh" %}研究版图{% else %}Research portfolio{% endif %}
+        </p>
+        <h1 class="page__title" itemprop="headline">{{ page.title | markdownify | remove: "<p>" | remove: "</p>" }}</h1>
+      </header>
+    {% endunless %}
+
+    <section class="research-page__content" itemprop="text">
+      {{ content }}
+    </section>
+  </article>
+</main>

@@ -1,0 +1,525 @@
+hero:
+  statement:
+    en: "Physics-grounded intelligence for verifiable power-system decisions"
+    zh: "以物理机理与可信智能支撑可验证的电力系统决策"
+  lede:
+    en: "My research connects fast power-system dynamics with control, optimization, and trustworthy AI. The goal is to make modern grids with inverter-based resources secure, resilient, flexible, and economically efficient."
+    zh: "我的研究将电力系统快速动态与控制、优化和可信人工智能相连接，旨在提升含基于逆变器的资源（IBRs）的现代电网在安全性、韧性、灵活性与经济性方面的表现。"
+  stats:
+    - value:
+        en: "2"
+        zh: "2"
+      label:
+        en: "research visions"
+        zh: "大研究愿景"
+    - value:
+        en: "8"
+        zh: "8"
+      label:
+        en: "connected themes"
+        zh: "个相互关联的主题"
+    - value:
+        en: "Selected"
+        zh: "精选"
+      label:
+        en: "public evidence"
+        zh: "公开研究成果"
+  navigation:
+    label:
+      en: "On this page"
+      zh: "本页导航"
+    items:
+      - target: "research-visions"
+        label:
+          en: "Visions"
+          zh: "研究愿景"
+      - target: "research-logic"
+        label:
+          en: "Research logic"
+          zh: "研究逻辑"
+      - target: "research-themes"
+        label:
+          en: "Themes"
+          zh: "研究主题"
+      - target: "research-evidence"
+        label:
+          en: "Explore"
+          zh: "继续探索"
+
+sections:
+  visions:
+    title:
+      en: "Two complementary research visions"
+      zh: "两项相互补充的研究愿景"
+    intro:
+      en: "One vision develops the physical and mathematical foundations of IBR-dominant grids. The other develops intelligent models, agents, and infrastructure that operate within those foundations."
+      zh: "第一项愿景建立 IBR 主导电网的物理与数学基础；第二项愿景发展能够在这些基础上运行的智能模型、工程智能体与基础设施。"
+  logic:
+    title:
+      en: "How the research connects"
+      zh: "各研究方向如何连接"
+    intro:
+      en: "Across both visions, the portfolio follows a common path from representation to measurable engineering outcomes. AI appears throughout this path as both a method and an infrastructure."
+      zh: "两项愿景遵循一条从系统表征走向可衡量工程结果的共同路径；人工智能既是贯穿其中的方法，也是需要与电网协同设计的基础设施。"
+  themes:
+    title:
+      en: "Research themes"
+      zh: "研究主题"
+    intro:
+      en: "Each theme states the core research question, the methods I use, and selected public evidence. The complete publication record remains on the Publications page."
+      zh: "每个主题概括核心研究问题、主要方法与精选公开成果；完整论文记录仍由“论文”页面集中展示。"
+  evidence:
+    title:
+      en: "Explore the evidence and collaborations"
+      zh: "查看研究成果与合作方向"
+    intro:
+      en: "The portfolio is a structured view of my research agenda. Publications document the evidence, while Projects describe sponsored programs and research roles."
+      zh: "本页展示研究议程的整体结构；“论文”页面记录研究成果，“项目”页面介绍资助计划与研究职责。"
+
+labels:
+  vision:
+    en: "Vision"
+    zh: "愿景"
+  themes_in_vision:
+    en: "Themes in this vision"
+    zh: "该愿景下的研究主题"
+  keywords:
+    en: "Methods and topics"
+    zh: "方法与主题"
+  filters:
+    en: "Filter research themes"
+    zh: "筛选研究主题"
+  all:
+    en: "All themes"
+    zh: "全部主题"
+  questions:
+    en: "Core research questions"
+    zh: "核心研究问题"
+  evidence:
+    en: "Selected public outputs"
+    zh: "精选公开产出"
+  details:
+    en: "Explore questions and evidence"
+    zh: "展开研究问题与成果"
+  published:
+    en: "Public"
+    zh: "已公开"
+  bridge:
+    en: "Cross-cutting questions"
+    zh: "贯穿性研究问题"
+
+logic:
+  - id: "models"
+    title:
+      en: "Models"
+      zh: "模型"
+    description:
+      en: "Represent physical and learned system dynamics at the fidelity decisions require."
+      zh: "以决策所需的精度表征物理动态与学习型动态。"
+    theme_ids:
+      - "ibr-dynamics"
+      - "trustworthy-ai"
+  - id: "boundaries"
+    title:
+      en: "Boundaries"
+      zh: "边界"
+    description:
+      en: "Characterize stability, feasibility, capability, uncertainty, and safety limits."
+      zh: "刻画稳定性、可行性、资源能力、不确定性与安全边界。"
+    theme_ids:
+      - "operating-boundaries"
+      - "trustworthy-ai"
+  - id: "decisions"
+    title:
+      en: "Decisions"
+      zh: "决策"
+    description:
+      en: "Embed those limits in control, operation, planning, markets, and engineering workflows."
+      zh: "将这些边界嵌入控制、运行、规划、市场与工程工作流。"
+    theme_ids:
+      - "dynamic-decisions"
+      - "decision-intelligence"
+      - "engineering-agents"
+  - id: "outcomes"
+    title:
+      en: "Outcomes"
+      zh: "结果"
+    description:
+      en: "Evaluate security, resilience, cost, reproducibility, and verifiability."
+      zh: "从安全、韧性、成本、可复现性与可验证性评价最终结果。"
+    theme_ids:
+      - "resilience-security"
+      - "engineering-agents"
+      - "ai-infrastructure"
+
+bridges:
+  - title:
+      en: "Stability characterization and certification"
+      zh: "稳定性表征与认证"
+    target: "theme-ibr-dynamics"
+  - title:
+      en: "Dynamic-security-constrained decisions"
+      zh: "动态安全约束决策"
+    target: "theme-dynamic-decisions"
+  - title:
+      en: "Energy-system co-design for AI infrastructure"
+      zh: "面向 AI 基础设施的能源系统协同设计"
+    target: "theme-ai-infrastructure"
+
+vision_order:
+  - "physical-systems"
+  - "intelligent-systems"
+
+visions:
+  physical-systems:
+    source_id: "VIS-001"
+    short_title:
+      en: "IBR-Dominant Power Systems"
+      zh: "IBR 主导电力系统"
+    title:
+      en: "Control and Optimization of IBR-Dominant Power Systems"
+      zh: "IBR 主导电力系统的控制与优化"
+    summary:
+      en: "Develop unified models, stability boundaries, controls, and optimization methods that connect fast IBR dynamics to secure, resilient, and economically efficient system decisions."
+      zh: "建立统一的模型、稳定边界、控制与优化方法，将 IBR 快速动态与安全、韧性和经济高效的系统级决策连接起来。"
+    keywords:
+      en:
+        - "Inverter-Based Resources"
+        - "Dynamic Stability"
+        - "Control and Optimization"
+        - "Dynamic Security"
+      zh:
+        - "逆变器型资源"
+        - "动态稳定性"
+        - "控制与优化"
+        - "动态安全"
+    theme_ids:
+      - "ibr-dynamics"
+      - "operating-boundaries"
+      - "dynamic-decisions"
+      - "resilience-security"
+  intelligent-systems:
+    source_id: "VIS-002"
+    short_title:
+      en: "AI-Driven Intelligent Power Systems"
+      zh: "AI 驱动的智能电力系统"
+    title:
+      en: "AI-Driven Intelligent Power Systems"
+      zh: "AI 驱动的智能电力系统"
+    summary:
+      en: "Develop physics-informed and verifiable AI models and agents for power-system prediction, control, optimization, engineering execution, and grid–AI infrastructure coordination."
+      zh: "发展物理可信、可验证的 AI 模型与智能体，服务于电力系统预测、控制、优化、工程执行及电网–AI 基础设施协同。"
+    keywords:
+      en:
+        - "Physics-Informed AI"
+        - "Verifiable AI"
+        - "Engineering Agents"
+        - "Grid–AI Co-Design"
+      zh:
+        - "物理信息 AI"
+        - "可验证 AI"
+        - "工程智能体"
+        - "电网–AI 协同设计"
+    theme_ids:
+      - "trustworthy-ai"
+      - "engineering-agents"
+      - "decision-intelligence"
+      - "ai-infrastructure"
+
+theme_order:
+  - "ibr-dynamics"
+  - "operating-boundaries"
+  - "dynamic-decisions"
+  - "resilience-security"
+  - "trustworthy-ai"
+  - "engineering-agents"
+  - "decision-intelligence"
+  - "ai-infrastructure"
+
+themes:
+  ibr-dynamics:
+    source_id: "THM-001"
+    vision: "physical-systems"
+    title:
+      en: "IBR Modeling, Control, and Stability"
+      zh: "IBR 建模、控制与稳定性"
+    short_title:
+      en: "IBR Dynamics, Control & Stability"
+      zh: "IBR 动态、控制与稳定性"
+    summary:
+      en: "Develop decision-compatible dynamic models, stability certificates, and coordinated or adaptive control methods for heterogeneous IBRs and hybrid AC/DC systems."
+      zh: "面向异构 IBR 与交直流混联系统，发展可服务于决策的动态模型、稳定性认证以及协调与自适应控制方法。"
+    keywords:
+      en: ["Dynamic Modeling", "Stability Certification", "Grid-Forming Control", "Adaptive Control"]
+      zh: ["动态建模", "稳定性认证", "构网型控制", "自适应控制"]
+    questions:
+      - en: "Decision-compatible dynamic representation"
+        zh: "可服务于决策的动态表征"
+      - en: "Stability characterization and certification"
+        zh: "稳定性表征与认证"
+      - en: "Coordinated and adaptive IBR control"
+        zh: "IBR 协调与自适应控制"
+    evidence:
+      - source_id: "WRK-005"
+        title: "Hybrid Symbolic-Numerical Modeling and Parametric Stability Analysis of DC-AC Power Systems"
+        year: "2026"
+        venue: "IEEE Open Access Journal of Power and Energy"
+        url: "https://doi.org/10.1109/OAJPE.2026.3666135"
+      - source_id: "WRK-029"
+        title: "Systematic Controller Design for Inverter-Based Microgrids With Certified Large-Signal Stability and Domain of Attraction"
+        year: "2024"
+        venue: "IEEE Transactions on Smart Grid"
+        url: "https://doi.org/10.1109/TSG.2023.3330705"
+
+  operating-boundaries:
+    source_id: "THM-003"
+    vision: "physical-systems"
+    title:
+      en: "Network Operating Boundaries and Resource Capability"
+      zh: "网络运行边界与资源能力"
+    short_title:
+      en: "Operating Boundaries & Capability"
+      zh: "运行边界与资源能力"
+    summary:
+      en: "Characterize the geometry, computation, and limiting mechanisms of feasible regions, security regions, and network capability curves, and translate them into planning and operating constraints."
+      zh: "刻画可行域、安全域和网络能力曲线的几何结构、计算方法与限制机理，并将其转化为规划和运行约束。"
+    keywords:
+      en: ["Operating Boundaries", "Security Regions", "Capability Curves", "Boundary-Aware Decisions"]
+      zh: ["运行边界", "安全域", "能力曲线", "边界感知决策"]
+    questions:
+      - en: "Geometry and certification of feasible regions"
+        zh: "可行域的几何结构与认证"
+      - en: "Network capability curves and limiting mechanisms"
+        zh: "网络能力曲线与限制机理"
+      - en: "Boundary-aware planning and operation"
+        zh: "边界感知的规划与运行"
+    evidence:
+      - source_id: "WRK-038"
+        title: "Operational boundary of flow network"
+        year: "2023"
+        venue: "Reliability Engineering & System Safety"
+        url: "https://doi.org/10.1016/j.ress.2022.108974"
+      - source_id: "WRK-059"
+        title: "Boundary supply capability for distribution systems: concept, indices and calculation"
+        year: "2018"
+        venue: "IET Generation, Transmission & Distribution"
+        url: "https://doi.org/10.1049/iet-gtd.2017.0725"
+
+  dynamic-decisions:
+    source_id: "THM-002"
+    vision: "physical-systems"
+    title:
+      en: "Dynamic-Security-Constrained Decisions"
+      zh: "动态安全约束决策"
+    short_title:
+      en: "Dynamic-Security Decisions"
+      zh: "动态安全决策"
+    summary:
+      en: "Embed fast dynamics, stability constraints, and controllable device capabilities into operation, scheduling, planning, co-design, and market decisions."
+      zh: "将快速动态、稳定约束和设备可控能力嵌入运行、调度、规划、协同设计与市场决策。"
+    keywords:
+      en: ["Dynamic Security", "Stability-Constrained Optimization", "Virtual Inertia Scheduling", "Market Design"]
+      zh: ["动态安全", "稳定约束优化", "虚拟惯量调度", "市场设计"]
+    questions:
+      - en: "Bridging fast dynamics and system-level decisions"
+        zh: "连接快速动态与系统级决策"
+      - en: "Dynamic-security-constrained operation and planning"
+        zh: "动态安全约束下的运行与规划"
+      - en: "Co-design across assets, controls, and operations"
+        zh: "资产、控制与运行的协同设计"
+      - en: "Economic value and market representation of stability"
+        zh: "稳定性的经济价值与市场表达"
+      - en: "Economic flows and dynamic market design"
+        zh: "经济流与动态市场设计"
+    evidence:
+      - source_id: "WRK-014"
+        title: "Dynamics-Incorporated Modeling Framework for Stability Constrained Scheduling Under High-Penetration of Renewable Energy"
+        year: "2025"
+        venue: "IEEE Transactions on Sustainable Energy"
+        url: "https://doi.org/10.1109/TSTE.2025.3528027"
+      - source_id: "WRK-030"
+        title: "Virtual Inertia Scheduling (VIS) for Real-Time Economic Dispatch of IBR-Penetrated Power Systems"
+        year: "2024"
+        venue: "IEEE Transactions on Sustainable Energy"
+        url: "https://doi.org/10.1109/TSTE.2023.3319307"
+
+  resilience-security:
+    source_id: "THM-004"
+    vision: "physical-systems"
+    title:
+      en: "Resilience and Cyber-Physical Security"
+      zh: "韧性与网络物理安全"
+    short_title:
+      en: "Resilience & Cyber-Physical Security"
+      zh: "韧性与网络物理安全"
+    summary:
+      en: "Quantify system resilience through reproducible event evidence and develop cyber-defense, extreme-event operation, and restoration methods tied to physical outcomes."
+      zh: "通过可复现的事件证据量化系统韧性，并发展与物理后果相联系的网络防御、极端事件运行和恢复方法。"
+    keywords:
+      en: ["Resilience Metrics", "Cyber-Physical Security", "Extreme Events", "Restoration"]
+      zh: ["韧性度量", "网络物理安全", "极端事件", "系统恢复"]
+    questions:
+      - en: "Resilience measurement grounded in event evidence"
+        zh: "基于事件证据的韧性度量"
+      - en: "Cyber-physical monitoring and defense"
+        zh: "网络物理监测与防御"
+      - en: "Extreme-event operation and restoration"
+        zh: "极端事件下的运行与恢复"
+    evidence:
+      - source_id: "WRK-002"
+        title: "A Review of Energy Storage for Power System Resilience: Functions, Metrics, and Applications"
+        year: "2026"
+        venue: "Applied Energy"
+        url: "https://doi.org/10.1016/j.apenergy.2026.128056"
+      - source_id: "WRK-001"
+        title: "Graph-Theoretic Meter Encoding for Detecting False Data Injection Attacks in Partially Measured Transmission Systems"
+        year: "2026"
+        venue: "IEEE Transactions on Smart Grid"
+        url: "https://doi.org/10.1109/TSG.2026.3711001"
+
+  trustworthy-ai:
+    source_id: "THM-005"
+    vision: "intelligent-systems"
+    title:
+      en: "Physics-Informed and Trustworthy AI for Power Systems"
+      zh: "面向电力系统的物理信息与可信 AI"
+    short_title:
+      en: "Physics-Informed & Trustworthy AI"
+      zh: "物理信息与可信 AI"
+    summary:
+      en: "Embed physical laws, network structure, uncertainty, operational constraints, and safety certificates into learning models for safety-critical power-system modeling, control, and optimization."
+      zh: "将物理规律、网络结构、不确定性、运行约束和安全证书嵌入学习模型，支撑安全关键的电力系统建模、控制与优化。"
+    keywords:
+      en: ["Physics-Informed Learning", "Safe Reinforcement Learning", "Verifiable AI", "Learned Dynamics"]
+      zh: ["物理信息学习", "安全强化学习", "可验证 AI", "学习型动态表征"]
+    questions:
+      - en: "Physics-grounded and certified learning"
+        zh: "物理约束与可认证学习"
+      - en: "Safe adaptation and generalization"
+        zh: "安全自适应与泛化"
+      - en: "Learnable dynamic representations"
+        zh: "可学习的动态表征"
+    evidence:
+      - source_id: "WRK-031"
+        title: "Inverter PQ Control With Trajectory Tracking Capability for Microgrids Based on Physics-Informed Reinforcement Learning"
+        year: "2024"
+        venue: "IEEE Transactions on Smart Grid"
+        url: "https://doi.org/10.1109/TSG.2023.3277330"
+      - source_id: "WRK-022"
+        title: "Safe Reinforcement Learning for Grid-Forming Inverter Based Frequency Regulation with Stability Guarantee"
+        year: "2025"
+        venue: "Journal of Modern Power Systems and Clean Energy"
+        url: "https://doi.org/10.35833/MPCE.2023.000882"
+
+  engineering-agents:
+    source_id: "THM-007"
+    vision: "intelligent-systems"
+    title:
+      en: "Intelligent Engineering Agents and Automated Research"
+      zh: "智能工程 Agent 与自动化科研"
+    short_title:
+      en: "Engineering Agents & Automated Research"
+      zh: "工程 Agent 与自动化科研"
+    summary:
+      en: "Develop domain-grounded LLMs and agents that turn engineering intent into executable, traceable workflows evaluated through physical and numerical outcomes under human supervision."
+      zh: "发展领域化大语言模型（LLMs）与工程 Agent，将工程意图转化为可执行、可追踪且由物理与数值结果验证的人机协同工作流。"
+    keywords:
+      en: ["Large Language Models", "Engineering Agents", "Outcome Verification", "Automated Science"]
+      zh: ["大语言模型", "工程 Agent", "结果验证", "自动化科研"]
+    questions:
+      - en: "Executable engineering agents"
+        zh: "可执行的工程智能体"
+      - en: "Outcome-based agent verification and benchmarks"
+        zh: "基于结果的 Agent 验证与基准"
+      - en: "Human-supervised automated science"
+        zh: "人类监督下的自动化科研"
+    evidence:
+      - source_id: "WRK-063"
+        title: "Empowering Scientific Datasets with Large Language Models"
+        year: "2024"
+        venue: "SC24 Research Poster"
+        url: "https://sc24.supercomputing.org/proceedings/poster/poster_files/post268s2-file3.pdf"
+        note:
+          en: "Public poster record; technical claims are not summarized here pending source review."
+          zh: "公开海报记录；在完成原始来源审阅前，本页不据此概括技术结论。"
+
+  decision-intelligence:
+    source_id: "THM-006"
+    vision: "intelligent-systems"
+    title:
+      en: "Decision Intelligence for Operation, Planning, and Control"
+      zh: "面向运行、规划与控制的决策智能"
+    short_title:
+      en: "Decision Intelligence"
+      zh: "决策智能"
+    summary:
+      en: "Connect forecasts and learned representations to feasible, reliable, and computationally tractable engineering decisions under limited data, structural change, and uncertainty."
+      zh: "在有限数据、结构变化和不确定性条件下，将预测与学习型表征连接到可行、可靠且计算可承受的工程决策。"
+    keywords:
+      en: ["Forecasting", "Uncertainty", "Prediction-to-Decision", "Predictive Control"]
+      zh: ["预测", "不确定性", "预测到决策", "预测控制"]
+    questions:
+      - en: "Forecasting under novelty and limited data"
+        zh: "新情景与有限数据下的预测"
+      - en: "Prediction-to-decision coupling"
+        zh: "预测与决策的耦合"
+    evidence:
+      - source_id: "WRK-035"
+        title: "Machine learning-assisted prediction of heat fluxes through thermally anisotropic building envelopes"
+        year: "2023"
+        venue: "Building and Environment"
+        url: "https://doi.org/10.1016/j.buildenv.2023.110157"
+      - source_id: "WRK-043"
+        title: "A Machine Learning-Assisted Framework to Control Thermally Anisotropic Building Envelopes in Residential Buildings"
+        year: "2022"
+        venue: "Buildings XV International Conference"
+        url: "https://www.osti.gov/biblio/1923208"
+
+  ai-infrastructure:
+    source_id: "THM-008"
+    vision: "intelligent-systems"
+    title:
+      en: "AI Infrastructure and Grid Co-Design"
+      zh: "AI 基础设施与电网协同设计"
+    short_title:
+      en: "Grid–AI Infrastructure Co-Design"
+      zh: "电网–AI 基础设施协同设计"
+    summary:
+      en: "Co-design AI workloads and data centers with thermal, electrical, and grid layers to preserve computing service while improving reliability, economic performance, and environmental outcomes."
+      zh: "跨计算、热管理、电气和电网层协同设计 AI 工作负荷与数据中心，在保障计算服务的同时改善可靠性、经济性与环境表现。"
+    keywords:
+      en: ["Data Centers", "Flexible AI Workloads", "Grid Interaction", "Infrastructure Co-Design"]
+      zh: ["数据中心", "灵活 AI 负荷", "电网友好交互", "基础设施协同设计"]
+    questions:
+      - en: "Grid-compatible and energy-efficient AI workloads"
+        zh: "电网友好且节能的 AI 工作负荷"
+      - en: "Energy-system co-design for AI infrastructure"
+        zh: "面向 AI 基础设施的能源系统协同设计"
+      - en: "Lifecycle and environmental impacts"
+        zh: "全生命周期与环境影响"
+    evidence:
+      - source_id: "WRK-003"
+        title: "PowerMorph: Shaping LLM Training for Data Center Demand Response"
+        year: "2026"
+        venue: "IEEE International Parallel and Distributed Processing Symposium"
+        url: "https://doi.org/10.1109/IPDPS65963.2026.00100"
+
+calls_to_action:
+  - label:
+      en: "View all publications"
+      zh: "查看全部论文"
+    url:
+      en: "/publications/"
+      zh: "/zh/publications/"
+  - label:
+      en: "Explore research projects"
+      zh: "查看研究项目"
+    url:
+      en: "/projects/"
+      zh: "/zh/projects/"
+  - label:
+      en: "Discuss collaboration"
+      zh: "联系研究合作"
+    url:
+      en: "mailto:shebuxin@gmail.com"
+      zh: "mailto:shebuxin@gmail.com"

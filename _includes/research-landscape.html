@@ -1,0 +1,188 @@
+{% assign landscape = site.data.research_landscape %}
+{% if page.lang == "zh" %}
+  {% assign language = "zh" %}
+{% else %}
+  {% assign language = "en" %}
+{% endif %}
+
+<div class="research-landscape" data-research-landscape data-language="{{ language }}">
+  <header class="research-hero" aria-describedby="research-lede">
+    <p class="research-hero__statement">{{ landscape.hero.statement[language] }}</p>
+    <p id="research-lede" class="research-hero__lede">{{ landscape.hero.lede[language] }}</p>
+
+    <ul class="research-summary" aria-label="{% if language == 'zh' %}研究版图概览{% else %}Portfolio at a glance{% endif %}">
+      {% for stat in landscape.hero.stats %}
+        <li>
+          <strong>{{ stat.value[language] }}</strong>
+          <span>{{ stat.label[language] }}</span>
+        </li>
+      {% endfor %}
+    </ul>
+
+    <nav class="research-jump-nav" aria-label="{{ landscape.hero.navigation.label[language] }}">
+      {% for item in landscape.hero.navigation.items %}
+        <a href="#{{ item.target }}">{{ item.label[language] }}</a>
+      {% endfor %}
+    </nav>
+  </header>
+
+  <section id="research-visions" class="research-section research-section--visions" aria-labelledby="research-visions-title">
+    <div class="research-section__heading">
+      <h2 id="research-visions-title">{{ landscape.sections.visions.title[language] }}</h2>
+      <p>{{ landscape.sections.visions.intro[language] }}</p>
+    </div>
+
+    <div class="research-vision-grid">
+      {% for vision_id in landscape.vision_order %}
+        {% assign vision = landscape.visions[vision_id] %}
+        {% assign vision_keywords = vision.keywords[language] %}
+        <article id="vision-{{ vision_id }}" class="research-vision research-vision--{{ vision_id }}" data-vision-card="{{ vision_id }}" aria-labelledby="vision-{{ vision_id }}-title">
+          <header>
+            <p class="research-vision__label">{{ landscape.labels.vision[language] }} {{ forloop.index }}</p>
+            <h3 id="vision-{{ vision_id }}-title">{{ vision.title[language] }}</h3>
+          </header>
+          <p>{{ vision.summary[language] }}</p>
+          <ul class="research-keywords" aria-label="{{ landscape.labels.keywords[language] }}">
+            {% for keyword in vision_keywords %}
+              <li>{{ keyword }}</li>
+            {% endfor %}
+          </ul>
+          <h4 id="vision-{{ vision_id }}-themes">{{ landscape.labels.themes_in_vision[language] }}</h4>
+          <ul class="research-vision__themes" aria-labelledby="vision-{{ vision_id }}-themes">
+            {% for theme_id in vision.theme_ids %}
+              {% assign theme = landscape.themes[theme_id] %}
+              <li>
+                <a href="#theme-{{ theme_id }}" data-theme-link data-theme-id="{{ theme_id }}" data-vision="{{ vision_id }}">
+                  {{ theme.short_title[language] }}
+                </a>
+              </li>
+            {% endfor %}
+          </ul>
+        </article>
+      {% endfor %}
+    </div>
+  </section>
+
+  <section id="research-logic" class="research-section research-section--logic" aria-labelledby="research-logic-title">
+    <div class="research-section__heading">
+      <h2 id="research-logic-title">{{ landscape.sections.logic.title[language] }}</h2>
+      <p>{{ landscape.sections.logic.intro[language] }}</p>
+    </div>
+
+    <ol class="research-logic">
+      {% for step in landscape.logic %}
+        <li class="research-logic__step">
+          <span class="research-logic__number" aria-hidden="true">0{{ forloop.index }}</span>
+          <h3>{{ step.title[language] }}</h3>
+          <p>{{ step.description[language] }}</p>
+          <ul class="research-logic__links" aria-label="{% if language == 'zh' %}相关研究主题{% else %}Related research themes{% endif %}">
+            {% for theme_id in step.theme_ids %}
+              {% assign theme = landscape.themes[theme_id] %}
+              <li><a href="#theme-{{ theme_id }}" data-theme-link data-theme-id="{{ theme_id }}" data-vision="{{ theme.vision }}">{{ theme.short_title[language] }}</a></li>
+            {% endfor %}
+          </ul>
+        </li>
+      {% endfor %}
+    </ol>
+
+    <div class="research-bridges" aria-labelledby="research-bridges-title">
+      <h3 id="research-bridges-title">{{ landscape.labels.bridge[language] }}</h3>
+      <ul>
+        {% for bridge in landscape.bridges %}
+          {% assign bridge_theme_id = bridge.target | remove_first: "theme-" %}
+          {% assign bridge_theme = landscape.themes[bridge_theme_id] %}
+          <li><a href="#{{ bridge.target }}" data-theme-link data-theme-id="{{ bridge_theme_id }}" data-vision="{{ bridge_theme.vision }}">{{ bridge.title[language] }}</a></li>
+        {% endfor %}
+      </ul>
+    </div>
+  </section>
+
+  <section id="research-themes" class="research-section research-section--themes" aria-labelledby="research-themes-title">
+    <div class="research-section__heading">
+      <h2 id="research-themes-title">{{ landscape.sections.themes.title[language] }}</h2>
+      <p>{{ landscape.sections.themes.intro[language] }}</p>
+    </div>
+
+    <div class="research-filters" data-research-filters hidden>
+      <span class="research-filters__label">{{ landscape.labels.filters[language] }}:</span>
+      <div class="research-filters__buttons">
+        <button type="button" data-research-filter="all" aria-pressed="true" aria-controls="research-theme-grid">{{ landscape.labels.all[language] }}</button>
+        {% for vision_id in landscape.vision_order %}
+          {% assign vision = landscape.visions[vision_id] %}
+          <button type="button" data-research-filter="{{ vision_id }}" aria-pressed="false" aria-controls="research-theme-grid">{{ vision.short_title[language] }}</button>
+        {% endfor %}
+      </div>
+      <p class="screen-reader-text" aria-live="polite" data-research-filter-status></p>
+    </div>
+
+    <div id="research-theme-grid" class="research-theme-grid">
+      {% for theme_id in landscape.theme_order %}
+        {% assign theme = landscape.themes[theme_id] %}
+        {% assign vision = landscape.visions[theme.vision] %}
+        {% assign theme_keywords = theme.keywords[language] %}
+        {% assign featured_evidence = theme.evidence[0] %}
+        <article id="theme-{{ theme_id }}" class="research-theme research-theme--{{ theme.vision }}" data-theme-card data-theme-id="{{ theme_id }}" data-vision="{{ theme.vision }}" aria-labelledby="theme-{{ theme_id }}-title">
+          <header class="research-theme__header">
+            <p class="research-theme__parent">{{ landscape.labels.vision[language] }} · {{ vision.short_title[language] }}</p>
+            <h3 id="theme-{{ theme_id }}-title">{{ theme.title[language] }}</h3>
+            <p>{{ theme.summary[language] }}</p>
+          </header>
+
+          <ul class="research-keywords" aria-label="{{ landscape.labels.keywords[language] }}">
+            {% for keyword in theme_keywords %}
+              <li>{{ keyword }}</li>
+            {% endfor %}
+          </ul>
+
+          <div class="research-theme__featured">
+            <h4>{{ landscape.labels.evidence[language] }}</h4>
+            <a href="{{ featured_evidence.url }}"{% if language == 'zh' %} lang="en"{% endif %}>{{ featured_evidence.title }}</a>
+            <p>{{ landscape.labels.published[language] }} · {{ featured_evidence.year }} · {{ featured_evidence.venue }}</p>
+            {% if featured_evidence.note %}
+              <p class="research-theme__evidence-note">{{ featured_evidence.note[language] }}</p>
+            {% endif %}
+          </div>
+
+          <details class="research-theme__details">
+            <summary>{{ landscape.labels.details[language] }}{% if language == 'zh' %}：{% else %}: {% endif %}{{ theme.short_title[language] }}</summary>
+            <div class="research-theme__details-body">
+              <h4>{{ landscape.labels.questions[language] }}</h4>
+              <ul>
+                {% for question in theme.questions %}
+                  <li>{{ question[language] }}</li>
+                {% endfor %}
+              </ul>
+
+              {% if theme.evidence.size > 1 %}
+                <h4>{{ landscape.labels.evidence[language] }}</h4>
+                <ul class="research-evidence-list">
+                  {% for evidence in theme.evidence offset:1 %}
+                    <li>
+                      <a href="{{ evidence.url }}"{% if language == 'zh' %} lang="en"{% endif %}>{{ evidence.title }}</a>
+                      <span>{{ landscape.labels.published[language] }} · {{ evidence.year }} · {{ evidence.venue }}</span>
+                      {% if evidence.note %}
+                        <span class="research-theme__evidence-note">{{ evidence.note[language] }}</span>
+                      {% endif %}
+                    </li>
+                  {% endfor %}
+                </ul>
+              {% endif %}
+            </div>
+          </details>
+        </article>
+      {% endfor %}
+    </div>
+  </section>
+
+  <section id="research-evidence" class="research-section research-callout" aria-labelledby="research-evidence-title">
+    <div>
+      <h2 id="research-evidence-title">{{ landscape.sections.evidence.title[language] }}</h2>
+      <p>{{ landscape.sections.evidence.intro[language] }}</p>
+    </div>
+    <div class="research-callout__actions">
+      {% for action in landscape.calls_to_action %}
+        <a class="research-action" href="{{ action.url[language] }}">{{ action.label[language] }}</a>
+      {% endfor %}
+    </div>
+  </section>
+</div>
