@@ -8,6 +8,9 @@ class ResearchPageParser(HTMLParser):
         super().__init__(convert_charrefs=True)
         self.ids = []
         self.theme_ids = []
+        self.current_theme_id = None
+        self.representative_works = {}
+        self.theme_publications = {}
         self.vision_count = 0
         self.main_count = 0
         self.h1_count = 0
@@ -31,7 +34,13 @@ class ResearchPageParser(HTMLParser):
         if tag == "h1":
             self.h1_count += 1
         if "data-theme-card" in attrs:
-            self.theme_ids.append(attrs.get("data-theme-id"))
+            self.current_theme_id = attrs.get("data-theme-id")
+            self.theme_ids.append(self.current_theme_id)
+            self.theme_publications[self.current_theme_id] = []
+        if attrs.get("data-representative-work") and self.current_theme_id:
+            self.representative_works[self.current_theme_id] = attrs["data-representative-work"]
+        if attrs.get("data-publication-id") and self.current_theme_id:
+            self.theme_publications[self.current_theme_id].append(attrs["data-publication-id"])
         if "data-vision-card" in attrs:
             self.vision_count += 1
         if tag == "script" and attrs.get("src"):
@@ -54,11 +63,38 @@ class ResearchPageParser(HTMLParser):
         if value:
             self.text.append(value)
 
+    def handle_endtag(self, tag):
+        if tag == "article" and self.current_theme_id:
+            self.current_theme_id = None
+
 
 class ResearchRenderedPagesTest(unittest.TestCase):
     """Validate the built research pages after Jekyll has rendered them."""
 
     site = Path(__file__).resolve().parents[1] / "_site"
+    root = Path(__file__).resolve().parents[1]
+
+    representative_works = {
+        "ibr-dynamics": "WRK-029",
+        "operating-boundaries": "WRK-038",
+        "dynamic-decisions": "WRK-030",
+        "resilience-security": "WRK-002",
+        "trustworthy-ai": "WRK-031",
+        "engineering-agents": "WRK-004",
+        "decision-intelligence": "WRK-040",
+        "ai-infrastructure": "WRK-003",
+    }
+
+    publication_counts = {
+        "ibr-dynamics": 18,
+        "operating-boundaries": 24,
+        "dynamic-decisions": 13,
+        "resilience-security": 8,
+        "trustworthy-ai": 6,
+        "engineering-agents": 1,
+        "decision-intelligence": 5,
+        "ai-infrastructure": 2,
+    }
 
     @classmethod
     def parse(cls, relative_path):
@@ -98,14 +134,37 @@ class ResearchRenderedPagesTest(unittest.TestCase):
             english.text,
         )
         self.assertIn("电力电子与人工智能驱动的新型电力系统", chinese.text)
-        self.assertIn(
-            "Public poster record; technical claims are not summarized here pending source review.",
-            english.text,
-        )
-        self.assertIn(
-            "公开海报记录；在完成原始来源审阅前，本页不据此概括技术结论。",
-            chinese.text,
-        )
+        self.assertIn("Representative work", english.text)
+        self.assertIn("Related publications", english.text)
+        self.assertIn("代表性成果", chinese.text)
+        self.assertIn("相关论文", chinese.text)
+        self.assertTrue(any(text.startswith("展开研究问题与相关论文：") for text in chinese.text))
+        self.assertIn("代表性", chinese.text)
+        self.assertIn("研究成果", chinese.text)
+        self.assertNotIn("精选", chinese.text)
+
+        for page in (english, chinese):
+            self.assertEqual(self.representative_works, page.representative_works)
+            self.assertEqual(
+                self.publication_counts,
+                {theme_id: len(work_ids) for theme_id, work_ids in page.theme_publications.items()},
+            )
+            self.assertEqual(
+                {f"WRK-{number:03d}" for number in range(1, 61)},
+                {work_id for work_ids in page.theme_publications.values() for work_id in work_ids},
+            )
+
+        english_html = (self.site / "research/index.html").read_text(encoding="utf-8")
+        chinese_html = (self.site / "zh/research/index.html").read_text(encoding="utf-8")
+        self.assertNotIn("Public ·", english_html)
+        self.assertNotIn("已公开 ·", chinese_html)
+        self.assertNotIn("Selected public outputs", english_html)
+        self.assertNotIn("精选公开产出", chinese_html)
+        self.assertNotIn("公开研究成果", chinese_html)
+        self.assertNotIn("rejected", english_html.lower())
+        self.assertIn('href="/publications/#2020"', english_html)
+        self.assertIn('href="/zh/publications/#2020"', chinese_html)
+        self.assertNotIn('href="/publications/#', chinese_html)
 
     def test_social_preview_exists_and_other_pages_do_not_load_research_script(self):
         english = self.parse("research/index.html")
@@ -117,6 +176,17 @@ class ResearchRenderedPagesTest(unittest.TestCase):
 
         home = self.parse("index.html")
         self.assertFalse(any(src.endswith("/research-landscape.js") for src in home.scripts))
+
+    def test_research_palette_uses_restrained_academic_colors(self):
+        stylesheet = (self.root / "_sass/_research.scss").read_text(encoding="utf-8")
+        self.assertNotIn("radial-gradient", stylesheet)
+        self.assertNotIn("linear-gradient", stylesheet)
+        self.assertNotIn("#5d4aa0", stylesheet.lower())
+        self.assertNotIn("#25657f", stylesheet.lower())
+        self.assertNotIn("border-radius: 999", stylesheet)
+        self.assertIn("$research-physical: #234a63", stylesheet)
+        self.assertIn("$research-intelligent: #6a3f4b", stylesheet)
+        self.assertIn(".research-theme:has(> .research-theme__details[open])", stylesheet)
 
     def test_home_publications_and_teaching_refinements(self):
         english_home = (self.site / "index.html").read_text(encoding="utf-8")

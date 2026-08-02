@@ -1,4 +1,5 @@
 {% assign landscape = site.data.research_landscape %}
+{% assign research_publications = site.data.research_publications %}
 {% if page.lang == "zh" %}
   {% assign language = "zh" %}
 {% else %}
@@ -110,7 +111,17 @@
         {% assign theme = landscape.themes[theme_id] %}
         {% assign vision = landscape.visions[theme.vision] %}
         {% assign theme_keywords = theme.keywords[language] %}
-        {% assign featured_evidence = theme.evidence[0] %}
+        {% assign representative_work = research_publications | where: "id", theme.representative_work | first %}
+        {% assign representative_url = representative_work.url %}
+        {% if language == "zh" and representative_url contains "/publications/" %}
+          {% assign representative_url = representative_url | replace_first: "/publications/", "/zh/publications/" %}
+        {% endif %}
+        {% assign related_publication_count = 0 %}
+        {% for publication in research_publications %}
+          {% if publication.theme_ids contains theme_id %}
+            {% assign related_publication_count = related_publication_count | plus: 1 %}
+          {% endif %}
+        {% endfor %}
         <article id="theme-{{ theme_id }}" class="research-theme research-theme--{{ theme.vision }}" data-theme-card data-theme-id="{{ theme_id }}" data-vision="{{ theme.vision }}" aria-labelledby="theme-{{ theme_id }}-title">
           <header class="research-theme__header">
             <p class="research-theme__parent">{{ landscape.labels.vision[language] }} · {{ vision.short_title[language] }}</p>
@@ -124,13 +135,10 @@
             {% endfor %}
           </ul>
 
-          <div class="research-theme__featured">
-            <h4>{{ landscape.labels.evidence[language] }}</h4>
-            <a href="{{ featured_evidence.url }}"{% if language == 'zh' %} lang="en"{% endif %}>{{ featured_evidence.title }}</a>
-            <p>{{ landscape.labels.published[language] }} · {{ featured_evidence.year }} · {{ featured_evidence.venue }}</p>
-            {% if featured_evidence.note %}
-              <p class="research-theme__evidence-note">{{ featured_evidence.note[language] }}</p>
-            {% endif %}
+          <div class="research-theme__representative" data-representative-work="{{ representative_work.id }}">
+            <h4>{{ landscape.labels.representative_work[language] }}</h4>
+            <a href="{{ representative_url }}" lang="{{ representative_work.title_language }}">{{ representative_work.title }}</a>
+            <p>{{ representative_work.year }} · {{ representative_work.venue }}</p>
           </div>
 
           <details class="research-theme__details">
@@ -143,20 +151,21 @@
                 {% endfor %}
               </ul>
 
-              {% if theme.evidence.size > 1 %}
-                <h4>{{ landscape.labels.evidence[language] }}</h4>
-                <ul class="research-evidence-list">
-                  {% for evidence in theme.evidence offset:1 %}
-                    <li>
-                      <a href="{{ evidence.url }}"{% if language == 'zh' %} lang="en"{% endif %}>{{ evidence.title }}</a>
-                      <span>{{ landscape.labels.published[language] }} · {{ evidence.year }} · {{ evidence.venue }}</span>
-                      {% if evidence.note %}
-                        <span class="research-theme__evidence-note">{{ evidence.note[language] }}</span>
-                      {% endif %}
+              <h4>{{ landscape.labels.related_publications[language] }} <span class="research-publication-count">({{ related_publication_count }})</span></h4>
+              <ul class="research-publication-list" data-related-publications="{{ theme_id }}">
+                {% for publication in research_publications %}
+                  {% if publication.theme_ids contains theme_id %}
+                    {% assign publication_url = publication.url %}
+                    {% if language == "zh" and publication_url contains "/publications/" %}
+                      {% assign publication_url = publication_url | replace_first: "/publications/", "/zh/publications/" %}
+                    {% endif %}
+                    <li data-publication-id="{{ publication.id }}">
+                      <a href="{{ publication_url }}" lang="{{ publication.title_language }}">{{ publication.title }}</a>
+                      <span>{{ publication.year }} · {{ publication.venue }}</span>
                     </li>
-                  {% endfor %}
-                </ul>
-              {% endif %}
+                  {% endif %}
+                {% endfor %}
+              </ul>
             </div>
           </details>
         </article>

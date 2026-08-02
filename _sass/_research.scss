@@ -2,9 +2,19 @@
    RESEARCH PORTFOLIO
    ========================================================================== */
 
-$research-physical: #25657f;
-$research-intelligent: #5d4aa0;
-$research-amber: #a65d00;
+$research-ink: #242a2f;
+$research-muted: #4b535a;
+$research-paper: #f7f5f0;
+$research-panel: #fff;
+$research-border: #d8d6d0;
+$research-border-strong: #868c91;
+$research-physical: #234a63;
+$research-physical-soft: #eef2f3;
+$research-intelligent: #6a3f4b;
+$research-intelligent-soft: #f4eef0;
+$research-accent: #8b5e14;
+$research-accent-soft: #f3ebdd;
+$research-link: #1f5b80;
 
 #main.research-main {
   max-width: $x-large;
@@ -31,7 +41,7 @@ $research-amber: #a65d00;
 .research-vision__label,
 .research-theme__parent {
   margin: 0 0 0.45rem;
-  color: $dark-gray;
+  color: $research-muted;
   font-size: $type-size-6;
   font-weight: 700;
   letter-spacing: 0.08em;
@@ -67,18 +77,16 @@ $research-amber: #a65d00;
   margin-top: 1.25em;
   padding: clamp(1.4rem, 4vw, 3rem);
   overflow: hidden;
-  background:
-    radial-gradient(circle at 12% 0%, rgba($research-physical, 0.13), transparent 36%),
-    radial-gradient(circle at 92% 100%, rgba($research-intelligent, 0.13), transparent 38%),
-    mix($background-color, $lighter-gray, 78%);
-  border: 1px solid $border-color;
-  border-radius: 1rem;
+  background: $research-paper;
+  border: 1px solid $research-border;
+  border-left: 0.3rem solid $research-physical;
+  border-radius: 0.45rem;
 }
 
 .research-hero__statement {
   max-width: 28ch;
   margin: 0 0 0.75rem;
-  color: $darker-gray;
+  color: $research-ink;
   font-family: $header-font-family;
   font-size: clamp(1.55rem, 4vw, 2.6rem);
   font-weight: 750;
@@ -103,9 +111,9 @@ $research-amber: #a65d00;
   li {
     margin: 0;
     padding: 0.8rem 0.9rem;
-    background: rgba($background-color, 0.82);
-    border: 1px solid rgba($light-gray, 0.8);
-    border-radius: 0.65rem;
+    background: $research-panel;
+    border: 1px solid $research-border;
+    border-radius: 0.3rem;
   }
 
   strong,
@@ -114,14 +122,14 @@ $research-amber: #a65d00;
   }
 
   strong {
-    color: $darker-gray;
+    color: $research-ink;
     font-size: 1.2rem;
     line-height: 1.1;
   }
 
   span {
     margin-top: 0.2rem;
-    color: $dark-gray;
+    color: $research-muted;
     font-size: 0.78rem;
   }
 }
@@ -137,16 +145,16 @@ $research-amber: #a65d00;
     min-height: 2.75rem;
     align-items: center;
     padding: 0.5rem 0.8rem;
-    color: $darker-gray;
-    background: $background-color;
-    border: 1px solid $light-gray;
-    border-radius: 999px;
+    color: $research-ink;
+    background: $research-panel;
+    border: 1px solid $research-border-strong;
+    border-radius: 0.3rem;
     font-size: 0.82rem;
     font-weight: 650;
 
     &:hover {
-      color: $link-color-hover;
-      border-color: $link-color;
+      color: $research-link;
+      border-color: $research-link;
     }
   }
 }
@@ -162,13 +170,13 @@ $research-amber: #a65d00;
 
   h2 {
     margin: 0 0 0.55rem;
-    color: $darker-gray;
+    color: $research-ink;
     font-size: clamp(1.45rem, 3vw, 2rem);
   }
 
   p {
     margin: 0;
-    color: $dark-gray;
+    color: $research-muted;
   }
 }
 
@@ -181,11 +189,10 @@ $research-amber: #a65d00;
 .research-vision {
   position: relative;
   padding: clamp(1.2rem, 3vw, 1.7rem);
-  background: $background-color;
-  border: 1px solid $border-color;
-  border-top: 0.35rem solid $research-physical;
-  border-radius: 0.8rem;
-  box-shadow: 0 0.35rem 1.4rem rgba(#18222b, 0.06);
+  background: $research-panel;
+  border: 1px solid $research-border;
+  border-top: 0.28rem solid $research-physical;
+  border-radius: 0.45rem;
 
   &--intelligent-systems {
     border-top-color: $research-intelligent;
@@ -193,7 +200,7 @@ $research-amber: #a65d00;
 
   h3 {
     margin: 0 0 0.75rem;
-    color: $darker-gray;
+    color: $research-ink;
     font-size: 1.35rem;
   }
 
@@ -203,6 +210,16 @@ $research-amber: #a65d00;
     letter-spacing: 0.05em;
     text-transform: uppercase;
   }
+}
+
+.research-vision--physical-systems .research-vision__label,
+.research-theme--physical-systems .research-theme__parent {
+  color: $research-physical;
+}
+
+.research-vision--intelligent-systems .research-vision__label,
+.research-theme--intelligent-systems .research-theme__parent {
+  color: $research-intelligent;
 }
 
 .research-keywords {
@@ -216,10 +233,10 @@ $research-amber: #a65d00;
   li {
     margin: 0;
     padding: 0.28rem 0.58rem;
-    color: $dark-gray;
-    background: $lighter-gray;
-    border: 1px solid $border-color;
-    border-radius: 999px;
+    color: $research-muted;
+    background: $research-paper;
+    border: 1px solid $research-border;
+    border-radius: 0.25rem;
     font-size: 0.72rem;
   }
 }
@@ -241,7 +258,7 @@ $research-amber: #a65d00;
     align-items: center;
     padding: 0.5rem 0.7rem;
     color: $research-physical;
-    background: mix($background-color, $research-physical, 95%);
+    background: $research-physical-soft;
     border-left: 0.2rem solid $research-physical;
     border-radius: 0.3rem;
     font-size: 0.86rem;
@@ -250,28 +267,28 @@ $research-amber: #a65d00;
     &:hover,
     &.is-selected {
       color: mix(#000, $research-physical, 25%);
-      background: mix($background-color, $research-physical, 88%);
+      background: mix($research-panel, $research-physical, 88%);
     }
   }
 }
 
 .research-vision--intelligent-systems .research-vision__themes a {
   color: $research-intelligent;
-  background: mix($background-color, $research-intelligent, 95%);
+  background: $research-intelligent-soft;
   border-left-color: $research-intelligent;
 
   &:hover,
   &.is-selected {
     color: mix(#000, $research-intelligent, 25%);
-    background: mix($background-color, $research-intelligent, 88%);
+    background: mix($research-panel, $research-intelligent, 88%);
   }
 }
 
 .research-section--logic {
   padding: clamp(1.2rem, 3vw, 2rem);
-  background: mix($background-color, $lighter-gray, 76%);
-  border: 1px solid $border-color;
-  border-radius: 0.9rem;
+  background: $research-paper;
+  border: 1px solid $research-border;
+  border-radius: 0.45rem;
 }
 
 .research-logic {
@@ -288,13 +305,13 @@ $research-amber: #a65d00;
   position: relative;
   margin: 0;
   padding: 1rem;
-  background: $background-color;
-  border: 1px solid $border-color;
-  border-radius: 0.65rem;
+  background: $research-panel;
+  border: 1px solid $research-border;
+  border-radius: 0.3rem;
 
   h3 {
     margin: 0 0 0.35rem;
-    color: $darker-gray;
+    color: $research-ink;
     font-size: 1.05rem;
   }
 
@@ -307,7 +324,7 @@ $research-amber: #a65d00;
 .research-logic__number {
   display: inline-block;
   margin-bottom: 0.4rem;
-  color: $research-amber;
+  color: $research-accent;
   font-family: $monospace;
   font-size: 0.75rem;
   font-weight: 700;
@@ -321,6 +338,10 @@ $research-amber: #a65d00;
     margin-bottom: 0.2rem;
     font-size: 0.74rem;
   }
+
+  a {
+    color: $research-link;
+  }
 }
 
 .research-filters {
@@ -333,7 +354,7 @@ $research-amber: #a65d00;
 }
 
 .research-filters__label {
-  color: $dark-gray;
+  color: $research-muted;
   font-size: 0.78rem;
   font-weight: 650;
 }
@@ -347,23 +368,23 @@ $research-amber: #a65d00;
   button {
     min-height: 2.75rem;
     padding: 0.45rem 0.75rem;
-    color: $dark-gray;
-    background: $background-color;
-    border: 1px solid $light-gray;
-    border-radius: 999px;
+    color: $research-muted;
+    background: $research-panel;
+    border: 1px solid $research-border-strong;
+    border-radius: 0.3rem;
     font: inherit;
     font-size: 0.76rem;
     font-weight: 650;
     cursor: pointer;
 
     &:hover {
-      border-color: $link-color;
+      border-color: $research-link;
     }
 
     &[aria-pressed="true"] {
       color: #fff;
-      background: $darker-gray;
-      border-color: $darker-gray;
+      background: $research-ink;
+      border-color: $research-ink;
     }
 
     &:focus {
@@ -376,6 +397,7 @@ $research-amber: #a65d00;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 21.5rem), 1fr));
   gap: 1rem;
+  align-items: start;
 }
 
 .research-theme {
@@ -383,33 +405,38 @@ $research-amber: #a65d00;
   min-width: 0;
   flex-direction: column;
   padding: clamp(1.1rem, 3vw, 1.5rem);
-  background: $background-color;
-  border: 1px solid $border-color;
+  background: $research-panel;
+  border: 1px solid $research-border;
   border-left: 0.3rem solid $research-physical;
-  border-radius: 0.7rem;
+  border-radius: 0.4rem;
   scroll-margin-top: 6rem;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
 
   &--intelligent-systems {
     border-left-color: $research-intelligent;
   }
 
   &:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 0.55rem 1.5rem rgba(#18222b, 0.08);
+    border-top-color: $research-border-strong;
+    border-right-color: $research-border-strong;
+    border-bottom-color: $research-border-strong;
   }
 
   &:target,
   &.is-selected {
-    border-color: $research-amber;
-    box-shadow: 0 0 0 0.2rem rgba($warning-color, 0.18);
+    background: mix($research-panel, $research-accent-soft, 55%);
+    border-color: $research-accent;
   }
+}
+
+.research-theme:has(> .research-theme__details[open]) {
+  grid-column: 1 / -1;
 }
 
 .research-theme__header {
   h3 {
     margin: 0 0 0.65rem;
-    color: $darker-gray;
+    color: $research-ink;
     font-size: 1.16rem;
   }
 
@@ -419,21 +446,23 @@ $research-amber: #a65d00;
   }
 }
 
-.research-theme__featured {
+.research-theme__representative {
   margin-top: 1rem;
   padding: 0.85rem;
-  background: mix($background-color, $lighter-gray, 67%);
-  border-radius: 0.5rem;
+  background: $research-paper;
+  border: 1px solid $research-border;
+  border-radius: 0.25rem;
 
   h4 {
     margin: 0 0 0.35rem;
-    color: $dark-gray;
+    color: $research-muted;
     font-size: 0.75rem;
     letter-spacing: 0.05em;
     text-transform: uppercase;
   }
 
   a {
+    color: $research-link;
     font-size: 0.84rem;
     font-weight: 700;
     text-decoration: underline;
@@ -442,27 +471,20 @@ $research-amber: #a65d00;
 
   p {
     margin: 0.4rem 0 0;
-    color: $dark-gray;
+    color: $research-muted;
     font-size: 0.75rem;
   }
 
-  .research-theme__evidence-note {
-    padding-left: 0.55rem;
-    color: $text-color;
-    border-left: 2px solid $research-amber;
-    font-size: 0.74rem;
-    line-height: 1.45;
-  }
 }
 
 .research-theme__details {
   margin-top: 0.85rem;
-  border-top: 1px solid $border-color;
+  border-top: 1px solid $research-border;
 
   summary {
     min-height: 2.75rem;
     padding: 0.75rem 0.2rem 0.55rem;
-    color: $link-color;
+    color: $research-link;
     font-size: 0.8rem;
     font-weight: 700;
     cursor: pointer;
@@ -491,8 +513,16 @@ $research-amber: #a65d00;
   }
 }
 
-.research-evidence-list {
+.research-publication-list {
+  display: grid;
+  gap: 0.75rem;
+
+  li {
+    margin: 0;
+  }
+
   a {
+    color: $research-link;
     text-decoration: underline;
     text-underline-offset: 0.16em;
   }
@@ -500,17 +530,15 @@ $research-amber: #a65d00;
   span {
     display: block;
     margin-top: 0.15rem;
-    color: $dark-gray;
+    color: $research-muted;
     font-size: 0.75rem;
   }
 
-  .research-theme__evidence-note {
-    padding-left: 0.5rem;
-    color: $text-color;
-    border-left: 2px solid $research-amber;
-    font-size: 0.75rem;
-    line-height: 1.45;
-  }
+}
+
+.research-publication-count {
+  color: $research-muted;
+  font-weight: 500;
 }
 
 .research-callout {
@@ -518,10 +546,11 @@ $research-amber: #a65d00;
   gap: 1.2rem;
   align-items: center;
   padding: clamp(1.3rem, 4vw, 2.2rem);
-  color: $darker-gray;
-  background: linear-gradient(120deg, mix($background-color, $research-physical, 91%), mix($background-color, $research-intelligent, 92%));
-  border: 1px solid $border-color;
-  border-radius: 0.9rem;
+  color: $research-ink;
+  background: $research-paper;
+  border: 1px solid $research-border;
+  border-left: 0.3rem solid $research-accent;
+  border-radius: 0.45rem;
 
   h2 {
     margin: 0 0 0.5rem;
@@ -547,14 +576,14 @@ $research-amber: #a65d00;
   justify-content: center;
   padding: 0.55rem 0.85rem;
   color: #fff !important;
-  background: $darker-gray;
-  border: 1px solid $darker-gray;
+  background: $research-ink;
+  border: 1px solid $research-ink;
   border-radius: 0.45rem;
   font-size: 0.8rem;
   font-weight: 700;
 
   &:hover {
-    background: mix(#000, $darker-gray, 25%);
+    background: mix(#000, $research-ink, 25%);
   }
 }
 
@@ -578,8 +607,8 @@ $research-amber: #a65d00;
     top: 1.15rem;
     right: -0.67rem;
     width: 1.3rem;
-    color: $research-amber;
-    background: mix($background-color, $lighter-gray, 76%);
+    color: $research-accent;
+    background: $research-paper;
     content: "→";
     font-size: 1.1rem;
     font-weight: 700;
@@ -614,10 +643,6 @@ $research-amber: #a65d00;
 @media (prefers-reduced-motion: reduce) {
   .research-theme {
     transition: none;
-
-    &:hover {
-      transform: none;
-    }
   }
 }
 
@@ -633,6 +658,11 @@ $research-amber: #a65d00;
   .research-theme:target,
   .research-theme.is-selected {
     outline: 3px solid Highlight;
+  }
+
+  .research-filters button[aria-pressed="true"] {
+    outline: 3px solid Highlight;
+    outline-offset: 2px;
   }
 }
 

@@ -1,0 +1,542 @@
+# Generated from ResearchOS by scripts/export_research_publications.rb.
+# This public snapshot intentionally excludes internal lifecycle/status fields.
+---
+- id: WRK-001
+  title: Graph-Theoretic Meter Encoding for Detecting False Data Injection Attacks
+    in Partially Measured Transmission Systems
+  title_language: en
+  year: '2026'
+  venue: IEEE Transactions on Smart Grid
+  url: https://doi.org/10.1109/TSG.2026.3711001
+  theme_ids:
+  - resilience-security
+- id: WRK-002
+  title: 'A Review of Energy Storage for Power System Resilience: Functions, Metrics,
+    and Applications'
+  title_language: en
+  year: '2026'
+  venue: Applied Energy
+  url: https://doi.org/10.1016/j.apenergy.2026.128056
+  theme_ids:
+  - resilience-security
+- id: WRK-003
+  title: 'PowerMorph: Shaping LLM Training for Data Center Demand Response'
+  title_language: en
+  year: '2026'
+  venue: IEEE International Parallel and Distributed Processing Symposium (IPDPS)
+  url: https://doi.org/10.1109/IPDPS65963.2026.00100
+  theme_ids:
+  - ai-infrastructure
+  - dynamic-decisions
+- id: WRK-004
+  title: 'PFAgent: A Tractable and Self-Evolving Power-Flow Agent for Interactive
+    Grid Analysis'
+  title_language: en
+  year: '2026'
+  venue: arXiv preprint
+  url: https://arxiv.org/abs/2604.10846
+  theme_ids:
+  - engineering-agents
+- id: WRK-005
+  title: Hybrid Symbolic-Numerical Modeling and Parametric Stability Analysis of DC-AC
+    Power Systems
+  title_language: en
+  year: '2026'
+  venue: IEEE Open Access Journal of Power and Energy
+  url: https://doi.org/10.1109/OAJPE.2026.3666135
+  theme_ids:
+  - ibr-dynamics
+- id: WRK-006
+  title: 'Control Co-Design Under Uncertainty for Offshore Wind Farms: Optimizing
+    Grid Integration, Energy Storage, and Market Participation'
+  title_language: en
+  year: '2026'
+  venue: Renewable Energy Focus
+  url: https://www.sciencedirect.com/science/article/abs/pii/S1755008425001280
+  theme_ids:
+  - dynamic-decisions
+- id: WRK-007
+  title: 'Forecasting for Large Loads: Current Practices and Recommendations'
+  title_language: en
+  year: '2025'
+  venue: Energy Systems Integration Group
+  url: https://www.esig.energy/large-loads-task-force/forecasting/
+  theme_ids:
+  - decision-intelligence
+  - ai-infrastructure
+- id: WRK-008
+  title: 'Control Oriented Models for Co-Design: Technical Overview of MT-HVDC, MVDC,
+    and Solid-State Transformer Building Blocks'
+  title_language: en
+  year: '2025'
+  venue: Pacific Northwest National Laboratory report PNNL-38364
+  url: https://www.osti.gov/biblio/3001923
+  theme_ids:
+  - ibr-dynamics
+  - dynamic-decisions
+- id: WRK-009
+  title: 'Descriptor: United States Event-Correlated Power Outage Dataset (USECPO)'
+  title_language: en
+  year: '2025'
+  venue: IEEE Data Descriptions
+  url: https://doi.org/10.1109/IEEEDATA.2025.3598229
+  theme_ids:
+  - resilience-security
+- id: WRK-010
+  title: Virtual Inertia Scheduling in Unit Commitment for IBR-Penetrated Low-Inertia
+    Systems
+  title_language: en
+  year: '2025'
+  venue: IEEE Power & Energy Society General Meeting (PESGM)
+  url: https://doi.org/10.1109/PESGM52009.2025.11225851
+  theme_ids:
+  - dynamic-decisions
+- id: WRK-011
+  title: Dynamic Operating Envelopes of Distribution Systems with Virtual Power Plants
+    Under Heat and Cold Waves
+  title_language: en
+  year: '2025'
+  venue: American Control Conference (ACC)
+  url: https://doi.org/10.23919/ACC63710.2025.11107536
+  theme_ids:
+  - resilience-security
+  - operating-boundaries
+- id: WRK-012
+  title: Co-design of Multi-Terminal DC Transmission Systems Topology and Energy Storage
+    for Offshore Wind Farm Grid Interconnection
+  title_language: en
+  year: '2025'
+  venue: American Control Conference (ACC)
+  url: https://doi.org/10.23919/ACC63710.2025.11107517
+  theme_ids:
+  - dynamic-decisions
+  - ibr-dynamics
+- id: WRK-013
+  title: A Data-Driven Adaptive Control Approach for Enhancing the Dynamic Response
+    of VSGs in Varying Grid Conditions
+  title_language: en
+  year: '2025'
+  venue: IEEE Transactions on Power Delivery
+  url: https://doi.org/10.1109/TPWRD.2025.3557059
+  theme_ids:
+  - ibr-dynamics
+  - trustworthy-ai
+- id: WRK-014
+  title: Dynamics-Incorporated Modeling Framework for Stability Constrained Scheduling
+    Under High-Penetration of Renewable Energy
+  title_language: en
+  year: '2025'
+  venue: IEEE Transactions on Sustainable Energy
+  url: https://doi.org/10.1109/TSTE.2025.3528027
+  theme_ids:
+  - dynamic-decisions
+- id: WRK-015
+  title: A General Simplification and Acceleration Method for Distribution System
+    Optimization Problems
+  title_language: en
+  year: '2025'
+  venue: Protection and Control of Modern Power Systems
+  url: https://doi.org/10.23919/PCMP.2023.000210
+  theme_ids:
+  - operating-boundaries
+- id: WRK-016
+  title: Virtual Inertia Scheduling (VIS) for Microgrids With Static and Dynamic Security
+    Constraints
+  title_language: en
+  year: '2024'
+  venue: IEEE Transactions on Sustainable Energy
+  url: https://doi.org/10.1109/TSTE.2024.3481239
+  theme_ids:
+  - dynamic-decisions
+  - ibr-dynamics
+- id: WRK-017
+  title: Configuration and EMT Simulation of the 240-Bus MiniWECC System Integrating
+    Offshore Wind Farms
+  title_language: en
+  year: '2024'
+  venue: arXiv preprint
+  url: https://arxiv.org/abs/2403.07988
+  theme_ids:
+  - ibr-dynamics
+  - dynamic-decisions
+- id: WRK-018
+  title: Evaluating the Equivalent Inertia of Grid-Following and Grid-Forming Inverter-Based
+    Resources
+  title_language: en
+  year: '2024'
+  venue: IEEE Transactions on Energy Conversion
+  url: https://doi.org/10.1109/TEC.2024.3520383
+  theme_ids:
+  - ibr-dynamics
+  - dynamic-decisions
+- id: WRK-019
+  title: Distribution System Security Region with Energy Storage Systems
+  title_language: en
+  year: '2024'
+  venue: Energy
+  url: https://doi.org/10.1016/j.energy.2024.133841
+  theme_ids:
+  - operating-boundaries
+- id: WRK-020
+  title: Rapid Monitoring and Defense Approach for Resilience Improvement of Grid
+    Cyber Security
+  title_language: en
+  year: '2024'
+  venue: IEEE Transactions on Industry Applications
+  url: https://doi.org/10.1109/TIA.2024.3471734
+  theme_ids:
+  - resilience-security
+- id: WRK-021
+  title: Converter-Based Microgrid Platform Development for Inverter Based Resource
+    Control Parameters Testing
+  title_language: en
+  year: '2024'
+  venue: IEEE Applied Power Electronics Conference and Exposition (APEC)
+  url: https://doi.org/10.1109/APEC48139.2024.10509271
+  theme_ids:
+  - ibr-dynamics
+- id: WRK-022
+  title: Safe Reinforcement Learning for Grid-forming Inverter Based Frequency Regulation
+    with Stability Guarantee
+  title_language: en
+  year: '2024'
+  venue: Journal of Modern Power Systems and Clean Energy
+  url: https://doi.org/10.35833/MPCE.2023.000882
+  theme_ids:
+  - trustworthy-ai
+  - ibr-dynamics
+- id: WRK-023
+  title: Electric Vehicles Charging Time Constrained Deliverable Provision of Secondary
+    Frequency Regulation
+  title_language: en
+  year: '2024'
+  venue: IEEE Transactions on Smart Grid
+  url: https://doi.org/10.1109/TSG.2024.3356948
+  theme_ids:
+  - dynamic-decisions
+- id: WRK-024
+  title: 'Guest Editorial: Operational and Structural Resilience of Power Grids with
+    High Penetration of Renewables'
+  title_language: en
+  year: '2024'
+  venue: IET Renewable Power Generation
+  url: https://doi.org/10.1049/rpg2.13002
+  theme_ids:
+  - resilience-security
+- id: WRK-025
+  title: Judgment Theorem of Security Boundary for Distribution Systems
+  title_language: en
+  year: '2024'
+  venue: International Journal of Electrical Power & Energy Systems
+  url: https://doi.org/10.1016/j.ijepes.2023.109749
+  theme_ids:
+  - operating-boundaries
+- id: WRK-026
+  title: The Influence Mechanism of Substation Transformer on Total Supply Capability
+    (TSC) of Distribution Networks
+  title_language: en
+  year: '2024'
+  venue: Electric Power Systems Research
+  url: https://doi.org/10.1016/j.epsr.2023.110092
+  theme_ids:
+  - operating-boundaries
+- id: WRK-027
+  title: Methods and Apparatus for Controlling an Inverter
+  title_language: en
+  year: '2024'
+  venue: U.S. Patent
+  url: https://www.freepatentsonline.com/y2024/0421599.html
+  theme_ids:
+  - ibr-dynamics
+- id: WRK-028
+  title: Enhancing Microgrid Flexibility, Stability, and Economy with Inverter-based
+    Resources
+  title_language: en
+  year: '2023'
+  venue: University of Tennessee, Knoxville (Ph.D. dissertation)
+  url: https://trace.tennessee.edu/utk_graddiss/9141/
+  theme_ids:
+  - ibr-dynamics
+  - dynamic-decisions
+- id: WRK-029
+  title: Systematic Controller Design for Inverter-Based Microgrids With Certified
+    Large-Signal Stability and Domain of Attraction
+  title_language: en
+  year: '2023'
+  venue: IEEE Transactions on Smart Grid
+  url: https://doi.org/10.1109/TSG.2023.3330705
+  theme_ids:
+  - ibr-dynamics
+- id: WRK-030
+  title: Virtual Inertia Scheduling (VIS) for Real-Time Economic Dispatch of IBR-Penetrated
+    Power Systems
+  title_language: en
+  year: '2023'
+  venue: IEEE Transactions on Sustainable Energy
+  url: https://doi.org/10.1109/TSTE.2023.3319307
+  theme_ids:
+  - dynamic-decisions
+- id: WRK-031
+  title: Inverter PQ Control With Trajectory Tracking Capability for Microgrids Based
+    on Physics-Informed Reinforcement Learning
+  title_language: en
+  year: '2023'
+  venue: IEEE Transactions on Smart Grid, vol. 15, no. 1
+  url: https://doi.org/10.1109/TSG.2023.3277330
+  theme_ids:
+  - trustworthy-ai
+  - ibr-dynamics
+- id: WRK-032
+  title: Decentralized and Coordinated V-f Control for Islanded Microgrids Considering
+    DER Inadequacy and Demand Control
+  title_language: en
+  year: '2023'
+  venue: IEEE Transactions on Energy Conversion
+  url: https://doi.org/10.1109/TEC.2023.3258919
+  theme_ids:
+  - ibr-dynamics
+- id: WRK-033
+  title: Virtual Synchronous Generator Control Using Twin Delayed Deep Deterministic
+    Policy Gradient Method
+  title_language: en
+  year: '2023'
+  venue: IEEE Transactions on Energy Conversion, vol. 39, no. 1
+  url: https://doi.org/10.1109/TEC.2023.3309955
+  theme_ids:
+  - trustworthy-ai
+  - ibr-dynamics
+- id: WRK-034
+  title: False Data Injection Attack and Corresponding Countermeasure in Multienergy
+    Systems
+  title_language: en
+  year: '2023'
+  venue: IEEE Transactions on Power Systems, vol. 39, no. 2
+  url: https://doi.org/10.1109/TPWRS.2023.3276736
+  theme_ids:
+  - resilience-security
+- id: WRK-035
+  title: Machine learning-assisted prediction of heat fluxes through thermally anisotropic
+    building envelopes
+  title_language: en
+  year: '2023'
+  venue: Building and Environment
+  url: https://doi.org/10.1016/j.buildenv.2023.110157
+  theme_ids:
+  - decision-intelligence
+- id: WRK-036
+  title: Critical Flow-Based Fast Algorithm for the Total Supply Capability Curve
+    of Distribution Networks
+  title_language: en
+  year: '2023'
+  venue: Arabian Journal for Science and Engineering
+  url: https://doi.org/10.1007/s13369-023-07722-y
+  theme_ids:
+  - operating-boundaries
+- id: WRK-037
+  title: 'Complete Limits of Flow Network Based on Critical Flow: Concept, Model,
+    Algorithm, Visualization, and Applications'
+  title_language: en
+  year: '2023'
+  venue: Arabian Journal for Science and Engineering
+  url: https://doi.org/10.1007/s13369-022-07213-6
+  theme_ids:
+  - operating-boundaries
+- id: WRK-038
+  title: Operational boundary of flow network
+  title_language: en
+  year: '2023'
+  venue: Reliability Engineering & System Safety, vol. 231
+  url: https://doi.org/10.1016/j.ress.2022.108974
+  theme_ids:
+  - operating-boundaries
+- id: WRK-039
+  title: Post-storm repair crew dispatch for distribution grid restoration using stochastic
+    Monte Carlo tree search and deep neural networks
+  title_language: en
+  year: '2023'
+  venue: International Journal of Electrical Power & Energy Systems, vol. 144
+  url: https://doi.org/10.1016/j.ijepes.2022.108477
+  theme_ids:
+  - resilience-security
+  - decision-intelligence
+- id: WRK-040
+  title: 'Fusion of Microgrid Control With Model-Free Reinforcement Learning: Review
+    and Vision'
+  title_language: en
+  year: '2022'
+  venue: IEEE Transactions on Smart Grid, vol. 14, no. 4
+  url: https://doi.org/10.1109/TSG.2022.3222323
+  theme_ids:
+  - trustworthy-ai
+  - ibr-dynamics
+  - decision-intelligence
+- id: WRK-041
+  title: 'Time Delay of Wide Area Damping Control in Urban Power Grid: Model-Based
+    Analysis and Data-Driven Compensation'
+  title_language: en
+  year: '2022'
+  venue: Frontiers in Energy Research, vol. 10
+  url: https://doi.org/10.3389/fenrg.2022.895163
+  theme_ids:
+  - ibr-dynamics
+  - trustworthy-ai
+- id: WRK-042
+  title: Mathematical Model and Mechanism of TSC Curve for Distribution Networks
+  title_language: en
+  year: '2022'
+  venue: International Journal of Electrical Power & Energy Systems
+  url: https://doi.org/10.1016/j.ijepes.2021.107812
+  theme_ids:
+  - operating-boundaries
+- id: WRK-043
+  title: A Machine Learning-Assisted Framework to Control Thermally Anisotropic Building
+    Envelopes in Residential Buildings
+  title_language: en
+  year: '2022'
+  venue: Thermal Performance of the Exterior Envelopes of Whole Buildings XV International
+    Conference
+  url: https://www.osti.gov/biblio/1923208
+  theme_ids:
+  - decision-intelligence
+- id: WRK-044
+  title: 'Geometric Property of Distribution System Security Region: Size and Shape'
+  title_language: en
+  year: '2022'
+  venue: Electric Power Systems Research
+  url: https://doi.org/10.1016/j.epsr.2022.108106
+  theme_ids:
+  - operating-boundaries
+- id: WRK-045
+  title: Improving Virtual Synchronous Generator Control in Microgrids Using Fuzzy
+    Logic Control
+  title_language: en
+  year: '2022'
+  venue: IEEE/IAS Industrial and Commercial Power System Asia (I&CPS Asia)
+  url: https://doi.org/10.1109/ICPSAsia55496.2022.9949823
+  theme_ids:
+  - ibr-dynamics
+- id: WRK-046
+  title: A Distributed Consensus-Based Optimal Energy Management Approach in DC Microgrids
+  title_language: en
+  year: '2022'
+  venue: International Journal of Electrical Power & Energy Systems
+  url: https://doi.org/10.1016/j.ijepes.2022.108015
+  theme_ids:
+  - dynamic-decisions
+- id: WRK-047
+  title: 'Total Supply and Accommodation Capability Curves for Active Distribution
+    Networks: Concept and Model'
+  title_language: en
+  year: '2021'
+  venue: International Journal of Electrical Power & Energy Systems
+  url: https://www.sciencedirect.com/science/article/abs/pii/S0142061521005184
+  theme_ids:
+  - operating-boundaries
+- id: WRK-048
+  title: 'Gas Transmission Capability Curve of Natural Gas System: Concept and Steady-State
+    Model'
+  title_language: en
+  year: '2021'
+  venue: Journal of Natural Gas Science and Engineering
+  url: https://www.sciencedirect.com/science/article/abs/pii/S1875510020306089
+  theme_ids:
+  - operating-boundaries
+- id: WRK-049
+  title: Security Region and Total Supply Capability under N-0 for Urban Distribution
+    Network
+  title_language: en
+  year: '2020'
+  venue: IEEE Power & Energy Society General Meeting (PESGM)
+  url: https://doi.org/10.1109/PESGM41954.2020.9281818
+  theme_ids:
+  - operating-boundaries
+- id: WRK-050
+  title: 配电网安全域的特殊二维图像：发现、机理及用途
+  title_language: zh
+  year: '2020'
+  venue: Proceedings of the CSEE
+  url: "/publications/#2020"
+  theme_ids:
+  - operating-boundaries
+- id: WRK-051
+  title: 配电网安全域的全维直接观测
+  title_language: zh
+  year: '2020'
+  venue: Transactions of China Electrotechnical Society, vol. 35, no. 19
+  url: https://doi.org/10.19595/j.cnki.1000-6753.tces.191038
+  theme_ids:
+  - operating-boundaries
+- id: WRK-052
+  title: 基于文献综述的配电网供电能力术语规范化建议
+  title_language: zh
+  year: '2020'
+  venue: Automation of Electric Power Systems
+  url: "/publications/#2020"
+  theme_ids:
+  - operating-boundaries
+- id: WRK-053
+  title: Locating and Sizing of Partition Flexible Interconnection Converter Station
+    in Large Urban Power Grids
+  title_language: en
+  year: '2019'
+  venue: IET Generation, Transmission & Distribution
+  url: https://doi.org/10.1049/iet-gtd.2018.6871
+  theme_ids:
+  - operating-boundaries
+- id: WRK-054
+  title: 配电网的供电能力曲线和消纳能力曲线
+  title_language: zh
+  year: '2019'
+  venue: Master's thesis
+  url: "/publications/#2019"
+  theme_ids:
+  - operating-boundaries
+- id: WRK-055
+  title: 配电网供电能力曲线的规律与机理
+  title_language: zh
+  year: '2019'
+  venue: Proceedings of the CSEE
+  url: "/publications/#2019"
+  theme_ids:
+  - operating-boundaries
+- id: WRK-056
+  title: 配电网接线模式的综合效率评价
+  title_language: zh
+  year: '2019'
+  venue: Power System Technology
+  url: "/publications/#2019"
+  theme_ids:
+  - operating-boundaries
+- id: WRK-057
+  title: 部分元件 N-1 下的配电网供电能力与安全域
+  title_language: zh
+  year: '2019'
+  venue: Power System Technology
+  url: "/publications/#2019"
+  theme_ids:
+  - operating-boundaries
+- id: WRK-058
+  title: 配电网安全域的 N×N 形式维度
+  title_language: zh
+  year: '2019'
+  venue: Power System Technology
+  url: "/publications/#2019"
+  theme_ids:
+  - operating-boundaries
+- id: WRK-059
+  title: 'Boundary supply capability for distribution systems: concept, indices and
+    calculation'
+  title_language: en
+  year: '2018'
+  venue: IET Generation, Transmission & Distribution, vol. 12, no. 2
+  url: https://doi.org/10.1049/iet-gtd.2017.0725
+  theme_ids:
+  - operating-boundaries
+- id: WRK-060
+  title: 配电网的供电能力分布
+  title_language: zh
+  year: '2017'
+  venue: Power System Technology
+  url: "/publications/#2017"
+  theme_ids:
+  - operating-boundaries

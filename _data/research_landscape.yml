@@ -19,11 +19,11 @@ hero:
         en: "connected themes"
         zh: "个相互关联的主题"
     - value:
-        en: "Selected"
-        zh: "精选"
+        en: "Representative"
+        zh: "代表性"
       label:
-        en: "public evidence"
-        zh: "公开研究成果"
+        en: "research outputs"
+        zh: "研究成果"
   navigation:
     label:
       en: "On this page"
@@ -66,8 +66,8 @@ sections:
       en: "Research themes"
       zh: "研究主题"
     intro:
-      en: "Each theme states the core research question, the methods I use, and selected public evidence. The complete publication record remains on the Publications page."
-      zh: "每个主题概括核心研究问题、主要方法与精选公开成果；完整论文记录仍由“论文”页面集中展示。"
+      en: "Each theme states the core research questions and methods, highlights one representative work, and groups all related publications."
+      zh: "每个主题概括核心研究问题与主要方法，突出一项代表性成果，并汇集所有相关论文。"
   evidence:
     title:
       en: "Explore the evidence and collaborations"
@@ -95,15 +95,15 @@ labels:
   questions:
     en: "Core research questions"
     zh: "核心研究问题"
-  evidence:
-    en: "Selected public outputs"
-    zh: "精选公开产出"
+  representative_work:
+    en: "Representative work"
+    zh: "代表性成果"
+  related_publications:
+    en: "Related publications"
+    zh: "相关论文"
   details:
-    en: "Explore questions and evidence"
-    zh: "展开研究问题与成果"
-  published:
-    en: "Public"
-    zh: "已公开"
+    en: "Explore questions and related publications"
+    zh: "展开研究问题与相关论文"
 
 logic:
   - id: "models"
@@ -242,17 +242,7 @@ themes:
         zh: "稳定性表征与认证"
       - en: "Coordinated and adaptive IBR control"
         zh: "IBR 协调与自适应控制"
-    evidence:
-      - source_id: "WRK-005"
-        title: "Hybrid Symbolic-Numerical Modeling and Parametric Stability Analysis of DC-AC Power Systems"
-        year: "2026"
-        venue: "IEEE Open Access Journal of Power and Energy"
-        url: "https://doi.org/10.1109/OAJPE.2026.3666135"
-      - source_id: "WRK-029"
-        title: "Systematic Controller Design for Inverter-Based Microgrids With Certified Large-Signal Stability and Domain of Attraction"
-        year: "2024"
-        venue: "IEEE Transactions on Smart Grid"
-        url: "https://doi.org/10.1109/TSG.2023.3330705"
+    representative_work: "WRK-029"
 
   operating-boundaries:
     source_id: "THM-003"
@@ -276,17 +266,7 @@ themes:
         zh: "网络能力曲线与限制机理"
       - en: "Boundary-aware planning and operation"
         zh: "边界感知的规划与运行"
-    evidence:
-      - source_id: "WRK-038"
-        title: "Operational boundary of flow network"
-        year: "2023"
-        venue: "Reliability Engineering & System Safety"
-        url: "https://doi.org/10.1016/j.ress.2022.108974"
-      - source_id: "WRK-059"
-        title: "Boundary supply capability for distribution systems: concept, indices and calculation"
-        year: "2018"
-        venue: "IET Generation, Transmission & Distribution"
-        url: "https://doi.org/10.1049/iet-gtd.2017.0725"
+    representative_work: "WRK-038"
 
   dynamic-decisions:
     source_id: "THM-002"
@@ -314,17 +294,7 @@ themes:
         zh: "稳定性的经济价值与市场表达"
       - en: "Economic flows and dynamic market design"
         zh: "经济流与动态市场设计"
-    evidence:
-      - source_id: "WRK-014"
-        title: "Dynamics-Incorporated Modeling Framework for Stability Constrained Scheduling Under High-Penetration of Renewable Energy"
-        year: "2025"
-        venue: "IEEE Transactions on Sustainable Energy"
-        url: "https://doi.org/10.1109/TSTE.2025.3528027"
-      - source_id: "WRK-030"
-        title: "Virtual Inertia Scheduling (VIS) for Real-Time Economic Dispatch of IBR-Penetrated Power Systems"
-        year: "2024"
-        venue: "IEEE Transactions on Sustainable Energy"
-        url: "https://doi.org/10.1109/TSTE.2023.3319307"
+    representative_work: "WRK-030"
 
   resilience-security:
     source_id: "THM-004"
@@ -348,17 +318,7 @@ themes:
         zh: "网络物理监测与防御"
       - en: "Extreme-event operation and restoration"
         zh: "极端事件下的运行与恢复"
-    evidence:
-      - source_id: "WRK-002"
-        title: "A Review of Energy Storage for Power System Resilience: Functions, Metrics, and Applications"
-        year: "2026"
-        venue: "Applied Energy"
-        url: "https://doi.org/10.1016/j.apenergy.2026.128056"
-      - source_id: "WRK-001"
-        title: "Graph-Theoretic Meter Encoding for Detecting False Data Injection Attacks in Partially Measured Transmission Systems"
-        year: "2026"
-        venue: "IEEE Transactions on Smart Grid"
-        url: "https://doi.org/10.1109/TSG.2026.3711001"
+    representative_work: "WRK-002"
 
   trustworthy-ai:
     source_id: "THM-005"
@@ -382,17 +342,7 @@ themes:
         zh: "安全自适应与泛化"
       - en: "Learnable dynamic representations"
         zh: "可学习的动态表征"
-    evidence:
-      - source_id: "WRK-031"
-        title: "Inverter PQ Control With Trajectory Tracking Capability for Microgrids Based on Physics-Informed Reinforcement Learning"
-        year: "2024"
-        venue: "IEEE Transactions on Smart Grid"
-        url: "https://doi.org/10.1109/TSG.2023.3277330"
-      - source_id: "WRK-022"
-        title: "Safe Reinforcement Learning for Grid-Forming Inverter Based Frequency Regulation with Stability Guarantee"
-        year: "2025"
-        venue: "Journal of Modern Power Systems and Clean Energy"
-        url: "https://doi.org/10.35833/MPCE.2023.000882"
+    representative_work: "WRK-031"
 
   engineering-agents:
     source_id: "THM-007"
@@ -416,15 +366,7 @@ themes:
         zh: "基于结果的 Agent 验证与基准"
       - en: "Human-supervised automated science"
         zh: "人类监督下的自动化科研"
-    evidence:
-      - source_id: "WRK-063"
-        title: "Empowering Scientific Datasets with Large Language Models"
-        year: "2024"
-        venue: "SC24 Research Poster"
-        url: "https://sc24.supercomputing.org/proceedings/poster/poster_files/post268s2-file3.pdf"
-        note:
-          en: "Public poster record; technical claims are not summarized here pending source review."
-          zh: "公开海报记录；在完成原始来源审阅前，本页不据此概括技术结论。"
+    representative_work: "WRK-004"
 
   decision-intelligence:
     source_id: "THM-006"
@@ -436,27 +378,17 @@ themes:
       en: "Decision Intelligence"
       zh: "决策智能"
     summary:
-      en: "Connect forecasts and learned representations to feasible, reliable, and computationally tractable engineering decisions under limited data, structural change, and uncertainty."
-      zh: "在有限数据、结构变化和不确定性条件下，将预测与学习型表征连接到可行、可靠且计算可承受的工程决策。"
+      en: "Connect forecasts, learned representations, and learning-enabled control to feasible, reliable, and computationally tractable engineering decisions under limited data, structural change, and uncertainty."
+      zh: "在有限数据、结构变化和不确定性条件下，将预测、学习型表征与学习增强控制连接到可行、可靠且计算可承受的工程决策。"
     keywords:
-      en: ["Forecasting", "Uncertainty", "Prediction-to-Decision", "Predictive Control"]
-      zh: ["预测", "不确定性", "预测到决策", "预测控制"]
+      en: ["Forecasting", "Uncertainty", "Prediction-to-Decision", "Learning-Enabled Control"]
+      zh: ["预测", "不确定性", "预测到决策", "学习增强控制"]
     questions:
       - en: "Forecasting under novelty and limited data"
         zh: "新情景与有限数据下的预测"
       - en: "Prediction-to-decision coupling"
         zh: "预测与决策的耦合"
-    evidence:
-      - source_id: "WRK-035"
-        title: "Machine learning-assisted prediction of heat fluxes through thermally anisotropic building envelopes"
-        year: "2023"
-        venue: "Building and Environment"
-        url: "https://doi.org/10.1016/j.buildenv.2023.110157"
-      - source_id: "WRK-043"
-        title: "A Machine Learning-Assisted Framework to Control Thermally Anisotropic Building Envelopes in Residential Buildings"
-        year: "2022"
-        venue: "Buildings XV International Conference"
-        url: "https://www.osti.gov/biblio/1923208"
+    representative_work: "WRK-040"
 
   ai-infrastructure:
     source_id: "THM-008"
@@ -480,12 +412,7 @@ themes:
         zh: "面向 AI 基础设施的能源系统协同设计"
       - en: "Lifecycle and environmental impacts"
         zh: "全生命周期与环境影响"
-    evidence:
-      - source_id: "WRK-003"
-        title: "PowerMorph: Shaping LLM Training for Data Center Demand Response"
-        year: "2026"
-        venue: "IEEE International Parallel and Distributed Processing Symposium"
-        url: "https://doi.org/10.1109/IPDPS65963.2026.00100"
+    representative_work: "WRK-003"
 
 calls_to_action:
   - label:
