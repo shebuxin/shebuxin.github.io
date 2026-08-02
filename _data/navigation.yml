@@ -15,9 +15,6 @@ main:
   - title: "Teaching"
     url: /teaching/
 
-  - title: "CV"
-    url: /cv/
-
 main_zh:
   - title: "研究"
     url: /zh/research/
@@ -33,6 +30,3 @@ main_zh:
 
   - title: "教学"
     url: /zh/teaching/
-
-  - title: "简历"
-    url: /zh/cv/

@@ -220,6 +220,58 @@ class ResearchRenderedPagesTest(unittest.TestCase):
         self.assertEqual(3, chinese_teaching.count("负责："))
         self.assertNotIn("正式标题保留其原始发表语言", chinese_publications)
 
+    def test_bilingual_about_updates_and_cv_removal(self):
+        english_home = (self.site / "index.html").read_text(encoding="utf-8")
+        chinese_home = (self.site / "zh/index.html").read_text(encoding="utf-8")
+
+        self.assertIn(
+            "two U.S. Department of Energy Laboratory Directed Research and Development (LDRD) projects",
+            english_home,
+        )
+        self.assertIn(
+            "subject-matter expert for the IEEE PES Education Committee",
+            english_home,
+        )
+        self.assertIn("高级研究员。在 PNNL 期间", chinese_home)
+        self.assertIn("两项由美国能源部支持的实验室自主研究与开发", chinese_home)
+        self.assertIn("同时，他还共同主持了一项", chinese_home)
+        self.assertIn("IEEE PES 教育委员会专家，参与推出了", chinese_home)
+
+        self.assertIn("长聘高级研究员", chinese_home)
+        self.assertIn("长聘研究员", chinese_home)
+        self.assertIn("研究助理", chinese_home)
+        self.assertNotIn("Graduate Research Assistant", english_home)
+        self.assertNotIn("研究生研究助理", chinese_home)
+
+        for degree in (
+            "电气工程博士",
+            "电气工程硕士",
+            "电气工程学士",
+        ):
+            self.assertIn(degree, chinese_home)
+
+        self.assertIn(
+            "Outstanding Reviewer of <em>Energy Conversion and Economics</em>, 2025.",
+            english_home,
+        )
+        self.assertIn(
+            "<em>Energy Conversion and Economics</em> 杰出审稿人，2025 年。",
+            chinese_home,
+        )
+        self.assertNotIn("Outstanding Reviewer of <em>Energy Economics</em>", english_home)
+        self.assertNotIn("<em>Energy Economics</em> 杰出审稿人", chinese_home)
+
+        self.assertNotIn('href="/cv/"', english_home)
+        self.assertNotIn('href="/zh/cv/"', chinese_home)
+        for retired_page in (
+            "cv/index.html",
+            "zh/cv/index.html",
+            "resume/index.html",
+            "resume.html",
+        ):
+            self.assertFalse((self.site / retired_page).exists(), retired_page)
+        self.assertTrue((self.root / "files/pdf/20250325_Faculty.pdf").is_file())
+
 
 if __name__ == "__main__":
     unittest.main()

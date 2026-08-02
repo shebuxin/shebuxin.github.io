@@ -22,11 +22,11 @@ redirect_from:
 
 Buxin She is an Assistant Professor of Electrical and Computer Engineering at [Kansas State University](https://www.k-state.edu/). He leads the **Intelligent Power (IP) Lab**, which develops methods for secure, resilient, and economical power systems with inverter-based resources (IBRs) and artificial intelligence (AI).
 
-Before joining K-State, he was a Senior Research Engineer in the [Optimization and Control Group](https://www.pnnl.gov/electricity-infrastructure-buildings-division-groups) at [Pacific Northwest National Laboratory](https://www.pnnl.gov/). At PNNL, he led two Laboratory Directed Research and Development (LDRD) projects, on resilience analysis of cyber-physical power systems and on stability characterization of power-electronics-dominant power systems. He also co-led a project sponsored by the DOE Wind Energy Technologies Office (WETO).
+Before joining K-State, he was a Senior Research Engineer in the [Optimization and Control Group](https://www.pnnl.gov/electricity-infrastructure-buildings-division-groups) at [Pacific Northwest National Laboratory](https://www.pnnl.gov/). At PNNL, he led two U.S. Department of Energy Laboratory Directed Research and Development (LDRD) projects, focusing respectively on resilience analysis of cyber-physical power systems and stability characterization of power-electronics-dominant power systems. He also co-led a project sponsored by the U.S. Department of Energy Wind Energy Technologies Office (WETO).
 
-He serves as Chair of the IEEE Task Force on [*Virtual Inertia Scheduling and Control for IBR-Dominant Power Systems*](https://cmte.ieee.org/pes-visc/) and as Sub-Team Lead of the Modeling Requirements and Data Collection Subteam within the ESIG Large Loads Task Force. He also serves as an instructor for the IEEE PES Education Committee's [*Artificial Intelligence for Power and Energy Systems*](https://iln.ieee.org/public/contentdetails.aspx?id=48A92EF8188E4D2E8331E1381CAF98E7) program on the IEEE Learning Network.
+He serves as Chair of the IEEE Task Force on [*Virtual Inertia Scheduling and Control for IBR-Dominant Power Systems*](https://cmte.ieee.org/pes-visc/) and as Sub-Team Lead of the Modeling Requirements and Data Collection Subteam within the ESIG Large Loads Task Force. He also serves as a subject-matter expert for the IEEE PES Education Committee and contributed to launching the [*Artificial Intelligence for Power and Energy Systems*](https://iln.ieee.org/public/contentdetails.aspx?id=48A92EF8188E4D2E8331E1381CAF98E7) course series.
 
-He is an Associate Editor of [*IEEE Data Descriptions*](https://www.ieee-data.org/), [*Unconventional Resources*](https://www.sciencedirect.com/journal/unconventional-resources), and [*Chinese Journal of Electrical Engineering*](https://ieeexplore.ieee.org/xpl/RecentIssue.jsp?punumber=7873788). He has also served as Guest Editor for *International Journal of Electrical Power & Energy Systems* and *IET Renewable Power Generation*, and as a member of the Young Advisory Board of *IET Energy Conversion and Economics*.
+He is an Associate Editor of [*IEEE Data Descriptions*](https://www.ieee-data.org/), [*Unconventional Resources*](https://www.sciencedirect.com/journal/unconventional-resources), and [*Chinese Journal of Electrical Engineering*](https://ieeexplore.ieee.org/xpl/RecentIssue.jsp?punumber=7873788). He has also served as Guest Editor for *International Journal of Electrical Power & Energy Systems* and *IET Renewable Power Generation*, and as a member of the Young Advisory Board of *Energy Conversion and Economics*.
 
 ## Research
 {: #research}
@@ -54,10 +54,6 @@ He is an Associate Editor of [*IEEE Data Descriptions*](https://www.ieee-data.or
 * **Argonne National Laboratory** (*July 2022 - December 2022*)
 
   Research Aide Technical
-
-* **University of Tennessee, Knoxville** (*January 2020 - September 2023*)
-
-  Graduate Research Assistant
 
 ---
 
@@ -98,7 +94,7 @@ For a complete list, see the [publications page](/publications/).
 * K-State ADVANCE Distinguished Lecture Series Award, 2026.
 * PNNL Outstanding Performance Award for leadership of the DOE OE Energy Storage program, 2025.
 * Excellent Reviewer of *IEEE Transactions on Sustainable Energy*, 2025.
-* Outstanding Reviewer of *Energy Economics*, 2025.
+* Outstanding Reviewer of *Energy Conversion and Economics*, 2025.
 * PNNL Exceptional Contribution Award, 2024.
 * UT [Volunteer of Distinction](https://provost.utk.edu/volunteer-of-distinction-winners/) honor, 2024.
 * Excellent Reviewer of *Journal of Modern Power Systems and Clean Energy*, 2022, 2023, and 2025.
