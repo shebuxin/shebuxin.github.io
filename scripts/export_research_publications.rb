@@ -80,6 +80,18 @@ URL_OVERRIDES = {
   "WRK-063" => "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=qqcJQ4UAAAAJ&cstart=20&pagesize=80&citation_for_view=qqcJQ4UAAAAJ:M3NEmzRMIkIC"
 }.freeze
 
+SITE_ONLY_WORKS = [
+  {
+    "id" => "WRK-084",
+    "title" => "Bridging Artificial Intelligence and Power Systems Education Using a Hands-On Executable Framework",
+    "title_language" => "en",
+    "year" => "2026",
+    "venue" => "arXiv preprint",
+    "url" => "https://arxiv.org/abs/2608.02599",
+    "theme_ids" => %w[trustworthy-ai decision-intelligence]
+  }
+].freeze
+
 def front_matter(path)
   source = path.read
   payload = source.split(/^---\s*$\n/, 3)[1]
@@ -145,7 +157,9 @@ works = RESEARCH_OS.join("40-works").glob("WRK-*.md").filter_map do |path|
   }
 end
 
-expected_ids = PUBLIC_WORK_IDS
+works.concat(SITE_ONLY_WORKS)
+
+expected_ids = PUBLIC_WORK_IDS + SITE_ONLY_WORKS.map { |work| work.fetch("id") }
 actual_ids = works.map { |work| work.fetch("id") }
 missing_ids = expected_ids - actual_ids
 extra_ids = actual_ids - expected_ids
@@ -154,7 +168,7 @@ abort "Unexpected export scope; missing=#{missing_ids.inspect}, extra=#{extra_id
 works.sort_by! { |work| [-work.fetch("year").to_i, work.fetch("id")] }
 
 header = <<~HEADER
-  # Generated from ResearchOS by scripts/export_research_publications.rb.
+  # Generated from ResearchOS and curated public additions by scripts/export_research_publications.rb.
   # This public snapshot intentionally excludes internal lifecycle/status fields.
 HEADER
 OUTPUT.write(header + YAML.dump(works))

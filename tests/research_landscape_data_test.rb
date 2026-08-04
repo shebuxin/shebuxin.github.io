@@ -23,9 +23,9 @@ class ResearchLandscapeDataTest < Minitest::Test
     "operating-boundaries" => 24,
     "dynamic-decisions" => 13,
     "resilience-security" => 8,
-    "trustworthy-ai" => 6,
+    "trustworthy-ai" => 7,
     "engineering-agents" => 3,
-    "decision-intelligence" => 5,
+    "decision-intelligence" => 6,
     "ai-infrastructure" => 2
   }.freeze
 
@@ -92,8 +92,8 @@ class ResearchLandscapeDataTest < Minitest::Test
   end
 
   def test_all_website_publications_are_classified_without_lifecycle_fields
-    assert_equal 62, @publications.size
-    expected_ids = (1..60).map { |number| format("WRK-%03d", number) } + %w[WRK-063 WRK-074]
+    assert_equal 63, @publications.size
+    expected_ids = (1..60).map { |number| format("WRK-%03d", number) } + %w[WRK-063 WRK-074 WRK-084]
     assert_equal expected_ids.sort, @publications.map { |work| work.fetch("id") }.sort
 
     @publications.each do |work|
@@ -137,6 +137,13 @@ class ResearchLandscapeDataTest < Minitest::Test
     assert_equal "IEEE DataPort", pfbench.fetch("venue")
     assert_equal "https://doi.org/10.21227/jnrm-q720", pfbench.fetch("url")
     assert_equal ["engineering-agents"], pfbench.fetch("theme_ids")
+
+    education_framework = @publications.find { |publication| publication.fetch("id") == "WRK-084" }
+    assert_equal "Bridging Artificial Intelligence and Power Systems Education Using a Hands-On Executable Framework", education_framework.fetch("title")
+    assert_equal "2026", education_framework.fetch("year")
+    assert_equal "arXiv preprint", education_framework.fetch("venue")
+    assert_equal "https://arxiv.org/abs/2608.02599", education_framework.fetch("url")
+    assert_equal %w[trustworthy-ai decision-intelligence], education_framework.fetch("theme_ids")
 
     engineering_outputs = @publications.filter_map do |publication|
       publication.fetch("id") if publication.fetch("theme_ids").include?("engineering-agents")

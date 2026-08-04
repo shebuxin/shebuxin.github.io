@@ -1,4 +1,4 @@
-# Generated from ResearchOS by scripts/export_research_publications.rb.
+# Generated from ResearchOS and curated public additions by scripts/export_research_publications.rb.
 # This public snapshot intentionally excludes internal lifecycle/status fields.
 ---
 - id: WRK-001
@@ -63,6 +63,16 @@
   url: https://doi.org/10.21227/jnrm-q720
   theme_ids:
   - engineering-agents
+- id: WRK-084
+  title: Bridging Artificial Intelligence and Power Systems Education Using a Hands-On
+    Executable Framework
+  title_language: en
+  year: '2026'
+  venue: arXiv preprint
+  url: https://arxiv.org/abs/2608.02599
+  theme_ids:
+  - trustworthy-ai
+  - decision-intelligence
 - id: WRK-007
   title: 'Forecasting for Large Loads: Current Practices and Recommendations'
   title_language: en
