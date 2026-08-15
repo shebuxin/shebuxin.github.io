@@ -25,6 +25,10 @@ author_profile: true
 ## 2026
 {: #2026}
 
+* **Buxin She**, "[Security-Constrained Operation of IBR-Dominated Power Systems: Static and Dynamic Security Across Preventive and Corrective Decisions](https://arxiv.org/abs/2608.12609)", arXiv preprint arXiv:2608.12609, 2026.
+
+* Honglin Li, **Buxin She**, Jie Zhang, "[Techno-Economic Boundary Analysis of Small Modular Reactor Cogeneration for Hyperscale Data Center IT and Cooling Loads](https://arxiv.org/abs/2608.10999)", arXiv preprint arXiv:2608.10999, 2026.
+
 * Junjie Yin, **Buxin She**, Xinyu Feng, Fangxing (Fran) Li, "[Bridging Artificial Intelligence and Power Systems Education Using a Hands-On Executable Framework](https://arxiv.org/abs/2608.02599)", arXiv preprint arXiv:2608.02599, 2026.
 
 * Qihui Yang, Bo Liu, Hongyu Wu, **Buxin She**, "[Graph-Theoretic Meter Encoding for Detecting False Data Injection Attacks in Partially Measured Transmission Systems](https://ieeexplore.ieee.org/document/11598837/)", *IEEE Transactions on Smart Grid*, 2026, doi: [10.1109/TSG.2026.3711001](https://doi.org/10.1109/TSG.2026.3711001).

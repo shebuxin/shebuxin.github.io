@@ -55,6 +55,16 @@
   url: https://www.sciencedirect.com/science/article/abs/pii/S1755008425001280
   theme_ids:
   - dynamic-decisions
+- id: WRK-069
+  title: Techno-Economic Boundary Analysis of Small Modular Reactor Cogeneration for
+    Hyperscale Data Center IT and Cooling Loads
+  title_language: en
+  year: '2026'
+  venue: arXiv preprint
+  url: https://arxiv.org/abs/2608.10999
+  theme_ids:
+  - ai-infrastructure
+  - dynamic-decisions
 - id: WRK-074
   title: Power-Flow Benchmark for LLM-based Power System Agent Evaluation (PFBench)
   title_language: en
@@ -64,6 +74,15 @@
   theme_ids:
   - engineering-agents
 - id: WRK-084
+  title: 'Security-Constrained Operation of IBR-Dominated Power Systems: Static and
+    Dynamic Security Across Preventive and Corrective Decisions'
+  title_language: en
+  year: '2026'
+  venue: arXiv preprint
+  url: https://arxiv.org/abs/2608.12609
+  theme_ids:
+  - dynamic-decisions
+- id: WRK-085
   title: Bridging Artificial Intelligence and Power Systems Education Using a Hands-On
     Executable Framework
   title_language: en

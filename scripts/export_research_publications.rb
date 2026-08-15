@@ -22,7 +22,7 @@ THEME_KEYS = {
 }.freeze
 
 PUBLIC_WORK_IDS = ((1..60).map { |number| format("WRK-%03d", number) } +
-  %w[WRK-063 WRK-074]).freeze
+  %w[WRK-063 WRK-069 WRK-074 WRK-084]).freeze
 
 # This export mirrors the entries currently listed on the website's
 # Publications page and adds explicitly requested public research outputs.
@@ -53,14 +53,18 @@ PUBLICATION_YEAR_OVERRIDES = {
   "WRK-033" => "2023",
   "WRK-034" => "2023",
   "WRK-040" => "2022",
-  "WRK-074" => "2026"
+  "WRK-069" => "2026",
+  "WRK-074" => "2026",
+  "WRK-084" => "2026"
 }.freeze
 
 VENUE_OVERRIDES = {
   "WRK-004" => "arXiv preprint",
   "WRK-017" => "arXiv preprint",
   "WRK-027" => "U.S. Patent",
-  "WRK-074" => "IEEE DataPort"
+  "WRK-069" => "arXiv preprint",
+  "WRK-074" => "IEEE DataPort",
+  "WRK-084" => "arXiv preprint"
 }.freeze
 
 TITLE_OVERRIDES = {
@@ -73,16 +77,20 @@ TITLE_OVERRIDES = {
   "WRK-057" => "部分元件 N-1 下的配电网供电能力与安全域",
   "WRK-058" => "配电网安全域的 N×N 形式维度",
   "WRK-060" => "配电网的供电能力分布",
-  "WRK-074" => "Power-Flow Benchmark for LLM-based Power System Agent Evaluation (PFBench)"
+  "WRK-069" => "Techno-Economic Boundary Analysis of Small Modular Reactor Cogeneration for Hyperscale Data Center IT and Cooling Loads",
+  "WRK-074" => "Power-Flow Benchmark for LLM-based Power System Agent Evaluation (PFBench)",
+  "WRK-084" => "Security-Constrained Operation of IBR-Dominated Power Systems: Static and Dynamic Security Across Preventive and Corrective Decisions"
 }.freeze
 
 URL_OVERRIDES = {
-  "WRK-063" => "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=qqcJQ4UAAAAJ&cstart=20&pagesize=80&citation_for_view=qqcJQ4UAAAAJ:M3NEmzRMIkIC"
+  "WRK-063" => "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=qqcJQ4UAAAAJ&cstart=20&pagesize=80&citation_for_view=qqcJQ4UAAAAJ:M3NEmzRMIkIC",
+  "WRK-069" => "https://arxiv.org/abs/2608.10999",
+  "WRK-084" => "https://arxiv.org/abs/2608.12609"
 }.freeze
 
 SITE_ONLY_WORKS = [
   {
-    "id" => "WRK-084",
+    "id" => "WRK-085",
     "title" => "Bridging Artificial Intelligence and Power Systems Education Using a Hands-On Executable Framework",
     "title_language" => "en",
     "year" => "2026",
@@ -151,7 +159,7 @@ works = RESEARCH_OS.join("40-works").glob("WRK-*.md").filter_map do |path|
     "title" => title,
     "title_language" => title.match?(/[\p{Han}]/) ? "zh" : "en",
     "year" => year,
-    "venue" => VENUE_OVERRIDES.fetch(work.fetch("id"), work.fetch("venue")),
+    "venue" => VENUE_OVERRIDES.fetch(work.fetch("id")) { work.fetch("venue") },
     "url" => url,
     "theme_ids" => theme_ids
   }

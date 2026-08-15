@@ -88,12 +88,12 @@ class ResearchRenderedPagesTest(unittest.TestCase):
     publication_counts = {
         "ibr-dynamics": 18,
         "operating-boundaries": 24,
-        "dynamic-decisions": 13,
+        "dynamic-decisions": 15,
         "resilience-security": 8,
         "trustworthy-ai": 7,
         "engineering-agents": 3,
         "decision-intelligence": 6,
-        "ai-infrastructure": 2,
+        "ai-infrastructure": 3,
     }
 
     @classmethod
@@ -150,7 +150,8 @@ class ResearchRenderedPagesTest(unittest.TestCase):
                 {theme_id: len(work_ids) for theme_id, work_ids in page.theme_publications.items()},
             )
             self.assertEqual(
-                {f"WRK-{number:03d}" for number in range(1, 61)} | {"WRK-063", "WRK-074", "WRK-084"},
+                {f"WRK-{number:03d}" for number in range(1, 61)}
+                | {"WRK-063", "WRK-069", "WRK-074", "WRK-084", "WRK-085"},
                 {work_id for work_ids in page.theme_publications.values() for work_id in work_ids},
             )
             self.assertEqual(
@@ -159,6 +160,22 @@ class ResearchRenderedPagesTest(unittest.TestCase):
             )
             self.assertEqual(
                 {"trustworthy-ai", "decision-intelligence"},
+                {
+                    theme_id
+                    for theme_id, work_ids in page.theme_publications.items()
+                    if "WRK-085" in work_ids
+                },
+            )
+            self.assertEqual(
+                {"dynamic-decisions", "ai-infrastructure"},
+                {
+                    theme_id
+                    for theme_id, work_ids in page.theme_publications.items()
+                    if "WRK-069" in work_ids
+                },
+            )
+            self.assertEqual(
+                {"dynamic-decisions"},
                 {
                     theme_id
                     for theme_id, work_ids in page.theme_publications.items()
@@ -183,8 +200,14 @@ class ResearchRenderedPagesTest(unittest.TestCase):
             self.assertIn("citation_for_view=qqcJQ4UAAAAJ:M3NEmzRMIkIC", html)
             self.assertIn("https://doi.org/10.21227/jnrm-q720", html)
             self.assertIn("Bridging Artificial Intelligence and Power Systems Education Using a Hands-On Executable Framework", html)
-            self.assertIn('data-publication-id="WRK-084"', html)
+            self.assertIn('data-publication-id="WRK-085"', html)
             self.assertIn("https://arxiv.org/abs/2608.02599", html)
+            self.assertIn("Techno-Economic Boundary Analysis of Small Modular Reactor Cogeneration for Hyperscale Data Center IT and Cooling Loads", html)
+            self.assertIn('data-publication-id="WRK-069"', html)
+            self.assertIn("https://arxiv.org/abs/2608.10999", html)
+            self.assertIn("Security-Constrained Operation of IBR-Dominated Power Systems: Static and Dynamic Security Across Preventive and Corrective Decisions", html)
+            self.assertIn('data-publication-id="WRK-084"', html)
+            self.assertIn("https://arxiv.org/abs/2608.12609", html)
         self.assertIn('href="/publications/#2020"', english_html)
         self.assertIn('href="/zh/publications/#2020"', chinese_html)
         self.assertNotIn('href="/publications/#', chinese_html)
@@ -197,6 +220,10 @@ class ResearchRenderedPagesTest(unittest.TestCase):
             )
             self.assertIn("https://arxiv.org/abs/2608.02599", publications_html)
             self.assertIn("arXiv preprint arXiv:2608.02599, 2026", publications_html)
+            self.assertIn("https://arxiv.org/abs/2608.10999", publications_html)
+            self.assertIn("arXiv preprint arXiv:2608.10999, 2026", publications_html)
+            self.assertIn("https://arxiv.org/abs/2608.12609", publications_html)
+            self.assertIn("arXiv preprint arXiv:2608.12609, 2026", publications_html)
 
     def test_social_preview_exists_and_other_pages_do_not_load_research_script(self):
         english = self.parse("research/index.html")

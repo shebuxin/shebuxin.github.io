@@ -21,12 +21,12 @@ class ResearchLandscapeDataTest < Minitest::Test
   EXPECTED_THEME_COUNTS = {
     "ibr-dynamics" => 18,
     "operating-boundaries" => 24,
-    "dynamic-decisions" => 13,
+    "dynamic-decisions" => 15,
     "resilience-security" => 8,
     "trustworthy-ai" => 7,
     "engineering-agents" => 3,
     "decision-intelligence" => 6,
-    "ai-infrastructure" => 2
+    "ai-infrastructure" => 3
   }.freeze
 
   PUBLICATION_PAGE_YEARS = {
@@ -92,8 +92,9 @@ class ResearchLandscapeDataTest < Minitest::Test
   end
 
   def test_all_website_publications_are_classified_without_lifecycle_fields
-    assert_equal 63, @publications.size
-    expected_ids = (1..60).map { |number| format("WRK-%03d", number) } + %w[WRK-063 WRK-074 WRK-084]
+    assert_equal 65, @publications.size
+    expected_ids = (1..60).map { |number| format("WRK-%03d", number) } +
+      %w[WRK-063 WRK-069 WRK-074 WRK-084 WRK-085]
     assert_equal expected_ids.sort, @publications.map { |work| work.fetch("id") }.sort
 
     @publications.each do |work|
@@ -138,7 +139,21 @@ class ResearchLandscapeDataTest < Minitest::Test
     assert_equal "https://doi.org/10.21227/jnrm-q720", pfbench.fetch("url")
     assert_equal ["engineering-agents"], pfbench.fetch("theme_ids")
 
-    education_framework = @publications.find { |publication| publication.fetch("id") == "WRK-084" }
+    smr_cogeneration = @publications.find { |publication| publication.fetch("id") == "WRK-069" }
+    assert_equal "Techno-Economic Boundary Analysis of Small Modular Reactor Cogeneration for Hyperscale Data Center IT and Cooling Loads", smr_cogeneration.fetch("title")
+    assert_equal "2026", smr_cogeneration.fetch("year")
+    assert_equal "arXiv preprint", smr_cogeneration.fetch("venue")
+    assert_equal "https://arxiv.org/abs/2608.10999", smr_cogeneration.fetch("url")
+    assert_equal %w[ai-infrastructure dynamic-decisions], smr_cogeneration.fetch("theme_ids")
+
+    security_operation = @publications.find { |publication| publication.fetch("id") == "WRK-084" }
+    assert_equal "Security-Constrained Operation of IBR-Dominated Power Systems: Static and Dynamic Security Across Preventive and Corrective Decisions", security_operation.fetch("title")
+    assert_equal "2026", security_operation.fetch("year")
+    assert_equal "arXiv preprint", security_operation.fetch("venue")
+    assert_equal "https://arxiv.org/abs/2608.12609", security_operation.fetch("url")
+    assert_equal ["dynamic-decisions"], security_operation.fetch("theme_ids")
+
+    education_framework = @publications.find { |publication| publication.fetch("id") == "WRK-085" }
     assert_equal "Bridging Artificial Intelligence and Power Systems Education Using a Hands-On Executable Framework", education_framework.fetch("title")
     assert_equal "2026", education_framework.fetch("year")
     assert_equal "arXiv preprint", education_framework.fetch("venue")
