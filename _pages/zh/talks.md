@@ -10,6 +10,24 @@ description: "佘步鑫的特邀报告、专题讨论与学术会议报告。"
 
 ---
 
+## 2026 KSU Department Retreat
+
+* **报告题目**：Research, Teaching, and AI in Power Systems Engineering
+* **学校**：堪萨斯州立大学（Kansas State University）
+* **日期**：2026 年 8 月 19 日
+* **幻灯片**：[查看 PDF](/files/pdf/department_retreat_2026.pdf)
+
+---
+
+## 2026 KSU 研究生学术讲座
+
+* **报告题目**：Virtual Inertia Scheduling (VIS) for IBR-penetrated Power Systems
+* **学校**：堪萨斯州立大学（Kansas State University）
+* **日期**：2026 年 2 月 12 日
+* **幻灯片**：[查看 PDF](/files/pdf/ECE896_VIS_Buxin.pdf)
+
+---
+
 ## [2025 DOE OE Energy Storage Peer Review](https://www.sandia.gov/ess/events/conference-archive/peer-review-2025)
 
 * **专题讨论主题**：Grid Reliability and Resilience

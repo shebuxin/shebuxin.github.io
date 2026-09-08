@@ -8,6 +8,24 @@ Selected invited talks, panels, and conference presentations.
 
 ---
 
+## 2026 KSU Department Retreat
+
+* **Presentation Title**: Research, Teaching, and AI in Power Systems Engineering
+* **Institution**: Kansas State University
+* **Date**: August 19, 2026
+* **Slides**: [View PDF](/files/pdf/department_retreat_2026.pdf)
+
+---
+
+## 2026 KSU Graduate Student Seminar
+
+* **Presentation Title**: Virtual Inertia Scheduling (VIS) for IBR-penetrated Power Systems
+* **Institution**: Kansas State University
+* **Date**: February 12, 2026
+* **Slides**: [View PDF](/files/pdf/ECE896_VIS_Buxin.pdf)
+
+---
+
 ## [2025 DOE OE Energy Storage Peer Review](https://www.sandia.gov/ess/events/conference-archive/peer-review-2025)
 
 * **Panel Topic**: Grid Reliability and Resilience
