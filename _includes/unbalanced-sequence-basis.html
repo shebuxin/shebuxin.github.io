@@ -1,0 +1,37 @@
+{% assign seq_zh = false %}{% if page.lang == 'zh' %}{% assign seq_zh = true %}{% endif %}
+<figure class="pf-concept uf-sequence-basis">
+  <div class="uf-basis-grid">
+    <div class="pf-panel"><h4>{% if seq_zh %}正序：ABC{% else %}Positive: ABC{% endif %}</h4>
+      <svg viewBox="0 0 220 185" role="img" aria-label="{% if seq_zh %}正序单位相量：A 为零度，B 为负120度，C 为正120度{% else %}Positive unit phasors: A at zero, B at minus 120, C at plus 120 degrees{% endif %}">
+        <circle cx="110" cy="88" r="60" fill="none" stroke="var(--bf-border)"/>
+        <path d="M110 88H170" stroke="var(--uf-a)" stroke-width="3"/><circle cx="170" cy="88" r="4" fill="var(--uf-a)"/>
+        <path d="M110 88L80 140" stroke="var(--uf-b)" stroke-width="3"/><rect x="76" y="136" width="8" height="8" fill="var(--uf-b)"/>
+        <path d="M110 88L80 36" stroke="var(--uf-c)" stroke-width="3"/><path d="M80 31L75 40H85Z" fill="var(--uf-c)"/>
+        <text x="180" y="93">A</text><text x="64" y="156">B</text><text x="64" y="26">C</text>
+        <text x="110" y="179" text-anchor="middle">0°, −120°, +120°</text>
+      </svg>
+      <div class="bf-equation" data-math="U_1\begin{bmatrix}1\\a^2\\a\end{bmatrix}"></div>
+    </div>
+    <div class="pf-panel"><h4>{% if seq_zh %}负序：ACB{% else %}Negative: ACB{% endif %}</h4>
+      <svg viewBox="0 0 220 185" role="img" aria-label="{% if seq_zh %}负序单位相量：A 为零度，B 为正120度，C 为负120度{% else %}Negative unit phasors: A at zero, B at plus 120, C at minus 120 degrees{% endif %}">
+        <circle cx="110" cy="88" r="60" fill="none" stroke="var(--bf-border)"/>
+        <path d="M110 88H170" stroke="var(--uf-a)" stroke-width="3"/><circle cx="170" cy="88" r="4" fill="var(--uf-a)"/>
+        <path d="M110 88L80 36" stroke="var(--uf-b)" stroke-width="3"/><rect x="76" y="32" width="8" height="8" fill="var(--uf-b)"/>
+        <path d="M110 88L80 140" stroke="var(--uf-c)" stroke-width="3"/><path d="M80 135L75 144H85Z" fill="var(--uf-c)"/>
+        <text x="180" y="93">A</text><text x="64" y="26">B</text><text x="64" y="156">C</text>
+        <text x="110" y="179" text-anchor="middle">0°, +120°, −120°</text>
+      </svg>
+      <div class="bf-equation" data-math="U_2\begin{bmatrix}1\\a\\a^2\end{bmatrix}"></div>
+    </div>
+    <div class="pf-panel"><h4>{% if seq_zh %}零序：三相同相位{% else %}Zero: all in phase{% endif %}</h4>
+      <svg viewBox="0 0 220 185" role="img" aria-label="{% if seq_zh %}零序单位相量：A、B、C 完全重合{% else %}Zero unit phasors: A, B and C coincide{% endif %}">
+        <circle cx="110" cy="88" r="60" fill="none" stroke="var(--bf-border)"/>
+        <path d="M110 88H170" stroke="var(--uf-n)" stroke-width="4"/><circle cx="170" cy="88" r="4" fill="var(--uf-n)"/>
+        <text x="110" y="63" text-anchor="middle">A = B = C</text>
+        <text x="110" y="179" text-anchor="middle">0°, 0°, 0°</text>
+      </svg>
+      <div class="bf-equation" data-math="U_0\begin{bmatrix}1\\1\\1\end{bmatrix}"></div>
+    </div>
+  </div>
+  <figcaption>{% if seq_zh %}图中以各序的 A 相系数为 1∠0° 示意。任意复系数会整体缩放、旋转该组相量，但不改变组内三相的角度关系。正、负表示相序方向；“零序”不表示幅值必须为零。{% else %}Each pattern is illustrated with its A-phase coefficient equal to 1∠0°. A complex coefficient scales and rotates the whole pattern while preserving its internal angle relationships. Positive and negative describe phase order; zero sequence can have nonzero magnitude.{% endif %}</figcaption>
+</figure>

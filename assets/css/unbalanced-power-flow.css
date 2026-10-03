@@ -11,5 +11,17 @@
 .uf-control:has([data-key="p3_c_kw"]) input { accent-color:var(--uf-c); }
 .uf-control:has(input:disabled) { opacity:.55; }
 .uf-compare { border-left:3px solid var(--bf-blue); padding:.5rem 1rem; background:#f4f8fb; margin:1.25rem 0; }
+.uf-basis-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:1rem; }
+.uf-basis-grid svg,.uf-sequence-charts svg { display:block; width:100%; }
+.uf-basis-grid h4,.uf-sequence-charts h4 { margin:.15rem 0 .5rem; }
+.uf-basis-grid .bf-equation { margin:.5rem 0; padding:.5rem; }
+.uf-sequence-charts { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:1rem; margin:1.25rem 0; }
+.uf-sequence-charts figure { margin:0; }
+.uf-sequence-charts figcaption,.uf-scale-note { color:var(--bf-muted); font-size:.85rem; }
+.uf-sequence-charts figcaption { text-align:center; }
+.uf-sequence-formula { font-size:1.15rem; font-weight:600; }
+.uf-sequence-error { padding:.6rem .8rem; background:#eaf4ef; border-radius:.35rem; }
+.uf-sequence-error:empty,.uf-sequence-lab .uf-compare:empty { display:none; }
 @media(max-width:800px) { .uf-selectors { grid-template-columns:1fr; } .uf-stats { grid-template-columns:repeat(2,minmax(0,1fr)); } }
 @media(max-width:700px) { .uf-phasors { max-width:320px; margin:auto; } }
+@media(max-width:600px) { .uf-basis-grid,.uf-sequence-charts { grid-template-columns:1fr; } .uf-basis-grid svg { max-width:240px; margin:auto; } }

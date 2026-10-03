@@ -107,6 +107,43 @@ test('sequence components use complex phase angles, with the ABC sign convention
   assert.ok(angleOnly.vuf_pct>3); // all magnitudes remain 1 pu
 });
 
+test('all three pure sequence modes are classified correctly and invert arbitrary complex phasors',()=>{
+  const a=[-.5,Math.sqrt(3)/2],a2=C.mul(a,a),coefficient=[.7,-.2];
+  const bases=[[[1,0],[1,0],[1,0]],[[1,0],a2,a],[[1,0],a,a2]];
+  bases.forEach((basis,index)=>{
+    const phases=basis.map(z=>C.mul(z,coefficient)),seq=model.sequence(phases);
+    if(index!==1){assert.equal(seq.vuf_pct,null);assert.equal(seq.zero_pct,null);}
+    [seq.zero_pu,seq.positive_pu,seq.negative_pu].forEach((z,i)=>close(C.abs(C.sub(z,i===index?coefficient:[0,0])),0,5e-16));
+    model.reconstruct(seq).forEach((z,i)=>close(C.abs(C.sub(z,phases[i])),0,5e-16));
+  });
+  const zeroInput=model.sequence([[0,0],[0,0],[0,0]]);
+  assert.equal(zeroInput.vuf_pct,null);assert.deepEqual(model.reconstruct(zeroInput),[[0,0],[0,0],[0,0]]);
+  // Unequal magnitudes AND angles, including a missing phase and arbitrary reference.
+  const inputs=[[[0,0],[.3,-.4],[-.2,.7]],...Array.from({length:40},(_,i)=>[0,1,2].map(p=>[Math.sin(i+p*.8),Math.cos(i*.3-p*.9)]))];
+  for(const phases of inputs){
+    const seq=model.sequence(phases),rebuilt=model.reconstruct(seq);
+    rebuilt.forEach((z,p)=>close(C.abs(C.sub(z,phases[p])),0,1e-15));
+    const swapped=model.sequence([phases[0],phases[2],phases[1]]);
+    close(C.abs(C.sub(swapped.positive_pu,seq.negative_pu)),0,1e-15);
+    close(C.abs(C.sub(swapped.negative_pu,seq.positive_pu)),0,1e-15);
+    close(C.abs(C.sub(swapped.zero_pu,seq.zero_pu)),0,1e-15);
+  }
+});
+
+test('solved voltages reconstruct on either reference; neutral subtraction changes only zero sequence',()=>{
+  for(const options of cases.slice(0,12))for(const bus of model.solve(options).buses){
+    const conductor=bus.conductors_pu.slice(0,3),local=bus.phases.map(p=>p.u_pu),vn=bus.conductors_pu[3];
+    const v=model.sequence(conductor),u=model.sequence(local);
+    close(C.abs(C.sub(u.zero_pu,C.sub(v.zero_pu,vn))),0,1e-15);
+    close(C.abs(C.sub(u.positive_pu,v.positive_pu)),0,1e-15);
+    close(C.abs(C.sub(u.negative_pu,v.negative_pu)),0,1e-15);
+    close(u.vuf_pct,v.vuf_pct,1e-12);
+    [conductor,local].forEach(phases=>model.reconstruct(model.sequence(phases)).forEach((z,p)=>close(C.abs(C.sub(z,phases[p])),0,1e-15)));
+  }
+  const bus=model.solve().buses[2];
+  assert.ok(Math.abs(C.abs(bus.components.zero_pu)*model.base.phase_v-bus.neutral_v)>2,'Zero voltage is not neutral displacement');
+});
+
 test('neutral current persists with ideal neutral; coupling disappears only when both mutual and neutral impedance are zero',()=>{
   const ideal=model.solve({neutral_mode:'ideal'});close(ideal.buses[2].neutral_v,0);assert.ok(ideal.branches[0].current_a[3]>200);
   const baseCase={neutral_mode:'ideal',mutual_ratio:0},r1=model.solve(baseCase),r2=model.solve({...baseCase,p3_a_kw:100});
@@ -126,14 +163,14 @@ test('islands, nonconvergence and invalid parameters are reported explicitly',()
 
 test('downloadable Python and JavaScript agree on phases, neutral, sequences, currents and failures',()=>{
   const py=spawnSync(process.env.PYTHON||'python3',['-c',
-    'import importlib.util,json,sys\ns=importlib.util.spec_from_file_location("lesson",sys.argv[1])\nm=importlib.util.module_from_spec(s)\ns.loader.exec_module(m)\nprint(json.dumps([m.solve(c) for c in json.load(sys.stdin)],allow_nan=False))',
+    'import importlib.util,json,sys\ns=importlib.util.spec_from_file_location("lesson",sys.argv[1])\nm=importlib.util.module_from_spec(s)\ns.loader.exec_module(m)\nassert m.sequence([0j,0j,0j])["vuf_pct"] is None\nresults=[m.solve(c) for c in json.load(sys.stdin)]\nfor r in results:\n if r["ok"]:\n  for bus in r["buses"]:\n   bus["rebuilt"]=[[z.real,z.imag] for z in m.reconstruct_sequence(bus["components"])]\nprint(json.dumps(results,allow_nan=False))',
     path.resolve(__dirname,'../assets/code/unbalanced_power_flow.py')],{input:JSON.stringify(cases),encoding:'utf8',env:{...process.env,PYTHONDONTWRITEBYTECODE:'1'}});
   assert.equal(py.status,0,py.stderr||String(py.error));
   JSON.parse(py.stdout).forEach((reference,i)=>{
     const r=model.solve(cases[i]);assert.equal(reference.ok,r.ok);
     if(!r.ok){assert.equal(reference.reason,r.reason);assert.deepEqual(reference.islands,r.islands);return;}
     for(const key of ['loss_kw','neutral_loss_kw','slack_p_kw','slack_q_kvar'])close(reference[key],r[key],1e-6);
-    reference.buses.forEach((bus,b)=>{close(bus.neutral_v,r.buses[b].neutral_v,1e-7);close(bus.components.vuf_pct,r.buses[b].components.vuf_pct,1e-7);bus.phases.forEach((p,c)=>{for(const key of ['vm_pu','voltage_v','theta_deg'])close(p[key],r.buses[b].phases[c][key],1e-7);});});
+    reference.buses.forEach((bus,b)=>{close(bus.neutral_v,r.buses[b].neutral_v,1e-7);close(bus.components.vuf_pct,r.buses[b].components.vuf_pct,1e-7);bus.phases.forEach((p,c)=>{for(const key of ['vm_pu','voltage_v','theta_deg'])close(p[key],r.buses[b].phases[c][key],1e-7);close(C.abs(C.sub(bus.rebuilt[c],r.buses[b].phases[c].u_pu)),0,1e-9);});});
     reference.branches.forEach((line,b)=>line.current_a.forEach((v,c)=>close(v,r.branches[b].current_a[c],1e-6)));
     assert.deepEqual(reference.violations,r.violations);
   });

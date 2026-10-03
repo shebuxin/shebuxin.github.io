@@ -84,12 +84,15 @@ unbalanced:
     - name: sequence(phases)
       en: "Three phase voltages → sequence components and VUF = 100 |U₂| / |U₁|."
       zh: "三相电压 → 序分量，以及 VUF = 100 |U₂| / |U₁|。"
+    - name: phase_components(components) / reconstruct_sequence(components)
+      en: "Sequence coefficients → each phase's zero/positive/negative contributions → reconstructed complex A/B/C voltages."
+      zh: "序分量系数 → 每相的零序、正序、负序贡献 → 重构的 A/B/C 复电压。"
     - name: solve(options)
       en: "Repeats the damped sweep, checks convergence, and returns per-phase voltages, neutral shift and losses."
       zh: "重复带阻尼的前推回代，检查收敛，返回逐相电压、中性点偏移和损耗。"
   outputs:
-    en: "buses[2] is physical bus 3 because Python lists start at zero. phases contains A/B/C vm_pu and voltage_v; neutral_v is neutral shift in V; vuf_pct in components is VUF in %; loss_kw is total active loss. Check ok before reading these fields."
-    zh: "Python 列表从 0 开始，所以 buses[2] 对应物理节点 3。phases 包含 A/B/C 的 vm_pu、voltage_v；neutral_v 是中性点偏移（V）；components 中的 vuf_pct 是 VUF（%）；loss_kw 为总有功损耗。读取前先检查 ok。"
+    en: "buses[2] is physical bus 3 because Python lists start at zero. Each phase's u_pu is [real, imaginary], while vm_pu and voltage_v are magnitudes. components stores zero_pu, positive_pu and negative_pu as complex pairs; vuf_pct is 100 |U₂| / |U₁|. neutral_v is neutral shift in V; loss_kw is total active loss. Check ok before reading these fields."
+    zh: "Python 列表从 0 开始，所以 buses[2] 对应物理节点 3。各相 u_pu 是 [实部, 虚部]，vm_pu、voltage_v 则是幅值。components 中的 zero_pu、positive_pu、negative_pu 存储序分量复数对，vuf_pct = 100 |U₂| / |U₁|。neutral_v 是中性点偏移（V），loss_kw 是总有功损耗；读取前先检查 ok。"
 pandapower:
   filename: pandapower_implementation.py
   dependencies:

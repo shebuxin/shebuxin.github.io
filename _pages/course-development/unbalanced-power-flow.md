@@ -11,7 +11,7 @@ description: "Interactive three-phase, four-wire power flow: phase-domain deriva
 
 Three customers can draw the same total power as a balanced load and still produce very different phase voltages. What changes when most demand sits on phase A, or a rooftop inverter supplies only one phase? This chapter keeps all three phases and the neutral conductor, then lets you test the answer.
 
-<nav class="bf-toc" aria-label="Lesson sections"><a href="#background">Background</a><a href="#formulation">Derivation</a><a href="#worked-example">Worked example</a><a href="#interactive-lab">Experiment</a><a href="#code-lab">Python</a><a href="#practice">Practice</a></nav>
+<nav class="bf-toc" aria-label="Lesson sections"><a href="#background">Background</a><a href="#formulation">Derivation</a><a href="#sequence-components">Sequences</a><a href="#worked-example">Worked example</a><a href="#interactive-lab">Experiment</a><a href="#code-lab">Python</a><a href="#practice">Practice</a></nav>
 
 ## 1. From one equivalent phase to four conductors
 {: #background }
@@ -95,7 +95,7 @@ The implementation damps the voltage update with α = 0.65:
 
 It stops when the maximum complex conductor-voltage residual ‖V<sup>sweep</sup> − V‖∞ is below 10<sup>−10</sup> pu. It reports failure after 200 updates or a very low/nonfinite voltage. A failed iteration does not by itself prove voltage collapse or the absence of another solution. Branch disconnection is reported separately as an island outside this single-source model.
 
-### Step E — Recover losses and measure voltage unbalance
+### Step E — Recover conductor losses
 
 For this line matrix, mutual terms are purely reactive. In physical units, total active conductor loss is:
 
@@ -103,11 +103,7 @@ For this line matrix, mutual terms are purely reactive. In physical units, total
 
 These are amperes and ohms, so the result is watts. **Do not multiply by three again**: all three phase currents are already included. Power injected into the line at both ends, including the neutral conductor, gives the same total loss.
 
-Sequence components summarize the complex phase-to-neutral voltages. With a = e<sup>j2π/3</sup> and phase order ABC:
-
-<div class="bf-equation" data-math="\begin{bmatrix}U_0\\U_1\\U_2\end{bmatrix}=\frac13\begin{bmatrix}1&amp;1&amp;1\\1&amp;a&amp;a^2\\1&amp;a^2&amp;a\end{bmatrix}\begin{bmatrix}U_a\\U_b\\U_c\end{bmatrix},\qquad VUF=100\frac{|U_2|}{|U_1|}\%"></div>
-
-U₁ is positive sequence, U₂ negative sequence, and U₀ zero sequence. Here **VUF specifically means the negative/positive sequence ratio**. It is different from the magnitude-deviation metric described in the [OpenDSS NEMA-unbalance note](https://opendss.epri.com/TechNoteNEMAUnbalanceCalculation.html). A small VUF does not guarantee acceptable phase voltages or a small neutral displacement.
+{% include unbalanced-sequence-theory.html %}
 
 ## 3. Worked example: the same 300 kW, distributed unequally
 {: #worked-example }
@@ -153,6 +149,24 @@ The conductor self impedances and phase mutual impedances are:
 
 Neutral displacement is about **7.637 V**; branch 1–2 neutral current is about **242.81 A**. Total active loss is **9.5971 kW**, and the source supplies **259.5971 kW**: 259.5971 + 50 − 300 = 9.5971 kW. VUF at bus 3 is only **0.9028%**, yet phase A is below the experiment's 0.95 pu teaching limit.
 
+### Decompose the solved voltages and check reconstruction
+
+**4. Use the same complex voltages.** Convert both magnitude and angle from the table into complex numbers, then apply the sequence matrix. Bus 3 gives the following coefficients. The calculation uses the unrounded power-flow result; displayed values are approximate.
+
+| A-phase coefficient | Complex value (pu) | Magnitude (pu) | Angle (°) |
+|---|---|---|---|
+| U₀ · zero | −0.040906 + j0.009788 | 0.042061 | +166.543 |
+| U₁ · positive | 0.967660 − j0.003570 | 0.967666 | −0.211 |
+| U₂ · negative | −0.007590 − j0.004326 | 0.008736 | −150.322 |
+
+For phase A, no additional rotation is needed. Add the three representative coefficients:
+
+<div class="bf-equation" data-math="\begin{aligned}U_a&amp;=U_0+U_1+U_2\\&amp;\approx(-0.040906+j0.009788)+(0.967660-j0.003570)+(-0.007590-j0.004326)\\&amp;\approx0.919164+j0.001892\ \mathrm{pu}\end{aligned}"></div>
+
+Magnitude and angle recover approximately **0.91917∠0.118° pu**. For B and C, rotate the positive and negative terms as specified by the inverse before adding them. The inspector below checks each phase without solving another operating point.
+
+The coefficients give VUF ≈ 0.9028%, while &#124;U₀&#124;/&#124;U₁&#124; ≈ 4.3466%. VUF alone therefore misses this example's substantial zero sequence and phase-voltage deviations. Here &#124;U₀&#124; ≈ 9.7135 V and &#124;Vₙ&#124; ≈ 7.6370 V: they are different quantities.
+
 Select **Same total load, balanced phases** below. The bus 3 load becomes 60 / 60 / 60 kW, keeping total demand and PV unchanged. Observe the neutral current, neutral displacement, per-phase voltage, and loss together. To reproduce the previous chapter's baseline exactly, also set μ = 0; equal phase currents then see the same uncoupled series impedance.
 
 ## 4. Experiment: change one phase, observe all three
@@ -162,12 +176,51 @@ Move a phase-load slider, change PV connection, or compare finite and ideal neut
 
 {% include unbalanced-lab.html %}
 
+{% include unbalanced-sequence-lab.html %}
+
 ## 5. Edit and run the four-wire solver
 {: #code-lab }
 
 Read how the phase inputs enter the four-wire model, then let `main()` call the solver and inspect its answer. Run the default program first, then uncomment `parameters.update(p3_a_kw=60, p3_b_kw=60, p3_c_kw=60)` to keep bus 3 at 180 kW total while comparing phase voltages, VUF and neutral shift. The sliders keep the original JavaScript reference; the Python panel runs the editable four-wire source.
 
 {% include course-code.html prefix="uf" root_id="unbalanced-code" source="/assets/code/unbalanced_power_flow.py" %}
+
+### Verify sequences and reconstruction in Python
+
+Replace the **whole main program** with this example. `solve`, `sequence` and `reconstruct_sequence` are defined in the complete folded solver source above: they solve power flow, decompose phasors and perform the inverse transform. `u_pu` stores `[real, imaginary]`, so read it with `complex(*pair)`. The magnitude-only `vm_pu` is not a substitute for a complex voltage.
+
+```python
+def main(input_case):
+    # 1. Solve the current slider case; skip decomposition on failure.
+    solved = solve(input_case)
+    if not solved["ok"]:
+        print("Power flow failed:", solved["reason"])
+        return solved
+
+    # 2. Read bus 3 phase-to-local-neutral COMPLEX voltages.
+    bus = solved["buses"][2]  # zero-based index 2 -> bus 3
+    phases = [complex(*phase["u_pu"]) for phase in bus["phases"]]
+
+    # 3. Extract the A-phase zero, positive and negative coefficients.
+    components = sequence(phases)
+    for name in ("zero_pu", "positive_pu", "negative_pu"):
+        coefficient = complex(*components[name])
+        print(name, coefficient, "|U| =", abs(coefficient), "pu")
+
+    # 4. Transform back to ABC and compare against each solved voltage.
+    rebuilt = reconstruct_sequence(components)
+    for label, original, recovered in zip("ABC", phases, rebuilt):
+        print(label, "solved =", original, "rebuilt =", recovered)
+    error = max(abs(u - restored) for u, restored in zip(phases, rebuilt))
+    print("Maximum reconstruction error:", error, "pu")
+
+    # Return the full power-flow result for the page voltage plot.
+    return solved
+
+result = main(case)
+```
+
+### Compare PV connections
 
 After the default experiment, replace the entire main program with this scan to compare PV connections at otherwise fixed inputs. It returns the last successful solution for plotting:
 
@@ -199,6 +252,8 @@ result = main(case)
 3. **One metric is insufficient:** find a converged point with VUF below 2% and a phase voltage outside 0.95–1.05 pu. Use U₀, U₂, and neutral displacement to discuss what VUF does and does not describe.
 4. **Single-phase PV:** place 50 kW on phases A, B, and C in turn. Determine which placement improves the minimum voltage at this operating point; then repeat under high demand. Avoid assuming the same placement is best for every case.
 5. **N-1 labels:** open branch 2–3. Distinguish isolation from numerical nonconvergence and from a connected but limit-violating solution. Fixed-PQ PV does not become a grid-forming source when the feeder opens.
+
+6. **Sequences and references:** select the source bus and explain why only positive sequence remains. Then select the baseline end bus, switch U/V and check U₀ = V₀ − Vₙ. Reconstruct A, B and C: why do their rotation coefficients differ?
 
 ## 7. Scope and the next implementation module
 

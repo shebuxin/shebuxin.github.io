@@ -36,9 +36,9 @@
 {% endif %}
 
 {% if page.unbalanced_power_flow %}
-  <script defer src="{{ '/assets/js/unbalanced-power-flow-model.js' | relative_url }}"></script>
+  <script defer src="{{ '/assets/js/unbalanced-power-flow-model.js' | relative_url }}?v={{ site.github.build_revision | default: 'sequence-20261003' }}"></script>
   <script defer src="{{ '/assets/js/course-python-runner.js' | relative_url }}?v={{ site.github.build_revision | default: 'code-guide-20261003' }}"></script>
-  <script defer src="{{ '/assets/js/unbalanced-power-flow-lesson.js' | relative_url }}?v={{ site.github.build_revision | default: 'code-guide-20261003' }}"></script>
+  <script defer src="{{ '/assets/js/unbalanced-power-flow-lesson.js' | relative_url }}?v={{ site.github.build_revision | default: 'sequence-20261003' }}"></script>
 {% endif %}
 
 {% if page.pandapower_implementation %}

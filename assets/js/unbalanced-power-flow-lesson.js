@@ -6,6 +6,7 @@
   const colors=['var(--uf-a)','var(--uf-b)','var(--uf-c)','var(--uf-n)'];
   const networkSvg=root.querySelector('.uf-network'),phaseSvg=document.querySelector('.uf-phasors');
   const profileSvg=root.querySelector('.uf-profile'),loadingSvg=root.querySelector('.uf-loading');
+  const sequenceRoot=document.querySelector('[data-sequence-lab]');
   const labels=zh?{bus:'节点',line:'支路',phase:'相',neutral:'中性线',open:'断开',voltage:'电压越限',current:'电流越限',vuf:'VUF 越限',safe:'已收敛，满足当前教学限值。',warning:'已收敛，存在越限：',island:'与参考电源断开，无法在本模型中供电。',fail:'前推回代未收敛；这不能证明系统不存在物理解。',profile:'相对当地中性点的电压 (pu)',loading:'电流 / 导线限值 (%)'}:
     {bus:'Bus',line:'Branch',phase:'phase',neutral:'neutral',open:'Open',voltage:'voltage',current:'current',vuf:'VUF',safe:'Converged; within the current teaching limits.',warning:'Converged with limit violations: ',island:'disconnected from the reference source; not supplied in this model.',fail:'The sweep did not converge; this does not prove physical infeasibility.',profile:'Phase-to-local-neutral voltage (pu)',loading:'Current / conductor limit (%)'};
   const presets={baseline:{},balanced:{p3_a_kw:60,p3_b_kw:60,p3_c_kw:60},heavy:{load_scale:2},
@@ -95,7 +96,77 @@
     text(loadingSvg,left,251,'0','start');text(loadingSvg,x(100),251,'100');text(loadingSvg,right,274,'%','end');
   }
   function table(selector,rows){const body=root.querySelector(selector);body.replaceChildren();rows.forEach(row=>{const tr=document.createElement('tr');row.forEach(value=>{const td=document.createElement('td');td.textContent=value;tr.appendChild(td);});body.appendChild(tr);});}
-  function drawAll(){drawNetwork();drawPhasors();drawProfile(profileSvg,result);drawLoading();if(runner)runner.redraw();}
+  function sequenceTable(selector,rows){
+    const body=sequenceRoot.querySelector(selector);body.replaceChildren();
+    rows.forEach(row=>{const tr=document.createElement('tr');row.forEach(value=>{const td=document.createElement('td');td.textContent=value;tr.appendChild(td);});body.appendChild(tr);});
+  }
+  const complexText=z=>`${f(z[0],6)} ${z[1]<-1e-8?'−':'+'} j${f(Math.abs(z[1]),6)}`;
+  const angleText=z=>abs(z)<1e-10?'—':f(Math.atan2(z[1],z[0])*180/Math.PI,3);
+  function drawSequenceChart(kind,vectors,symbol){
+    const svg=sequenceRoot.querySelector(`[data-sequence-chart="${kind}"]`);
+    const chartName=zh?{original:'原始三相',positive:'正序三相',negative:'负序三相',zero:'零序三相'}[kind]:kind;
+    const w=canvas(svg,215,(zh?'当前电压：':'Current voltage: ')+chartName+' / '+symbol);if(!w)return;
+    const caption=sequenceRoot.querySelector(`[data-sequence-scale="${kind}"]`);
+    if(!vectors){text(svg,w/2,105,zh?'无可用潮流解':'No power-flow solution');caption.textContent='—';return;}
+    const max=Math.max(...vectors.map(abs)),zero=max<1e-10;
+    const step=zero?1:10**Math.floor(Math.log10(max));
+    const limit=zero?1:Math.ceil((max/step+1e-10)*2)/2*step;
+    const cx=w/2,cy=103,radius=Math.min(72,w*.27),scale=radius/limit;
+    element(svg,'circle',{cx,cy,r:radius,stroke:'var(--bf-border)',fill:'none'});
+    element(svg,'line',{x1:cx-radius,y1:cy,x2:cx+radius,y2:cy,stroke:'var(--bf-border)','stroke-dasharray':'3 4'});
+    element(svg,'line',{x1:cx,y1:cy-radius,x2:cx,y2:cy+radius,stroke:'var(--bf-border)','stroke-dasharray':'3 4'});
+    text(svg,12,16,'Re → · Im ↑','start');
+    if(zero){element(svg,'circle',{cx,cy,r:3,fill:colors[3]});text(svg,cx,cy+24,'≈ 0');}
+    else vectors.forEach((z,phase)=>{
+      if(kind==='zero'&&phase>0)return; // All three zero-sequence vectors coincide.
+      const x=cx+scale*z[0],y=cy-scale*z[1],color=colors[kind==='zero'?3:phase];
+      element(svg,'line',{x1:cx,y1:cy,x2:x,y2:y,stroke:color,'stroke-width':2.5});marker(svg,x,y,phase,color);
+      const a=Math.atan2(z[1],z[0]),offset=scale*abs(z)+15;
+      text(svg,cx+offset*Math.cos(a),cy-offset*Math.sin(a)+4,kind==='zero'?'A=B=C':'ABC'[phase],Math.cos(a)>.5?'start':Math.cos(a)<-.5?'end':'middle',color);
+    });
+    caption.textContent=zero?(zh?'接近零；相角不定义。':'Near zero; angle undefined.'):(zh?'圆半径 = ':'Circle radius = ')+f(limit,6)+' pu';
+  }
+  function drawSequences(){
+    if(!sequenceRoot)return;
+    const status=sequenceRoot.querySelector('[data-sequence-status]');
+    if(!result.ok){
+      status.dataset.state='warning';status.textContent=zh?'当前工况没有可用潮流解，序分量与重构结果暂停显示。':'No solution is available for this case; sequence and reconstruction results are unavailable.';
+      ['original','positive','negative','zero'].forEach(kind=>drawSequenceChart(kind,null,''));
+      ['[data-sequence-inputs]','[data-sequence-values]','[data-sequence-reconstruction]'].forEach(selector=>sequenceTable(selector,[]));
+      ['reference','formula','error'].forEach(key=>sequenceRoot.querySelector(`[data-sequence-${key}]`).textContent='');
+      delete sequenceRoot.dataset.analysis;return;
+    }
+    const bus=result.buses[Number(sequenceRoot.querySelector('#uf-seq-bus').value)];
+    const useLocal=sequenceRoot.querySelector('#uf-seq-reference').value==='load',symbol=useLocal?'U':'V';
+    const phases=useLocal?bus.phases.map(p=>p.u_pu):bus.conductors_pu.slice(0,3);
+    // Decompose the current solved complex voltages, never their magnitudes alone.
+    const sequences=model.sequence(phases),contributions=model.phaseComponents(sequences),rebuilt=model.reconstruct(sequences);
+    const phase=Number(sequenceRoot.querySelector('#uf-seq-phase').value),sub=['ₐ','ᵦ','𝒸'][phase];
+    const coefficients=[sequences.zero_pu,sequences.positive_pu,sequences.negative_pu];
+    const maxError=Math.max(...phases.map((z,i)=>abs(model.complex.sub(z,rebuilt[i]))));
+    sequenceRoot.dataset.analysis=JSON.stringify({bus:bus.id,reference:useLocal?'local-neutral':'source',phases,sequences,rebuilt,maxError});
+    status.dataset.state='safe';status.textContent=(zh?'读取当前已收敛潮流：节点 ':'Reading current converged power flow: bus ')+bus.id+' · '+(useLocal?(zh?'负荷端 Uφ = Vφ − Vₙ':'load-terminal Uφ = Vφ − Vₙ'):(zh?'导线 Vφ，相对源端参考':'conductor Vφ, source reference'));
+    drawSequenceChart('original',phases,symbol+'abc');
+    drawSequenceChart('positive',contributions.map(row=>row[1]),symbol+'₁');
+    drawSequenceChart('negative',contributions.map(row=>row[2]),symbol+'₂');
+    drawSequenceChart('zero',contributions.map(row=>row[0]),symbol+'₀');
+    sequenceTable('[data-sequence-inputs]',phases.map((z,i)=>[symbol+['ₐ','ᵦ','𝒸'][i],complexText(z),f(abs(z),6),angleText(z)]));
+    const names=zh?['零序','正序','负序']:['Zero','Positive','Negative'];
+    sequenceTable('[data-sequence-values]',coefficients.map((z,i)=>[symbol+['₀','₁','₂'][i]+' · '+names[i],complexText(z),f(abs(z),6),angleText(z),f(abs(z)*model.base.phase_v,4)]));
+    const v0=model.sequence(bus.conductors_pu.slice(0,3)).zero_pu,u0=bus.components.zero_pu,vn=bus.conductors_pu[3];
+    sequenceRoot.querySelector('[data-sequence-reference]').textContent=(zh?'同一节点的参考关系：':'Reference relationship at this bus: ')+`U₀ = V₀ − Vₙ = (${complexText(v0)}) − (${complexText(vn)}) = ${complexText(u0)} pu. `+(zh?'U₁ = V₁，U₂ = V₂；公共中性点电压只改变零序。':'U₁ = V₁, U₂ = V₂; the common neutral voltage changes only zero sequence.');
+    const factors=phase===0?['','']:phase===1?['a²·','a·']:['a·','a²·'];
+    const terms=[symbol+'₀',factors[0]+symbol+'₁',factors[1]+symbol+'₂'];
+    sequenceRoot.querySelector('[data-sequence-formula]').textContent=`${symbol}${sub} = ${terms.join(' + ')}`;
+    sequenceTable('[data-sequence-reconstruction]',[
+      ...contributions[phase].map((z,i)=>[terms[i]+' · '+names[i],complexText(z)]),
+      [zh?'三个贡献相加':'Sum of contributions',complexText(rebuilt[phase])],
+      [zh?'潮流直接求得':'Direct power-flow result',complexText(phases[phase])]
+    ]);
+    sequenceRoot.querySelector('[data-sequence-error]').textContent=(zh?'三相最大复数重构误差：':'Maximum complex reconstruction error across all phases: ')+maxError.toExponential(2)+' pu. '+(zh?'计算使用完整精度；表中显示值已四舍五入。':'Calculation uses full precision; displayed values are rounded.');
+  }
+  if(sequenceRoot)sequenceRoot.querySelectorAll('select').forEach(input=>input.addEventListener('change',drawSequences));
+  function drawAll(){drawNetwork();drawPhasors();drawProfile(profileSvg,result);drawLoading();drawSequences();if(runner)runner.redraw();}
   function sync(){root.querySelectorAll('[data-key]').forEach(input=>{if(input.type==='checkbox')input.checked=state[input.dataset.key];else input.value=state[input.dataset.key];});}
   function update(){
     result=model.solve(state);root.dataset.result=JSON.stringify(result);root.dataset.case=JSON.stringify(state);
@@ -129,5 +200,5 @@
   });
   const lesson=document.querySelector('.unbalanced-lesson');
   lesson.querySelectorAll('[data-math]').forEach(node=>{if(window.katex)window.katex.render(node.dataset.math,node,{displayMode:true,throwOnError:false,strict:'ignore'});else node.textContent=node.dataset.math;});
-  update();if(typeof ResizeObserver!=='undefined')new ResizeObserver(drawAll).observe(root);else window.addEventListener('resize',drawAll);
+  update();if(typeof ResizeObserver!=='undefined'){const observer=new ResizeObserver(drawAll);observer.observe(root);if(sequenceRoot)observer.observe(sequenceRoot);}else window.addEventListener('resize',drawAll);
 })();

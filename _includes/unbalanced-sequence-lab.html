@@ -1,0 +1,27 @@
+{% assign seq_zh = false %}{% if page.lang == 'zh' %}{% assign seq_zh = true %}{% endif %}
+<div class="bf-lab uf-sequence-lab" id="sequence-lab" data-sequence-lab>
+  <h3>{% if seq_zh %}从当前潮流电压，分解并重构{% else %}Decompose and reconstruct the current power-flow voltages{% endif %}</h3>
+  <p>{% if seq_zh %}<a href="#interactive-lab">上方的负荷、光伏与中性线控件</a>改变潮流运行点；本区自动读取同一份结果。先比较均分三相与基准工况，再切换电压参考，观察哪一个序发生改变。{% else %}The <a href="#interactive-lab">load, PV and neutral controls above</a> change the operating point. This inspector automatically reads that same solution. Compare balanced demand with the baseline, then change voltage reference and observe which sequence changes.{% endif %}</p>
+  <div class="bf-selectors uf-selectors">
+    <label for="uf-seq-bus">{% if seq_zh %}观察节点{% else %}Observation bus{% endif %}<select id="uf-seq-bus"><option value="0">{% if seq_zh %}节点 1 · 电源{% else %}Bus 1 · source{% endif %}</option><option value="1">{% if seq_zh %}节点 2{% else %}Bus 2{% endif %}</option><option value="2" selected>{% if seq_zh %}节点 3 · 末端{% else %}Bus 3 · end{% endif %}</option></select></label>
+    <label for="uf-seq-reference">{% if seq_zh %}电压参考{% else %}Voltage reference{% endif %}<select id="uf-seq-reference"><option value="load">{% if seq_zh %}U · 相对当地中性点{% else %}U · local neutral{% endif %}</option><option value="conductor">{% if seq_zh %}V · 相对源端参考{% else %}V · source reference{% endif %}</option></select></label>
+    <label for="uf-seq-phase">{% if seq_zh %}重构哪一相{% else %}Phase to reconstruct{% endif %}<select id="uf-seq-phase"><option value="0">A</option><option value="1">B</option><option value="2">C</option></select></label>
+  </div>
+  <p class="bf-status" data-sequence-status role="status" aria-live="polite"></p>
+  <div class="uf-sequence-charts">
+    <figure class="pf-panel"><h4>{% if seq_zh %}① 原始三相电压{% else %}① Original phase voltages{% endif %}</h4><svg data-sequence-chart="original" role="img"></svg><figcaption data-sequence-scale="original"></figcaption></figure>
+    <figure class="pf-panel"><h4>{% if seq_zh %}② 正序三相 · ABC{% else %}② Positive triplet · ABC{% endif %}</h4><svg data-sequence-chart="positive" role="img"></svg><figcaption data-sequence-scale="positive"></figcaption></figure>
+    <figure class="pf-panel"><h4>{% if seq_zh %}③ 负序三相 · ACB{% else %}③ Negative triplet · ACB{% endif %}</h4><svg data-sequence-chart="negative" role="img"></svg><figcaption data-sequence-scale="negative"></figcaption></figure>
+    <figure class="pf-panel"><h4>{% if seq_zh %}④ 零序三相 · 同相位{% else %}④ Zero triplet · in phase{% endif %}</h4><svg data-sequence-chart="zero" role="img"></svg><figcaption data-sequence-scale="zero"></figcaption></figure>
+  </div>
+  <p class="uf-scale-note">{% if seq_zh %}各图独立缩放，以看清较小的负序、零序；比较幅值请看圆半径标注与数值表。A/B/C 使用橙色圆点、蓝色方块、绿色三角；零序三相重合。数值接近零时相角没有意义，显示为 —。{% else %}Plots use independent scales so small negative and zero sequences remain visible. Compare the stated circle radii and numerical values. A/B/C use orange circles, blue squares and green triangles; zero-sequence phases coincide. Near-zero phasors have no meaningful angle, shown as —.{% endif %}</p>
+  <h4>{% if seq_zh %}分解输入：幅值与相角 → 复电压{% else %}Decomposition input: magnitude and angle → complex voltage{% endif %}</h4>
+  <div class="bf-table-wrap"><table><thead><tr><th>{% if seq_zh %}相{% else %}Phase{% endif %}</th><th>{% if seq_zh %}复电压（pu）{% else %}Complex voltage (pu){% endif %}</th><th>|·| (pu)</th><th>∠ (°)</th></tr></thead><tbody data-sequence-inputs></tbody></table></div>
+  <h4>{% if seq_zh %}三个序的 A 相代表相量{% else %}A-phase representatives of the three sequences{% endif %}</h4>
+  <div class="bf-table-wrap"><table><thead><tr><th>{% if seq_zh %}序{% else %}Sequence{% endif %}</th><th>{% if seq_zh %}复系数（pu）{% else %}Complex coefficient (pu){% endif %}</th><th>|·| (pu)</th><th>∠ (°)</th><th>|·| (V RMS)</th></tr></thead><tbody data-sequence-values></tbody></table></div>
+  <p class="uf-compare" data-sequence-reference></p>
+  <h4>{% if seq_zh %}逐项重构：三个复数相量相加{% else %}Reconstruction: add the three complex contributions{% endif %}</h4>
+  <p class="uf-sequence-formula" data-sequence-formula></p>
+  <div class="bf-table-wrap"><table><thead><tr><th>{% if seq_zh %}项{% else %}Term{% endif %}</th><th>{% if seq_zh %}该相的复电压贡献（pu）{% else %}Complex contribution to this phase (pu){% endif %}</th></tr></thead><tbody data-sequence-reconstruction></tbody></table></div>
+  <p class="uf-sequence-error" data-sequence-error></p>
+</div>

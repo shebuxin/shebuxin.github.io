@@ -12,7 +12,7 @@ description: "三相四线不平衡潮流交互教材：相域推导、中性点
 
 相同的总负荷，分配到三相之后，可能产生完全不同的电压结果。如果需求主要集中在 A 相，或者屋顶光伏只接入一相，会发生什么？本章保留三相与中性线，通过推导、例题和实验回答这些问题。
 
-<nav class="bf-toc" aria-label="本章导航"><a href="#background">背景</a><a href="#formulation">公式推导</a><a href="#worked-example">例题</a><a href="#interactive-lab">交互实验</a><a href="#code-lab">Python</a><a href="#practice">练习</a></nav>
+<nav class="bf-toc" aria-label="本章导航"><a href="#background">背景</a><a href="#formulation">公式推导</a><a href="#sequence-components">序分量</a><a href="#worked-example">例题</a><a href="#interactive-lab">交互实验</a><a href="#code-lab">Python</a><a href="#practice">练习</a></nav>
 
 ## 1. 从单相等值走向四导线模型
 {: #background }
@@ -96,7 +96,7 @@ description: "三相四线不平衡潮流交互教材：相域推导、中性点
 
 停止条件是最大复数导线电压残差 ‖V<sup>sweep</sup> − V‖∞ 小于 10<sup>−10</sup> pu。达到 200 次更新或出现过低、非有限电压时报告失败。算法失败本身不能证明电压崩溃或不存在其他解。支路断开另行报告为超出单电源模型范围的孤岛。
 
-### 步骤 E：计算损耗与电压不平衡指标
+### 步骤 E：计算各导线损耗
 
 本模型的互阻抗是纯电抗，因此采用物理单位时，全部导线的有功损耗为：
 
@@ -104,11 +104,7 @@ description: "三相四线不平衡潮流交互教材：相域推导、中性点
 
 电流用 A、电阻用 Ω，结果为 W。**不要再次乘三**，式中已经包含三相电流。将支路两端注入的四导线功率相加，也会得到同样的总损耗；应保留中性线导体对应的项。
 
-用序分量概括相对中性点的复电压。取 a = e<sup>j2π/3</sup>，相序 ABC：
-
-<div class="bf-equation" data-math="\begin{bmatrix}U_0\\U_1\\U_2\end{bmatrix}=\frac13\begin{bmatrix}1&amp;1&amp;1\\1&amp;a&amp;a^2\\1&amp;a^2&amp;a\end{bmatrix}\begin{bmatrix}U_a\\U_b\\U_c\end{bmatrix},\qquad VUF=100\frac{|U_2|}{|U_1|}\%"></div>
-
-U₁ 为正序，U₂ 为负序，U₀ 为零序。本章 **VUF 专指负序与正序幅值之比**，与 [OpenDSS NEMA 不平衡指标说明](https://opendss.epri.com/TechNoteNEMAUnbalanceCalculation.html)中的幅值偏差指标不同。VUF 较小，不保证各相电压正常，也不保证中性点偏移较小。
+{% include unbalanced-sequence-theory.html %}
 
 ## 3. 例题：总负荷仍为 300 kW，三相分配不同
 {: #worked-example }
@@ -154,6 +150,24 @@ U₁ 为正序，U₂ 为负序，U₀ 为零序。本章 **VUF 专指负序与�
 
 中性点偏移约 **7.637 V**；支路 1–2 的中性线电流约 **242.81 A**。总有功损耗为 **9.5971 kW**，参考电源供应 **259.5971 kW**，满足 259.5971 + 50 − 300 = 9.5971 kW。节点 3 的 VUF 仅为 **0.9028%**，但 A 相已经低于实验中的 0.95 pu 教学限值。
 
+### 把算出的电压分解，再核对重构
+
+**4. 使用同一组复电压。** 将上表的幅值与相角一起转换为复数，再代入序分量矩阵。节点 3 的结果如下；计算使用未舍入的潮流电压，表中仅显示近似值。
+
+| A 相代表系数 | 复数值（pu） | 幅值（pu） | 相角（°） |
+|---|---|---|---|
+| U₀ · 零序 | −0.040906 + j0.009788 | 0.042061 | +166.543 |
+| U₁ · 正序 | 0.967660 − j0.003570 | 0.967666 | −0.211 |
+| U₂ · 负序 | −0.007590 − j0.004326 | 0.008736 | −150.322 |
+
+例如 A 相不需要额外旋转，直接把三个代表系数相加：
+
+<div class="bf-equation" data-math="\begin{aligned}U_a&amp;=U_0+U_1+U_2\\&amp;\approx(-0.040906+j0.009788)+(0.967660-j0.003570)+(-0.007590-j0.004326)\\&amp;\approx0.919164+j0.001892\ \mathrm{pu}\end{aligned}"></div>
+
+取幅值与相角就回到约 **0.91917∠0.118° pu**。B、C 相先按逆变换旋转正序和负序项，再相加。下方的分解器可逐相核对，不必另跑一个潮流。
+
+由上表可得 VUF ≈ 0.9028%，但 &#124;U₀&#124;/&#124;U₁&#124; ≈ 4.3466%。这解释了为什么只看 VUF 会遗漏本例明显的零序和逐相电压偏差。这里的 &#124;U₀&#124; ≈ 9.7135 V，而 &#124;Vₙ&#124; ≈ 7.6370 V，两者不是同一个量。
+
 选择下方的**相同总负荷，均分三相**，将节点 3 改为 60 / 60 / 60 kW，保持总负荷与光伏不变。同时观察中性线电流、中性点偏移、逐相电压和损耗。若要精确复现上一章例题，还应把 μ 设为零，使平衡三相看到相同的无互耦串联阻抗。
 
 ## 4. 交互实验：改变一相，观察三相
@@ -163,12 +177,51 @@ U₁ 为正序，U₂ 为负序，U₀ 为零序。本章 **VUF 专指负序与�
 
 {% include unbalanced-lab.html %}
 
+{% include unbalanced-sequence-lab.html %}
+
 ## 5. 修改并运行四线求解器
 {: #code-lab }
 
 先看逐相输入怎样进入四线模型，再由 `main()` 调用求解器并读取结果。直接运行默认程序后，取消 `parameters.update(p3_a_kw=60, p3_b_kw=60, p3_c_kw=60)` 前的注释，在保持节点 3 总负荷 180 kW 的条件下比较三相电压、VUF 与中性点偏移。滑块保留原始 JavaScript 模型作为参照；Python 区运行可编辑的四线源码。
 
 {% include course-code.html prefix="uf" root_id="unbalanced-code" source="/assets/code/unbalanced_power_flow.py" %}
+
+### 用 Python 验证序分量与重构
+
+把 **main 主程序整体替换**为下面代码。`solve`、`sequence`、`reconstruct_sequence` 都在上方可折叠的完整求解器源码中；它们依次负责潮流求解、相量分解和逆变换。`u_pu` 是 `[实部, 虚部]`，因此要用 `complex(*pair)` 读取，不能把 `vm_pu` 的幅值当成复电压。
+
+```python
+def main(input_case):
+    # 1. 求解当前滑块工况；失败时不做分解。
+    solved = solve(input_case)
+    if not solved["ok"]:
+        print("Power flow failed:", solved["reason"])
+        return solved
+
+    # 2. 读取节点 3 的三相对当地中性点复电压。
+    bus = solved["buses"][2]  # zero-based index 2 -> bus 3
+    phases = [complex(*phase["u_pu"]) for phase in bus["phases"]]
+
+    # 3. 分解为 A 相代表的零、正、负序系数。
+    components = sequence(phases)
+    for name in ("zero_pu", "positive_pu", "negative_pu"):
+        coefficient = complex(*components[name])
+        print(name, coefficient, "|U| =", abs(coefficient), "pu")
+
+    # 4. 逆变换回 ABC，并与原电压逐相比较。
+    rebuilt = reconstruct_sequence(components)
+    for label, original, recovered in zip("ABC", phases, rebuilt):
+        print(label, "solved =", original, "rebuilt =", recovered)
+    error = max(abs(u - restored) for u, restored in zip(phases, rebuilt))
+    print("Maximum reconstruction error:", error, "pu")
+
+    # 保留完整潮流结果，供页面绘制电压曲线。
+    return solved
+
+result = main(case)
+```
+
+### 比较光伏接入相
 
 完成默认实验后，可以将主程序整体替换为下面的扫描程序，在其余输入固定时比较光伏接入相。它把最后一次成功求解的结果交给页面绘图：
 
@@ -200,6 +253,8 @@ result = main(case)
 3. **一个指标不够：** 找到 VUF 小于 2%，但某相电压超出 0.95–1.05 pu 的收敛运行点。用 U₀、U₂ 和中性点偏移讨论 VUF 的含义与局限。
 4. **单相光伏：** 将 50 kW 依次接在 A、B、C 相，判断在当前运行点哪个方案更能改善最低电压，再在高负荷时重复。不要预先假设所有工况的最佳接入相都相同。
 5. **N-1 标签：** 断开支路 2–3，区分孤岛、算法不收敛、以及连通但越限的状态。固定 PQ 光伏不会在馈线断开后自动成为构网电源。
+
+6. **序分量与参考：** 先选电源节点，解释为何只剩正序。再选基准工况的末端节点，切换 U 与 V，核对 U₀ = V₀ − Vₙ。分别重构 A、B、C，相角旋转系数为什么不同？
 
 ## 7. 适用范围与后续实现
 

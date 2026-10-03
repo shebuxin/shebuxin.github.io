@@ -22,8 +22,20 @@
     const zero=scale(sum(phases),1/3);
     const positive=scale(sum([phases[0],mul(a,phases[1]),mul(a2,phases[2])]),1/3);
     const negative=scale(sum([phases[0],mul(a2,phases[1]),mul(a,phases[2])]),1/3);
+    // Decomposition remains valid without positive sequence; its ratios do not.
+    const denominator=abs(positive)>1e-12?abs(positive):null;
     return {zero_pu:zero,positive_pu:positive,negative_pu:negative,
-      vuf_pct:100*abs(negative)/abs(positive),zero_pct:100*abs(zero)/abs(positive)};
+      vuf_pct:denominator===null?null:100*abs(negative)/denominator,zero_pct:denominator===null?null:100*abs(zero)/denominator};
+  }
+  function phaseComponents(components) {
+    // A-phase sequence coefficients -> each sequence's A/B/C contributions.
+    const a=[-.5,Math.sqrt(3)/2],a2=mul(a,a);
+    const {zero_pu:z,positive_pu:p,negative_pu:n}=components;
+    return [[z,p,n],[z,mul(a2,p),mul(a,n)],[z,mul(a,p),mul(a2,n)]];
+  }
+  function reconstruct(components) {
+    // Add complex contributions, preserving both magnitude and phase angle.
+    return phaseComponents(components).map(sum);
   }
   function network(options={}) {
     const s={...defaults,...options};
@@ -107,5 +119,5 @@
       slack_p_kw:branches[0].p_from_kw,slack_q_kvar:branches[0].q_from_kvar,violations,
       total_load_kw:net.p_load_kw.flat().reduce((sum,p)=>sum+p,0)};
   }
-  return Object.freeze({defaults,base,network,solve,sequence,complex:{add,sub,mul,div,conj,abs,scale,sum,matvec,local}});
+  return Object.freeze({defaults,base,network,solve,sequence,phaseComponents,reconstruct,complex:{add,sub,mul,div,conj,abs,scale,sum,matvec,local}});
 });

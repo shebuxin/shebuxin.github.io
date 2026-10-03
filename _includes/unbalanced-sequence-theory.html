@@ -1,0 +1,89 @@
+{% if page.lang == 'zh' %}
+### 步骤 F：把三相电压分解为序分量
+{: #sequence-components }
+
+#### 序分量是什么？
+
+潮流先求出同一节点的三个**复电压相量** Uₐ、Uᵦ、U𝒸。序分量是这三个相量的另一种坐标表达：把它们写成三组具有固定相位关系的相量之和。它不增加物理导线，也不是把基波分成三个不同频率。
+
+采用 **ABC 相序**，令 a = e<sup>j120°</sup>。a 表示逆时针旋转 120°，a² 表示旋转 240°（等价于 −120°）。三种模式分别是正序、负序和零序；其相序约定见 [MIT 的序分量讲义](https://ocw.mit.edu/courses/6-061-introduction-to-electric-power-systems-spring-2011/resources/mit6_061s11_ch4/)。
+
+{% include unbalanced-sequence-basis.html %}
+
+**U₀、U₁、U₂ 的下标是序分量编号，不是节点编号。** 每个数是该序的 A 相代表相量。例如，U₁ 是一个复数，完整的正序三相是 [U₁, a²U₁, aU₁]。正序对应正常 ABC 次序，负序对应反向 ACB 次序；零序三相大小和相角完全相同。
+
+#### 为什么恰好是这三种？
+
+三个任意复电压需要三个独立的复系数来表达。循环轮换三相三次后回到原位，其三种独立模式对应方程 λ³ = 1 的三个根：1、a、a²。因此“同相”“ABC”“ACB”构成一组完整的基，可以唯一表示任意三相相量。
+
+<details class="bf-details"><summary>展开：独立性与 1 + a + a² = 0</summary><p>记三组基向量为 bₖ = [1, a<sup>−k</sup>, a<sup>−2k</sup>]<sup>T</sup>，k = 0, 1, 2。由于 1 + a + a² = 0，它们的复内积满足 bₘ<sup>†</sup>bₙ = 3δₘₙ（† 表示共轭转置）。三组向量互相正交且非零，所以独立。把电压投影到各基上，再除以 3，就得到相应的序系数。</p></details>
+
+#### 从潮流电压到序分量，再回到三相
+
+变换使用**复数**而不是只有幅值的三个实数。若已有幅值与角度，先转换 U<sub>φ</sub> = &#124;U<sub>φ</sub>&#124;e<sup>jθφ</sup>。ABC 约定下的分解与逆变换如下，亦见 [SEL 的序分量教程](https://selinc.com/api/download/100686/)：
+{% else %}
+### Step F — Decompose phase voltages into sequence components
+{: #sequence-components }
+
+#### What are sequence components?
+
+Power flow first gives three **complex voltage phasors** Uₐ, Uᵦ and U𝒸 at the same bus. Sequence components express those same phasors in another coordinate system: a sum of three patterns with fixed internal phase relationships. They do not add physical conductors or split the fundamental into different frequencies.
+
+Use **ABC phase order** and a = e<sup>j120°</sup>. Multiplication by a rotates a phasor counterclockwise by 120°; a² rotates it by 240°, equivalently −120°. The three patterns are positive, negative and zero sequence; see the phase-order conventions in [MIT's symmetrical-components notes](https://ocw.mit.edu/courses/6-061-introduction-to-electric-power-systems-spring-2011/resources/mit6_061s11_ch4/).
+
+{% include unbalanced-sequence-basis.html %}
+
+**The subscripts in U₀, U₁ and U₂ identify sequences, not bus numbers.** Each coefficient is the A-phase representative of its sequence. For example, U₁ is one complex number; its full positive-sequence triplet is [U₁, a²U₁, aU₁]. Positive follows ABC, negative follows ACB, and zero has identical magnitudes and angles in all three phases.
+
+#### Why exactly these three patterns?
+
+Three arbitrary complex phase voltages require three independent complex coefficients. Cycling the phase labels three times returns to the original ordering. Its three independent modes correspond to the roots of λ³ = 1: 1, a and a². The in-phase, ABC and ACB patterns therefore form a complete basis for any three-phase phasor set, with a unique decomposition.
+
+<details class="bf-details"><summary>Expand: independence and 1 + a + a² = 0</summary><p>Write the basis vectors as bₖ = [1, a<sup>−k</sup>, a<sup>−2k</sup>]<sup>T</sup>, k = 0, 1, 2. The identity 1 + a + a² = 0 gives bₘ<sup>†</sup>bₙ = 3δₘₙ, where † denotes conjugate transpose. The three nonzero orthogonal vectors are independent. Projecting the voltage onto each basis and dividing by 3 extracts its coefficient.</p></details>
+
+#### From solved phase voltages to sequences, and back
+
+Transform **complex values**, not just three magnitudes. Convert magnitude and angle to U<sub>φ</sub> = &#124;U<sub>φ</sub>&#124;e<sup>jθφ</sup> first. The ABC decomposition and its inverse are below; see also [SEL's symmetrical-components tutorial](https://selinc.com/api/download/100686/).
+{% endif %}
+
+<div class="bf-equation" data-math="\begin{bmatrix}U_0\\U_1\\U_2\end{bmatrix}=\frac13\begin{bmatrix}1&amp;1&amp;1\\1&amp;a&amp;a^2\\1&amp;a^2&amp;a\end{bmatrix}\begin{bmatrix}U_a\\U_b\\U_c\end{bmatrix}"></div>
+<div class="bf-equation" data-math="\underbrace{\begin{bmatrix}U_a\\U_b\\U_c\end{bmatrix}}_{\text{phase voltages}}=\underbrace{U_0\begin{bmatrix}1\\1\\1\end{bmatrix}}_{\text{zero}}+\underbrace{U_1\begin{bmatrix}1\\a^2\\a\end{bmatrix}}_{\text{positive}}+\underbrace{U_2\begin{bmatrix}1\\a\\a^2\end{bmatrix}}_{\text{negative}}"></div>
+<div class="bf-equation" data-math="\begin{aligned}U_a&amp;=U_0+U_1+U_2\\U_b&amp;=U_0+a^2U_1+aU_2\\U_c&amp;=U_0+aU_1+a^2U_2\end{aligned}"></div>
+
+{% if page.lang == 'zh' %}
+U₀ 是三相复电压的平均值；求 U₁ 时先把 B、C 相按 a、a² 旋转，再平均，使正序对齐、其余模式相消；U₂ 使用反向旋转。**重构时相加的是复数，幅值不能直接相加。** 使用统一的相电压基准，pu 与伏特两种单位都满足同样的线性变换。
+
+<div class="uf-compare">本章先在相域完成四线潮流，再对结果做序分量分析。分解始终成立；若想进一步把潮流拆成三个独立序网络，网络阻抗还需满足相应的对称性条件，不能只凭变换矩阵假设它们独立。</div>
+
+#### 零序电压与中性点偏移有什么关系？
+
+保持源端参考不变，Vₐ、Vᵦ、V𝒸 是相导线电压，Vₙ 是当地中性点电压；负荷实际看到 U<sub>φ</sub> = V<sub>φ</sub> − Vₙ。公共的 −Vₙ 只进入零序：
+{% else %}
+U₀ is the complex average. To extract U₁, rotate B and C by a and a² before averaging: the positive pattern aligns and the other patterns cancel. Reverse the rotations for U₂. **Reconstruction adds complex numbers; their magnitudes do not simply add.** The same linear transform works in pu or volts when a common phase-voltage base is used.
+
+<div class="uf-compare">Here the four-wire power flow is solved in the phase domain, then its result is analyzed in sequences. Decomposition always works. Separating the power-flow equations into independent sequence networks additionally requires suitable network symmetry; the transform alone does not establish independence.</div>
+
+#### How does zero-sequence voltage relate to neutral displacement?
+
+With the source reference fixed, Vₐ, Vᵦ and V𝒸 are conductor voltages and Vₙ is the local neutral voltage. The load sees U<sub>φ</sub> = V<sub>φ</sub> − Vₙ. The common subtraction changes only zero sequence:
+{% endif %}
+
+<div class="bf-equation" data-math="\boldsymbol U_{abc}=\boldsymbol V_{abc}-V_n\begin{bmatrix}1\\1\\1\end{bmatrix}\quad\Longrightarrow\quad U_0=V_0-V_n,\quad U_1=V_1,\quad U_2=V_2"></div>
+
+{% if page.lang == 'zh' %}
+所以 U₀ 不是 Vₙ，也不能一般地把 U₀ 写成 −Vₙ；相导线本身可能已有非零 V₀。若同一支路四根导线电流都以源端指向末端为正，I₀ = (Iₐ + Iᵦ + I𝒸)/3，而 Iₙ = −3I₀。这是电流返回关系，不是零序电压等于中性点电压的依据。
+
+本章使用的电压不平衡因子为：
+{% else %}
+Thus U₀ is not Vₙ, and generally is not −Vₙ either: the phase conductors can already contain V₀. For branch currents all defined from upstream to downstream, I₀ = (Iₐ + Iᵦ + I𝒸)/3 and Iₙ = −3I₀. This is a return-current relationship, not an equality of zero-sequence and neutral voltages.
+
+The voltage unbalance factor used here is:
+{% endif %}
+
+<div class="bf-equation" data-math="VUF=100\frac{|U_2|}{|U_1|}\%,\qquad |U_1|&gt;0"></div>
+
+{% if page.lang == 'zh' %}
+它只量化负序相对正序的幅值；零序、绝对电压幅值与中性点偏移应分别查看。它也不同于 [OpenDSS 所说明的 NEMA 幅值偏差指标](https://opendss.epri.com/TechNoteNEMAUnbalanceCalculation.html)。改变相角而保持三个幅值不变，同样可能产生负序。
+{% else %}
+This measures negative relative to positive sequence. Check zero sequence, absolute phase voltages and neutral displacement separately. It also differs from the magnitude-deviation metric in the [OpenDSS NEMA-unbalance note](https://opendss.epri.com/TechNoteNEMAUnbalanceCalculation.html). Unequal angles can create negative sequence even when all three magnitudes are equal.
+{% endif %}

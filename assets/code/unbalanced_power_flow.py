@@ -26,16 +26,41 @@ def local(voltage):
 
 
 def sequence(phases):
-    """Phase-to-neutral phasors -> zero/positive/negative sequence and VUF."""
+    """Three complex phasors -> zero/positive/negative sequence and VUF.
+
+    Ratios are None when positive sequence is below 1e-12 pu; the transform
+    itself still works, including for pure zero/negative sequence or zero input.
+    """
     a = cmath.rect(1., 2 * math.pi / 3)
     zero = sum(phases) / 3
     positive = (phases[0] + a * phases[1] + a**2 * phases[2]) / 3
     negative = (phases[0] + a**2 * phases[1] + a * phases[2]) / 3
+    denominator = abs(positive) if abs(positive) > 1e-12 else None
     return dict(zero_pu=[zero.real, zero.imag],
                 positive_pu=[positive.real, positive.imag],
                 negative_pu=[negative.real, negative.imag],
-                vuf_pct=100 * abs(negative) / abs(positive),
-                zero_pct=100 * abs(zero) / abs(positive))
+                vuf_pct=100 * abs(negative) / denominator if denominator else None,
+                zero_pct=100 * abs(zero) / denominator if denominator else None)
+
+
+def phase_components(components):
+    """A-phase sequence coefficients -> zero/positive/negative at A, B, C.
+
+    Each stored [real, imaginary] pair is a complex phasor in pu.
+    ABC convention: positive is [U1, a²U1, aU1]; negative is [U2, aU2, a²U2].
+    """
+    a = cmath.rect(1., 2 * math.pi / 3)
+    zero = complex(*components["zero_pu"])
+    positive = complex(*components["positive_pu"])
+    negative = complex(*components["negative_pu"])
+    return [[zero, positive, negative],
+            [zero, a**2 * positive, a * negative],
+            [zero, a * positive, a**2 * negative]]
+
+
+def reconstruct_sequence(components):
+    """Inverse transform: sum the three complex contributions for each phase."""
+    return [sum(contributions) for contributions in phase_components(components)]
 
 
 def network(options=None):

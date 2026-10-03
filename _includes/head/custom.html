@@ -55,7 +55,7 @@
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
 {% endif %}
 {% if page.unbalanced_power_flow %}
-<link rel="stylesheet" href="{{ '/assets/css/unbalanced-power-flow.css' | relative_url }}">
+<link rel="stylesheet" href="{{ '/assets/css/unbalanced-power-flow.css' | relative_url }}?v={{ site.github.build_revision | default: 'sequence-20261003' }}">
 {% endif %}
 {% if page.pandapower_implementation %}
 <link rel="stylesheet" href="{{ '/assets/css/pandapower-implementation.css' | relative_url }}">
