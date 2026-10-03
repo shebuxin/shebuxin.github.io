@@ -38,22 +38,24 @@
       });
       root.querySelectorAll("[data-y-cell]").forEach(cell => {
         const [row, column] = cell.dataset.yCell.split(",").map(Number);
-        cell.replaceChildren();
+        const value = cell.querySelector("[data-y-value]");
+        value.replaceChildren(document.createTextNode("= "));
         const terms = matrix[row][column];
         if (!terms.length) {
-          const zero = document.createElement("span"); zero.className = "pf-zero"; zero.textContent = "0"; cell.appendChild(zero);
+          const zero = document.createElement("span"); zero.className = "pf-zero"; zero.textContent = "0"; value.appendChild(zero);
         }
         terms.forEach((term, index) => {
           const span = document.createElement("span");
           span.textContent = (term.sign < 0 ? "− " : index ? "+ " : "") + branches.find(edge => edge.key === term.key).symbol;
           if (term.key === selected) span.className = "pf-term--selected";
-          if (index) cell.appendChild(document.createTextNode(" "));
-          cell.appendChild(span);
+          if (index) value.appendChild(document.createTextNode(" "));
+          value.appendChild(span);
         });
       });
       root.querySelectorAll("[data-stamp-bus]").forEach(cell => { cell.textContent = buses[branch[cell.dataset.stampBus]]; });
       root.querySelectorAll("[data-stamp-cell]").forEach(cell => {
-        cell.textContent = connected[selected] ? (cell.dataset.stampCell === "positive" ? "+ " : "− ") + branch.symbol : "0";
+        cell.querySelector("[data-stamp-index]").textContent = buses[branch[cell.dataset.stampRow]] + buses[branch[cell.dataset.stampColumn]];
+        cell.querySelector("[data-stamp-value]").textContent = "= " + (connected[selected] ? (cell.dataset.stampCell === "positive" ? "+ " : "− ") + branch.symbol : "0");
       });
       root.querySelector("[data-branch-equation]").textContent = connected[selected]
         ? branch.current + " = " + branch.symbol + " (" + voltages[branch.a] + " − " + voltages[branch.b] + ")"

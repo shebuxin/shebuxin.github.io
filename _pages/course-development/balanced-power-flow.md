@@ -51,7 +51,7 @@ Choose the bases before converting line impedances and power injections to per u
 
 ### Step B — Build the network admittance matrix
 
-For a series branch, y<sub>ij</sub> = 1/z<sub>ij</sub>. Add its admittance to both diagonal entries and subtract it from the two corresponding off-diagonal entries. Opening a line removes those four contributions. This example omits line charging, shunts, transformers, and mutual coupling.
+Use lowercase y<sub>ij</sub> = 1/z<sub>ij</sub> for a branch's series admittance and uppercase Y<sub>ij</sub> for an entry of the bus admittance matrix. The diagonal entry Y<sub>ii</sub> is bus i's self-admittance: add the admittances of all connected branches at i. Each branch adds to both diagonal entries and subtracts from the two corresponding off-diagonal entries. Opening a line removes those four contributions. This example omits line charging, shunts, transformers, and mutual coupling.
 
 <div class="bf-equation" data-math="\begin{aligned}Y_{ii}&amp;=\sum_{k\in\mathcal N_i}y_{ik}\\Y_{ij}&amp;=-y_{ij}\quad(i\ne j),\qquad \boldsymbol I=Y_{bus}\boldsymbol V\end{aligned}"></div>
 

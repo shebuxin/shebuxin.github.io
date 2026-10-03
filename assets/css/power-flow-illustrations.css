@@ -2,6 +2,7 @@
 .pf-concept > h4 { margin:0 0 .8rem; font-size:1rem; }
 .pf-concept figcaption { margin:.9rem 0 0; font-size:.88rem; line-height:1.65; color:var(--bf-muted); }
 .pf-concept .pf-intro { margin:0 0 1rem; font-size:.9rem; }
+.pf-concept .pf-notation { margin:0 0 1rem; padding:.8rem; background:#edf3f8; border-left:3px solid #2571a2; font-size:.86rem; line-height:1.7; }
 .pf-panels { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:1rem; }
 .pf-panel { min-width:0; padding:.9rem; border:1px solid #e0e7ee; border-radius:8px; background:#fff; }
 .pf-panel h5 { margin:0 0 .6rem; font-size:.88rem; color:#34556f; }
@@ -34,6 +35,9 @@
 .pf-concept .pf-matrix th { background:#eef3f7; font-weight:600; }
 .pf-concept .pf-matrix th:first-child { width:1.8rem; }
 .pf-matrix td { height:3.3rem; background:#fff; }
+.pf-matrix .pf-entry-name { display:block; margin-bottom:.25rem; font-size:14px; color:#34556f; }
+.pf-matrix .pf-entry-name sub { font-size:.8em; }
+.pf-matrix .pf-entry-value { display:block; line-height:1.65; }
 .pf-matrix [data-diagonal] { background:#eff5fc; }
 .pf-term--selected { color:#854910; background:#fff0d4; border-radius:3px; padding:.1rem .2rem; font-weight:600; }
 .pf-zero { color:#82919e; }

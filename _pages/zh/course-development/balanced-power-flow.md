@@ -52,7 +52,7 @@ description: "平衡三相 AC 潮流互动教材：背景、公式推导、馈�
 
 ### 步骤 B：构建节点导纳矩阵
 
-串联支路导纳 y<sub>ij</sub> = 1/z<sub>ij</sub>。将导纳加入两个对角元素，并从对应的两个非对角元素中减去；断开线路时，移除这四项贡献。本例忽略线路充电、并联支路、变压器和互感。
+小写 y<sub>ij</sub> = 1/z<sub>ij</sub> 表示线路串联导纳；大写 Y<sub>ij</sub> 表示节点导纳矩阵元素。对角元素 Y<sub>ii</sub> 是节点 i 的自导纳，其值累加与 i 相连的所有接通线路的导纳。每条线路为两端的对角元素各加上 y，并从对应的两个非对角元素中减去 y；断开线路时，移除这四项贡献。本例忽略线路充电、并联支路、变压器和互感。
 
 <div class="bf-equation" data-math="\begin{aligned}Y_{ii}&amp;=\sum_{k\in\mathcal N_i}y_{ik}\\Y_{ij}&amp;=-y_{ij}\quad(i\ne j),\qquad \boldsymbol I=Y_{bus}\boldsymbol V\end{aligned}"></div>
 
