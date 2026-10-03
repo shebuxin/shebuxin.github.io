@@ -15,7 +15,7 @@
   const f = (v, digits = 2) => (Math.abs(v) < 1e-8 ? 0 : v).toFixed(digits);
   const edgeName = e => e.id[0] + "–" + e.id[1];
   const presets = { baseline:{}, heavy:{load_scale:2}, lowpf:{power_factor:.8}, solar:{load_scale:.65,dg_kw:320}, weak:{r_scale:2,x_scale:1.5} };
-  const sample = '# case is a fresh snapshot of the sliders.\n# Uncomment to add reactive support:\n# case["q_support_kvar"] = 60\n\nresult = solve(case)\nif result["ok"]:\n    for bus in result["buses"]:\n        print(f\'Bus {bus["id"]}: {bus["vm_pu"]:.5f} pu, \'\n              f\'{bus["theta_deg"]:.4f} deg\')\n    print(f\'Loss: {result["loss_kw"]:.4f} kW\')\n    print(f\'Slack: {result["slack_p_kw"]:.4f} kW\')\nelse:\n    print("No converged result:", result["reason"])\n';
+  const sample = window.PowerFlowCodeExamples.sample('balanced', zh);
   editor.value = sample;
   runButton.setAttribute("aria-keyshortcuts", "Control+Enter Meta+Enter");
   const sourcePromise = fetch(root.dataset.source).then(response => { if (!response.ok) throw new Error("Solver source could not be loaded"); return response.text(); }).then(source => { solverEditor.value = source; return source; });
@@ -94,6 +94,7 @@
   function drawAll(){drawNetwork();drawPhases();drawProfile(profileSvg,result);drawLoading();if(codeResult)drawProfile(codeSvg,codeResult);}
   function sync(){root.querySelectorAll("[data-key]").forEach(input=>{if(input.type==="checkbox")input.checked=state[input.dataset.key];else input.value=state[input.dataset.key];});}
   function update(){
+    window.PowerFlowCodeExamples.showCase(codeRoot, state);
     result=model.solve(state);root.dataset.result=JSON.stringify(result);root.dataset.case=JSON.stringify(state);
     root.querySelectorAll('input[type="range"]').forEach(input=>{const key=input.dataset.key;const digits=["power_factor","slack_pu"].includes(key)?3:key.endsWith("scale")?2:0;const value=f(state[key],digits)+" "+input.dataset.unit;root.querySelector('[data-value="'+key+'"]').textContent=value.trim();input.setAttribute("aria-valuetext",value.trim());});
     root.querySelector('[data-key="open13"]').disabled=state.topology==="radial";

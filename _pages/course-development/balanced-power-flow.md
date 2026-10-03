@@ -149,7 +149,7 @@ Move one control at a time. The phase diagram above shows the three-phase voltag
 ## 5. Edit and run Python
 {: #code-lab }
 
-The slider experiment uses a browser-native solver for immediate feedback. The editable Python solver implements the same equations and is checked against it. Editing the solver changes the **code result**, while the parameter experiment remains a reference. Try setting `case["q_support_kvar"] = 60` before `solve(case)`, then compare the voltage and losses.
+Turn the worked example into a code experiment: read the input dictionary `case`, inspect the source that defines the solver, then use `main()` to organize the calculation and output. Run it unchanged to check the example voltages and loss, then change one parameter using the comments. The slider lab uses the original JavaScript model for immediate feedback; the Python panel runs the editable source below.
 
 {% include balanced-code.html %}
 

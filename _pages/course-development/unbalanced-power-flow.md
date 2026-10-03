@@ -135,29 +135,28 @@ Move a phase-load slider, change PV connection, or compare finite and ideal neut
 ## 5. Edit and run the four-wire solver
 {: #code-lab }
 
-The sliders run a JavaScript solver for immediate feedback. The Python panel executes the same four-wire equations in a browser worker and plots its own result. You can edit both the experiment and the actual solver. Try balancing bus 3 without changing its total demand:
-
-```python
-case.update(p3_a_kw=60, p3_b_kw=60, p3_c_kw=60)
-result = solve(case)
-```
+Read how the phase inputs enter the four-wire model, then let `main()` call the solver and inspect its answer. Run the default program first, then uncomment `parameters.update(p3_a_kw=60, p3_b_kw=60, p3_c_kw=60)` to keep bus 3 at 180 kW total while comparing phase voltages, VUF and neutral shift. The sliders keep the original JavaScript reference; the Python panel runs the editable four-wire source.
 
 {% include course-code.html prefix="uf" root_id="unbalanced-code" source="/assets/code/unbalanced_power_flow.py" %}
 
-To write a controlled PV-placement comparison, add this loop to the experiment. The final successful result is plotted:
+After the default experiment, replace the entire main program with this scan to compare PV connections at otherwise fixed inputs. It returns the last successful solution for plotting:
 
 ```python
-for connection in ("balanced", "a", "b", "c"):
-    trial = dict(case, dg_phase=connection)
-    solved = solve(trial)
-    if solved["ok"]:
-        end = solved["buses"][2]
-        print(connection, [round(p["vm_pu"], 4) for p in end["phases"]],
-              round(end["components"]["vuf_pct"], 3),
-              round(solved["loss_kw"], 3))
-        result = solved
-    else:
-        print(connection, solved["reason"])
+def main(input_case):
+    last_successful = None
+    for connection in ("balanced", "a", "b", "c"):
+        trial = dict(input_case, dg_phase=connection)
+        solved = solve(trial)
+        if solved["ok"]:
+            end = solved["buses"][2]  # Bus 3
+            print(connection, end["components"]["vuf_pct"], end["neutral_v"])
+            last_successful = solved
+        else:
+            print(connection, solved["reason"])
+    return last_successful
+
+# If no case converged, None leaves the voltage plot empty.
+result = main(case)
 ```
 
 ## 6. Practice and explain

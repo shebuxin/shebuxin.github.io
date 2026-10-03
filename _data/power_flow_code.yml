@@ -1,0 +1,135 @@
+balanced:
+  filename: balanced_power_flow.py
+  dependencies:
+    en: "cmath (complex phasors) and math (trigonometry) are Python standard-library modules. No NumPy or pandapower is needed."
+    zh: "cmath 用于复数相量，math 用于三角函数；两者都是 Python 标准库，不依赖 NumPy 或 pandapower。"
+  inputs:
+    - key: load_scale
+      en: "Multiplier applied to the 120 kW and 180 kW base demands."
+      zh: "同时乘在 120 kW、180 kW 基准负荷上的倍率。"
+    - key: power_factor
+      en: "Load power factor; determines Q = P tan(arccos(pf))."
+      zh: "负荷功率因数，用于计算 Q = P tan(arccos(pf))。"
+    - key: dg_kw / q_support_kvar
+      en: "Fixed generation at bus 3: three-phase total kW / kvar."
+      zh: "节点 3 的固定发电注入：三相总有功 kW / 无功 kvar。"
+    - key: slack_pu
+      en: "Bus 1 voltage magnitude in pu; its angle is fixed at 0°."
+      zh: "节点 1 电压幅值（pu），相角固定为 0°。"
+    - key: r_scale / x_scale
+      en: "Multipliers on the branch resistances / reactances."
+      zh: "线路电阻 / 电抗的倍率。"
+    - key: current_limit_a
+      en: "Current limit in A, used to check the solution."
+      zh: "电流限值（A），用于求解后的越限检查。"
+    - key: topology / open12 / open23 / open13
+      en: "radial or meshed; True opens the corresponding branch."
+      zh: "radial 为辐射状、meshed 为带联络线；True 表示对应线路断开。"
+  functions:
+    - name: network(options)
+      en: "Input settings → line impedances, Y matrix, specified P/Q; internally converts to pu."
+      zh: "输入参数 → 线路阻抗、Y 矩阵、指定 P/Q，并在内部换算为 pu。"
+    - name: injections(y, vm, theta)
+      en: "Y and voltage estimate → calculated nodal P/Q using S = V(YV)*."
+      zh: "Y 与电压估计 → 按 S = V(YV)* 计算节点 P/Q。"
+    - name: jacobian(y, vm, theta)
+      en: "Voltage estimate → the 4 × 4 derivatives of P/Q at PQ buses 2 and 3."
+      zh: "电压估计 → PQ 节点 2、3 的 P/Q 导数（4 × 4 雅可比）。"
+    - name: linear_solve(matrix, rhs)
+      en: "J and mismatch → Newton correction Δx, using Gaussian elimination."
+      zh: "J 与功率偏差 → 用高斯消元求 Newton 修正量 Δx。"
+    - name: solve(options)
+      en: "Calls the functions above, iterates to convergence, and returns voltages, flows, losses and limit checks."
+      zh: "调用以上函数并迭代，返回电压、潮流、损耗和越限检查。"
+  outputs:
+    en: "ok reports numerical convergence; buses contains vm_pu and theta_deg for buses 1–3; loss_kw is total active loss; slack_p_kw is source power; violations lists limit violations. Convergence alone does not mean limits are satisfied."
+    zh: "ok 表示数值求解是否收敛；buses 中的 vm_pu、theta_deg 是节点 1–3 的电压幅值与相角；loss_kw 是总有功损耗；slack_p_kw 是参考电源有功；violations 列出越限。收敛并不等于满足限值。"
+unbalanced:
+  filename: unbalanced_power_flow.py
+  dependencies:
+    en: "Only the standard-library modules cmath and math are used. The four-wire solver is defined in this chapter's source."
+    zh: "只使用标准库 cmath、math；四线制求解器在本章源码中定义。"
+  inputs:
+    - key: p3_a_kw / p3_b_kw / p3_c_kw
+      en: "Bus 3 base phase demands in kW, before multiplying by load_scale."
+      zh: "节点 3 的 A/B/C 相基准负荷（kW），随后乘以 load_scale。"
+    - key: load_scale / power_factor
+      en: "Demand multiplier and load power factor; bus 2 starts at 40 kW per phase."
+      zh: "负荷倍率与功率因数；节点 2 基准负荷每相 40 kW。"
+    - key: dg_kw / dg_phase
+      en: "Total PV kW and connection: balanced divides it equally; a/b/c puts it on one phase."
+      zh: "光伏总有功 kW 与接入相：balanced 为三相均分，a/b/c 为单相接入。"
+    - key: slack_pu / r_scale / x_scale
+      en: "Source phase-voltage pu and branch resistance / reactance multipliers."
+      zh: "电源相电压（pu）与线路电阻 / 电抗倍率。"
+    - key: neutral_mode / neutral_scale / mutual_ratio
+      en: "finite or ideal neutral; neutral-impedance multiplier; phase mutual-reactance ratio."
+      zh: "finite 或 ideal 中性线；中性线阻抗倍率；相间互电抗比例。"
+    - key: current_limit_a / neutral_limit_a
+      en: "Phase-conductor / neutral current limits in A."
+      zh: "相线 / 中性线电流限值（A）。"
+    - key: open12 / open23
+      en: "True opens the branch and disconnects downstream buses."
+      zh: "True 表示线路断开，下游节点将失去电源连接。"
+  functions:
+    - name: network(options)
+      en: "Settings → four-conductor source, phase demands and each branch's 4 × 4 impedance matrix."
+      zh: "参数 → 四导体电源、逐相负荷、每条线路的 4 × 4 阻抗矩阵。"
+    - name: local(voltage)
+      en: "Conductor voltages → local phase-to-neutral voltages Uφ = Vφ − Vn."
+      zh: "导体电压 → 当地相对中性点电压 Uφ = Vφ − Vn。"
+    - name: sweep(demand, edges, source, voltage)
+      en: "One backward current summation and forward voltage update, including the neutral."
+      zh: "完成一次向电源累加电流、向末端更新电压，包含中性线。"
+    - name: sequence(phases)
+      en: "Three phase voltages → sequence components and VUF = 100 |U₂| / |U₁|."
+      zh: "三相电压 → 序分量，以及 VUF = 100 |U₂| / |U₁|。"
+    - name: solve(options)
+      en: "Repeats the damped sweep, checks convergence, and returns per-phase voltages, neutral shift and losses."
+      zh: "重复带阻尼的前推回代，检查收敛，返回逐相电压、中性点偏移和损耗。"
+  outputs:
+    en: "buses[2] is physical bus 3 because Python lists start at zero. phases contains A/B/C vm_pu and voltage_v; neutral_v is neutral shift in V; vuf_pct in components is VUF in %; loss_kw is total active loss. Check ok before reading these fields."
+    zh: "Python 列表从 0 开始，所以 buses[2] 对应物理节点 3。phases 包含 A/B/C 的 vm_pu、voltage_v；neutral_v 是中性点偏移（V）；components 中的 vuf_pct 是 VUF（%）；loss_kw 为总有功损耗。读取前先检查 ok。"
+pandapower:
+  filename: pandapower_implementation.py
+  dependencies:
+    en: "The source imports json, math and pandapower as pp. The browser loads pinned pandapower 3.2.1 with NumPy, SciPy, pandas and its dependencies; local installation uses the downloadable requirements file."
+    zh: "源码导入 json、math 和 pandapower as pp。浏览器加载固定版本 pandapower 3.2.1、NumPy、SciPy、pandas 及其依赖；本地安装使用可下载的 requirements 文件。"
+  inputs:
+    - key: mode / algorithm
+      en: "balanced or three_phase; nr / bfsw applies to balanced runpp only."
+      zh: "balanced 或 three_phase；nr / bfsw 仅用于平衡模式的 runpp。"
+    - key: p2_kw / p3_a_kw / p3_b_kw / p3_c_kw
+      en: "Bus 2 total demand and bus 3 phase demands (kW); balanced mode sums bus 3 phases."
+      zh: "节点 2 总负荷、节点 3 逐相负荷（kW）；平衡模式将节点 3 三相相加。"
+    - key: load_scale / pf / dg_kw / dg_phase
+      en: "Demand multiplier, power factor, total PV kW and its phase connection."
+      zh: "负荷倍率、功率因数、光伏总有功 kW 及接入相。"
+    - key: vm_pu / z_scale / zero_ratio
+      en: "Source voltage pu, line impedance multiplier and zero-/positive-sequence impedance ratio."
+      zh: "电源电压 pu、线路阻抗倍率、零序 / 正序阻抗比。"
+    - key: limit_a / tie / trip12 / trip23 / trip13
+      en: "Current rating in A; tie enables line 1–3; True trips the corresponding line."
+      zh: "额定电流 A；tie 接通联络线 1–3；True 表示退出对应线路。"
+  functions:
+    - name: settings(case)
+      en: "Merges defaults and validates input settings."
+      zh: "补充默认参数并检查输入。"
+    - name: build_network(case)
+      en: "Settings → net.bus / line / load / sgen tables; converts kW to MW and A to kA."
+      zh: "参数 → net.bus / line / load / sgen 等表；将 kW 换为 MW、A 换为 kA。"
+    - name: supplied_buses(net)
+      en: "Finds buses connected to the external grid in this line-only feeder."
+      zh: "检查本章纯线路馈线中哪些节点与外部电源连通。"
+    - name: run_network(net, case)
+      en: "Calls pp.runpp or pp.runpp_3ph and fills the corresponding res_* tables."
+      zh: "调用 pp.runpp 或 pp.runpp_3ph，填充对应 res_* 结果表。"
+    - name: collect_results(net, case)
+      en: "res_* tables → the dictionary used by the lesson's plots and supply/limit checks."
+      zh: "res_* 表 → 教材绘图、供电范围和越限检查使用的字典。"
+    - name: solve(case)
+      en: "Convenience wrapper for build → run → collect; useful for parameter sweeps."
+      zh: "封装建网 → 求解 → 读取，便于做参数扫描。"
+  outputs:
+    en: "net is the editable pandapower network; res_bus/res_line (or *_3ph) are its solved tables. result is collect_results' dictionary for plotting. ok means convergence; secure additionally checks supply and teaching limits. Unsupplied bus indices are zero-based."
+    zh: "net 是可修改的 pandapower 网络；res_bus/res_line（或 *_3ph）为求解后的表。result 是 collect_results 返回的绘图字典。ok 表示收敛；secure 还检查供电范围和教学限值。未供电节点列表使用从 0 开始的索引。"

@@ -46,6 +46,7 @@ jobs:
           node --check assets/js/balanced-power-flow-model.js
           node --check assets/js/balanced-power-flow-lesson.js
           node --check assets/js/power-flow-illustrations.js
+          node --check assets/js/power-flow-code-examples.js
           node --check assets/js/balanced-python-worker.js
           node --check assets/js/course-python-worker.js
           node --check assets/js/course-python-runner.js
@@ -89,6 +90,7 @@ jobs:
         run: |
           python -m pip install -r assets/code/requirements-pandapower.txt
           python tests/pandapower_implementation_test.py
+          node --test tests/power_flow_code_examples_test.cjs
 
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1

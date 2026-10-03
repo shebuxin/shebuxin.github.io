@@ -1,0 +1,39 @@
+{% assign guide = site.data.power_flow_code[include.kind] %}
+{% assign code_lang = page.lang | default: 'en' %}
+{% assign code_zh = false %}{% if code_lang == 'zh' %}{% assign code_zh = true %}{% endif %}
+{% case include.part %}
+{% when 'inputs' %}
+<div class="pf-code-guide">
+  <h3>{% if code_zh %}先看代码如何连接{% else %}How the code fits together{% endif %}</h3>
+  <ol class="pf-code-path" aria-label="{% if code_zh %}代码执行顺序{% else %}Code execution order{% endif %}">
+    <li><strong>case</strong><span>{% if code_zh %}滑块提供输入字典{% else %}Controls provide an input dictionary{% endif %}</span></li>
+    <li><strong>{{ guide.filename }}</strong><span>{% if code_zh %}源码定义模型函数{% else %}Source defines the model functions{% endif %}</span></li>
+    <li><strong>main(case) → result</strong><span>{% if code_zh %}主程序计算、打印并返回绘图结果{% else %}Main computes, prints and returns a result to plot{% endif %}</span></li>
+  </ol>
+  <p>{% if code_zh %}点击运行时，页面先复制当前控件为 <code>case</code>，再执行下方折叠的模型源码，最后执行可编辑的主程序。因此 <code>main()</code> 可以直接调用源码中的函数，无需另写导入语句。下面三部分按这个顺序阅读。{% else %}When you press Run, the page copies the controls into <code>case</code>, executes the folded model source, then executes your editable main program. This makes the source's functions available directly to <code>main()</code>, without a separate import statement. Read the three parts in that order.{% endif %}</p>
+  <details class="bf-details pf-code-inputs">
+    <summary>{% if code_zh %}1 · 输入：展开 case 的当前参数与含义{% else %}1 · Inputs: expand the current case and parameter meanings{% endif %}</summary>
+    <p>{% if code_zh %}这是下一次运行将使用的输入；改变上方控件会更新它。<code>main()</code> 中复制为 <code>parameters</code> 后修改，可测试一个新工况，而不改变控件。{% else %}These are the inputs for the next run and update with the controls. Copying them into <code>parameters</code> inside <code>main()</code> lets you test another case without changing the controls.{% endif %}</p>
+    <pre class="pf-case-preview" data-case-preview tabindex="0" aria-label="{% if code_zh %}当前 case 输入参数{% else %}Current case input parameters{% endif %}">{% if code_zh %}正在读取参数…{% else %}Reading parameters…{% endif %}</pre>
+    <div class="bf-table-wrap"><table class="pf-code-table"><thead><tr><th scope="col">{% if code_zh %}参数{% else %}Parameter{% endif %}</th><th scope="col">{% if code_zh %}含义与单位{% else %}Meaning and units{% endif %}</th></tr></thead><tbody>{% for input in guide.inputs %}<tr><th scope="row"><code>{{ input.key }}</code></th><td>{{ input[code_lang] }}</td></tr>{% endfor %}</tbody></table></div>
+  </details>
+</div>
+{% when 'source' %}
+<details class="bf-details pf-model-source" data-model-source>
+  <summary>{% if code_zh %}2 · 模型源码：{{ guide.filename }}（展开查看 / 修改）{% else %}2 · Model source: {{ guide.filename }} (expand to inspect / edit){% endif %}</summary>
+  <p><strong>{% if code_zh %}依赖：{% else %}Dependencies: {% endif %}</strong>{{ guide.dependencies[code_lang] }}</p>
+  <p>{% if code_zh %}这是本次 Python 实际执行的源码；按下表顺序可以把函数与本章公式对应起来。修改后，再运行主程序就会使用新源码。{% if include.kind != 'pandapower' %}上方滑块实验继续使用原始 JavaScript 模型作为参照。{% else %}上方参数实验使用原始 pandapower 模型作为参照。{% endif %}{% else %}This is the source actually executed by Python. Use the table to connect its functions to this chapter's equations. Edits take effect on the next main-program run. {% if include.kind != 'pandapower' %}The slider lab keeps the original JavaScript model as a reference.{% else %}The parameter lab keeps the original pandapower model as a reference.{% endif %}{% endif %}</p>
+  <div class="bf-table-wrap"><table class="pf-code-table"><thead><tr><th scope="col">{% if code_zh %}源码里的函数{% else %}Function in the source{% endif %}</th><th scope="col">{% if code_zh %}负责什么{% else %}What it does{% endif %}</th></tr></thead><tbody>{% for function in guide.functions %}<tr><th scope="row"><code>{{ function.name }}</code></th><td>{{ function[code_lang] }}</td></tr>{% endfor %}</tbody></table></div>
+  <label for="{{ include.editor_id }}">{{ guide.filename }} · {% if code_zh %}可编辑的完整源码{% else %}editable full source{% endif %}</label>
+  <textarea id="{{ include.editor_id }}" data-solver-editor rows="22" spellcheck="false" autocapitalize="off" autocomplete="off" autocorrect="off" placeholder="{% if code_zh %}正在加载模型源码…{% else %}Loading model source…{% endif %}"></textarea>
+  <button type="button" class="btn" data-solver-reset>{% if code_zh %}恢复原始源码{% else %}Restore original source{% endif %}</button>
+</details>
+{% when 'main' %}
+<div class="pf-main-guide" id="{{ include.prefix }}-main-guide">
+  <h3>{% if code_zh %}3 · 主程序：main() 做什么？{% else %}3 · Main program: what does main() do?{% endif %}</h3>
+  <p>{% if code_zh %}主程序负责<strong>复制 / 修改输入 → 调用模型 → 检查求解状态 → 打印结果 → 返回结果</strong>。<code>solved</code> 是函数内部的结果字典；末尾的 <code>result = main(case)</code> 把它交给页面绘图。<code>print()</code> 只在输出区显示文字，不负责画图。{% else %}The main program <strong>copies / changes inputs → calls the model → checks the solution → prints → returns the result</strong>. <code>solved</code> is the result dictionary inside the function; the final <code>result = main(case)</code> passes it to the page's plot. <code>print()</code> writes to the output panel and does not draw the plot.{% endif %}</p>
+  <p class="pf-code-try">{% if code_zh %}第一次先直接运行，核对本章例题。然后{% if include.kind == 'balanced' %}取消 <code>parameters["q_support_kvar"] = 60</code> 前的 <code>#</code>，比较无功支撑前后的电压和损耗。{% elsif include.kind == 'unbalanced' %}取消逐相负荷修改行前的 <code>#</code>，保持节点 3 总负荷 180 kW，比较三相电压和 VUF。{% else %}在 <code>build_network()</code> 后、<code>run_network()</code> 前修改 <code>net.load</code>，观察重新求解后的结果表。{% endif %}{% else %}First run the example unchanged and compare it with the worked example. Then {% if include.kind == 'balanced' %}remove the <code>#</code> before <code>parameters["q_support_kvar"] = 60</code> and compare voltage and loss with reactive support.{% elsif include.kind == 'unbalanced' %}uncomment the phase-demand edit, keeping bus 3's total at 180 kW, and compare phase voltages and VUF.{% else %}edit <code>net.load</code> after <code>build_network()</code> and before <code>run_network()</code>, then inspect the new result tables.{% endif %}{% endif %}</p>
+</div>
+{% when 'output' %}
+<div class="pf-output-guide"><h4>{% if code_zh %}怎样读输出？{% else %}How to read the output{% endif %}</h4><p>{{ guide.outputs[code_lang] }}</p><p class="bf-caption">{% if code_zh %}“下载实验”包含当前输入、当前模型源码和当前主程序，可以作为一个完整的 .py 文件运行。{% if include.kind == 'pandapower' %}本地运行前需安装下方依赖清单。{% endif %}{% else %}Download experiment includes the current inputs, model source and main program in one runnable .py file.{% if include.kind == 'pandapower' %} Install the requirements below before running locally.{% endif %}{% endif %}</p></div>
+{% endcase %}

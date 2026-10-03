@@ -137,15 +137,15 @@ description: "在浏览器中用真实 pandapower 建网并运行平衡与三相
 ## 5. 修改设备表，重新求解并读取结果
 {: #code-lab }
 
-代码面板加载本章 Python 源码，在点击运行时从参数区生成 `case` 快照，再执行可编辑实验。`build_network()`、`run_network()` 和 `collect_results()` 分别对应建网、求解与读取；也可以调用 `solve(case)` 一次完成参数实验。
+下面把输入、模型源码和实验主程序分开。`main()` 先复制 `case`，依次调用 `build_network()` 建网、`run_network()` 求解、`collect_results()` 读取，并把结果返回给页面绘图。展开源码可查看这些函数的定义及依赖；`solve(case)` 是同样流程的封装，适合参数扫描。
 
 {% include course-code.html prefix="pp" root_id="pandapower-code" source="/assets/code/pandapower_implementation.py" worker="/assets/js/pandapower-worker.js" %}
 
-平衡模式下，可以在 `run_network(net, case)` **之前**插入以下代码，直接修改节点 3 负荷表：
+平衡模式下，在 `main()` 内、`run_network(net, parameters)` **之前**插入以下两行（保持 4 个空格缩进），直接修改节点 3 负荷表：
 
 ```python
-net.load.loc[net.load.bus == 2, "p_mw"] = 0.240
-net.load.loc[net.load.bus == 2, "q_mvar"] = 0.240 * math.tan(math.acos(0.95))
+    net.load.loc[net.load.bus == 2, "p_mw"] = 0.240
+    net.load.loc[net.load.bus == 2, "q_mvar"] = 0.240 * math.tan(math.acos(parameters["pf"]))
 ```
 
 示意图编号为 1/2/3，而这里的 pandas 索引为 0/1/2。建立更大网络时，应保留 `create_bus()` 返回的整数 ID，不要假设显示名称等于表格索引。本例结果读取函数针对**仅含线路的馈线**；加入变压器、开关或其他设备时，需要扩展连通性和功率平衡检查。

@@ -51,6 +51,21 @@
 .bf-console { min-height:5rem; max-height:24rem; overflow:auto; padding:1rem; white-space:pre-wrap; overflow-wrap:anywhere; background:#eef3f7; font-size:13px; line-height:1.6; }
 .bf-code-result { margin-top:1rem; }
 .bf-code-result[hidden] { display:none; }
+.pf-code-guide h3, .pf-main-guide h3 { margin:0 0 .7rem; font-size:1.05rem; }
+.pf-code-path { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:.75rem; list-style:none; padding:0; margin:1rem 0; }
+.pf-code-path li { min-width:0; padding:.85rem; margin:0; border:1px solid var(--bf-border); border-radius:7px; background:#fff; }
+.pf-code-path strong { display:block; font-family:Monaco,Consolas,monospace; font-size:13px; overflow-wrap:anywhere; }
+.pf-code-path span { display:block; margin-top:.4rem; font-size:14px; line-height:1.5; color:var(--bf-muted); }
+.pf-case-preview { max-height:26rem; padding:1rem; overflow:auto; background:#eef3f7; white-space:pre; font-size:14px; line-height:1.6; }
+.pf-code-table { width:100%; margin:0 0 1rem; font-size:14px; line-height:1.6; }
+.pf-code-table th, .pf-code-table td { padding:.6rem; vertical-align:top; text-align:left; }
+.pf-code-table th { width:38%; }
+.pf-code-table code { white-space:normal; overflow-wrap:anywhere; font-size:13px; }
+.pf-main-guide { margin-top:1.5rem; }
+.pf-code-try { padding:.8rem; border-left:3px solid var(--bf-green); background:#eaf4ef; }
+.pf-output-guide h4 { margin:.8rem 0 .5rem; font-size:.95rem; }
+.pf-output-guide p { font-size:14px; line-height:1.7; }
+@media(max-width:760px) { .pf-code-path { grid-template-columns:1fr; } }
 .bf-quiz { border-top:1px solid var(--bf-border); border-bottom:1px solid var(--bf-border); padding:1rem 0; margin:1.5rem 0; }
 .bf-quiz fieldset { padding:0; margin:0; border:0; }
 .bf-quiz legend { font-weight:600; margin-bottom:.6rem; }

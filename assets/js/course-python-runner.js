@@ -10,7 +10,9 @@
     const labels=zh?{loading:'正在加载 Python 环境…',running:'正在运行 Python…',ready:'Python 已运行。',stale:'参数已改变；再次运行以更新代码结果。',stop:'已停止，可以重新运行。',timeout:'运行超时，已停止。',error:'运行失败：',invalid:'没有可绘制的收敛解；请查看输出并检查 result。'}:
       {loading:'Loading the Python environment…',running:'Running Python…',ready:'Python run completed.',stale:'Parameters changed; run again to update the code result.',stop:'Stopped. You can run again.',timeout:'Run timed out and was stopped.',error:'Run failed: ',invalid:'No converged solution to plot; check the output and result.'};
     let worker=null,id=0,running=false,timer=null,lastResult=null,lastCase=null;
+    const updateCasePreview=()=>{if(window.PowerFlowCodeExamples)window.PowerFlowCodeExamples.showCase(root,snapshot());};
     editor.value=sample;
+    updateCasePreview();
     const source=fetch(root.dataset.source).then(response=>{if(!response.ok)throw new Error('Solver source unavailable');return response.text();}).then(text=>{solver.value=text;return text;});
     source.catch(error=>{status.textContent=labels.error+error.message;status.dataset.state='error';});
     function finish(){running=false;clearTimeout(timer);timer=null;runButton.disabled=false;stopButton.disabled=true;}
@@ -52,6 +54,6 @@
       }catch(error){status.textContent=labels.error+error.message;}
     });
     window.addEventListener('pagehide',()=>{if(worker)worker.terminate();clearTimeout(timer);});
-    return {markStale(){if(lastResult&&!running)status.textContent=labels.stale;},redraw(){if(lastResult)drawResult(svg,lastResult);}};
+    return {markStale(){updateCasePreview();if(lastResult&&!running)status.textContent=labels.stale;},redraw(){if(lastResult)drawResult(svg,lastResult);}};
   };
 })();

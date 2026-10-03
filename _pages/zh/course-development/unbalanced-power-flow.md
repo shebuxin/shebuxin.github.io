@@ -136,29 +136,28 @@ U₁ 为正序，U₂ 为负序，U₀ 为零序。本章 **VUF 专指负序与�
 ## 5. 修改并运行四线求解器
 {: #code-lab }
 
-滑块使用 JavaScript 求解器即时反馈。Python 区在浏览器 Worker 中执行相同的四线方程，并绘制自己的结果。实验代码和实际求解器源码都可以编辑。先尝试在保持总需求不变的情况下平衡节点 3：
-
-```python
-case.update(p3_a_kw=60, p3_b_kw=60, p3_c_kw=60)
-result = solve(case)
-```
+先看逐相输入怎样进入四线模型，再由 `main()` 调用求解器并读取结果。直接运行默认程序后，取消 `parameters.update(p3_a_kw=60, p3_b_kw=60, p3_c_kw=60)` 前的注释，在保持节点 3 总负荷 180 kW 的条件下比较三相电压、VUF 与中性点偏移。滑块保留原始 JavaScript 模型作为参照；Python 区运行可编辑的四线源码。
 
 {% include course-code.html prefix="uf" root_id="unbalanced-code" source="/assets/code/unbalanced_power_flow.py" %}
 
-将下面的循环加入实验，可以在其余参数固定时比较光伏接入相，最后一次成功求解的结果将被绘制：
+完成默认实验后，可以将主程序整体替换为下面的扫描程序，在其余输入固定时比较光伏接入相。它把最后一次成功求解的结果交给页面绘图：
 
 ```python
-for connection in ("balanced", "a", "b", "c"):
-    trial = dict(case, dg_phase=connection)
-    solved = solve(trial)
-    if solved["ok"]:
-        end = solved["buses"][2]
-        print(connection, [round(p["vm_pu"], 4) for p in end["phases"]],
-              round(end["components"]["vuf_pct"], 3),
-              round(solved["loss_kw"], 3))
-        result = solved
-    else:
-        print(connection, solved["reason"])
+def main(input_case):
+    last_successful = None
+    for connection in ("balanced", "a", "b", "c"):
+        trial = dict(input_case, dg_phase=connection)
+        solved = solve(trial)
+        if solved["ok"]:
+            end = solved["buses"][2]  # Bus 3
+            print(connection, end["components"]["vuf_pct"], end["neutral_v"])
+            last_successful = solved
+        else:
+            print(connection, solved["reason"])
+    return last_successful
+
+# 返回 None 时，输出仍可读，页面不绘制电压图。
+result = main(case)
 ```
 
 ## 6. 练习与解释

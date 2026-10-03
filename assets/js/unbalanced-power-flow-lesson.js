@@ -120,7 +120,7 @@
   root.querySelectorAll('[data-key]').forEach(input=>input.addEventListener('input',()=>{state[input.dataset.key]=input.type==='checkbox'?input.checked:input.tagName==='SELECT'?input.value:Number(input.value);root.querySelector('#uf-preset').value='custom';update();}));
   root.querySelector('#uf-preset').addEventListener('change',event=>{if(event.target.value==='custom')return;state={...model.defaults,...presets[event.target.value]};sync();update();});
   root.querySelector('[data-reset]').addEventListener('click',()=>{state={...model.defaults};root.querySelector('#uf-preset').value='baseline';sync();update();});
-  const sample='# case is a fresh snapshot of the controls.\n# Try balancing the same 180 kW at bus 3:\n# case.update(p3_a_kw=60, p3_b_kw=60, p3_c_kw=60)\n\nresult = solve(case)\nif result["ok"]:\n    end = result["buses"][2]\n    for phase in end["phases"]:\n        print(f\'{phase["phase"].upper()}: {phase["vm_pu"]:.5f} pu, \'\n              f\'{phase["voltage_v"]:.2f} V\')\n    print(f\'VUF: {end["components"]["vuf_pct"]:.4f}%\')\n    print(f\'Neutral: {end["neutral_v"]:.3f} V\')\n    print(f\'Loss: {result["loss_kw"]:.4f} kW\')\nelse:\n    print("No converged solution:", result["reason"])\n';
+  const sample = window.PowerFlowCodeExamples.sample('unbalanced', zh);
   runner=window.CoursePythonRunner({root:document.getElementById('unbalanced-code'),snapshot:()=>state,zh,sample,filename:'unbalanced_experiment.py',drawResult:drawProfile,
     acceptResult:r=>r?.ok&&Array.isArray(r.buses)&&r.buses.length===3&&r.buses.every(b=>Array.isArray(b.phases)&&b.phases.length===3&&b.phases.every(p=>Number.isFinite(p.vm_pu)&&p.vm_pu>0&&p.vm_pu<5))});
   document.querySelector('.uf-quiz').addEventListener('submit',event=>{

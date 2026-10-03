@@ -21,10 +21,12 @@ I_BASE = PHASE_KW * 1000 / PHASE_V
 
 
 def local(voltage):
+    """[Va,Vb,Vc,Vn] in pu -> local phase-to-neutral [Ua,Ub,Uc]."""
     return [v - voltage[3] for v in voltage[:3]]
 
 
 def sequence(phases):
+    """Phase-to-neutral phasors -> zero/positive/negative sequence and VUF."""
     a = cmath.rect(1., 2 * math.pi / 3)
     zero = sum(phases) / 3
     positive = (phases[0] + a * phases[1] + a**2 * phases[2]) / 3
@@ -37,6 +39,11 @@ def sequence(phases):
 
 
 def network(options=None):
+    """Validate the case, convert phase demands to pu, and build 4x4 Z matrices.
+
+    Return settings, source, physical P/Q loads, pu net demands, and branches.
+    Internally, bus IDs 1/2/3 are list indices 0/1/2; conductors are A/B/C/N.
+    """
     s = {**DEFAULTS, **(options or {})}
     keys = ("load_scale", "p3_a_kw", "p3_b_kw", "p3_c_kw", "power_factor", "dg_kw",
             "slack_pu", "r_scale", "x_scale", "neutral_scale", "mutual_ratio",
@@ -73,6 +80,7 @@ def network(options=None):
 
 
 def sweep(demand, edges, source, voltage):
+    """One backward-current / forward-voltage pass with an explicit neutral."""
     loads = []
     for bus, v in enumerate(voltage):
         u = local(v)
@@ -80,14 +88,21 @@ def sweep(demand, edges, source, voltage):
             raise ArithmeticError("Very low phase voltage")
         phases = [(demand[bus][i] / phase).conjugate() for i, phase in enumerate(u)]
         loads.append(phases + [-sum(phases)])
+    # Backward: I12 supplies buses 2 + 3; I23 supplies bus 3 (four conductors).
     currents = [[a+b for a, b in zip(loads[1], loads[2])], loads[2]]
     next_v = [source[:]]
+    # Forward: V_to = V_from - Z * I, including local neutral voltage.
     for edge, current in zip(edges, currents):
         next_v.append([next_v[edge["f"]][c] - sum(edge["z"][c][j]*current[j] for j in range(4)) for c in range(4)])
     return next_v, currents
 
 
 def solve(options=None):
+    """case -> damped four-wire sweep -> per-phase result dictionary.
+
+    Check ok before reading buses. ok reports convergence; violations lists
+    voltage, VUF, phase-current and neutral-current limit violations separately.
+    """
     s, source, p_load, q_load, demand, edges = network(options)
     if s["open12"] or s["open23"]:
         return dict(ok=False, reason="island", islands=[2, 3] if s["open12"] else [3], history=[])

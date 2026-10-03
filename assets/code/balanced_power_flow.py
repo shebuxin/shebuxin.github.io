@@ -11,11 +11,20 @@ DEFAULTS = dict(load_scale=1., power_factor=.95, dg_kw=50., q_support_kvar=0.,
                 slack_pu=1., r_scale=1., x_scale=1., current_limit_a=450.,
                 topology="radial", open12=False, open23=False, open13=False)
 BASE_MVA, BASE_KV = 1., .4
+# Physical example: 1 MVA three-phase base, 0.4 kV line-to-line base.
+# Internally: impedances/powers/voltages use pu; angles use radians.
+# Returned results: kW, kvar, A, pu and degrees, as indicated by each key.
 Z_BASE = BASE_KV**2 / BASE_MVA
 I_BASE = BASE_MVA * 1000 / (math.sqrt(3) * BASE_KV)
 
 
 def network(options=None):
+    """Validate inputs and build series-only Y plus specified PQ injections.
+
+    Return (settings, branches, Y, P_spec, Q_spec). Bus IDs 1/2/3 are
+    represented internally by list indices 0/1/2. Net injection = generation
+    minus demand. P/Q here use the three-phase 1 MVA base, in pu.
+    """
     s = {**DEFAULTS, **(options or {})}
     for key in ("load_scale", "power_factor", "dg_kw", "q_support_kvar", "slack_pu", "r_scale", "x_scale", "current_limit_a"):
         if not isinstance(s[key], (int, float)) or not math.isfinite(s[key]):
@@ -35,6 +44,7 @@ def network(options=None):
         if e["active"]:
             adm = 1 / e["z"]
             i, j = e["f"], e["t"]
+            # Branch stamp: +y at the two diagonals, -y at the two off-diagonals.
             y[i][i] += adm; y[j][j] += adm
             y[i][j] -= adm; y[j][i] -= adm
     q_ratio = math.tan(math.acos(s["power_factor"]))
@@ -45,12 +55,14 @@ def network(options=None):
 
 
 def injections(y, vm, theta):
+    """Compute S_i = V_i * conjugate((YV)_i); return P and Q in pu."""
     v = [cmath.rect(m, a) for m, a in zip(vm, theta)]
     power = [v[i] * sum(y[i][j] * v[j] for j in range(3)).conjugate() for i in range(3)]
     return [s.real for s in power], [s.imag for s in power]
 
 
 def jacobian(y, vm, theta):
+    """Return d[P2,P3,Q2,Q3]/d[theta2,theta3,vm2,vm3]."""
     p, q = injections(y, vm, theta)
     jmat = [[0.] * 4 for _ in range(4)]
     for ii, i in enumerate((1, 2)):
@@ -73,6 +85,7 @@ def jacobian(y, vm, theta):
 
 
 def linear_solve(matrix, rhs):
+    """Solve J * delta_x = mismatch by Gaussian elimination with pivoting."""
     a = [list(row) + [value] for row, value in zip(matrix, rhs)]
     n = len(rhs)
     for k in range(n):
@@ -91,6 +104,12 @@ def linear_solve(matrix, rhs):
 
 
 def solve(options=None):
+    """Input dictionary -> damped Newton solve -> result dictionary.
+
+    ok=False returns reason/history without voltage fields. On success,
+    buses/branches hold the solution; violations is a separate limit check.
+    """
+    # 1. Build the network and reject buses disconnected from the slack.
     s, edges, y, p_spec, q_spec = network(options)
     seen = {0}
     for _ in range(3):
@@ -105,6 +124,7 @@ def solve(options=None):
         p, q = injections(y, magnitude, angle)
         return [p_spec[1]-p[1], p_spec[2]-p[2], q_spec[1]-q[1], q_spec[2]-q[2]]
 
+    # 2. Iterate on the two PQ buses: x = [theta2, theta3, vm2, vm3].
     for k in range(31):
         delta = mismatch(vm, theta)
         residual = max(map(abs, delta))
@@ -118,6 +138,7 @@ def solve(options=None):
         except ArithmeticError:
             return dict(ok=False, reason="nonconvergence", history=history)
         accepted, alpha = False, 1.
+        # Backtrack the step until voltage stays positive and mismatch decreases.
         while alpha >= 1/128:
             trial_t = [0., theta[1]+alpha*step[0], theta[2]+alpha*step[1]]
             trial_v = [s["slack_pu"], vm[1]+alpha*step[2], vm[2]+alpha*step[3]]
@@ -127,6 +148,7 @@ def solve(options=None):
             alpha /= 2
         if not accepted:
             return dict(ok=False, reason="nonconvergence", history=history)
+    # 3. Convert the converged pu solution to physical flows and current limits.
     p, q = injections(y, vm, theta)
     v = [cmath.rect(m, a) for m, a in zip(vm, theta)]
     branches = []

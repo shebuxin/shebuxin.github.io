@@ -136,15 +136,15 @@ Start the runtime once, then move the sliders. Compare source voltage, phase all
 ## 5. Edit tables, rerun, and inspect the answer
 {: #code-lab }
 
-The panel loads the chapter's Python source, defines `case` from the current controls, and runs your editable experiment. `build_network()`, `run_network()`, and `collect_results()` expose construction, solution, and result reading separately. You can also use `solve(case)` for a complete parameter experiment.
+The panel separates inputs, model source and the experiment entry program. `main()` copies `case`, calls `build_network()`, `run_network()` and `collect_results()` to build, solve and read, then returns the answer for plotting. Expand the source for function definitions and dependencies. `solve(case)` wraps the same workflow and is useful for parameter sweeps.
 
 {% include course-code.html prefix="pp" root_id="pandapower-code" source="/assets/code/pandapower_implementation.py" worker="/assets/js/pandapower-worker.js" %}
 
-For a direct table edit in balanced mode, insert this **before** `run_network(net, case)`:
+For a direct table edit in balanced mode, insert these two lines inside `main()`, **before** `run_network(net, parameters)` (keep four spaces of indentation):
 
 ```python
-net.load.loc[net.load.bus == 2, "p_mw"] = 0.240
-net.load.loc[net.load.bus == 2, "q_mvar"] = 0.240 * math.tan(math.acos(0.95))
+    net.load.loc[net.load.bus == 2, "p_mw"] = 0.240
+    net.load.loc[net.load.bus == 2, "q_mvar"] = 0.240 * math.tan(math.acos(parameters["pf"]))
 ```
 
 The diagram numbers buses 1/2/3; pandas indices here are 0/1/2. Retain the integer IDs returned by `create_bus()` when building a larger network, rather than assuming that bus labels equal row indices. The result reader in this example handles the **line-only feeder**; extend its connectivity and power-balance checks when adding transformers, switches, or other equipment.
