@@ -82,6 +82,8 @@ description: "在浏览器中用真实 pandapower 建网并运行平衡与三相
 
 `runpp(net, algorithm="nr")` 用 Newton–Raphson 求解平衡 AC 方程。实验还提供 `bfsw` 前推回代算法供比较，参见 [平衡潮流选项](https://pandapower.readthedocs.io/en/v3.2.1/powerflow/ac.html)。
 
+这里切换 `nr` / `bfsw`，是在同一套平衡模型下比较数值算法；切换 `runpp()` / `runpp_3ph()` 则会改变相模型，不能把两种选择混在一起。前两章分别采用 NR 与四线前推回代的教学原因，见[求解方法对照]({{ '/zh/teaching/course-development/physics-informed-gnn/unbalanced-power-flow/' | relative_url }}#solver-choice)。
+
 对于序阻抗可以解耦的对称线路，相域阻抗由序域转换得到：
 
 <div class="bf-equation" data-math="Z_{abc}=A\,\mathrm{diag}(Z_0,Z_1,Z_2)A^{-1},\quad A=\begin{bmatrix}1&amp;1&amp;1\\1&amp;a^2&amp;a\\1&amp;a&amp;a^2\end{bmatrix},\quad a=e^{j2\pi/3}"></div>

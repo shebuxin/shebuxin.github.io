@@ -12,7 +12,7 @@ description: "三相四线不平衡潮流交互教材：相域推导、中性点
 
 相同的总负荷，分配到三相之后，可能产生完全不同的电压结果。如果需求主要集中在 A 相，或者屋顶光伏只接入一相，会发生什么？本章保留三相与中性线，通过推导、例题和实验回答这些问题。
 
-<nav class="bf-toc" aria-label="本章导航"><a href="#background">背景</a><a href="#formulation">公式推导</a><a href="#sequence-components">序分量</a><a href="#worked-example">例题</a><a href="#interactive-lab">交互实验</a><a href="#code-lab">Python</a><a href="#practice">练习</a></nav>
+<nav class="bf-toc" aria-label="本章导航"><a href="#background">背景</a><a href="#formulation">公式推导</a><a href="#solver-choice">求解方法</a><a href="#sequence-components">序分量</a><a href="#worked-example">例题</a><a href="#interactive-lab">交互实验</a><a href="#code-lab">Python</a><a href="#practice">练习</a></nav>
 
 ## 1. 从单相等值走向四导线模型
 {: #background }
@@ -77,6 +77,8 @@ description: "三相四线不平衡潮流交互教材：相域推导、中性点
 <details class="bf-details"><summary>为什么改变 A 相会影响 B、C 相？</summary><p>由于 Iₙ = −(Iₐ + Iᵦ + I𝒸)，把各相导线的 KVL 方程减去中性线 KVL 方程，得到：</p><div class="bf-equation" data-math="\boldsymbol U_j=\boldsymbol U_i-\left(Z_{pp}+z_n\boldsymbol 1\boldsymbol 1^T\right)\boldsymbol I_{abc}"></div><p>共享中性线项包含三相电流之和。因此，即使 μ = 0，有限中性线阻抗也会耦合各相负荷端电压。只有中性线阻抗与相间互阻抗同时为零，三个独立单相计算才会复现本模型。</p></details>
 
 ### 步骤 D：用前推回代求解辐射型馈线
+
+{% include power-flow-solver-bridge.html %}
 
 将所有节点初始化为电源相量，然后重复：
 

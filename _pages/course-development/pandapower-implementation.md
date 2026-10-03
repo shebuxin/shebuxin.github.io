@@ -81,6 +81,8 @@ For 120 kW at PF = 0.95, Q ≈ 39.442 kvar. In code, that is `p_mw=0.120` and `q
 
 `runpp(net, algorithm="nr")` solves the balanced AC equations using Newton–Raphson. The experiment also offers `bfsw` to compare a backward/forward sweep. See the [balanced solver options](https://pandapower.readthedocs.io/en/v3.2.1/powerflow/ac.html).
 
+Switching `nr` / `bfsw` compares numerical methods within the same balanced model. Switching `runpp()` / `runpp_3ph()` changes the phase model; distinguish these two choices. The preceding chapters' reasons for using NR and four-wire sweeps are explained in the [solver comparison]({{ '/teaching/course-development/physics-informed-gnn/unbalanced-power-flow/' | relative_url }}#solver-choice).
+
 For a symmetric sequence-impedance line, the phase-domain impedance follows:
 
 <div class="bf-equation" data-math="Z_{abc}=A\,\mathrm{diag}(Z_0,Z_1,Z_2)A^{-1},\quad A=\begin{bmatrix}1&amp;1&amp;1\\1&amp;a^2&amp;a\\1&amp;a&amp;a^2\end{bmatrix},\quad a=e^{j2\pi/3}"></div>

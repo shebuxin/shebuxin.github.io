@@ -82,6 +82,12 @@ These equations retain resistance and reactive coupling. That matters in a distr
 Under this chapter's assumptions, loads and fixed-PQ distributed generators are represented at **PQ buses**. The unknowns are the voltage angles and magnitudes at those buses; the slack voltage is fixed. Collect them in x = [θ<sub>PQ</sub><sup>T</sup>, v<sub>PQ</sub><sup>T</sup>]<sup>T</sup>. The PV bus type is listed for context: it represents voltage regulation and is not used in this experiment. This bus classification and nonlinear power-balance formulation are described in the [MATPOWER AC power-flow manual](https://matpower.app/manual/matpower/ACPowerFlow.html).
 
 ### Step E — Solve with Newton–Raphson
+{: #newton-method }
+
+This chapter uses Newton–Raphson (NR) to build a general AC power-flow solution from nodal admittance, power mismatch and simultaneous Jacobian-based voltage corrections. Although the example is a distribution feeder, its experiment can close a tie and form a loop, so NR provides a method that does not require a tree topology.
+
+**Three-phase balance is not a requirement for NR.** A balanced radial network can also use backward/forward sweep; an unbalanced network can be formulated for three-phase NR. The next chapter exploits a single-source, radial four-wire structure and uses current-summation sweeps to make the shared neutral and phase-voltage updates visible. See the [algorithm comparison and applicability discussion]({{ '/teaching/course-development/physics-informed-gnn/unbalanced-power-flow/' | relative_url }}#solver-choice).
+
 
 Start with flat voltages and zero angles. Compute the mismatch between specified and calculated P/Q. Let J be the derivatives of the **calculated** injections with respect to x, so the update sign below is positive:
 

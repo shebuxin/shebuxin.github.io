@@ -1,0 +1,65 @@
+{% if page.lang == 'zh' %}
+#### 为什么这里从牛顿–拉夫逊换成前推回代？
+{: #solver-choice }
+
+[上一章]({{ '/zh/teaching/course-development/physics-informed-gnn/balanced-power-flow/' | relative_url }}#newton-method)同样研究配电馈线。**平衡／不平衡是相模型的选择，辐射／网状是拓扑的选择，牛顿–拉夫逊（NR）／前推回代（BFS）是求解方法的选择。** 三者需要分别判断：不平衡潮流也可以用 NR，平衡的辐射馈线也可以用 BFS。
+
+上一章选择 NR，是为了从节点导纳矩阵、P/Q 偏差推导通用的雅可比求解框架；其交互实验还允许闭合联络线形成回路。NR 通过联立方程处理全网电压修正，无需把网络限定成一棵树。
+
+本章则固定为**一个电源、辐射型馈线、恒定 PQ 设备**。每个下游节点只有一条返回电源的路径，适合从末端汇总电流，再从电源沿线路更新电压。本章采用的是 BFS 的**电流求和形式**；径向电流回代与电压前推的基本过程可参见 [MATPOWER 配电潮流说明](https://matpower.app/manual/matpower/DistributionPowerFlow.html)。
+
+| 相模型与网络拓扑 | 辐射型：没有闭合回路 | 含闭合回路 |
+|---|---|---|
+| 平衡单相等值 | 可用 NR 或 BFS | 可用 NR；BFS 需要回路扩展 |
+| 三相不平衡 | 可用相域 NR 或多导线 BFS | 可用相域 NR；BFS 需要回路扩展 |
+
+表中讨论算法框架；本章的交互求解器实现的是辐射型四线 BFS。它每次把 a、b、c、n 四个分量一起计算，保留完整 4 × 4 阻抗矩阵和共享中性线关系，**不是三次独立的单相计算**。光伏反送可以改变电流正负，却不改变树形连接。
+{% else %}
+#### Why switch from Newton–Raphson to backward/forward sweep here?
+{: #solver-choice }
+
+The [previous chapter]({{ '/teaching/course-development/physics-informed-gnn/balanced-power-flow/' | relative_url }}#newton-method) also studies a distribution feeder. **Balanced/unbalanced describes the phase model; radial/meshed describes topology; Newton–Raphson (NR)/backward-forward sweep (BFS) describes the numerical method.** These are separate choices. Unbalanced power flow can use NR, and a balanced radial feeder can use BFS.
+
+The previous chapter uses NR to derive a general Jacobian-based solution from nodal admittance and P/Q mismatch. Its experiment also allows a tie to close and form a loop. NR computes voltage corrections through simultaneous equations without requiring a tree topology.
+
+This chapter instead fixes **one source, a radial feeder and constant-PQ devices**. Every downstream bus has one path back to the source, so currents can be accumulated upstream and voltages updated downstream. We use the **current-summation form** of BFS; see the radial current-summation procedure in the [MATPOWER distribution power-flow manual](https://matpower.app/manual/matpower/DistributionPowerFlow.html).
+
+| Phase model and topology | Radial: no closed loop | Closed loops present |
+|---|---|---|
+| Balanced single-phase equivalent | NR or BFS | NR; BFS needs a loop extension |
+| Three-phase unbalanced | Phase-domain NR or multi-conductor BFS | Phase-domain NR; BFS needs a loop extension |
+
+The table describes algorithm frameworks. This lesson implements radial four-wire BFS: it updates a, b, c and n together, retaining the full 4 × 4 impedance matrix and shared-neutral relationship. These are **not three independent single-phase solves**. PV export can reverse current direction without changing the tree topology.
+{% endif %}
+
+<figure class="pf-concept" aria-labelledby="solver-paths-title">
+  <h4 id="solver-paths-title">{% if page.lang == 'zh' %}同一组 AC 物理约束，两种迭代组织方式{% else %}The same AC physical constraints, two ways to organize iteration{% endif %}</h4>
+  <p class="pf-note">{% if page.lang == 'zh' %}模型给定：恒定 PQ 关系 S = UI*、节点 KCL、线路 KVL，以及电源电压参考。改变算法时，这些物理条件应保持一致。{% else %}The model specifies constant-PQ relations S = UI*, nodal KCL, branch KVL and a source-voltage reference. Keep those physical conditions consistent when changing algorithms.{% endif %}</p>
+  <div class="pf-panels">
+    <section class="pf-panel"><h5>Newton–Raphson</h5>
+      <p>{% if page.lang == 'zh' %}全网电压估计 → 计算方程偏差 → 构造雅可比 → 联立求修正量 → 更新电压{% else %}Network voltage estimate → equation mismatch → Jacobian → simultaneous correction → updated voltages{% endif %}</p>
+      <div class="bf-equation" data-math="J\,\Delta x=\Delta s"></div>
+      <p>{% if page.lang == 'zh' %}这里沿用上一章“指定功率 − 计算功率”的 Δs 符号。三相版本可改用各导线电压的实部、虚部，并构造相应的功率或电流残差与雅可比。{% else %}Here Δs retains the previous chapter's specified-minus-calculated power convention. A three-phase version can use conductor-voltage real/imaginary parts with the corresponding power or current residuals and Jacobian.{% endif %}</p>
+    </section>
+    <section class="pf-panel"><h5>{% if page.lang == 'zh' %}前推回代 · 电流求和{% else %}BFS · current summation{% endif %}</h5>
+      <p>{% if page.lang == 'zh' %}当前四线电压 → 计算负荷电流 → 回代汇总支路电流 → 前推计算四线电压 → 重复{% else %}Current four-wire voltages → load currents → backward branch-current sums → forward four-wire voltage update → repeat{% endif %}</p>
+      <div class="bf-equation" data-math="\boldsymbol V^{(k)}\longrightarrow\boldsymbol I^{load}\longrightarrow\boldsymbol I^{branch}\longrightarrow\widehat{\boldsymbol V}"></div>
+      <p>{% if page.lang == 'zh' %}利用树形结构做两次遍历，不组装全网雅可比。恒定 PQ 电流依赖未知的负荷端电压，所以一轮前推回代通常不是最终解。{% else %}Two tree traversals replace a global Jacobian assembly. Constant-PQ currents depend on unknown load-terminal voltages, so one sweep generally does not complete the solution.{% endif %}</p>
+    </section>
+  </div>
+  <figcaption>{% if page.lang == 'zh' %}两者都在求非线性 AC 潮流。匹配物理模型并收敛到同一运行点时，电压、电流和损耗应一致；迭代路径和停止判据可以不同。{% else %}Both solve nonlinear AC power flow. With matching physical models and convergence to the same operating point, voltages, currents and losses should agree; iteration paths and stopping criteria may differ.{% endif %}</figcaption>
+</figure>
+
+{% if page.lang == 'zh' %}
+**R/X 较大不意味着完整 NR 不能使用。** 较大的电阻使保留有功、无功和电压的交叉耦合更重要；不要把完整 NR 与采用弱耦合近似的快解耦法混为一谈。两章的求解器都保留 R、X，没有采用 X ≫ R 的近似。
+
+BFS 的优势在这里是结构清楚、便于展示四线返回路径，并非保证所有工况下更快或更容易收敛。重负荷与较大压降会影响收敛，所以本章加入阻尼并检查残差。闭合回路需要回路补偿等扩展；PV 节点（指定 P 和电压幅值）还需要额外的无功／电压更新。本章的光伏采用固定 PQ 注入。BFS 和 NR 的迭代失败都不能单独证明潮流无解。
+
+下面把这种电流求和过程写成具体的四线更新公式。
+{% else %}
+**A larger R/X ratio does not rule out full NR.** Resistance makes it important to retain active/reactive and voltage cross-coupling; distinguish full NR from fast-decoupled methods that approximate weak coupling. Both lesson solvers retain R and X without assuming X ≫ R.
+
+Here BFS offers a clear structure for teaching the four-wire return path, rather than a guarantee of better speed or convergence in every case. Heavy demand and large voltage drops can affect convergence, so this implementation uses damping and checks residuals. Loops need extensions such as loop compensation. PV-type buses specifying P and voltage magnitude need additional reactive-power/voltage updates; the solar inverter here is fixed PQ. Failure of either iteration alone does not establish that power flow has no solution.
+
+Next, write this current-summation procedure as explicit four-wire updates.
+{% endif %}

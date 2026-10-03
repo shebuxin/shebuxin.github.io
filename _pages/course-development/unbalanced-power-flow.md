@@ -11,7 +11,7 @@ description: "Interactive three-phase, four-wire power flow: phase-domain deriva
 
 Three customers can draw the same total power as a balanced load and still produce very different phase voltages. What changes when most demand sits on phase A, or a rooftop inverter supplies only one phase? This chapter keeps all three phases and the neutral conductor, then lets you test the answer.
 
-<nav class="bf-toc" aria-label="Lesson sections"><a href="#background">Background</a><a href="#formulation">Derivation</a><a href="#sequence-components">Sequences</a><a href="#worked-example">Worked example</a><a href="#interactive-lab">Experiment</a><a href="#code-lab">Python</a><a href="#practice">Practice</a></nav>
+<nav class="bf-toc" aria-label="Lesson sections"><a href="#background">Background</a><a href="#formulation">Derivation</a><a href="#solver-choice">Solvers</a><a href="#sequence-components">Sequences</a><a href="#worked-example">Worked example</a><a href="#interactive-lab">Experiment</a><a href="#code-lab">Python</a><a href="#practice">Practice</a></nav>
 
 ## 1. From one equivalent phase to four conductors
 {: #background }
@@ -76,6 +76,8 @@ The control μ sets the mutual/self reactance ratio. This illustrative matrix is
 <details class="bf-details"><summary>Why can phase A change phases B and C?</summary><p>Since Iₙ = −(Iₐ + Iᵦ + I𝒸), subtracting the neutral-conductor KVL equation from each phase equation gives:</p><div class="bf-equation" data-math="\boldsymbol U_j=\boldsymbol U_i-\left(Z_{pp}+z_n\boldsymbol 1\boldsymbol 1^T\right)\boldsymbol I_{abc}"></div><p>The shared-neutral term contains the sum of all three phase currents. Even with μ = 0, a finite neutral couples the load-terminal phase voltages. Three independent single-phase calculations reproduce this model only when both neutral impedance and phase mutual coupling are zero.</p></details>
 
 ### Step D — Solve a radial feeder by backward/forward sweep
+
+{% include power-flow-solver-bridge.html %}
 
 Starting with the source phasors at every bus, repeat three operations:
 

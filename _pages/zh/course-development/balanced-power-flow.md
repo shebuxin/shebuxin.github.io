@@ -83,6 +83,12 @@ description: "平衡三相 AC 潮流互动教材：背景、公式推导、馈�
 在本章假设下，负荷和固定 PQ 分布式电源都接在 **PQ 节点**上。未知量是这些节点的电压相角与幅值，平衡节点电压已知。将未知量组成向量 x = [θ<sub>PQ</sub><sup>T</sup>, v<sub>PQ</sub><sup>T</sup>]<sup>T</sup>。表中的 PV 节点用于完整说明节点分类，它对应电压调节，本章实验不采用该类型。节点分类与非线性功率平衡形式可参见 [MATPOWER AC 潮流手册](https://matpower.app/manual/matpower/ACPowerFlow.html)。
 
 ### 步骤 E：用牛顿–拉夫逊方法求解
+{: #newton-method }
+
+本章以牛顿–拉夫逊（NR）建立通用的 AC 潮流求解框架：从节点导纳与功率偏差出发，用雅可比矩阵联立修正未知电压。例题虽是配电馈线，后面的实验也允许闭合联络线形成回路，因此选用不依赖树形拓扑的 NR。
+
+**三相平衡不是使用 NR 的必要条件。** 平衡的辐射型网络同样可以用前推回代；不平衡网络也可以建立三相 NR 方程。下一章将利用单电源、辐射型四线结构，改用电流求和的前推回代，以展示共享中性线与逐相电压的关系。算法选择的原因与适用边界见[两种方法的对照]({{ '/zh/teaching/course-development/physics-informed-gnn/unbalanced-power-flow/' | relative_url }}#solver-choice)。
+
 
 从平坦电压与零相角开始，计算指定功率与当前计算功率的偏差。J 定义为**计算注入**对 x 的导数，因此下面的更新采用加号：
 
