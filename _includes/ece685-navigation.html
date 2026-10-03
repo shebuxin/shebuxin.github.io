@@ -1,23 +1,23 @@
 <aside class="ece-sidebar">
   <a class="ece-brand" href="{{ ece_path | relative_url }}"><span class="ece-brand__code">ECE <strong>685</strong></span><span>Power Systems Design</span></a>
   <div class="ece-progress">
-    <div><span>{% if ece_lang == 'zh' %}目录阅读进度{% else %}Outline reading progress{% endif %}</span><strong data-progress-label>0 / {{ site.data.ece685.lectures.size }}</strong></div>
-    <progress data-progress value="0" max="{{ site.data.ece685.lectures.size }}" aria-label="{% if ece_lang == 'zh' %}已读讲义目录{% else %}Reviewed lecture outlines{% endif %}"></progress>
+    <div><span>{% if ece_lang == 'zh' %}讲义阅读进度{% else %}Lecture reading progress{% endif %}</span><strong data-progress-label>0 / {{ site.data.ece685.lectures.size }}</strong></div>
+    <progress data-progress value="0" max="{{ site.data.ece685.lectures.size }}" aria-label="{% if ece_lang == 'zh' %}已读讲义{% else %}Reviewed lectures{% endif %}"></progress>
     <small>{% if ece_lang == 'zh' %}阅读标记保存在当前浏览器。{% else %}Reading marks are saved in this browser.{% endif %}</small>
     <p class="ece-storage-note" data-storage-note hidden role="status">{% if ece_lang == 'zh' %}当前浏览器无法保存阅读标记。{% else %}This browser cannot save reading marks.{% endif %}</p>
   </div>
-  {% if page.stage_one %}<nav class="stage-navigation" aria-label="{% if ece_lang == 'zh' %}已完成模块{% else %}Completed modules{% endif %}"><a href="{{ ece_path | relative_url }}"{% unless page.stage_module %} aria-current="page"{% endunless %}>{% if ece_lang == 'zh' %}课程总览{% else %}Course overview{% endif %}</a>{% for item in site.data.ece685_stage_one.modules %}<a href="{{ ece_path | append: 'modules/' | append: item.id | append: '/' | relative_url }}"{% if page.stage_module == item.id %} aria-current="page"{% endif %}><span>{{ item.number | prepend: '0' | slice: -2, 2 }}</span>{{ item.title[ece_lang] }}<span data-stage-passed="{{ item.id }}" hidden>✓</span></a>{% endfor %}</nav>{% endif %}
-  <details class="ece-navigation"{% unless page.stage_module %} open{% endunless %}>
-    <summary>{% if ece_lang == 'zh' %}Lecture 目录{% else %}Lecture navigation{% endif %} <span>{{ site.data.ece685.lectures.size }}</span></summary>
-    <nav aria-label="{% if ece_lang == 'zh' %}ECE 685 讲义导航{% else %}ECE 685 lecture navigation{% endif %}">
-      <a class="ece-overview-link" href="{{ ece_path | relative_url }}"{% unless lecture or page.stage_one %} aria-current="page"{% endunless %}>{% if ece_lang == 'zh' %}课程总览{% else %}Course overview{% endif %}</a>
+  <details class="ece-navigation" open>
+    <summary>Lecture Navigation <span>{{ site.data.ece685.lectures.size }} {% if ece_lang == 'zh' %}讲{% else %}lectures{% endif %}</span></summary>
+    <nav aria-label="Lecture Navigation">
+      <a class="ece-overview-link" href="{{ ece_path | relative_url }}"{% unless lecture %} aria-current="page"{% endunless %}>{% if ece_lang == 'zh' %}课程总览{% else %}Course overview{% endif %}</a>
       {% for group in site.data.ece685.groups %}
       {% assign group_lectures = site.data.ece685.lectures | where: 'group', group.id %}
+      {% assign released_lectures = group_lectures | where: 'status', 'live' %}
       <details class="ece-nav-group"{% if lecture.group == group.id or forloop.first %} open{% endif %}>
-        <summary>{{ group.title[ece_lang] }} <span>{{ group_lectures.size }}</span></summary>
+        <summary>{{ group.title[ece_lang] }} <span>{{ group_lectures.size }} {% if ece_lang == 'zh' %}讲{% else %}lectures{% endif %}</span>{% if released_lectures.size == 0 %}<small class="ece-nav-release">to be released</small>{% endif %}</summary>
         <ol>
           {% for item in group_lectures %}
-          <li><a href="{{ ece_path | append: item.slug | append: '/' | relative_url }}"{% if item.id == lecture.id %} aria-current="page"{% endif %}><span class="ece-nav-id">{{ item.id }}</span><span>{{ item.title[ece_lang] }}</span><span class="ece-read-dot" data-reviewed-dot="{{ item.id }}" hidden aria-hidden="true">✓</span></a></li>
+          <li><a href="{{ ece_path | append: item.slug | append: '/' | relative_url }}"{% if item.id == lecture.id %} aria-current="page"{% endif %}><span class="ece-nav-id">{{ item.id }}</span><span>{{ item.title[ece_lang] }}{% unless item.status == 'live' %}<small class="ece-nav-release">to be released</small>{% endunless %}</span><span class="ece-read-dot" data-reviewed-dot="{{ item.id }}" hidden aria-hidden="true">✓</span></a></li>
           {% endfor %}
         </ol>
       </details>

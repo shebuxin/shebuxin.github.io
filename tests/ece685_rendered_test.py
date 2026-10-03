@@ -1,5 +1,7 @@
 """Check the imported lecture shell after a Jekyll build."""
 import json
+import hashlib
+from collections import Counter
 import os
 import unittest
 from html.parser import HTMLParser
@@ -7,7 +9,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 MANIFEST = json.loads((ROOT / "_data/ece685.json").read_text())
-STAGE = json.loads((ROOT / "_data/ece685_stage_one.json").read_text())
+SLIDES = json.loads((ROOT / "_data/ece685_slides.json").read_text())
 SITE = Path(os.environ.get("ECE685_SITE_DIR", ROOT / "_site"))
 
 
@@ -20,14 +22,25 @@ class Page(HTMLParser):
         self.current_lecture = None
         self.outline_slides = []
         self.ids = set()
+        self.id_counts = Counter()
+        self.lecture_navigation = 0
+        self.navigation_ids = []
+        self.current_links = []
         self.feed(path.read_text())
 
     def handle_starttag(self, tag, attrs):
         attrs = dict(attrs)
         if attrs.get("id"):
             self.ids.add(attrs["id"])
+            self.id_counts[attrs["id"]] += 1
         if tag == "a":
             self.links.append(attrs.get("href", ""))
+            if attrs.get("aria-current") == "page" and "hreflang" not in attrs:
+                self.current_links.append(attrs.get("href"))
+        if tag == "nav" and attrs.get("aria-label") == "Lecture Navigation":
+            self.lecture_navigation += 1
+        if "data-reviewed-dot" in attrs:
+            self.navigation_ids.append(attrs["data-reviewed-dot"])
         if "data-lecture-card" in attrs:
             self.card_ids.append(attrs["data-lecture-card"])
         if "data-lecture-id" in attrs:
@@ -37,51 +50,89 @@ class Page(HTMLParser):
 
 
 class LectureShellTest(unittest.TestCase):
-    def test_complete_seven_module_path_in_both_languages(self):
-        modules = STAGE["modules"]
-        self.assertEqual(len(modules), 7)
-        self.assertEqual([m["number"] for m in modules], list(range(1, 8)))
+    def test_one_complete_navigation_and_release_states(self):
+        ids = [lecture["id"] for lecture in MANIFEST["lectures"]]
+        released = [lecture for lecture in MANIFEST["lectures"] if lecture["status"] == "live"]
+        self.assertEqual(len(ids), 34)
+        self.assertEqual(len(released), 18)
+        self.assertEqual(set(SLIDES), {lecture["id"] for lecture in released})
         for prefix in ("", "zh/"):
             course = SITE / prefix / "teaching/course-development/ece685"
-            base = course / "modules"
-            overview = (course / "index.html").read_text()
-            self.assertEqual(overview.count('data-stage-card="'), 7)
-            self.assertIn('data-stage-progress', overview)
-            self.assertNotIn('Lecture 01', overview)
-            self.assertIn('id="ece-catalog-title"', overview)
-            legacy_overview = (course / "lecture-01/index.html").read_text()
-            self.assertIn('http-equiv="refresh"', legacy_overview)
-            self.assertNotIn('data-stage-index', legacy_overview)
-            self.assertNotIn('course-python-runner.js', overview)
-            for module in modules:
-                with self.subTest(language=prefix, module=module["id"]):
-                    path = base / module["id"] / "index.html"
+            for path in [course / "index.html"] + [course / lecture["slug"] / "index.html" for lecture in MANIFEST["lectures"]]:
+                with self.subTest(path=path):
                     html, page = path.read_text(), Page(path)
-                    self.assertNotIn('Lecture 01', html)
-                    self.assertIn('/teaching/course-development/ece685/#course-modules', html)
-                    for section in ("concepts", "experiment", "code", "practice"):
-                        self.assertIn("stage-" + section, page.ids)
-                    for marker in ('data-stage-config', 'data-stage-param', 'data-stage-diagram',
-                                   'data-stage-plot', 'data-experiment-editor', 'data-solver-editor',
-                                   'data-stage-practice', 'data-stage-quiz', 'data-stage-solution'):
-                        self.assertIn(marker, html)
-                    for asset in ('ece685-stage-model.js', 'ece685-stage-lesson.js',
-                                  'ece685-stage.css', 'ece685_stage_one.py', 'course-python-runner.js'):
-                        self.assertIn(asset, html)
-                    stage_nav = html.split('<nav class="stage-navigation"', 1)[1].split('</nav>', 1)[0]
-                    self.assertEqual(stage_nav.count('aria-current="page"'), 1)
-                    self.assertNotIn('power-flow-model.js', html)
-                    lang = "zh" if prefix else "en"
-                    self.assertIn(module["title"][lang], html)
-                    self.assertTrue((SITE / "assets/images/teaching" / ("stage-" + module["id"] + ".svg")).exists())
-                    for source in module["sources"] + module["extension"]:
-                        lecture = next(l for l in MANIFEST["lectures"] if l["id"] == source)
-                        source_html = (course / lecture["slug"] / "index.html").read_text()
-                        self.assertIn('modules/' + module["id"] + '/', source_html)
-                        self.assertNotIn('class="ece-planned"', source_html)
-                    legacy = (course / "lecture-01" / module["id"] / "index.html").read_text()
-                    self.assertIn('http-equiv="refresh"', legacy)
-                    self.assertIn('modules/' + module["id"] + '/', legacy)
+                    self.assertEqual(page.lecture_navigation, 1)
+                    self.assertEqual(page.navigation_ids, ids)
+                    self.assertNotIn('stage-navigation', html)
+                    self.assertNotIn('data-stage-index', html)
+                    self.assertNotIn('data-stage-card', html)
+                    self.assertEqual(len(page.current_links), 1)
+                    self.assertFalse([name for name, count in page.id_counts.items() if count > 1])
+            overview = (course / "index.html").read_text()
+            self.assertNotIn('course-python-runner.js', overview)
+            self.assertNotIn('Lecture 01', overview)
+            for lecture in MANIFEST["lectures"]:
+                html = (course / lecture["slug"] / "index.html").read_text()
+                if lecture["status"] != "live":
+                    body = html.split('<div class="ece-lecture-meta"', 1)[1]
+                    self.assertIn('to be released', body)
+                    for marker in ('data-slide-reader', 'data-stage-module=', 'data-l05', 'course-python-runner.js'):
+                        self.assertNotIn(marker, body)
+                    self.assertNotIn('/modules/', body)
+                else:
+                    self.assertIn('data-slide-reader', html)
+                    self.assertIn(SLIDES[lecture["id"]]["pdf"], html)
+                    self.assertIn(SLIDES[lecture["id"]]["pages_json"], html)
+                    self.assertIn('ece685-slides.js', html)
+                    if lecture.get("lesson") == "integrated":
+                        self.assertIn('data-continuous="true"', html)
+                        self.assertIn('data-stage-module="' + lecture["interactive_model"] + '"', html)
+                        self.assertIn('data-practice-lecture="' + lecture["id"] + '"', html)
+                        for marker in ('data-stage-param', 'data-stage-diagram', 'data-stage-plot',
+                                       'data-experiment-editor', 'data-solver-editor', 'data-stage-practice',
+                                       'data-stage-quiz', 'data-stage-solution'):
+                            self.assertIn(marker, html)
+                        for asset in ('ece685-stage-model.js', 'ece685-stage-lesson.js',
+                                      'ece685_stage_one.py', 'course-python-runner.js'):
+                            self.assertIn(asset, html)
+                        self.assertNotIn('ece-module-bridge', html)
+
+    def test_legacy_routes_redirect_to_original_lectures(self):
+        targets = {"overview": "L01", "generation": "L03", "single-phase": "L06",
+                   "three-phase": "L08", "transformers": "L10", "per-unit": "L13", "exam-review": "L16"}
+        for prefix in ("", "zh/"):
+            course = SITE / prefix / "teaching/course-development/ece685"
+            root_redirect = (course / "lecture-01/index.html").read_text()
+            self.assertIn('http-equiv="refresh"', root_redirect)
+            self.assertNotIn('data-stage-index', root_redirect)
+            for model, target in targets.items():
+                slug = next(lecture["slug"] for lecture in MANIFEST["lectures"] if lecture["id"] == target)
+                for family in ("modules", "lecture-01"):
+                    with self.subTest(language=prefix, family=family, model=model):
+                        html = (course / family / model / "index.html").read_text()
+                        self.assertIn('http-equiv="refresh"', html)
+                        self.assertIn('/ece685/' + slug + '/', html)
+                        self.assertNotIn('data-stage-module=', html)
+                        self.assertNotIn('stage-navigation', html)
+
+    def test_original_student_pdf_fidelity_and_complete_web_pages(self):
+        for lecture_id, slides in SLIDES.items():
+            with self.subTest(lecture=lecture_id):
+                pdf = ROOT / slides["pdf"].lstrip("/")
+                self.assertEqual(hashlib.sha256(pdf.read_bytes()).hexdigest(), slides["sha256"])
+                self.assertNotIn('narration', str(pdf))
+                pages = json.loads((ROOT / slides["pages_json"].lstrip("/")).read_text())
+                self.assertEqual(len(pages), slides["page_count"])
+                self.assertEqual(pages[0]["src"], slides["first_page"])
+                self.assertGreater(slides["width"], 1000)
+                for index, page in enumerate(pages, 1):
+                    self.assertTrue(page["src"].endswith(f"page-{index:03d}.webp"))
+                    self.assertIsInstance(page["text"], str)
+                    content = (ROOT / page["src"].lstrip("/")).read_bytes()
+                    self.assertEqual(content[:4], b"RIFF")
+                    self.assertEqual(content[8:12], b"WEBP")
+                    self.assertTrue((SITE / page["src"].lstrip("/")).is_file())
+                self.assertTrue((SITE / slides["pdf"].lstrip("/")).is_file())
 
     def test_l05_teaching_loop_and_scoped_assets(self):
         lecture = next(item for item in MANIFEST["lectures"] if item["id"] == "L05")

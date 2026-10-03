@@ -1,0 +1,183 @@
+{
+  "L01": {
+    "concept_indices": [
+      3
+    ],
+    "focus": {
+      "zh": "课程学习方法与系统建模流程",
+      "en": "Course workflow and system modeling"
+    }
+  },
+  "L02": {
+    "concept_indices": [
+      0,
+      1,
+      2
+    ],
+    "focus": {
+      "zh": "设备、单线图与功率账本",
+      "en": "Equipment, one-lines, and power accounting"
+    }
+  },
+  "L03": {
+    "concept_indices": [
+      0,
+      1
+    ],
+    "focus": {
+      "zh": "时序负荷、能量与备用容量",
+      "en": "Chronological demand, energy, and reserve"
+    }
+  },
+  "L04": {
+    "concept_indices": [
+      2,
+      3
+    ],
+    "focus": {
+      "zh": "成本筛选与机组组合",
+      "en": "Cost screening and generation mix"
+    }
+  },
+  "L06": {
+    "concept_indices": [
+      0,
+      1,
+      2
+    ],
+    "focus": {
+      "zh": "复功率、符号与功率三角形",
+      "en": "Complex power, signs, and the power triangle"
+    }
+  },
+  "L07": {
+    "concept_indices": [
+      1,
+      3
+    ],
+    "focus": {
+      "zh": "无功补偿与功率因数修正",
+      "en": "Reactive compensation and power-factor correction"
+    }
+  },
+  "L08": {
+    "concept_indices": [
+      0,
+      1,
+      2
+    ],
+    "focus": {
+      "zh": "相序与 Y/Δ 的线相量关系",
+      "en": "Sequence and Y/Δ line/phase relations"
+    }
+  },
+  "L09": {
+    "concept_indices": [
+      0,
+      3
+    ],
+    "focus": {
+      "zh": "三相功率与平衡核查",
+      "en": "Three-phase power and balance checks"
+    }
+  },
+  "L09b": {
+    "concept_indices": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "focus": {
+      "zh": "三相例题的参考与结果核查",
+      "en": "Three-phase example references and checks"
+    }
+  },
+  "L10": {
+    "concept_indices": [
+      0
+    ],
+    "focus": {
+      "zh": "理想变压器与折算侧",
+      "en": "Ideal transformers and referral side"
+    }
+  },
+  "L11": {
+    "concept_indices": [
+      0,
+      4
+    ],
+    "focus": {
+      "zh": "等效电路与近似模型",
+      "en": "Equivalent circuits and approximate models"
+    }
+  },
+  "L12": {
+    "concept_indices": [
+      3,
+      4,
+      5
+    ],
+    "focus": {
+      "zh": "试验参数、损耗与调整率",
+      "en": "Test parameters, losses, and regulation"
+    }
+  },
+  "L13": {
+    "concept_indices": [
+      0,
+      1
+    ],
+    "focus": {
+      "zh": "基准选择与物理量还原",
+      "en": "Base selection and physical recovery"
+    }
+  },
+  "L14": {
+    "concept_indices": [
+      2,
+      3
+    ],
+    "focus": {
+      "zh": "对应基准与换基准",
+      "en": "Corresponding bases and change of base"
+    }
+  },
+  "L15": {
+    "concept_indices": [
+      1,
+      2,
+      3
+    ],
+    "focus": {
+      "zh": "变压器侧与 Y/Δ 标幺化核查",
+      "en": "Transformer sides and Y/Δ normalization checks"
+    }
+  },
+  "L16": {
+    "concept_indices": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "focus": {
+      "zh": "考试一综合练习",
+      "en": "Exam-1 integrated practice"
+    }
+  },
+  "L17": {
+    "concept_indices": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "focus": {
+      "zh": "考试一复习与诊断",
+      "en": "Exam-1 review and diagnostics"
+    }
+  }
+}

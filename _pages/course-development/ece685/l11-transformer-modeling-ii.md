@@ -6,6 +6,8 @@ title: "L11 · Transformer Modeling II"
 description: "Add winding resistance, leakage reactance, excitation, and checked equivalent-circuit approximations."
 lecture_id: L11
 permalink: /teaching/course-development/ece685/l11-transformer-modeling-ii/
+ece685_slides: true
+ece685_lab: true
 ---
 
 {% include ece685-lecture.html %}

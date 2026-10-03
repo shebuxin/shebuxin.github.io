@@ -139,7 +139,7 @@
         tabs[next].focus();
       });
     });
-    root.querySelector("[data-open-overview]").addEventListener("click", event => {
+    root.querySelector("[data-open-overview]")?.addEventListener("click", event => {
       event.preventDefault();
       activate("overview", true);
       tabs[0].focus();

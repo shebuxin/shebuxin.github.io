@@ -12,6 +12,11 @@ import re
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
+LEGACY_MODELS = {
+    "L01": "overview", "L03": "generation", "L06": "single-phase",
+    "L08": "three-phase", "L10": "transformers", "L13": "per-unit",
+    "L16": "exam-review",
+}
 
 
 def braced(text, start):
@@ -95,7 +100,7 @@ def main():
                        title={"en": title, "zh": lecture.pop("title_zh")},
                        source_directory=folder.name, source_file=folder.name + ".pdf",
                        slide_count=count, slide_outline=outline,
-                       status="live" if lecture.get("lesson") else "framework")
+                       status="live" if lecture.get("released") else "unreleased")
         lectures.append(lecture)
     if not lectures:
         raise ValueError("No current lecture decks found")
@@ -119,7 +124,19 @@ def main():
                      "title: " + json.dumps(lecture["id"] + " · " + lecture["title"][lang], ensure_ascii=False),
                      "description: " + json.dumps(lecture["summary"][lang], ensure_ascii=False),
                      f"lecture_id: {lecture['id']}",
-                     f"permalink: {prefix}/teaching/course-development/ece685/{lecture['slug']}/", "---", "", body]
+                     f"permalink: {prefix}/teaching/course-development/ece685/{lecture['slug']}/"]
+            if lecture["status"] == "live":
+                front.append("ece685_slides: true")
+            if lecture.get("interactive_model"):
+                front.append("ece685_lab: true")
+            if lecture["id"] in LEGACY_MODELS:
+                model = LEGACY_MODELS[lecture["id"]]
+                front.extend([
+                    "redirect_from:",
+                    f"  - {prefix}/teaching/course-development/ece685/modules/{model}/",
+                    f"  - {prefix}/teaching/course-development/ece685/lecture-01/{model}/",
+                ])
+            front.extend(["---", "", body])
             page.write_text("\n".join(front), encoding="utf-8")
     print(f"Imported {len(lectures)} lectures, {sum(x['slide_count'] for x in lectures)} slides; refreshed bilingual lecture pages.")
 

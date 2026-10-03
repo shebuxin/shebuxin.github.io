@@ -39,6 +39,7 @@ jobs:
           node --check services/analytics/dashboard.js
           node --check assets/js/research-landscape.js
           node --check assets/js/ece685.js
+          node --check assets/js/ece685-slides.js
           node --check assets/js/ece685-stage-model.js
           node --check assets/js/ece685-stage-lesson.js
           node --check assets/js/l05-phasor-model.js

@@ -1,20 +1,19 @@
 (function(){
   'use strict';
   const model=window.ECE685StageModel,root=document.querySelector('[data-stage-module]');
-  if(!model||(!root&&!document.querySelector('[data-stage-index]')))return;
+  if(!model||!root)return;
   const zh=document.documentElement.lang.startsWith('zh'),words=(cn,en)=>zh?cn:en;
-  const key='ece685-stage-one-practice-v1',known=new Set(Object.keys(model.defaults));
+  const practiceId=root.dataset.practiceLecture;
+  const key='ece685-lecture-practice-v1';
+  const known=new Set([...document.querySelectorAll('[data-reviewed-dot]')].map(el=>el.dataset.reviewedDot));
   let passed=[],canSave=true;
   try{const data=JSON.parse(localStorage.getItem(key));if(Array.isArray(data))passed=[...new Set(data.filter(id=>known.has(id)))];}catch(_){canSave=false;}
   function progress(){
-    document.querySelectorAll('[data-stage-passed]').forEach(el=>{el.hidden=!passed.includes(el.dataset.stagePassed);});
-    const count=document.querySelector('[data-stage-progress]');if(count)count.textContent=passed.length+' / 7';
-    const note=document.querySelector('[data-stage-storage-note]');if(note)note.hidden=canSave;
-    if(root){const badge=root.querySelector('[data-stage-module-passed]');badge.hidden=!passed.includes(root.dataset.stageModule);}
+    const badge=root.querySelector('[data-stage-module-passed]');
+    if(badge)badge.hidden=!passed.includes(practiceId);
   }
   progress();
   window.addEventListener('storage',event=>{if(event.key!==key&&event.key!==null)return;try{const d=JSON.parse(event.newValue);passed=Array.isArray(d)?d.filter(id=>known.has(id)):[];}catch(_){passed=[];}progress();});
-  if(!root)return;
   const find=s=>root.querySelector(s),all=s=>[...root.querySelectorAll(s)];
   const config=JSON.parse(find('[data-stage-config]').textContent),kind=root.dataset.stageModule;
   const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -106,7 +105,7 @@
     return r.plots.every(p=>Array.isArray(p.x)&&p.x.length>=2&&p.x.length<=10000&&p.x.every((v,i)=>Number.isFinite(v)&&(i===0||v>p.x[i-1]))&&
       Array.isArray(p.curves)&&p.curves.length>0&&p.curves.length<=8&&p.curves.every(c=>Array.isArray(c.values)&&c.values.length===p.x.length&&c.values.every(Number.isFinite))&&typeof p.x_unit==='string'&&typeof p.y_unit==='string');
   }
-  const baseline=`# Current module: ${kind}. case contains a fresh control snapshot.\n# Edit an input before solve(case), then inspect the checks.\nresult = solve(case)\nimport json\nprint(json.dumps(result["metrics"], indent=2, ensure_ascii=False))\nprint("Numerical checks:", result["checks"])`;
+  const baseline=`# ${practiceId} companion model: ${kind}. case contains a fresh control snapshot.\n# Edit an input before solve(case), then inspect the checks.\nresult = solve(case)\nimport json\nprint(json.dumps(result["metrics"], indent=2, ensure_ascii=False))\nprint("Numerical checks:", result["checks"])`;
   const scan=`# Vary one parameter; retain the original control case.\nscan_case = dict(case)\nfor value in ${JSON.stringify(config.code_values)}:\n    scan_case["${config.code_key}"] = value\n    result = solve(scan_case)\n    print("${config.code_key} =", value)\n    print(result["metrics"])\n    print("Checks:", result["checks"])\n# The figure shows the last scanned case, alongside current controls.`;
   if(window.CoursePythonRunner){
     const codeRoot=find('#stage-python'),summary=find('[data-stage-code-summary]');
@@ -133,8 +132,8 @@
   }
   function completion(){
     if(!numericPassed||!quizPassed)return;
-    if(!passed.includes(kind)){passed.push(kind);try{localStorage.setItem(key,JSON.stringify(passed));}catch(_){canSave=false;}}
-    progress();find('[data-stage-completion]').textContent=words('数值与理解检查均已通过。继续解释模型假设与代码改动，再进入下一模块。','Numerical and understanding checks passed. Explain the assumptions and code edit, then continue to the next module.')+
+    if(!passed.includes(practiceId)){passed.push(practiceId);try{localStorage.setItem(key,JSON.stringify(passed));}catch(_){canSave=false;}}
+    progress();find('[data-stage-completion]').textContent=words('数值与理解检查均已通过。继续解释模型假设与代码改动，再进入下一讲。','Numerical and understanding checks passed. Explain the assumptions and code edit, then continue to the next lecture.')+
       (!canSave?words(' 当前浏览器无法保存记录。',' This browser cannot save the record.'):'');
   }
   function feedback(form,message,correct){const el=form.querySelector('[data-stage-feedback]');el.textContent=message;el.dataset.correct=String(correct);}

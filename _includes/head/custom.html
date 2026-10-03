@@ -24,12 +24,13 @@
 {% if page.ece685 %}
 <link rel="stylesheet" href="{{ '/assets/css/ece685.css' | relative_url }}">
 {% endif %}
-{% if page.stage_one %}
+{% if page.ece685_slides %}
+<link rel="stylesheet" href="{{ '/assets/css/ece685-slides.css' | relative_url }}">
+{% endif %}
+{% if page.ece685_lab %}
 <link rel="stylesheet" href="{{ '/assets/css/ece685-stage.css' | relative_url }}">
-{% if page.stage_module %}
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
-{% endif %}
 {% endif %}
 {% if page.ece685 and page.lecture_id == 'L05' %}
 <link rel="stylesheet" href="{{ '/assets/css/l05-phasors.css' | relative_url }}">

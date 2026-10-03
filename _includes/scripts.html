@@ -11,9 +11,12 @@
 {% if page.ece685 %}
   <script defer src="{{ '/assets/js/ece685.js' | relative_url }}"></script>
 {% endif %}
-{% if page.stage_one %}
+{% if page.ece685_slides %}
+  <script defer src="{{ '/assets/js/ece685-slides.js' | relative_url }}"></script>
+{% endif %}
+{% if page.ece685_lab %}
   <script defer src="{{ '/assets/js/ece685-stage-model.js' | relative_url }}"></script>
-  {% if page.stage_module %}<script defer src="{{ '/assets/js/course-python-runner.js' | relative_url }}?v={{ site.github.build_revision | default: 'code-guide-20261003' }}"></script>{% endif %}
+  <script defer src="{{ '/assets/js/course-python-runner.js' | relative_url }}?v={{ site.github.build_revision | default: 'code-guide-20261003' }}"></script>
   <script defer src="{{ '/assets/js/ece685-stage-lesson.js' | relative_url }}"></script>
 {% endif %}
 {% if page.ece685 and page.lecture_id == 'L05' %}

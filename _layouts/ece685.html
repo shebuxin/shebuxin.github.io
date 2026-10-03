@@ -13,7 +13,7 @@ layout: default
       <header class="ece-header">
         <p class="ece-eyebrow">{% if lecture %}{{ lecture.id }} <span> / </span>{% assign current_group = site.data.ece685.groups | where: 'id', lecture.group | first %}{{ current_group.title[ece_lang] }}{% else %}ECE 685 <span> / </span>{% if ece_lang == 'zh' %}交互式课程平台{% else %}Interactive course platform{% endif %}{% endif %}</p>
         <h1 id="ece-page-title">{% if lecture %}{{ lecture.title[ece_lang] }}{% else %}{{ page.title }}{% endif %}</h1>
-        <p class="ece-intro">{% if lecture %}{{ lecture.summary[ece_lang] }}{% elsif page.stage_one %}{{ page.description }}{% elsif ece_lang == 'zh' %}从发电规划到潮流分析，按每一讲的顺序学习、探索与计算。{% else %}From generation planning to power flow. Learn, explore, and calculate, one lecture at a time.{% endif %}</p>
+        <p class="ece-intro">{% if lecture %}{{ lecture.summary[ece_lang] }}{% elsif ece_lang == 'zh' %}从发电规划到潮流分析，按每一讲的顺序学习、探索与计算。{% else %}From generation planning to power flow. Learn, explore, and calculate, one lecture at a time.{% endif %}</p>
       </header>
       <div class="ece-body">{{ content }}</div>
     </article>

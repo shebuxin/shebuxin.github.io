@@ -1,15 +1,13 @@
 {% include ece685-context.html %}
 {% assign first_lecture = site.data.ece685.lectures | first %}
-{% assign first_interactive = site.data.ece685.lectures | where: 'status', 'live' | first %}
 <section class="ece-hero" aria-label="{% if ece_lang == 'zh' %}课程概况{% else %}Course at a glance{% endif %}">
   <div class="ece-hero__copy">
     <p class="ece-kicker">LEARN → EXPLORE → COMPUTE</p>
     <h2>{% if ece_lang == 'zh' %}一讲，一个学习工作台。{% else %}One lecture. One learning workspace.{% endif %}</h2>
-    <p>{% if ece_lang == 'zh' %}按原始讲义组织整门课程。已完成模块提供概念图解、交互实验、Python 代码和练习反馈。{% else %}Explore the full course in the original slide sequence. Completed modules provide diagrams, interactive experiments, Python, and practice feedback.{% endif %}</p>
+    <p>{% if ece_lang == 'zh' %}按原始讲义组织整门课程。已完成讲次提供概念图解、交互实验、Python 代码和练习反馈。{% else %}Explore the full course in the original slide sequence. Completed lectures provide diagrams, interactive experiments, Python, and practice feedback.{% endif %}</p>
     <div class="ece-hero__actions">
-      <a class="ece-button" href="#course-modules">{% if ece_lang == 'zh' %}进入已完成模块{% else %}Explore completed modules{% endif %} →</a>
+
       <a class="ece-button" href="{{ ece_path | append: first_lecture.slug | append: '/' | relative_url }}">{% if ece_lang == 'zh' %}从 L01 开始{% else %}Start with L01{% endif %} <span aria-hidden="true">↗</span></a>
-      {% if first_interactive %}<a class="ece-button ece-button--secondary" href="{{ ece_path | append: first_interactive.slug | append: '/' | relative_url }}">{% if ece_lang == 'zh' %}体验 {{ first_interactive.id }} 交互教材{% else %}Explore {{ first_interactive.id }} lesson{% endif %} <span aria-hidden="true">↗</span></a>{% endif %}
       <a class="ece-button ece-button--secondary" data-resume hidden href="{{ ece_path | append: first_lecture.slug | append: '/' | relative_url }}">{% if ece_lang == 'zh' %}继续阅读{% else %}Resume reading{% endif %}</a>
     </div>
   </div>
@@ -26,7 +24,7 @@
     <div class="ece-hero__numbers"><div><strong>{{ site.data.ece685.lectures.size }}</strong><span>LECTURES</span></div><div><strong>{{ site.data.ece685.groups.size }}</strong><span>TOPIC GROUPS</span></div></div>
   </div>
 </section>
-{% include ece685-stage-index.html %}
+{% assign released_lectures = site.data.ece685.lectures | where: 'status', 'live' %}<div class="ece-framework-note"><span class="ece-status ece-status--live">{{ released_lectures.size }} {% if ece_lang == 'zh' %}讲已开放{% else %}lectures available{% endif %}</span><p>{% if ece_lang == 'zh' %}已完成内容按原 lecture 顺序整合：定稿课件、图解、实验、Python 与练习都在各讲页面内。后续尚未完成的内容标为 to be released。{% else %}Completed material follows the original lecture sequence: finalized slides, diagrams, experiments, Python, and practice are together on each lecture page. Upcoming content is marked to be released.{% endif %}</p></div><span id="course-modules" aria-hidden="true"></span>
 <section class="ece-catalog" aria-labelledby="ece-catalog-title" data-catalog>
   <div class="ece-section-heading"><h2 id="ece-catalog-title">{% if ece_lang == 'zh' %}按 Lecture 学习{% else %}Explore the lectures{% endif %}</h2><span data-result-count aria-live="polite">{{ site.data.ece685.lectures.size }} {% if ece_lang == 'zh' %}讲{% else %}lectures{% endif %}</span></div>
   <div class="ece-filters" data-filters hidden>
@@ -38,15 +36,13 @@
   {% for group in site.data.ece685.groups %}
   {% assign group_lectures = site.data.ece685.lectures | where: 'group', group.id %}
   <section class="ece-topic-group" id="topic-{{ group.id }}" data-topic-group>
-    <div class="ece-group-heading"><span>{{ forloop.index | prepend: '0' | slice: -2, 2 }}</span><h3>{{ group.title[ece_lang] }}</h3><small>{{ group_lectures.size }} {% if ece_lang == 'zh' %}讲{% else %}lectures{% endif %}</small></div>
+    <div class="ece-group-heading"><h3>{{ group.title[ece_lang] }}</h3><small>{{ group_lectures.size }} {% if ece_lang == 'zh' %}讲{% else %}lectures{% endif %}</small></div>
     <div class="ece-lecture-grid">
       {% for item in group_lectures %}
-      {% assign completed_module = nil %}{% for module in site.data.ece685_stage_one.modules %}{% if module.sources contains item.id or module.extension contains item.id %}{% assign completed_module = module %}{% break %}{% endif %}{% endfor %}
       <article class="ece-lecture-card" data-lecture-card="{{ item.id }}" data-group="{{ group.id }}">
-        <div class="ece-card-meta"><span class="ece-lecture-id">{{ item.id }}</span><span class="ece-status{% if completed_module or item.status == 'live' %} ece-status--live{% endif %}">{% if completed_module %}{% if ece_lang == 'zh' %}交互模块已完成{% else %}Interactive module complete{% endif %}{% elsif item.status == 'live' %}{% if ece_lang == 'zh' %}交互教材{% else %}Interactive lesson{% endif %}{% elsif ece_lang == 'zh' %}待开发交互{% else %}Interaction planned{% endif %}</span></div>
+        <div class="ece-card-meta"><span class="ece-lecture-id">{{ item.id }}</span><span class="ece-status{% if item.status == 'live' %} ece-status--live{% endif %}">{% if item.status == 'live' %}{% if ece_lang == 'zh' %}已完成{% else %}Available{% endif %}{% else %}to be released{% endif %}</span></div>
         <h4><a data-lecture-link href="{{ ece_path | append: item.slug | append: '/' | relative_url }}">{{ item.title[ece_lang] }} <span aria-hidden="true">↗</span></a></h4>
         <p>{{ item.summary[ece_lang] }}</p>
-        {% if completed_module %}<p><a href="{{ ece_path | append: 'modules/' | append: completed_module.id | append: '/' | relative_url }}">{% if ece_lang == 'zh' %}进入对应交互模块{% else %}Open the interactive module{% endif %} →</a></p>{% endif %}
         <div class="ece-card-footer"><span>{{ item.slide_outline.size }} {% if ece_lang == 'zh' %}个 slide 标题{% else %}slide headings{% endif %}</span><span data-reviewed-badge="{{ item.id }}" hidden>✓ {% if ece_lang == 'zh' %}目录已读{% else %}Outline reviewed{% endif %}</span></div>
         <span data-search-text hidden>{{ item.title.en | escape }} {{ item.title.zh | escape }} {{ item.summary.en | escape }} {{ item.summary.zh | escape }} {% for slide in item.slide_outline %}{{ slide.title | escape }} {% endfor %}</span>
       </article>

@@ -37,6 +37,7 @@
 .ece-nav-group li { margin: .1rem 0; }
 .ece-nav-group a { display: flex; gap: .5rem; align-items: baseline; border-radius: 6px; padding: .6rem .5rem; color: var(--ece-muted); font-size: .66rem; line-height: 1.45; }
 .ece-nav-id { min-width: 2.2rem; font-size: .62rem; color: var(--ece-purple); font-variant-numeric: tabular-nums; }
+.ece-nav-release { display: block; font-size: .56rem; color: var(--ece-muted); font-weight: 400; margin-top: .25rem; }
 .ece-read-dot { margin-left: auto; color: #34745f; }
 .ece-platform a[aria-current="page"] { background: #eee6f6; color: var(--ece-purple); font-weight: 600; }
 .ece-content { min-width: 0; padding-bottom: 2rem; }
@@ -157,5 +158,3 @@
   .ece-pagination { gap: .8rem; }
   .ece-review-button { margin-left: 0; min-height: 42px; }
 }
-.ece-module-bridge { border: 1px solid #d7c9e4; border-radius: 10px; padding: 1.1rem; margin-bottom: 1.4rem; background: #f5f0fa; font-size: .8rem; line-height: 1.8; }
-.ece-module-bridge p { font-size: .75rem; }

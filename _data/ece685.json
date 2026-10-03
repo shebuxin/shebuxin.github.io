@@ -104,6 +104,10 @@
         "en": "Explore the course workflow from system data to a design decision.",
         "zh": "沿课程设计流程，连接系统数据、计算分析与设计决策。"
       },
+      "lesson": "integrated",
+      "interactive_model": "overview",
+      "released": true,
+      "frozen_source": true,
       "id": "L01",
       "slug": "l01-course-orientation",
       "title": {
@@ -219,7 +223,7 @@
           "title": "Design workflow"
         }
       ],
-      "status": "framework"
+      "status": "live"
     },
     {
       "group": "orientation",
@@ -231,6 +235,10 @@
         "en": "Connect generators, buses, transformers, lines, loads, and shunts in a one-line diagram.",
         "zh": "在单线图中连接发电机、母线、变压器、线路、负荷与并联元件。"
       },
+      "lesson": "integrated",
+      "interactive_model": "overview",
+      "released": true,
+      "frozen_source": true,
       "id": "L02",
       "slug": "l02-power-system-overview",
       "title": {
@@ -362,7 +370,7 @@
           "title": "System-data record"
         }
       ],
-      "status": "framework"
+      "status": "live"
     },
     {
       "group": "generation",
@@ -374,6 +382,10 @@
         "en": "Reorder a chronological load profile and compare energy with its load-duration curve.",
         "zh": "将时序负荷排序为负荷持续曲线，并比较两者的能量。"
       },
+      "lesson": "integrated",
+      "interactive_model": "generation",
+      "released": true,
+      "frozen_source": true,
       "id": "L03",
       "slug": "l03-fuel-mix-i",
       "title": {
@@ -501,7 +513,7 @@
           "title": "Summary"
         }
       ],
-      "status": "framework"
+      "status": "live"
     },
     {
       "group": "generation",
@@ -513,6 +525,10 @@
         "en": "Change fixed and variable costs, then inspect crossover hours and net-load coverage.",
         "zh": "调整固定成本与变动成本，观察交叉运行小时和净负荷覆盖情况。"
       },
+      "lesson": "integrated",
+      "interactive_model": "generation",
+      "released": true,
+      "frozen_source": true,
       "id": "L04",
       "slug": "l04-fuel-mix-ii",
       "title": {
@@ -624,7 +640,7 @@
           "title": "Summary"
         }
       ],
-      "status": "framework"
+      "status": "live"
     },
     {
       "group": "single-phase",
@@ -637,6 +653,8 @@
         "zh": "调整幅值与相位，同时比较时域波形、相量和直角坐标分量。"
       },
       "lesson": "l05-phasors",
+      "released": true,
+      "frozen_source": true,
       "id": "L05",
       "slug": "l05-single-phase-ac-i",
       "title": {
@@ -788,6 +806,10 @@
         "en": "Change the voltage–current phase difference and follow the power triangle and power factor.",
         "zh": "改变电压与电流的相位差，观察功率三角形和功率因数。"
       },
+      "lesson": "integrated",
+      "interactive_model": "single-phase",
+      "released": true,
+      "frozen_source": true,
       "id": "L06",
       "slug": "l06-single-phase-ac-ii",
       "title": {
@@ -867,7 +889,7 @@
           "title": "Complex-power summary"
         }
       ],
-      "status": "framework"
+      "status": "live"
     },
     {
       "group": "single-phase",
@@ -879,6 +901,10 @@
         "en": "Adjust the target power factor and compare compensation requirements with the original load.",
         "zh": "调整目标功率因数，比较补偿需求与原始负荷。"
       },
+      "lesson": "integrated",
+      "interactive_model": "single-phase",
+      "released": true,
+      "frozen_source": true,
       "id": "L07",
       "slug": "l07-single-phase-ac-iii",
       "title": {
@@ -950,7 +976,7 @@
           "title": "Correction summary"
         }
       ],
-      "status": "framework"
+      "status": "live"
     },
     {
       "group": "three-phase",
@@ -962,6 +988,10 @@
         "en": "Switch phase sequence and connection while inspecting phase and line phasors.",
         "zh": "切换相序与接线方式，比较相电压、线电压及相电流、线电流。"
       },
+      "lesson": "integrated",
+      "interactive_model": "three-phase",
+      "released": true,
+      "frozen_source": true,
       "id": "L08",
       "slug": "l08-three-phase-ac-i",
       "title": {
@@ -1157,7 +1187,7 @@
           "title": "Example: branch and line current sets"
         }
       ],
-      "status": "framework"
+      "status": "live"
     },
     {
       "group": "three-phase",
@@ -1169,6 +1199,10 @@
         "en": "Compare balanced wye and delta feeders, voltage drop, and power balance.",
         "zh": "比较平衡星形与三角形馈线的电压降和功率平衡。"
       },
+      "lesson": "integrated",
+      "interactive_model": "three-phase",
+      "released": true,
+      "frozen_source": true,
       "id": "L09",
       "slug": "l09-three-phase-ac-ii",
       "title": {
@@ -1336,7 +1370,7 @@
           "title": "A complete balanced three-phase solution"
         }
       ],
-      "status": "framework"
+      "status": "live"
     },
     {
       "group": "three-phase",
@@ -1348,6 +1382,10 @@
         "en": "Step through connection and power examples with explicit reference directions.",
         "zh": "按明确的参考方向，逐步完成接线关系与功率计算例题。"
       },
+      "lesson": "integrated",
+      "interactive_model": "three-phase",
+      "released": true,
+      "frozen_source": true,
       "id": "L09b",
       "slug": "l09b-three-phase-examples",
       "title": {
@@ -1507,7 +1545,7 @@
           "title": "Complete solution workflow"
         }
       ],
-      "status": "framework"
+      "status": "live"
     },
     {
       "group": "transformers",
@@ -1519,6 +1557,10 @@
         "en": "Change the turns ratio and compare physical quantities and referred impedance on both sides.",
         "zh": "调整匝数比，比较两侧物理量与折算后的阻抗。"
       },
+      "lesson": "integrated",
+      "interactive_model": "transformers",
+      "released": true,
+      "frozen_source": true,
       "id": "L10",
       "slug": "l10-transformer-modeling-i",
       "title": {
@@ -1666,7 +1708,7 @@
           "title": "Ideal-transformer summary"
         }
       ],
-      "status": "framework"
+      "status": "live"
     },
     {
       "group": "transformers",
@@ -1678,6 +1720,10 @@
         "en": "Compare exact, input-shunt, and series transformer approximations at an operating point.",
         "zh": "在同一运行点比较精确电路、输入并联励磁近似和串联近似。"
       },
+      "lesson": "integrated",
+      "interactive_model": "transformers",
+      "released": true,
+      "frozen_source": true,
       "id": "L11",
       "slug": "l11-transformer-modeling-ii",
       "title": {
@@ -1801,7 +1847,7 @@
           "title": "Example: results and circuit check"
         }
       ],
-      "status": "framework"
+      "status": "live"
     },
     {
       "group": "transformers",
@@ -1813,6 +1859,10 @@
         "en": "Enter test readings and inspect the inferred parameters, regulation, and loss balance.",
         "zh": "输入试验读数，检验推算参数、电压调整率与损耗平衡。"
       },
+      "lesson": "integrated",
+      "interactive_model": "transformers",
+      "released": true,
+      "frozen_source": true,
       "id": "L12",
       "slug": "l12-transformer-modeling-iii",
       "title": {
@@ -1964,7 +2014,7 @@
           "title": "Summary: tests, regulation, and efficiency"
         }
       ],
-      "status": "framework"
+      "status": "live"
     },
     {
       "group": "per-unit",
@@ -1976,6 +2026,10 @@
         "en": "Change independent bases and recover the same physical circuit from per-unit quantities.",
         "zh": "调整独立基准值，从标幺量还原同一个物理电路。"
       },
+      "lesson": "integrated",
+      "interactive_model": "per-unit",
+      "released": true,
+      "frozen_source": true,
       "id": "L13",
       "slug": "l13-per-unit-i",
       "title": {
@@ -2139,7 +2193,7 @@
           "title": "Per-unit summary"
         }
       ],
-      "status": "framework"
+      "status": "live"
     },
     {
       "group": "per-unit",
@@ -2151,6 +2205,10 @@
         "en": "Track corresponding voltage bases through a transformer and verify impedance invariance.",
         "zh": "跟踪变压器两侧对应电压基准，检验物理阻抗的一致性。"
       },
+      "lesson": "integrated",
+      "interactive_model": "per-unit",
+      "released": true,
+      "frozen_source": true,
       "id": "L14",
       "slug": "l14-per-unit-ii",
       "title": {
@@ -2298,7 +2356,7 @@
           "title": "Summary"
         }
       ],
-      "status": "framework"
+      "status": "live"
     },
     {
       "group": "per-unit",
@@ -2310,6 +2368,10 @@
         "en": "Normalize complete transformer networks and recover the correct line and phase quantities.",
         "zh": "对完整变压器网络进行标幺化，恢复正确的线量和相量。"
       },
+      "lesson": "integrated",
+      "interactive_model": "per-unit",
+      "released": true,
+      "frozen_source": true,
       "id": "L15",
       "slug": "l15-per-unit-iii",
       "title": {
@@ -2509,7 +2571,7 @@
           "title": "Two examples: base conventions"
         }
       ],
-      "status": "framework"
+      "status": "live"
     },
     {
       "group": "exam-one",
@@ -2521,6 +2583,10 @@
         "en": "Organize a guided practice workspace around the lecture's problem sequence.",
         "zh": "围绕讲义中的题目顺序组织分步练习区域。"
       },
+      "lesson": "integrated",
+      "interactive_model": "exam-review",
+      "released": true,
+      "frozen_source": false,
       "id": "L16",
       "slug": "l16-exam1-practice",
       "title": {
@@ -2672,7 +2738,7 @@
           "title": "Solution 6: screening and capacity"
         }
       ],
-      "status": "framework"
+      "status": "live"
     },
     {
       "group": "exam-one",
@@ -2684,6 +2750,10 @@
         "en": "Compare intermediate results across the review's calculation workflows.",
         "zh": "在复习中的计算流程之间比较中间结果。"
       },
+      "lesson": "integrated",
+      "interactive_model": "exam-review",
+      "released": true,
+      "frozen_source": false,
       "id": "L17",
       "slug": "l17-exam1-review",
       "title": {
@@ -2847,7 +2917,7 @@
           "title": "Planning: result summary"
         }
       ],
-      "status": "framework"
+      "status": "live"
     },
     {
       "group": "three-phase-transformers",
@@ -2859,6 +2929,8 @@
         "en": "Switch bank connections and inspect winding versus line ratios.",
         "zh": "切换变压器组接线，比较绕组比与线量比。"
       },
+      "released": false,
+      "frozen_source": false,
       "id": "L20",
       "slug": "l20-three-phase-transformers-i",
       "title": {
@@ -2974,7 +3046,7 @@
           "title": "Closing check"
         }
       ],
-      "status": "framework"
+      "status": "unreleased"
     },
     {
       "group": "three-phase-transformers",
@@ -2986,6 +3058,8 @@
         "en": "Inspect terminal phasors under an explicit high-side/low-side phase convention.",
         "zh": "在明确的高、低压侧相位约定下观察端口相量。"
       },
+      "released": false,
+      "frozen_source": false,
       "id": "L21",
       "slug": "l21-three-phase-transformers-ii",
       "title": {
@@ -3105,7 +3179,7 @@
           "title": "Closing check"
         }
       ],
-      "status": "framework"
+      "status": "unreleased"
     },
     {
       "group": "line-parameters",
@@ -3117,6 +3191,8 @@
         "en": "Change conductor dimensions and compare the resulting series parameters.",
         "zh": "改变导线尺寸，比较相应的串联参数。"
       },
+      "released": false,
+      "frozen_source": false,
       "id": "L22",
       "slug": "l22-line-parameters-i",
       "title": {
@@ -3252,7 +3328,7 @@
           "title": "Closing check"
         }
       ],
-      "status": "framework"
+      "status": "unreleased"
     },
     {
       "group": "line-parameters",
@@ -3264,6 +3340,8 @@
         "en": "Adjust phase spacing and GMR while tracing the inductance calculation.",
         "zh": "调整相间距和 GMR，跟踪电感的计算过程。"
       },
+      "released": false,
+      "frozen_source": false,
       "id": "L23",
       "slug": "l23-line-parameters-ii",
       "title": {
@@ -3387,7 +3465,7 @@
           "title": "Closing check"
         }
       ],
-      "status": "framework"
+      "status": "unreleased"
     },
     {
       "group": "line-parameters",
@@ -3399,6 +3477,8 @@
         "en": "Compare the role of physical radius in capacitance with GMR in inductance.",
         "zh": "比较物理半径在电容计算中与 GMR 在电感计算中的作用。"
       },
+      "released": false,
+      "frozen_source": false,
       "id": "L24",
       "slug": "l24-line-parameters-iii",
       "title": {
@@ -3522,7 +3602,7 @@
           "title": "Closing check"
         }
       ],
-      "status": "framework"
+      "status": "unreleased"
     },
     {
       "group": "line-parameters",
@@ -3534,6 +3614,8 @@
         "en": "Change bundle spacing and subconductor count, then compare effective line parameters.",
         "zh": "调整分裂间距与子导线数量，比较有效线路参数。"
       },
+      "released": false,
+      "frozen_source": false,
       "id": "L25",
       "slug": "l25-line-parameters-iv",
       "title": {
@@ -3657,7 +3739,7 @@
           "title": "Closing check"
         }
       ],
-      "status": "framework"
+      "status": "unreleased"
     },
     {
       "group": "line-models",
@@ -3669,6 +3751,8 @@
         "en": "Vary the short line's series impedance and receiving-end load to inspect terminal quantities.",
         "zh": "调整短线路串联阻抗与受端负荷，观察端口量。"
       },
+      "released": false,
+      "frozen_source": false,
       "id": "L26",
       "slug": "l26-transmission-line-models-i",
       "title": {
@@ -3792,7 +3876,7 @@
           "title": "Closing check"
         }
       ],
-      "status": "framework"
+      "status": "unreleased"
     },
     {
       "group": "line-models",
@@ -3804,6 +3888,8 @@
         "en": "Compare nominal-π terminal results as line charging and load change.",
         "zh": "改变线路充电与负荷，比较标称 π 模型的端口结果。"
       },
+      "released": false,
+      "frozen_source": false,
       "id": "L27",
       "slug": "l27-transmission-line-models-ii",
       "title": {
@@ -3935,7 +4021,7 @@
           "title": "Closing check"
         }
       ],
-      "status": "framework"
+      "status": "unreleased"
     },
     {
       "group": "line-models",
@@ -3947,6 +4033,8 @@
         "en": "Explore line length and loading while comparing distributed and lumped models.",
         "zh": "调整线路长度与负载，比较分布参数和集中参数模型。"
       },
+      "released": false,
+      "frozen_source": false,
       "id": "L28",
       "slug": "l28-transmission-line-models-iii",
       "title": {
@@ -4074,7 +4162,7 @@
           "title": "Closing check"
         }
       ],
-      "status": "framework"
+      "status": "unreleased"
     },
     {
       "group": "exam-two",
@@ -4086,6 +4174,8 @@
         "en": "Organize the second review around parameter, model, and operating-point checks.",
         "zh": "围绕参数、模型和运行点核查组织第二阶段复习。"
       },
+      "released": false,
+      "frozen_source": false,
       "id": "L30",
       "slug": "l30-exam2-review",
       "title": {
@@ -4225,7 +4315,7 @@
           "title": "Closing check"
         }
       ],
-      "status": "framework"
+      "status": "unreleased"
     },
     {
       "group": "power-flow",
@@ -4237,6 +4327,8 @@
         "en": "Classify buses and inspect the known quantities, unknowns, and net injections of a network.",
         "zh": "分类网络节点，检查各节点的已知量、未知量和净注入。"
       },
+      "released": false,
+      "frozen_source": false,
       "id": "L32",
       "slug": "l32-power-flow-i",
       "title": {
@@ -4364,7 +4456,7 @@
           "title": "Summary"
         }
       ],
-      "status": "framework"
+      "status": "unreleased"
     },
     {
       "group": "power-flow",
@@ -4376,6 +4468,8 @@
         "en": "Build branch stamps and inspect how charging, taps, and outages change Y-bus.",
         "zh": "建立支路矩阵，观察充电、分接头与支路断开如何改变节点导纳矩阵。"
       },
+      "released": false,
+      "frozen_source": false,
       "id": "L33",
       "slug": "l33-power-flow-ii",
       "title": {
@@ -4515,7 +4609,7 @@
           "title": "Summary"
         }
       ],
-      "status": "framework"
+      "status": "unreleased"
     },
     {
       "group": "power-flow",
@@ -4527,6 +4621,8 @@
         "en": "Change a trial voltage state and inspect real/reactive mismatches and the residual norm.",
         "zh": "改变试算电压状态，观察有功与无功不平衡量及残差范数。"
       },
+      "released": false,
+      "frozen_source": false,
       "id": "L34",
       "slug": "l34-power-flow-iii",
       "title": {
@@ -4662,7 +4758,7 @@
           "title": "Summary"
         }
       ],
-      "status": "framework"
+      "status": "unreleased"
     },
     {
       "group": "power-flow",
@@ -4674,6 +4770,8 @@
         "en": "Step through an ordered sweep and compare voltage updates, residuals, and PV reactive limits.",
         "zh": "逐步执行有序迭代，比较电压更新、残差和 PV 无功限值。"
       },
+      "released": false,
+      "frozen_source": false,
       "id": "L35",
       "slug": "l35-power-flow-iv",
       "title": {
@@ -4817,7 +4915,7 @@
           "title": "Summary"
         }
       ],
-      "status": "framework"
+      "status": "unreleased"
     },
     {
       "group": "power-flow",
@@ -4829,6 +4927,8 @@
         "en": "Inspect Newton corrections and distinguish a converged solution from an acceptable operating point.",
         "zh": "观察牛顿修正量，区分求解收敛与运行点满足限值。"
       },
+      "released": false,
+      "frozen_source": false,
       "id": "L36",
       "slug": "l36-power-flow-v",
       "title": {
@@ -5004,7 +5104,7 @@
           "title": "Complete power-flow workflow"
         }
       ],
-      "status": "framework"
+      "status": "unreleased"
     },
     {
       "group": "final-review",
@@ -5016,6 +5116,8 @@
         "en": "Trace a complete system-design workflow through the course's calculation and validation steps.",
         "zh": "沿课程计算与验证步骤，梳理完整的系统设计流程。"
       },
+      "released": false,
+      "frozen_source": false,
       "id": "L41",
       "slug": "l41-comprehensive-final-review",
       "title": {
@@ -5171,7 +5273,7 @@
           "title": "Closing check"
         }
       ],
-      "status": "framework"
+      "status": "unreleased"
     }
   ]
 }
