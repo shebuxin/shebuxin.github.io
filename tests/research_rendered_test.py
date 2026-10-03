@@ -1,5 +1,6 @@
 from html.parser import HTMLParser
 from pathlib import Path
+import re
 import unittest
 
 
@@ -273,10 +274,12 @@ class ResearchRenderedPagesTest(unittest.TestCase):
         self.assertIn("2026 IEEE PES Prize Paper Award", english_home)
         self.assertIn("2026 IEEE PES Prize Paper Award", chinese_home)
 
-        self.assertEqual(1, english_teaching.count("Contributed to:"))
-        self.assertEqual(3, english_teaching.count("Responsible for:"))
-        self.assertEqual(1, chinese_teaching.count("参与："))
-        self.assertEqual(3, chinese_teaching.count("负责："))
+        role_labels = r'<span class="teaching-course__role">([^<]+)</span>'
+        self.assertEqual(
+            ["Contributed to", "Responsible for", "Responsible for", "Responsible for"],
+            re.findall(role_labels, english_teaching),
+        )
+        self.assertEqual(["参与", "负责", "负责", "负责"], re.findall(role_labels, chinese_teaching))
         self.assertNotIn("正式标题保留其原始发表语言", chinese_publications)
 
     def test_bilingual_about_updates_and_cv_removal(self):
