@@ -21,6 +21,8 @@ description: "在浏览器中用真实 pandapower 建网并运行平衡与三相
 
 <div class="pp-workflow" role="list" aria-label="建模流程"><div role="listitem"><strong>1 · 描述系统</strong><code>bus, line, load, sgen</code><span>拓扑、阻抗、负荷与发电</span></div><div role="listitem"><strong>2 · 建网</strong><code>pp.create_*()</code><span>形成 net 中的设备表</span></div><div role="listitem"><strong>3 · 求解</strong><code>runpp / runpp_3ph</code><span>计算 AC 运行点</span></div><div role="listitem"><strong>4 · 检查</strong><code>net.res_*</code><span>供电、电压、电流与损耗</span></div></div>
 
+{% include power-flow-illustration.html kind="mapping" %}
+
 `net` 内包含多个 pandas DataFrame。输入表描述设备，`res_*` 表存储最近一次潮流结果。修改输入表不会自动更新结果，**修改后需要重新运行求解器**。
 
 | 物理对象 | 平衡模型 | 三相模型 | 结果表 |
@@ -169,6 +171,8 @@ N-1 筛查分别求解基准运行点及选定设备的单一退出工况。标�
 这些限值用于教学。静态筛查不评估保护、暂态稳定、谐波或孤岛控制。求解失败也应单独记录，不能据此直接证明物理不可行。
 
 将以下代码放入编辑器。闭合联络线后存在替代供电路径，每个退出工况都从相同的基准开始：
+
+{% include power-flow-illustration.html kind="screening" %}
 
 ```python
 import pandas as pd

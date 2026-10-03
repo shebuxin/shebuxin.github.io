@@ -25,6 +25,7 @@
 {% if page.balanced_power_flow %}
   <script defer src="{{ '/assets/js/balanced-power-flow-model.js' | relative_url }}"></script>
   <script defer src="{{ '/assets/js/balanced-power-flow-lesson.js' | relative_url }}"></script>
+  <script defer src="{{ '/assets/js/power-flow-illustrations.js' | relative_url }}?v={{ site.github.build_revision | default: 'concepts-20261003' }}"></script>
 {% endif %}
 
 {% if page.unbalanced_power_flow %}

@@ -56,11 +56,15 @@ description: "平衡三相 AC 潮流互动教材：背景、公式推导、馈�
 
 <div class="bf-equation" data-math="\begin{aligned}Y_{ii}&amp;=\sum_{k\in\mathcal N_i}y_{ik}\\Y_{ij}&amp;=-y_{ij}\quad(i\ne j),\qquad \boldsymbol I=Y_{bus}\boldsymbol V\end{aligned}"></div>
 
+{% include power-flow-illustration.html kind="admittance" %}
+
 ### 步骤 C：从电流得到复功率注入
 
 规定**向网络供电的净注入为正**：P<sup>spec</sup> = P<sub>G</sub> − P<sub>D</sub>，Q<sup>spec</sup> = Q<sub>G</sub> − Q<sub>D</sub>。将基尔霍夫电流定律与 S = VI* 结合：
 
 <div class="bf-equation" data-math="S_i=V_i I_i^*=V_i\left(\sum_j Y_{ij}V_j\right)^*"></div>
+
+{% include power-flow-illustration.html kind="injection" %}
 
 令 V<sub>i</sub> = v<sub>i</sub>e<sup>jθᵢ</sup>、Y<sub>ij</sub> = G<sub>ij</sub> + jB<sub>ij</sub>、δ<sub>ij</sub> = θ<sub>i</sub> − θ<sub>j</sub>，展开复数乘积：
 
@@ -85,6 +89,8 @@ description: "平衡三相 AC 潮流互动教材：背景、公式推导、馈�
 <div class="bf-equation" data-math="\begin{aligned}\Delta\boldsymbol s&amp;=\begin{bmatrix}\boldsymbol P_{PQ}^{spec}-\boldsymbol P_{PQ}\\\boldsymbol Q_{PQ}^{spec}-\boldsymbol Q_{PQ}\end{bmatrix}\\J&amp;=\begin{bmatrix}H&amp;N\\M&amp;L\end{bmatrix}=\frac{\partial(\boldsymbol P_{PQ},\boldsymbol Q_{PQ})}{\partial(\boldsymbol\theta_{PQ},\boldsymbol v_{PQ})}\end{aligned}"></div>
 <div class="bf-equation" data-math="\begin{aligned}J(x^{(k)})\Delta x^{(k)}&amp;=\Delta\boldsymbol s^{(k)}\\x^{(k+1)}&amp;=x^{(k)}+\alpha\Delta x^{(k)}\end{aligned}"></div>
 
+{% include power-flow-illustration.html kind="newton" %}
+
 实现采用解析雅可比矩阵、带主元选择的消元和回溯步长 α，使偏差下降并保持电压幅值为正。停止条件为 ‖Δs‖∞ &lt; 10<sup>−10</sup> pu；迭代停滞或完成 30 次更新仍不收敛时报告失败。算法不收敛本身并不能证明物理系统不存在解。
 
 <details class="bf-details"><summary>展开雅可比矩阵各元素</summary><p>当 i ≠ j：</p><div class="bf-equation" data-math="\begin{aligned}H_{ij}&amp;=v_i v_j(G_{ij}\sin\delta_{ij}-B_{ij}\cos\delta_{ij})\\N_{ij}&amp;=v_i(G_{ij}\cos\delta_{ij}+B_{ij}\sin\delta_{ij})\\M_{ij}&amp;=-v_i v_j(G_{ij}\cos\delta_{ij}+B_{ij}\sin\delta_{ij})\\L_{ij}&amp;=v_i(G_{ij}\sin\delta_{ij}-B_{ij}\cos\delta_{ij})\end{aligned}"></div><p>当 i = j：</p><div class="bf-equation" data-math="\begin{aligned}H_{ii}&amp;=-Q_i-B_{ii}v_i^2\\N_{ii}&amp;=P_i/v_i+G_{ii}v_i\\M_{ii}&amp;=P_i-G_{ii}v_i^2\\L_{ii}&amp;=Q_i/v_i-B_{ii}v_i\end{aligned}"></div><p>对应的复数矩阵导数可参见 <a href="https://matpower.org/documentation/ref-manual/legacy/functions/dSbus_dV.html">MATPOWER 电压导数文档</a>。</p></details>
@@ -101,6 +107,8 @@ description: "平衡三相 AC 潮流互动教材：背景、公式推导、馈�
 ### 建立馈线与节点设置
 
 考虑一个 **400 V 三节点配电馈线**。节点 1 是上级电源，通过线路 1–2 向节点 2 供电，再通过线路 2–3 向下游节点 3 供电。线路 1–3 是常开联络线，后续实验中可以将其闭合，形成替代供电路径。
+
+{% include power-flow-illustration.html kind="feeder" %}
 
 | 节点 | 设备与指定量 | 潮流节点类型 |
 |---|---|---|

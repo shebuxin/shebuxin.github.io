@@ -55,11 +55,15 @@ For a series branch, y<sub>ij</sub> = 1/z<sub>ij</sub>. Add its admittance to bo
 
 <div class="bf-equation" data-math="\begin{aligned}Y_{ii}&amp;=\sum_{k\in\mathcal N_i}y_{ik}\\Y_{ij}&amp;=-y_{ij}\quad(i\ne j),\qquad \boldsymbol I=Y_{bus}\boldsymbol V\end{aligned}"></div>
 
+{% include power-flow-illustration.html kind="admittance" %}
+
 ### Step C — Convert currents into complex-power injections
 
 Take **positive net injection as supply to the network**: P<sup>spec</sup> = P<sub>G</sub> − P<sub>D</sub> and Q<sup>spec</sup> = Q<sub>G</sub> − Q<sub>D</sub>. For V<sub>i</sub> = v<sub>i</sub>e<sup>jθᵢ</sup>, combine Kirchhoff's current law with S = VI*:
 
 <div class="bf-equation" data-math="S_i=V_i I_i^*=V_i\left(\sum_j Y_{ij}V_j\right)^*"></div>
+
+{% include power-flow-illustration.html kind="injection" %}
 
 Write Y<sub>ij</sub> = G<sub>ij</sub> + jB<sub>ij</sub> and δ<sub>ij</sub> = θ<sub>i</sub> − θ<sub>j</sub>. Expanding the complex product gives two real equations at each bus:
 
@@ -84,6 +88,8 @@ Start with flat voltages and zero angles. Compute the mismatch between specified
 <div class="bf-equation" data-math="\begin{aligned}\Delta\boldsymbol s&amp;=\begin{bmatrix}\boldsymbol P_{PQ}^{spec}-\boldsymbol P_{PQ}\\\boldsymbol Q_{PQ}^{spec}-\boldsymbol Q_{PQ}\end{bmatrix}\\J&amp;=\begin{bmatrix}H&amp;N\\M&amp;L\end{bmatrix}=\frac{\partial(\boldsymbol P_{PQ},\boldsymbol Q_{PQ})}{\partial(\boldsymbol\theta_{PQ},\boldsymbol v_{PQ})}\end{aligned}"></div>
 <div class="bf-equation" data-math="\begin{aligned}J(x^{(k)})\Delta x^{(k)}&amp;=\Delta\boldsymbol s^{(k)}\\x^{(k+1)}&amp;=x^{(k)}+\alpha\Delta x^{(k)}\end{aligned}"></div>
 
+{% include power-flow-illustration.html kind="newton" %}
+
 The implementation uses an analytic Jacobian, pivoted elimination, and a backtracking step α to reduce the mismatch while keeping positive voltage magnitudes. It stops when ‖Δs‖∞ &lt; 10<sup>−10</sup> pu, or reports failure after a stalled step or 30 updates. Failure of this algorithm alone does not prove that no physical solution exists.
 
 <details class="bf-details"><summary>Show the Jacobian entries</summary><p>For i ≠ j:</p><div class="bf-equation" data-math="\begin{aligned}H_{ij}&amp;=v_i v_j(G_{ij}\sin\delta_{ij}-B_{ij}\cos\delta_{ij})\\N_{ij}&amp;=v_i(G_{ij}\cos\delta_{ij}+B_{ij}\sin\delta_{ij})\\M_{ij}&amp;=-v_i v_j(G_{ij}\cos\delta_{ij}+B_{ij}\sin\delta_{ij})\\L_{ij}&amp;=v_i(G_{ij}\sin\delta_{ij}-B_{ij}\cos\delta_{ij})\end{aligned}"></div><p>For i = j:</p><div class="bf-equation" data-math="\begin{aligned}H_{ii}&amp;=-Q_i-B_{ii}v_i^2\\N_{ii}&amp;=P_i/v_i+G_{ii}v_i\\M_{ii}&amp;=P_i-G_{ii}v_i^2\\L_{ii}&amp;=Q_i/v_i-B_{ii}v_i\end{aligned}"></div><p>The corresponding complex-matrix derivatives are documented in <a href="https://matpower.org/documentation/ref-manual/legacy/functions/dSbus_dV.html">MATPOWER's voltage-derivative reference</a>.</p></details>
@@ -100,6 +106,8 @@ For each active line, calculate the current and the powers injected into the lin
 ### Set up the feeder and its buses
 
 Consider a **three-bus, 400 V distribution feeder**. Bus 1 is the upstream source, which connects to bus 2 through line 1–2. Line 2–3 supplies the downstream bus 3. A normally open tie line 1–3 can be closed in the later experiment to provide an alternative path.
+
+{% include power-flow-illustration.html kind="feeder" %}
 
 | Bus | Equipment and specified quantities | Power-flow type |
 |---|---|---|

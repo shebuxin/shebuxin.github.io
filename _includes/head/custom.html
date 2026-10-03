@@ -49,6 +49,7 @@
 {% endif %}
 {% if page.balanced_power_flow or page.unbalanced_power_flow or page.pandapower_implementation %}
 <link rel="stylesheet" href="{{ '/assets/css/balanced-power-flow.css' | relative_url }}">
+<link rel="stylesheet" href="{{ '/assets/css/power-flow-illustrations.css' | relative_url }}?v={{ site.github.build_revision | default: 'concepts-20261003' }}">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
 {% endif %}

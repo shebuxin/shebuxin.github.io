@@ -45,6 +45,7 @@ jobs:
           node --check assets/js/l05-phasor-lesson.js
           node --check assets/js/balanced-power-flow-model.js
           node --check assets/js/balanced-power-flow-lesson.js
+          node --check assets/js/power-flow-illustrations.js
           node --check assets/js/balanced-python-worker.js
           node --check assets/js/course-python-worker.js
           node --check assets/js/course-python-runner.js
@@ -68,6 +69,9 @@ jobs:
 
       - name: Verify balanced AC power flow
         run: node --test tests/balanced_power_flow_test.cjs
+
+      - name: Verify instructional admittance diagrams
+        run: node --test tests/power_flow_illustrations_test.cjs
 
       - name: Verify owned analytics tracking
         run: node --test tests/owned_analytics_test.cjs

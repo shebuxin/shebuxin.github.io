@@ -36,6 +36,8 @@ description: "三相四线不平衡潮流交互教材：相域推导、中性点
 
 <div class="bf-equation" data-math="U_{i,\phi}=V_{i,\phi}-V_{i,n},\qquad \phi\in\{a,b,c\}"></div>
 
+{% include power-flow-illustration.html kind="neutral" %}
+
 继续采用三相总容量 1 MVA、线电压 400 V 的基准，但这次功率按每相分别指定：
 
 <div class="bf-equation" data-math="\begin{aligned}S_{B,\phi}&amp;=S_{B,3\phi}/3,\qquad V_{B,\phi}=V_{B,LL}/\sqrt3\\Z_B&amp;=V_{B,\phi}^2/S_{B,\phi}=0.16\ \Omega\\I_B&amp;=S_{B,\phi}/V_{B,\phi}=1443.38\ \mathrm A\end{aligned}"></div>
@@ -75,6 +77,8 @@ description: "三相四线不平衡潮流交互教材：相域推导、中性点
 对于本例三节点链：
 
 <div class="bf-equation" data-math="\begin{aligned}\boldsymbol I_{23}&amp;=\boldsymbol I_3^{load}\\\boldsymbol I_{12}&amp;=\boldsymbol I_2^{load}+\boldsymbol I_{23}\\\boldsymbol V_2^{sweep}&amp;=\boldsymbol V_1-Z_{12}\boldsymbol I_{12}\\\boldsymbol V_3^{sweep}&amp;=\boldsymbol V_2^{sweep}-Z_{23}\boldsymbol I_{23}\end{aligned}"></div>
+
+{% include power-flow-illustration.html kind="sweep" %}
 
 实现使用 α = 0.65 的阻尼更新：
 

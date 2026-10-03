@@ -20,6 +20,8 @@ Prerequisites: [Balanced Power Flow]({{ '/teaching/course-development/physics-in
 
 <div class="pp-workflow" role="list" aria-label="Modeling workflow"><div role="listitem"><strong>1 · Describe</strong><code>bus, line, load, sgen</code><span>Topology, impedances, demand, generation</span></div><div role="listitem"><strong>2 · Construct</strong><code>pp.create_*()</code><span>Equipment tables inside net</span></div><div role="listitem"><strong>3 · Solve</strong><code>runpp / runpp_3ph</code><span>AC operating point</span></div><div role="listitem"><strong>4 · Check</strong><code>net.res_*</code><span>Supply, voltage, current, losses</span></div></div>
 
+{% include power-flow-illustration.html kind="mapping" %}
+
 `net` contains pandas DataFrames. Input tables describe equipment; `res_*` tables contain the latest solved operating point. Changing an input cell does not automatically update the results: **run the solver again**.
 
 | Physical object | Balanced model | Three-phase model | Results to inspect |
@@ -166,6 +168,8 @@ An N-1 screen solves the base operating point and each selected single-component
 <div class="bf-equation" data-math="\mathrm{secure}=\mathrm{converged}\ \land\ \mathrm{all\ buses\ supplied}\ \land\ (0.95\leq|V|\leq1.05)\ \land\ (L_{line}\leq100\%)\ \land\ (\mathrm{VUF}\leq2\%\text{, if 3ph})"></div>
 
 These are chosen teaching limits. This static screen does not assess protection, transient stability, harmonics, or islanded control. Solver failure is a separate outcome; it does not establish physical infeasibility.
+
+{% include power-flow-illustration.html kind="screening" %}
 
 Paste this into the Python editor. A closed tie gives an alternate supply path; each trial begins from the same base case:
 

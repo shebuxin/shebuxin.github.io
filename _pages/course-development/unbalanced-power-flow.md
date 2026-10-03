@@ -35,6 +35,8 @@ Use RMS complex phasors. Let V<sub>i,a</sub>, V<sub>i,b</sub>, V<sub>i,c</sub>, 
 
 <div class="bf-equation" data-math="U_{i,\phi}=V_{i,\phi}-V_{i,n},\qquad \phi\in\{a,b,c\}"></div>
 
+{% include power-flow-illustration.html kind="neutral" %}
+
 Keep the previous chapter's 1 MVA three-phase base and 400 V line-to-line voltage base. This time, power is assigned to each phase individually:
 
 <div class="bf-equation" data-math="\begin{aligned}S_{B,\phi}&amp;=S_{B,3\phi}/3,\qquad V_{B,\phi}=V_{B,LL}/\sqrt3\\Z_B&amp;=V_{B,\phi}^2/S_{B,\phi}=0.16\ \Omega\\I_B&amp;=S_{B,\phi}/V_{B,\phi}=1443.38\ \mathrm A\end{aligned}"></div>
@@ -74,6 +76,8 @@ Starting with the source phasors at every bus, repeat three operations:
 For this three-bus chain:
 
 <div class="bf-equation" data-math="\begin{aligned}\boldsymbol I_{23}&amp;=\boldsymbol I_3^{load}\\\boldsymbol I_{12}&amp;=\boldsymbol I_2^{load}+\boldsymbol I_{23}\\\boldsymbol V_2^{sweep}&amp;=\boldsymbol V_1-Z_{12}\boldsymbol I_{12}\\\boldsymbol V_3^{sweep}&amp;=\boldsymbol V_2^{sweep}-Z_{23}\boldsymbol I_{23}\end{aligned}"></div>
+
+{% include power-flow-illustration.html kind="sweep" %}
 
 The implementation damps the voltage update with α = 0.65:
 
