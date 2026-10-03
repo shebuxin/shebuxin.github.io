@@ -1,5 +1,8 @@
 {% assign collaboration_regions = site.data.collaborators %}
 {% assign visitor_data = site.data.visitor_countries %}
+{% if site.analytics.provider == "self-hosted" %}
+  {% assign visitor_data = site.data.owned_visitor_countries %}
+{% endif %}
 
 {% if page.lang == "zh" %}
   {% assign map_intro = "蓝色圆点表示合作者所在的大致区域；橙色国家填充或菱形标记表示 GoatCounter 汇总的网站访客来源，颜色越深表示访问人数越多。" %}
@@ -23,6 +26,18 @@
   {% assign empty_label = "Website visitor data will appear after the first GoatCounter sync." %}
   {% assign explore_label = "Explore the map" %}
   {% assign visitor_group_label = "Website visitor countries" %}
+{% endif %}
+
+{% if visitor_data.metric == "pageviews" %}
+  {% if page.lang == "zh" %}
+    {% assign map_intro = "蓝色圆点表示合作者所在的大致区域；橙色国家或菱形标记表示自托管统计汇总的访问来源，颜色越深表示页面访问次数越多。" %}
+    {% assign visitor_label = "网站访问来源（橙色越深，访问次数越多）" %}
+    {% assign empty_label = "配置离线地理数据库并同步自托管统计后，这里将显示网站访问来源。" %}
+  {% else %}
+    {% assign map_intro = "Blue circles show approximate collaborator regions. Orange countries or diamonds show aggregate locations from self-hosted analytics; darker shading indicates more pageviews." %}
+    {% assign visitor_label = "Website visit countries (orange; darker = more pageviews)" %}
+    {% assign empty_label = "Website visit locations appear after configuring offline GeoIP and syncing self-hosted analytics." %}
+  {% endif %}
 {% endif %}
 
 <div class="collaborator-map" data-collaborator-map data-map-lang="{{ page.lang | default: 'en' }}">

@@ -1,0 +1,64 @@
+- key: load_scale
+  en: Demand multiplier
+  zh: 负荷倍率
+  min: 0.4
+  max: 2.5
+  step: 0.05
+  value: 1
+  unit: ×
+- key: power_factor
+  en: Load power factor (lagging)
+  zh: 负荷功率因数（滞后）
+  min: 0.8
+  max: 1
+  step: 0.005
+  value: 0.95
+  unit: ''
+- key: dg_kw
+  en: DG output, bus 3
+  zh: 节点 3 分布式发电
+  min: 0
+  max: 400
+  step: 5
+  value: 50
+  unit: kW
+- key: q_support_kvar
+  en: Reactive injection, bus 3
+  zh: 节点 3 无功注入
+  min: -60
+  max: 120
+  step: 5
+  value: 0
+  unit: kvar
+- key: slack_pu
+  en: Source voltage
+  zh: 电源电压
+  min: 0.96
+  max: 1.06
+  step: 0.005
+  value: 1
+  unit: pu
+- key: r_scale
+  en: Line resistance multiplier
+  zh: 线路电阻倍率
+  min: 0.5
+  max: 2
+  step: 0.05
+  value: 1
+  unit: ×
+- key: x_scale
+  en: Line reactance multiplier
+  zh: 线路电抗倍率
+  min: 0.5
+  max: 2
+  step: 0.05
+  value: 1
+  unit: ×
+- key: current_limit_a
+  en: Current limit, each line
+  zh: 各线路电流限值
+  min: 200
+  max: 800
+  step: 10
+  value: 450
+  unit: A

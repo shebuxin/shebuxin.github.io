@@ -1,0 +1,6 @@
+.course-main { max-width: 1000px !important; }
+.course-page { width: 100%; min-width: 0; }
+.course-header { margin-bottom: 1.5rem; }
+.course-back { font-size: .85rem; }
+.course-header .course-eyebrow { margin: 1.5rem 0 .5rem; color: #606a72; font-size: .8rem; letter-spacing: .04em; }
+.course-header h1 { margin-top: 0; }

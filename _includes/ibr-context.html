@@ -1,0 +1,10 @@
+{% assign ibr_lang = page.lang | default: 'en' %}
+{% assign ibr_prefix = '' %}
+{% if ibr_lang == 'zh' %}{% assign ibr_prefix = '/zh' %}{% endif %}
+{% assign ibr_base = ibr_prefix | append: '/teaching/course-development/ibr/' %}
+{% assign ibr_catalog = site.data.ibr_courses %}
+{% assign ibr_course = ibr_catalog.courses | where: 'id', page.course_id | first %}
+{% if ibr_course %}
+  {% assign ibr_course_url = ibr_base | append: ibr_course.slug | append: '/' %}
+  {% assign ibr_module = ibr_course.modules | where: 'id', page.module_id | first %}
+{% endif %}

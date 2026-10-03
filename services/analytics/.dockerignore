@@ -1,0 +1,6 @@
+.env
+.env.*
+data
+*.sqlite3*
+*.mmdb
+__pycache__

@@ -1,0 +1,13 @@
+{% include ece685-context.html %}
+{% assign stage_path = ece_path | append: 'modules/' %}
+<section class="stage-index" id="course-modules" data-stage-index aria-labelledby="course-modules-title">
+  <div class="ece-section-heading"><h2 id="course-modules-title">{% if ece_lang == 'zh' %}已完成的教学模块{% else %}Completed teaching modules{% endif %}</h2><span>7 {% if ece_lang == 'zh' %}个模块{% else %}modules{% endif %}</span></div>
+  <p>{% if ece_lang == 'zh' %}以下模块已完成概念图解、交互模型、可编辑 Python 与独立练习。按模块学习，也可以从下方完整 lecture 目录进入。{% else %}These modules include diagrams, interactive models, editable Python, and independent practice. Follow a module or enter through the full lecture catalog below.{% endif %}</p>
+  <div class="stage-progress" role="status"><strong data-stage-progress>0 / 7</strong><span>{% if ece_lang == 'zh' %}模块练习检查已通过；记录仅保存在当前浏览器。{% else %}Module practice checks passed; records stay in this browser.{% endif %}</span><p data-stage-storage-note hidden>{% if ece_lang == 'zh' %}当前浏览器无法保存练习记录。{% else %}Practice records cannot be saved in this browser.{% endif %}</p></div>
+  <div class="stage-module-grid">
+    {% for item in site.data.ece685_stage_one.modules %}
+    <article class="stage-module-card" data-stage-card="{{ item.id }}"><div><span class="ece-lecture-id">{{ item.number | prepend: '0' | slice: -2, 2 }}</span><span class="ece-status ece-status--live">{% if ece_lang == 'zh' %}已完成{% else %}Complete{% endif %}</span><span data-stage-passed="{{ item.id }}" hidden>✓</span></div><h3><a href="{{ stage_path | append: item.id | append: '/' | relative_url }}">{{ item.title[ece_lang] }} ↗</a></h3><p>{{ item.summary[ece_lang] }}</p><ul>{% for goal in item.goals %}<li>{{ goal[ece_lang] }}</li>{% endfor %}</ul><p class="stage-card-source">{% if ece_lang == 'zh' %}原讲义{% else %}Source lectures{% endif %}: {{ item.sources | join: ', ' }}{% if item.extension.size > 0 %} · {% if ece_lang == 'zh' %}拓展{% else %}Extension{% endif %}: {{ item.extension | join: ', ' }}{% endif %}</p></article>
+    {% endfor %}
+  </div>
+  <p class="stage-note">{% if ece_lang == 'zh' %}三相变压器模块包含 L10–L12 的基础和 L20–L21 的接线拓展；考试一练习遵循原 L16–L17 的范围。{% else %}The transformer module combines L10–L12 foundations with L20–L21 bank extensions. Exam-1 practice follows the original L16–L17 scope.{% endif %}</p>
+</section>

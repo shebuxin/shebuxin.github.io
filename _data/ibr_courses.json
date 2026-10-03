@@ -1,0 +1,2111 @@
+{
+  "version": 2,
+  "reviewed_at": "2026-10-03",
+  "title": {
+    "en": "IBR Dynamics and Physics-Informed Learning",
+    "zh": "IBR 动态与物理信息学习"
+  },
+  "summary": {
+    "en": "Three core courses connect converter modeling, model validity, and learned dynamics. Two advanced topics extend the path to identification and network interaction.",
+    "zh": "三门核心课程连接变流器建模、模型有效性与学习动态，两个进阶专题延伸到辨识与网络相互作用。"
+  },
+  "courses": [
+    {
+      "id": "C1",
+      "slug": "modeling",
+      "title": {
+        "en": "IBR Dynamic Modeling and Simulation",
+        "zh": "IBR 动态建模与仿真"
+      },
+      "role": "core",
+      "summary": {
+        "en": "Build GFL, GFM, and hybrid models from their physical interfaces and control laws.",
+        "zh": "从物理接口与控制规律出发，建立 GFL、GFM 和 hybrid 动态模型。"
+      },
+      "prerequisites": {
+        "en": "Basic circuits, differential equations, and introductory Python.",
+        "zh": "基础电路、常微分方程和 Python 入门。"
+      },
+      "depends_on": [],
+      "capstone": {
+        "en": "Compare GFL, droop-GFM, VSM, and hybrid responses at a declared common operating point.",
+        "zh": "在明确的共同运行点下，比较 GFL、droop-GFM、VSM 与 hybrid 的动态响应。"
+      },
+      "deliverables": [
+        {
+          "en": "A model diagram with states, ports, units, and assumptions.",
+          "zh": "包含状态、端口、单位与假设的模型图。"
+        },
+        {
+          "en": "A reproducible equilibrium and disturbance notebook.",
+          "zh": "可复现的平衡点求解与扰动仿真 Notebook。"
+        },
+        {
+          "en": "An explanation of response differences and comparison limits.",
+          "zh": "响应差异解释与比较范围说明。"
+        }
+      ],
+      "status": "lessons",
+      "modules": [
+        {
+          "slug": "system-boundaries",
+          "title": {
+            "en": "System Boundaries and Model Representations",
+            "zh": "系统边界与模型表示"
+          },
+          "summary": {
+            "en": "Choose what the model retains before writing its equations.",
+            "zh": "先确定保留的物理与研究目标，再写模型方程。"
+          },
+          "objectives": [
+            {
+              "en": "Distinguish states, inputs, outputs, and algebraic variables.",
+              "zh": "区分状态、输入、输出与代数变量。"
+            },
+            {
+              "en": "Declare the model boundary and study objective.",
+              "zh": "明确模型边界与研究目标。"
+            }
+          ],
+          "outline": [
+            {
+              "en": "Switching, averaged, and positive-sequence representations",
+              "zh": "开关、平均与正序表示"
+            },
+            {
+              "en": "Converter, DC source, network, and measurement boundaries",
+              "zh": "变流器、直流源、网络与测量边界"
+            },
+            {
+              "en": "ODE and DAE model interfaces",
+              "zh": "ODE 与 DAE 模型接口"
+            }
+          ],
+          "experiment": {
+            "en": "Draw alternative representations of one inverter connected to an infinite bus.",
+            "zh": "为同一逆变器接入无穷大母线画出不同模型表示。"
+          },
+          "practice": {
+            "en": "Identify one question that each representation can answer.",
+            "zh": "分别指出每种表示能够回答的一个问题。"
+          },
+          "sources": [
+            "tutorial",
+            "model-library",
+            "multiscale"
+          ],
+          "status": "lesson",
+          "readiness": "developed",
+          "next_step": {
+            "en": "Adapt the existing material into a lesson, a reproducible experiment, and worked practice.",
+            "zh": "将现有材料整理为逐步讲义、可复现实验与带解答练习。"
+          },
+          "id": "C1-01"
+        },
+        {
+          "slug": "dq-and-per-unit",
+          "title": {
+            "en": "Reference Frames and Per-Unit Conventions",
+            "zh": "坐标变换与标幺约定"
+          },
+          "summary": {
+            "en": "Connect three-phase signals to consistent dq equations and units.",
+            "zh": "将三相信号转换为坐标与单位一致的 dq 方程。"
+          },
+          "objectives": [
+            {
+              "en": "Apply a declared dq transform and power convention.",
+              "zh": "使用明确的 dq 变换与功率约定。"
+            },
+            {
+              "en": "Check angle, frequency, and time units.",
+              "zh": "检查相角、频率与时间单位。"
+            }
+          ],
+          "outline": [
+            {
+              "en": "Clarke and Park transforms",
+              "zh": "Clarke 与 Park 变换"
+            },
+            {
+              "en": "Power, signs, and measurement ports",
+              "zh": "功率、符号与测量端口"
+            },
+            {
+              "en": "SI, per-unit, base frequency, and time",
+              "zh": "SI、标幺、基准频率与时间"
+            }
+          ],
+          "experiment": {
+            "en": "Reconstruct abc signals and compare calculated P/Q across frames.",
+            "zh": "重建 abc 信号，并比较不同坐标下计算的 P/Q。"
+          },
+          "practice": {
+            "en": "Locate the base-frequency factor in an angle-speed equation.",
+            "zh": "指出相角—速度方程中的基准频率因子。"
+          },
+          "sources": [
+            "tutorial",
+            "droop",
+            "gfl"
+          ],
+          "status": "lesson",
+          "readiness": "developed",
+          "next_step": {
+            "en": "Adapt the existing material into a lesson, a reproducible experiment, and worked practice.",
+            "zh": "将现有材料整理为逐步讲义、可复现实验与带解答练习。"
+          },
+          "id": "C1-02"
+        },
+        {
+          "slug": "averaged-lcl-plant",
+          "title": {
+            "en": "Averaged Converter and LCL Plant",
+            "zh": "平均变流器与 LCL 电路"
+          },
+          "summary": {
+            "en": "Derive the electrical states shared by several controller families.",
+            "zh": "推导多种控制家族共用的电气状态。"
+          },
+          "objectives": [
+            {
+              "en": "Derive the LCL equations in a rotating frame.",
+              "zh": "推导旋转坐标中的 LCL 方程。"
+            },
+            {
+              "en": "Separate physical inductance from virtual impedance.",
+              "zh": "区分物理电感与虚拟阻抗。"
+            }
+          ],
+          "outline": [
+            {
+              "en": "Average modulation and DC-side assumptions",
+              "zh": "平均调制与直流侧假设"
+            },
+            {
+              "en": "Inductor currents, capacitor voltage, and dq coupling",
+              "zh": "电感电流、电容电压与 dq 耦合"
+            },
+            {
+              "en": "Converter terminal and point of connection",
+              "zh": "变流器端口与并网点"
+            }
+          ],
+          "experiment": {
+            "en": "Inspect plant responses while varying one physical filter parameter.",
+            "zh": "改变一个物理滤波参数，观察电路响应。"
+          },
+          "practice": {
+            "en": "List the electrical states and explain the measured terminal.",
+            "zh": "列出电气状态并解释测量端口。"
+          },
+          "sources": [
+            "droop",
+            "gfl"
+          ],
+          "status": "lesson",
+          "readiness": "developed",
+          "next_step": {
+            "en": "Adapt the existing material into a lesson, a reproducible experiment, and worked practice.",
+            "zh": "将现有材料整理为逐步讲义、可复现实验与带解答练习。"
+          },
+          "id": "C1-03"
+        },
+        {
+          "slug": "pll-and-gfl",
+          "title": {
+            "en": "PLL and Grid-Following Control",
+            "zh": "PLL 与跟网型控制"
+          },
+          "summary": {
+            "en": "Follow synchronization, power commands, and current regulation through a GFL model.",
+            "zh": "沿 GFL 模型理解同步、功率指令与电流调节。"
+          },
+          "objectives": [
+            {
+              "en": "Explain how a PLL establishes the local reference frame.",
+              "zh": "解释 PLL 如何确定局部参考坐标。"
+            },
+            {
+              "en": "Derive the power-to-current and current-control paths.",
+              "zh": "推导功率到电流与电流控制链路。"
+            }
+          ],
+          "outline": [
+            {
+              "en": "SRF-PLL and measurement filters",
+              "zh": "SRF-PLL 与测量滤波"
+            },
+            {
+              "en": "P/Q commands and droop support",
+              "zh": "P/Q 指令与下垂支撑"
+            },
+            {
+              "en": "Current PI, LCL plant, and grid strength",
+              "zh": "电流 PI、LCL 电路与电网强度"
+            }
+          ],
+          "experiment": {
+            "en": "Compare GFL responses to P, Q, and grid-voltage steps.",
+            "zh": "比较 GFL 对 P、Q 与电网电压阶跃的响应。"
+          },
+          "practice": {
+            "en": "Trace a voltage disturbance from the PLL to delivered power.",
+            "zh": "追踪电压扰动如何通过 PLL 影响实际输出功率。"
+          },
+          "sources": [
+            "gfl",
+            "tutorial"
+          ],
+          "status": "lesson",
+          "readiness": "developed",
+          "next_step": {
+            "en": "Adapt the existing material into a lesson, a reproducible experiment, and worked practice.",
+            "zh": "将现有材料整理为逐步讲义、可复现实验与带解答练习。"
+          },
+          "id": "C1-04"
+        },
+        {
+          "slug": "droop-gfm",
+          "title": {
+            "en": "Droop Grid-Forming Control",
+            "zh": "下垂构网型控制"
+          },
+          "summary": {
+            "en": "Build voltage-forming control with power filters and cascaded PI loops.",
+            "zh": "用功率滤波与级联 PI 建立电压形成控制。"
+          },
+          "objectives": [
+            {
+              "en": "Explain the P–f and Q–V feedback paths.",
+              "zh": "解释 P–f 与 Q–V 反馈链路。"
+            },
+            {
+              "en": "Identify the canonical 13-state model components.",
+              "zh": "识别标准 13 状态模型的组成。"
+            }
+          ],
+          "outline": [
+            {
+              "en": "Internal angle and filtered-power droop",
+              "zh": "内部相角与滤波功率下垂"
+            },
+            {
+              "en": "Voltage and current PI loops",
+              "zh": "电压与电流 PI 环"
+            },
+            {
+              "en": "Power-angle intuition and operating point",
+              "zh": "功角关系与运行点直觉"
+            }
+          ],
+          "experiment": {
+            "en": "Compare a simple power-angle model with the detailed droop-GFM response.",
+            "zh": "比较简单功角模型与详细 droop-GFM 响应。"
+          },
+          "practice": {
+            "en": "Explain which dynamics the simple model omits.",
+            "zh": "解释简单模型省略了哪些动态。"
+          },
+          "sources": [
+            "droop",
+            "week02",
+            "tutorial"
+          ],
+          "status": "lesson",
+          "readiness": "developed",
+          "next_step": {
+            "en": "Adapt the existing material into a lesson, a reproducible experiment, and worked practice.",
+            "zh": "将现有材料整理为逐步讲义、可复现实验与带解答练习。"
+          },
+          "id": "C1-05"
+        },
+        {
+          "slug": "vsm-and-virtual-inertia",
+          "title": {
+            "en": "VSM and Virtual Inertia",
+            "zh": "VSM 与虚拟惯性"
+          },
+          "summary": {
+            "en": "Distinguish a virtual rotor from a PLL-based inertia power request.",
+            "zh": "区分虚拟转子与基于 PLL 的惯性功率请求。"
+          },
+          "objectives": [
+            {
+              "en": "Read a VSM swing equation and its static droop relation.",
+              "zh": "理解 VSM 摆动方程及其静态下垂关系。"
+            },
+            {
+              "en": "Separate requested support from delivered power.",
+              "zh": "区分请求的支撑与实际输出功率。"
+            }
+          ],
+          "outline": [
+            {
+              "en": "Virtual speed, inertia, and damping",
+              "zh": "虚拟速度、惯性与阻尼"
+            },
+            {
+              "en": "Causal frequency and RoCoF estimation",
+              "zh": "因果频率与 RoCoF 估计"
+            },
+            {
+              "en": "Energy assumptions and gain-dependent instability",
+              "zh": "能量假设与增益相关失稳"
+            }
+          ],
+          "experiment": {
+            "en": "Compare inertia sweeps and inspect the preserved unstable GFL-VI case.",
+            "zh": "比较惯性扫描并检查保留的 GFL-VI 不稳定工况。"
+          },
+          "practice": {
+            "en": "Explain why more virtual inertia need not improve stability.",
+            "zh": "解释为什么增大虚拟惯性不一定改善稳定性。"
+          },
+          "sources": [
+            "vsm",
+            "counterexamples"
+          ],
+          "status": "lesson",
+          "readiness": "developed",
+          "next_step": {
+            "en": "Adapt the existing material into a lesson, a reproducible experiment, and worked practice.",
+            "zh": "将现有材料整理为逐步讲义、可复现实验与带解答练习。"
+          },
+          "id": "C1-06"
+        },
+        {
+          "slug": "parallel-hybrid",
+          "title": {
+            "en": "Parallel GFL–GFM Hybrid Models",
+            "zh": "GFL–GFM 并联混合模型"
+          },
+          "summary": {
+            "en": "Model simultaneous voltage-source and current-source branches at a common terminal.",
+            "zh": "建立共用端口的电压源与电流源支路模型。"
+          },
+          "objectives": [
+            {
+              "en": "Explain the REGFM_C1 parallel architecture.",
+              "zh": "解释 REGFM_C1 并联架构。"
+            },
+            {
+              "en": "Keep the positive-sequence lane separate from its detailed-average lift.",
+              "zh": "区分正序模型与详细平均扩展。"
+            }
+          ],
+          "outline": [
+            {
+              "en": "Branch coupling and terminal algebraic constraints",
+              "zh": "支路耦合与端口代数约束"
+            },
+            {
+              "en": "A11 outer-law model and F21 detailed lift",
+              "zh": "A11 外层模型与 F21 详细扩展"
+            },
+            {
+              "en": "Virtual impedance and current-limit semantics",
+              "zh": "虚拟阻抗与限流语义"
+            }
+          ],
+          "experiment": {
+            "en": "Compare A11 and F21 under a declared common disturbance.",
+            "zh": "在明确的共同扰动下比较 A11 与 F21。"
+          },
+          "practice": {
+            "en": "Explain why the two fidelity lanes require separate interpretations.",
+            "zh": "解释为什么两种模型层次需要分别解读。"
+          },
+          "sources": [
+            "parallel",
+            "ibr-data"
+          ],
+          "status": "lesson",
+          "readiness": "developed",
+          "next_step": {
+            "en": "Adapt the existing material into a lesson, a reproducible experiment, and worked practice.",
+            "zh": "将现有材料整理为逐步讲义、可复现实验与带解答练习。"
+          },
+          "id": "C1-07"
+        },
+        {
+          "slug": "mode-switching-hybrid",
+          "title": {
+            "en": "Mode-Switching Hybrid Models",
+            "zh": "模式切换混合模型"
+          },
+          "summary": {
+            "en": "Treat GFL–GFM transitions as mode-specific dynamics with explicit resets.",
+            "zh": "用各模式动态与明确的状态重置描述 GFL–GFM 切换。"
+          },
+          "objectives": [
+            {
+              "en": "Distinguish mode switching from parallel operation.",
+              "zh": "区分模式切换与并联运行。"
+            },
+            {
+              "en": "Explain reset, hold, and release operations.",
+              "zh": "解释 reset、hold 与 release 操作。"
+            }
+          ],
+          "outline": [
+            {
+              "en": "GFL14 and GFM15 state domains",
+              "zh": "GFL14 与 GFM15 状态域"
+            },
+            {
+              "en": "Angle and controller-state mapping",
+              "zh": "相角与控制器状态映射"
+            },
+            {
+              "en": "Scheduled switching and endpoint evidence",
+              "zh": "预定切换与端点证据"
+            }
+          ],
+          "experiment": {
+            "en": "Compare direct, angle-only, and full state mappings.",
+            "zh": "比较直接切换、仅相角映射与完整状态映射。"
+          },
+          "practice": {
+            "en": "Explain why stable endpoints alone do not validate a transition.",
+            "zh": "解释为什么端点稳定不足以验证切换过程。"
+          },
+          "sources": [
+            "transition",
+            "cross-tool"
+          ],
+          "status": "lesson",
+          "readiness": "developed",
+          "next_step": {
+            "en": "Adapt the existing material into a lesson, a reproducible experiment, and worked practice.",
+            "zh": "将现有材料整理为逐步讲义、可复现实验与带解答练习。"
+          },
+          "id": "C1-08"
+        },
+        {
+          "slug": "equilibrium-and-comparison",
+          "title": {
+            "en": "Equilibrium, Disturbances, and Fair Comparison",
+            "zh": "平衡点、扰动与公平比较"
+          },
+          "summary": {
+            "en": "Initialize each model consistently and interpret shared disturbance experiments.",
+            "zh": "一致地初始化各模型，并解读共同扰动实验。"
+          },
+          "objectives": [
+            {
+              "en": "Solve a matched point-of-connection operating point.",
+              "zh": "求解匹配的并网点运行状态。"
+            },
+            {
+              "en": "Preserve failed or unstable cases in the comparison.",
+              "zh": "在比较中保留失败或不稳定工况。"
+            }
+          ],
+          "outline": [
+            {
+              "en": "Residual checks and initialization drift",
+              "zh": "残差检查与初始化漂移"
+            },
+            {
+              "en": "Common physical parameters and controller-specific commands",
+              "zh": "共同物理参数与控制器特定指令"
+            },
+            {
+              "en": "P/Q/V/f disturbances and comparison boundaries",
+              "zh": "P/Q/V/f 扰动与比较边界"
+            }
+          ],
+          "experiment": {
+            "en": "Reproduce a selected part of the six-family comparison.",
+            "zh": "复现六类控制模型比较中的一组选定实验。"
+          },
+          "practice": {
+            "en": "Write a comparison protocol before inspecting the trajectories.",
+            "zh": "在查看轨迹前写出比较规范。"
+          },
+          "sources": [
+            "comparison",
+            "model-library"
+          ],
+          "status": "lesson",
+          "readiness": "developed",
+          "next_step": {
+            "en": "Adapt the existing material into a lesson, a reproducible experiment, and worked practice.",
+            "zh": "将现有材料整理为逐步讲义、可复现实验与带解答练习。"
+          },
+          "id": "C1-09"
+        }
+      ]
+    },
+    {
+      "id": "C2",
+      "slug": "stability-reduction",
+      "title": {
+        "en": "IBR Stability, Model Reduction, and Validation",
+        "zh": "IBR 稳定性、模型降阶与验证"
+      },
+      "role": "core",
+      "summary": {
+        "en": "Analyze retained dynamics and choose reduced models for a declared study domain.",
+        "zh": "分析保留的动态，并为明确的研究范围选择低阶模型。"
+      },
+      "prerequisites": {
+        "en": "IBR modeling foundations, linear algebra, and basic feedback control.",
+        "zh": "IBR 建模基础、线性代数和基础反馈控制。"
+      },
+      "depends_on": [
+        "C1"
+      ],
+      "capstone": {
+        "en": "Select a reduced model for specified outputs, frequency bands, disturbances, and grid strengths.",
+        "zh": "针对指定输出、频段、扰动与电网强度选择低阶模型。"
+      },
+      "deliverables": [
+        {
+          "en": "A declared operating domain and acceptance criteria.",
+          "zh": "明确的运行范围与验收标准。"
+        },
+        {
+          "en": "Modal, frequency-domain, and time-domain evidence.",
+          "zh": "模态、频域与时域证据。"
+        },
+        {
+          "en": "A model-selection report retaining failed candidates.",
+          "zh": "保留失败候选的选模报告。"
+        }
+      ],
+      "status": "framework",
+      "modules": [
+        {
+          "slug": "equilibrium-linearization",
+          "title": {
+            "en": "Equilibrium and Linearization",
+            "zh": "平衡点与线性化"
+          },
+          "summary": {
+            "en": "Construct and check local state-space models around each equilibrium.",
+            "zh": "围绕各自平衡点建立并检查局部状态空间模型。"
+          },
+          "objectives": [
+            {
+              "en": "Check an equilibrium before computing eigenvalues.",
+              "zh": "计算特征值前检查平衡点。"
+            },
+            {
+              "en": "Compare independent Jacobian calculations.",
+              "zh": "比较独立的 Jacobian 计算。"
+            }
+          ],
+          "outline": [
+            {
+              "en": "Operating-point and input matching",
+              "zh": "运行点与输入匹配"
+            },
+            {
+              "en": "A/B/C/D matrices and algebraic closure",
+              "zh": "A/B/C/D 矩阵与代数闭合"
+            },
+            {
+              "en": "Complex-step and finite-difference checks",
+              "zh": "复步长与有限差分检查"
+            }
+          ],
+          "experiment": {
+            "en": "Compare nonlinear and linear responses for a small input step.",
+            "zh": "比较小输入阶跃下的非线性与线性响应。"
+          },
+          "practice": {
+            "en": "Explain a discrepancy caused by inconsistent initialization.",
+            "zh": "解释不一致初始化造成的差异。"
+          },
+          "sources": [
+            "droop",
+            "gfl",
+            "comparison"
+          ],
+          "status": "outline",
+          "readiness": "adaptation",
+          "next_step": {
+            "en": "Adapt the existing material into a lesson, a reproducible experiment, and worked practice.",
+            "zh": "将现有材料整理为逐步讲义、可复现实验与带解答练习。"
+          },
+          "id": "C2-01"
+        },
+        {
+          "slug": "modes-and-participation",
+          "title": {
+            "en": "Modes, Participation, and Residues",
+            "zh": "模态、参与因子与残差"
+          },
+          "summary": {
+            "en": "Relate eigenvalues to physical states and observed response channels.",
+            "zh": "把特征值与物理状态及观测响应通道联系起来。"
+          },
+          "objectives": [
+            {
+              "en": "Interpret frequency, damping, and participation.",
+              "zh": "解读频率、阻尼与参与程度。"
+            },
+            {
+              "en": "Distinguish state participation from input-output visibility.",
+              "zh": "区分状态参与程度与输入输出可见性。"
+            }
+          ],
+          "outline": [
+            {
+              "en": "Eigenvectors and conjugate mode pairs",
+              "zh": "特征向量与共轭模态"
+            },
+            {
+              "en": "Participation factors and physical state groups",
+              "zh": "参与因子与物理状态组"
+            },
+            {
+              "en": "Modal residues and measured channels",
+              "zh": "模态残差与测量通道"
+            }
+          ],
+          "experiment": {
+            "en": "Compare the dominant mode across selected controller families.",
+            "zh": "比较选定控制家族的主导模态。"
+          },
+          "practice": {
+            "en": "Find a mode that has weak visibility in one output.",
+            "zh": "找出在某个输出中可见性较弱的模态。"
+          },
+          "sources": [
+            "comparison",
+            "research-analysis"
+          ],
+          "status": "outline",
+          "readiness": "adaptation",
+          "next_step": {
+            "en": "Adapt the existing material into a lesson, a reproducible experiment, and worked practice.",
+            "zh": "将现有材料整理为逐步讲义、可复现实验与带解答练习。"
+          },
+          "id": "C2-02"
+        },
+        {
+          "slug": "frequency-and-time-validation",
+          "title": {
+            "en": "Frequency and Time-Domain Validation",
+            "zh": "频域与时域验证"
+          },
+          "summary": {
+            "en": "Evaluate a model against declared channels and disturbance scales.",
+            "zh": "按明确通道与扰动尺度评价模型。"
+          },
+          "objectives": [
+            {
+              "en": "Compare frequency responses over declared bands.",
+              "zh": "比较明确频段内的频率响应。"
+            },
+            {
+              "en": "Separate local consistency from finite-amplitude fidelity.",
+              "zh": "区分局部一致性与有限幅值下的模型准确性。"
+            }
+          ],
+          "outline": [
+            {
+              "en": "Transfer matrices and cross channels",
+              "zh": "传递矩阵与交叉通道"
+            },
+            {
+              "en": "Band-specific errors and output normalization",
+              "zh": "分频段误差与输出归一化"
+            },
+            {
+              "en": "Step-response errors and event windows",
+              "zh": "阶跃响应误差与事件窗口"
+            }
+          ],
+          "experiment": {
+            "en": "Test whether a small P-channel error hides a Q-channel or modal mismatch.",
+            "zh": "检查较小的 P 通道误差是否掩盖 Q 通道或模态差异。"
+          },
+          "practice": {
+            "en": "Declare the retained channels before comparing model errors.",
+            "zh": "在比较误差前声明保留的通道。"
+          },
+          "sources": [
+            "droop",
+            "research-analysis"
+          ],
+          "status": "outline",
+          "readiness": "adaptation",
+          "next_step": {
+            "en": "Adapt the existing material into a lesson, a reproducible experiment, and worked practice.",
+            "zh": "将现有材料整理为逐步讲义、可复现实验与带解答练习。"
+          },
+          "id": "C2-03"
+        },
+        {
+          "slug": "qss-and-timescales",
+          "title": {
+            "en": "Time Scales, QSS, and Singular Perturbation",
+            "zh": "时间尺度、QSS 与奇异摄动"
+          },
+          "summary": {
+            "en": "Understand the assumptions behind removing selected state dynamics.",
+            "zh": "理解移除选定状态动态背后的假设。"
+          },
+          "objectives": [
+            {
+              "en": "Partition retained and candidate fast states.",
+              "zh": "划分保留状态与候选快状态。"
+            },
+            {
+              "en": "Check regularity, separation, and boundary-layer stability.",
+              "zh": "检查正则性、尺度分离与边界层稳定性。"
+            }
+          ],
+          "outline": [
+            {
+              "en": "Slow-fast partitions and Schur closure",
+              "zh": "慢快划分与 Schur 闭合"
+            },
+            {
+              "en": "Zero-order and first-order approximations",
+              "zh": "零阶与一阶近似"
+            },
+            {
+              "en": "Conditional reduction edges",
+              "zh": "带条件的降阶关系"
+            }
+          ],
+          "experiment": {
+            "en": "Apply QSS to one declared physical state block and inspect its assumptions.",
+            "zh": "对明确的物理状态块应用 QSS，并检查其假设。"
+          },
+          "practice": {
+            "en": "Explain why state speed alone does not establish a valid reduction.",
+            "zh": "解释为什么仅凭状态速度无法证明降阶有效。"
+          },
+          "sources": [
+            "reductions",
+            "droop",
+            "multiscale"
+          ],
+          "status": "outline",
+          "readiness": "adaptation",
+          "next_step": {
+            "en": "Adapt the existing material into a lesson, a reproducible experiment, and worked practice.",
+            "zh": "将现有材料整理为逐步讲义、可复现实验与带解答练习。"
+          },
+          "id": "C2-04"
+        },
+        {
+          "slug": "reduction-baselines",
+          "title": {
+            "en": "Conventional Reduction Baselines",
+            "zh": "常规降阶基线"
+          },
+          "summary": {
+            "en": "Compare reduction methods under a shared input-output contract.",
+            "zh": "在共同输入输出约定下比较降阶方法。"
+          },
+          "objectives": [
+            {
+              "en": "Distinguish physical-state and balanced-coordinate reductions.",
+              "zh": "区分物理状态降阶与平衡坐标降阶。"
+            },
+            {
+              "en": "Use methods within their stated assumptions.",
+              "zh": "在方法的明确假设范围内使用它们。"
+            }
+          ],
+          "outline": [
+            {
+              "en": "QSS and first-order singular perturbation",
+              "zh": "QSS 与一阶奇异摄动"
+            },
+            {
+              "en": "Balanced truncation and residualization",
+              "zh": "平衡截断与残差化"
+            },
+            {
+              "en": "Participation-guided state selection",
+              "zh": "参与因子引导的状态选择"
+            }
+          ],
+          "experiment": {
+            "en": "Compare equal-order candidates by stability, frequency response, and runtime.",
+            "zh": "从稳定性、频率响应与运行耗时比较同阶候选。"
+          },
+          "practice": {
+            "en": "Explain a tradeoff between compactness and retained physical meaning.",
+            "zh": "解释紧凑性与保留物理含义之间的权衡。"
+          },
+          "sources": [
+            "reductions",
+            "research-analysis"
+          ],
+          "status": "outline",
+          "readiness": "adaptation",
+          "next_step": {
+            "en": "Adapt the existing material into a lesson, a reproducible experiment, and worked practice.",
+            "zh": "将现有材料整理为逐步讲义、可复现实验与带解答练习。"
+          },
+          "id": "C2-05"
+        },
+        {
+          "slug": "stability-counterexamples",
+          "title": {
+            "en": "Stability Counterexamples and Validity Boundaries",
+            "zh": "稳定性反例与有效性边界"
+          },
+          "summary": {
+            "en": "Use failed reductions to locate model-validity limits.",
+            "zh": "利用失败的降阶定位模型有效性边界。"
+          },
+          "objectives": [
+            {
+              "en": "Separate implementation consistency from physical validity.",
+              "zh": "区分实现一致性与物理有效性。"
+            },
+            {
+              "en": "Track how validity changes with grid strength and operating point.",
+              "zh": "追踪有效性如何随电网强度与运行点变化。"
+            }
+          ],
+          "outline": [
+            {
+              "en": "Stable parent and unstable reduced child",
+              "zh": "稳定母模型与不稳定降阶模型"
+            },
+            {
+              "en": "Network-dependent QSS failures",
+              "zh": "依赖网络条件的 QSS 失败"
+            },
+            {
+              "en": "Preserving negative results",
+              "zh": "保留负结果"
+            }
+          ],
+          "experiment": {
+            "en": "Inspect one frozen instability counterexample and vary its declared physical condition.",
+            "zh": "检查一个冻结失稳反例，并改变其明确的物理条件。"
+          },
+          "practice": {
+            "en": "Write a validity statement that names the operating point and outputs.",
+            "zh": "写出明确运行点与输出的有效性声明。"
+          },
+          "sources": [
+            "counterexamples",
+            "parallel",
+            "research-analysis"
+          ],
+          "status": "outline",
+          "readiness": "adaptation",
+          "next_step": {
+            "en": "Adapt the existing material into a lesson, a reproducible experiment, and worked practice.",
+            "zh": "将现有材料整理为逐步讲义、可复现实验与带解答练习。"
+          },
+          "id": "C2-06"
+        },
+        {
+          "slug": "cross-tool-evidence",
+          "title": {
+            "en": "Cross-Tool Evidence and Validation Levels",
+            "zh": "跨工具证据与验证层次"
+          },
+          "summary": {
+            "en": "Interpret agreement without overstating what a reference model validates.",
+            "zh": "准确解读一致性，并明确参考模型的验证范围。"
+          },
+          "objectives": [
+            {
+              "en": "Match parameter meanings, events, and measurement ports.",
+              "zh": "匹配参数含义、事件与测量端口。"
+            },
+            {
+              "en": "Distinguish exact mapping from nearest-model corroboration.",
+              "zh": "区分精确映射与最接近模型的佐证。"
+            }
+          ],
+          "outline": [
+            {
+              "en": "Source equations and parameter mapping",
+              "zh": "源方程与参数映射"
+            },
+            {
+              "en": "Direction, steady increment, and transient shape",
+              "zh": "方向、稳态增量与暂态形状"
+            },
+            {
+              "en": "Endpoint, limiter, and external-validation boundaries",
+              "zh": "端点、限流与外部验证边界"
+            }
+          ],
+          "experiment": {
+            "en": "Audit a selected ANDES or PNNL comparison and explain a remaining gap.",
+            "zh": "审阅一个 ANDES 或 PNNL 对照，并解释保留的差异。"
+          },
+          "practice": {
+            "en": "State which claim the comparison supports and which evidence is still needed.",
+            "zh": "说明对照支持的结论及仍需补充的证据。"
+          },
+          "sources": [
+            "cross-tool"
+          ],
+          "status": "outline",
+          "readiness": "adaptation",
+          "next_step": {
+            "en": "Adapt the existing material into a lesson, a reproducible experiment, and worked practice.",
+            "zh": "将现有材料整理为逐步讲义、可复现实验与带解答练习。"
+          },
+          "id": "C2-07"
+        },
+        {
+          "slug": "fidelity-selection",
+          "title": {
+            "en": "Model Selection and Feedback-Path Diagnostics",
+            "zh": "选模与反馈路径诊断"
+          },
+          "summary": {
+            "en": "Choose model fidelity by the property to preserve and inspect research diagnostics.",
+            "zh": "按需要保留的性质选择模型层次，并了解研究诊断方法。"
+          },
+          "objectives": [
+            {
+              "en": "Define an output- and domain-specific selection problem.",
+              "zh": "定义针对输出与范围的选模问题。"
+            },
+            {
+              "en": "Interpret homotopy paths within their research scope.",
+              "zh": "在研究范围内解读同伦路径。"
+            }
+          ],
+          "outline": [
+            {
+              "en": "Property-specific fidelity and acceptance criteria",
+              "zh": "针对性质的模型层次与验收标准"
+            },
+            {
+              "en": "Physical feedback paths and modal continuation",
+              "zh": "物理反馈路径与模态延续"
+            },
+            {
+              "en": "Selection, failure boundaries, and escalation",
+              "zh": "选模、失败边界与模型升级"
+            }
+          ],
+          "experiment": {
+            "en": "Select the lowest acceptable candidate under a fixed evidence contract.",
+            "zh": "在固定证据要求下选择可接受的最低阶候选。"
+          },
+          "practice": {
+            "en": "Explain why one global model-order ranking is insufficient.",
+            "zh": "解释为什么统一的模型阶数排名不足以选模。"
+          },
+          "sources": [
+            "research-analysis",
+            "multiscale"
+          ],
+          "status": "outline",
+          "readiness": "research",
+          "next_step": {
+            "en": "Separate established reduction lessons from the optional homotopy research case study.",
+            "zh": "将常规降阶课程与可选的同伦研究案例分开编写。"
+          },
+          "id": "C2-08"
+        }
+      ]
+    },
+    {
+      "id": "C3",
+      "slug": "physics-informed-neural-ode",
+      "title": {
+        "en": "Physics-Informed Neural ODEs for IBR Dynamics",
+        "zh": "面向 IBR 动态的物理信息 Neural ODE"
+      },
+      "role": "core",
+      "summary": {
+        "en": "Learn continuous-time dynamics with data, physical constraints, and residual models.",
+        "zh": "结合数据、物理约束与残差模型学习连续时间动态。"
+      },
+      "prerequisites": {
+        "en": "Python, introductory ODEs, and a simple GFM swing model; detailed converter modeling is needed for the advanced project.",
+        "zh": "Python、ODE 入门与简单 GFM swing model；进阶项目需要详细变流器建模基础。"
+      },
+      "depends_on": [
+        "C1"
+      ],
+      "capstone": {
+        "en": "Compare pure NODE, grey-box, and physics-aware models on held-out trajectories.",
+        "zh": "在独立测试轨迹上比较 pure NODE、grey-box 与结合物理的模型。"
+      },
+      "deliverables": [
+        {
+          "en": "Trajectory-based train, validation, and test splits.",
+          "zh": "按完整轨迹划分训练、验证与测试集。"
+        },
+        {
+          "en": "Reproducible training with stated observations and losses.",
+          "zh": "明确观测与损失的可复现训练。"
+        },
+        {
+          "en": "Rollout and stability diagnostics with honest limitations.",
+          "zh": "附适用限制的轨迹预测与稳定性诊断。"
+        }
+      ],
+      "status": "framework",
+      "modules": [
+        {
+          "slug": "dynamics-and-data",
+          "title": {
+            "en": "Dynamical Systems and Trajectory Data",
+            "zh": "动力系统与轨迹数据"
+          },
+          "summary": {
+            "en": "Build a simple reference system and construct meaningful training trajectories.",
+            "zh": "建立简单参考系统并构造有意义的训练轨迹。"
+          },
+          "objectives": [
+            {
+              "en": "Interpret states, equilibria, and numerical trajectories.",
+              "zh": "理解状态、平衡点与数值轨迹。"
+            },
+            {
+              "en": "Design whole-trajectory splits before training.",
+              "zh": "在训练前设计完整轨迹划分。"
+            }
+          ],
+          "outline": [
+            {
+              "en": "One-state ODE and two-state swing model",
+              "zh": "单状态 ODE 与两状态 swing model"
+            },
+            {
+              "en": "Initial conditions, parameter families, and coverage",
+              "zh": "初态、参数族与覆盖范围"
+            },
+            {
+              "en": "Normalized teaching coordinates and measurement noise",
+              "zh": "归一化教学坐标与测量噪声"
+            }
+          ],
+          "experiment": {
+            "en": "Generate swing-model trajectories from diverse initial conditions.",
+            "zh": "从多种初态生成 swing-model 轨迹。"
+          },
+          "practice": {
+            "en": "Explain why random time-row splitting can leak trajectory information.",
+            "zh": "解释随机划分时间行为何会泄漏轨迹信息。"
+          },
+          "sources": [
+            "week01",
+            "week02",
+            "teaching-experiments"
+          ],
+          "status": "outline",
+          "readiness": "adaptation",
+          "next_step": {
+            "en": "Adapt the existing material into a lesson, a reproducible experiment, and worked practice.",
+            "zh": "将现有材料整理为逐步讲义、可复现实验与带解答练习。"
+          },
+          "id": "C3-01"
+        },
+        {
+          "slug": "neural-network-foundations",
+          "title": {
+            "en": "Neural Network Foundations",
+            "zh": "神经网络基础"
+          },
+          "summary": {
+            "en": "Understand the function approximator used to learn a vector field.",
+            "zh": "理解用于学习向量场的函数近似器。"
+          },
+          "objectives": [
+            {
+              "en": "Explain an MLP forward pass and training loss.",
+              "zh": "解释 MLP 前向计算与训练损失。"
+            },
+            {
+              "en": "Trace a simple gradient through the network.",
+              "zh": "追踪一个简单的网络梯度。"
+            }
+          ],
+          "outline": [
+            {
+              "en": "Features, activations, and capacity",
+              "zh": "特征、激活函数与容量"
+            },
+            {
+              "en": "Losses, gradients, and optimization",
+              "zh": "损失、梯度与优化"
+            },
+            {
+              "en": "Static approximation as a bridge to dynamics",
+              "zh": "从静态近似过渡到动态学习"
+            }
+          ],
+          "experiment": {
+            "en": "Fit a nonlinear function and vary the hidden width.",
+            "zh": "拟合非线性函数并改变隐藏层宽度。"
+          },
+          "practice": {
+            "en": "Explain what the network output should represent in a dynamic model.",
+            "zh": "解释动态模型中的网络输出应代表什么。"
+          },
+          "sources": [
+            "week03"
+          ],
+          "status": "outline",
+          "readiness": "adaptation",
+          "next_step": {
+            "en": "Adapt the existing material into a lesson, a reproducible experiment, and worked practice.",
+            "zh": "将现有材料整理为逐步讲义、可复现实验与带解答练习。"
+          },
+          "id": "C3-02"
+        },
+        {
+          "slug": "neural-vector-fields",
+          "title": {
+            "en": "Neural ODEs and Learned Vector Fields",
+            "zh": "Neural ODE 与学习向量场"
+          },
+          "summary": {
+            "en": "Learn a derivative law, then integrate it to predict trajectories.",
+            "zh": "学习导数规律，再通过积分预测轨迹。"
+          },
+          "objectives": [
+            {
+              "en": "Distinguish local derivative fit from rollout accuracy.",
+              "zh": "区分局部导数拟合与轨迹预测准确性。"
+            },
+            {
+              "en": "Separate integration error from model error.",
+              "zh": "区分积分误差与模型误差。"
+            }
+          ],
+          "outline": [
+            {
+              "en": "One-dimensional learned dynamics",
+              "zh": "一维学习动态"
+            },
+            {
+              "en": "Two-dimensional GFM vector field",
+              "zh": "二维 GFM 向量场"
+            },
+            {
+              "en": "Euler, RK4, and extrapolation",
+              "zh": "Euler、RK4 与外推"
+            }
+          ],
+          "experiment": {
+            "en": "Compare learned and reference phase portraits with held-out initial conditions.",
+            "zh": "在未见初态下比较学习模型与参考模型的相图。"
+          },
+          "practice": {
+            "en": "Explain how a small derivative error can accumulate in a rollout.",
+            "zh": "解释小导数误差如何在轨迹预测中累积。"
+          },
+          "sources": [
+            "week04",
+            "week05"
+          ],
+          "status": "outline",
+          "readiness": "adaptation",
+          "next_step": {
+            "en": "Adapt the existing material into a lesson, a reproducible experiment, and worked practice.",
+            "zh": "将现有材料整理为逐步讲义、可复现实验与带解答练习。"
+          },
+          "id": "C3-03"
+        },
+        {
+          "slug": "training-through-solvers",
+          "title": {
+            "en": "Derivative and Trajectory Matching",
+            "zh": "导数匹配与轨迹匹配"
+          },
+          "summary": {
+            "en": "Compare noisy derivative labels with gradients through a numerical solver.",
+            "zh": "比较含噪导数标签与穿过数值求解器的梯度。"
+          },
+          "objectives": [
+            {
+              "en": "Explain noise amplification during differentiation.",
+              "zh": "解释数值求导对噪声的放大。"
+            },
+            {
+              "en": "Trace reverse-mode gradients through an unrolled solver.",
+              "zh": "追踪展开求解器中的反向梯度。"
+            }
+          ],
+          "outline": [
+            {
+              "en": "Smoothing and finite-difference derivative estimates",
+              "zh": "平滑与有限差分导数估计"
+            },
+            {
+              "en": "Trajectory losses and solver computation graphs",
+              "zh": "轨迹损失与求解器计算图"
+            },
+            {
+              "en": "Discrete adjoints and gradient checks",
+              "zh": "离散伴随与梯度检查"
+            }
+          ],
+          "experiment": {
+            "en": "Compare residual derivative matching with residual trajectory matching.",
+            "zh": "比较残差导数匹配与残差轨迹匹配。"
+          },
+          "practice": {
+            "en": "Check one directional gradient against a finite difference.",
+            "zh": "用有限差分检查一个方向梯度。"
+          },
+          "sources": [
+            "week06"
+          ],
+          "status": "outline",
+          "readiness": "adaptation",
+          "next_step": {
+            "en": "Retain the transparent NumPy derivation and add an optional autodiff implementation.",
+            "zh": "保留透明的 NumPy 推导，并补充可选的自动微分实现。"
+          },
+          "id": "C3-04"
+        },
+        {
+          "slug": "physics-aware-architectures",
+          "title": {
+            "en": "Physics Constraints and Residual Backbones",
+            "zh": "物理约束与残差骨架"
+          },
+          "summary": {
+            "en": "Place physical knowledge in the loss or in the model architecture.",
+            "zh": "把物理知识放入损失函数或模型架构。"
+          },
+          "objectives": [
+            {
+              "en": "Distinguish soft penalties from a physical backbone.",
+              "zh": "区分软约束与物理骨架。"
+            },
+            {
+              "en": "Explain the bias introduced by incorrect nominal physics.",
+              "zh": "解释错误标称物理造成的偏差。"
+            }
+          ],
+          "outline": [
+            {
+              "en": "Pure vector field with a physics penalty",
+              "zh": "带物理惩罚的纯向量场"
+            },
+            {
+              "en": "Nominal dynamics plus learned residual",
+              "zh": "标称动态加学习残差"
+            },
+            {
+              "en": "Parameter mismatch and residual placement",
+              "zh": "参数失配与残差位置"
+            }
+          ],
+          "experiment": {
+            "en": "Vary the physics weight and compare against a residual architecture.",
+            "zh": "改变物理权重并与残差架构比较。"
+          },
+          "practice": {
+            "en": "State what the residual is allowed to change.",
+            "zh": "明确残差可以修改哪些动态。"
+          },
+          "sources": [
+            "week06"
+          ],
+          "status": "outline",
+          "readiness": "adaptation",
+          "next_step": {
+            "en": "Adapt the existing material into a lesson, a reproducible experiment, and worked practice.",
+            "zh": "将现有材料整理为逐步讲义、可复现实验与带解答练习。"
+          },
+          "id": "C3-05"
+        },
+        {
+          "slug": "pinn-and-node",
+          "title": {
+            "en": "Continuous-Time PINNs and Neural ODEs",
+            "zh": "连续时间 PINN 与 Neural ODE"
+          },
+          "summary": {
+            "en": "Distinguish learning a solution function from learning a dynamic law.",
+            "zh": "区分学习解函数与学习动态规律。"
+          },
+          "objectives": [
+            {
+              "en": "Write the ODE residual for a trajectory-network PINN.",
+              "zh": "写出轨迹网络 PINN 的 ODE 残差。"
+            },
+            {
+              "en": "Compare prediction interfaces and initial-condition handling.",
+              "zh": "比较预测接口与初态处理。"
+            }
+          ],
+          "outline": [
+            {
+              "en": "Time-to-state solution networks",
+              "zh": "时间到状态的解函数网络"
+            },
+            {
+              "en": "Collocation, initial conditions, and residual losses",
+              "zh": "配点、初态与残差损失"
+            },
+            {
+              "en": "State-to-derivative NODE and solver rollout",
+              "zh": "状态到导数的 NODE 与求解器预测"
+            }
+          ],
+          "experiment": {
+            "en": "Train both formulations on the same simple ODE with a declared data budget.",
+            "zh": "在同一简单 ODE 和明确数据预算下训练两种形式。"
+          },
+          "practice": {
+            "en": "Explain which formulation directly supplies a reusable vector field.",
+            "zh": "解释哪种形式直接提供可复用的向量场。"
+          },
+          "sources": [
+            "week04",
+            "week06"
+          ],
+          "status": "outline",
+          "readiness": "new",
+          "next_step": {
+            "en": "Develop a dedicated trajectory-network PINN example and a fair NODE comparison.",
+            "zh": "新增专门的轨迹网络 PINN 示例及公平的 NODE 对照。"
+          },
+          "id": "C3-06"
+        },
+        {
+          "slug": "identification-and-generalization",
+          "title": {
+            "en": "Parameter Identification and Generalization",
+            "zh": "参数辨识与泛化"
+          },
+          "summary": {
+            "en": "Separate unknown-parameter estimation from prediction at supplied parameters.",
+            "zh": "区分未知参数估计与给定参数下的预测。"
+          },
+          "objectives": [
+            {
+              "en": "Recognize compensation between parameters and residuals.",
+              "zh": "识别参数与残差之间的补偿。"
+            },
+            {
+              "en": "Evaluate interpolation and extrapolation separately.",
+              "zh": "分别评价插值与外推。"
+            }
+          ],
+          "outline": [
+            {
+              "en": "Grey-box derivative matching",
+              "zh": "Grey-box 导数匹配"
+            },
+            {
+              "en": "Joint and staged fitting assumptions",
+              "zh": "联合与分阶段拟合假设"
+            },
+            {
+              "en": "Held-out trajectories and parameter cases",
+              "zh": "独立轨迹与参数工况"
+            }
+          ],
+          "experiment": {
+            "en": "Compare physical-parameter estimates and held-out predictions across model forms.",
+            "zh": "比较不同模型形式的物理参数估计与独立预测。"
+          },
+          "practice": {
+            "en": "Explain why a small loss need not identify the true parameters.",
+            "zh": "解释为什么小损失不保证辨识出真实参数。"
+          },
+          "sources": [
+            "week07",
+            "teaching-experiments"
+          ],
+          "status": "outline",
+          "readiness": "adaptation",
+          "next_step": {
+            "en": "Adapt the existing material into a lesson, a reproducible experiment, and worked practice.",
+            "zh": "将现有材料整理为逐步讲义、可复现实验与带解答练习。"
+          },
+          "id": "C3-07"
+        },
+        {
+          "slug": "learned-model-stability",
+          "title": {
+            "en": "Stability Diagnostics for Learned Models",
+            "zh": "学习模型的稳定性诊断"
+          },
+          "summary": {
+            "en": "Check equilibria, local modes, and finite-horizon recovery before making claims.",
+            "zh": "在形成结论前检查平衡点、局部模态与有限时域恢复。"
+          },
+          "objectives": [
+            {
+              "en": "Separate sampled recovery from an asymptotic stability certificate.",
+              "zh": "区分采样恢复结果与渐近稳定性证明。"
+            },
+            {
+              "en": "Check how learned residuals change equilibrium and damping.",
+              "zh": "检查学习残差如何改变平衡点与阻尼。"
+            }
+          ],
+          "outline": [
+            {
+              "en": "Learned equilibria and Jacobians",
+              "zh": "学习模型平衡点与 Jacobian"
+            },
+            {
+              "en": "Energy diagnostics and soft regularization",
+              "zh": "能量诊断与软正则化"
+            },
+            {
+              "en": "Horizon sensitivity and retained failures",
+              "zh": "时域长度敏感性与保留的失败"
+            }
+          ],
+          "experiment": {
+            "en": "Compare recovery maps at multiple horizons and inspect disagreement cases.",
+            "zh": "比较不同时域长度的恢复图并检查不一致工况。"
+          },
+          "practice": {
+            "en": "State exactly what a sampled stability penalty establishes.",
+            "zh": "明确采样稳定性惩罚能够支持什么结论。"
+          },
+          "sources": [
+            "week08",
+            "teaching-experiments"
+          ],
+          "status": "outline",
+          "readiness": "adaptation",
+          "next_step": {
+            "en": "Adapt the existing material into a lesson, a reproducible experiment, and worked practice.",
+            "zh": "将现有材料整理为逐步讲义、可复现实验与带解答练习。"
+          },
+          "id": "C3-08"
+        },
+        {
+          "slug": "converter-learning-project",
+          "title": {
+            "en": "From Swing Models to Converter Dynamics",
+            "zh": "从 Swing Model 到变流器动态"
+          },
+          "summary": {
+            "en": "Plan a learning experiment with converter states, terminal outputs, and events.",
+            "zh": "设计含变流器状态、端口输出与事件的学习实验。"
+          },
+          "objectives": [
+            {
+              "en": "Separate observed channels from hidden states.",
+              "zh": "区分观测通道与隐藏状态。"
+            },
+            {
+              "en": "Respect algebraic constraints and hybrid event boundaries.",
+              "zh": "遵守代数约束与混合事件边界。"
+            }
+          ],
+          "outline": [
+            {
+              "en": "A1/B1/C1 datasets and declared observation channels",
+              "zh": "A1/B1/C1 数据与明确观测通道"
+            },
+            {
+              "en": "ODE residuals, KCL, and active sets",
+              "zh": "ODE 残差、KCL 与活动集"
+            },
+            {
+              "en": "Fair NODE, grey-box, and PI-NODE protocols",
+              "zh": "公平的 NODE、grey-box 与 PI-NODE 规范"
+            }
+          ],
+          "experiment": {
+            "en": "Start with one fixed converter configuration and hold out complete disturbances.",
+            "zh": "从一个固定变流器配置开始，留出完整扰动工况。"
+          },
+          "practice": {
+            "en": "Propose separate baseline and advanced project acceptance criteria.",
+            "zh": "分别提出基础项目与进阶项目的验收标准。"
+          },
+          "sources": [
+            "ibr-data",
+            "configuration"
+          ],
+          "status": "outline",
+          "readiness": "data",
+          "next_step": {
+            "en": "Implement and validate the converter learning pipeline; available datasets are not completed training evidence.",
+            "zh": "实现并验证变流器学习流程；现有数据不等于已完成的训练证据。"
+          },
+          "id": "C3-09"
+        }
+      ]
+    },
+    {
+      "id": "T1",
+      "slug": "identification-validation",
+      "title": {
+        "en": "IBR Identification and Learned-Model Validation",
+        "zh": "IBR 辨识与学习模型验证"
+      },
+      "role": "topic",
+      "summary": {
+        "en": "Study excitation, parameter meaning, residual ambiguity, and independent evidence.",
+        "zh": "研究激励、参数含义、残差歧义与独立证据。"
+      },
+      "prerequisites": {
+        "en": "The modeling and Neural ODE courses; stability foundations for the validation project.",
+        "zh": "建模与 Neural ODE 课程；验证项目需要稳定性基础。"
+      },
+      "depends_on": [
+        "C1",
+        "C3"
+      ],
+      "capstone": {
+        "en": "Design an identification study with explicit observations and a fair baseline protocol.",
+        "zh": "设计观测条件明确、基线公平的辨识研究。"
+      },
+      "deliverables": [
+        {
+          "en": "An observation and excitation contract.",
+          "zh": "观测与激励约定。"
+        },
+        {
+          "en": "A baseline, split, noise, and seed protocol.",
+          "zh": "基线、划分、噪声与种子规范。"
+        },
+        {
+          "en": "A report separating prediction accuracy from parameter recovery.",
+          "zh": "区分预测准确性与参数恢复的报告。"
+        }
+      ],
+      "status": "framework",
+      "modules": [
+        {
+          "slug": "excitation-and-observability",
+          "title": {
+            "en": "Excitation, Observation, and Identifiability",
+            "zh": "激励、观测与可辨识性"
+          },
+          "summary": {
+            "en": "Define what the measurements can reveal about selected parameters.",
+            "zh": "确定测量能够揭示哪些选定参数的信息。"
+          },
+          "objectives": [
+            {
+              "en": "Declare observed and latent variables.",
+              "zh": "声明观测变量与潜变量。"
+            },
+            {
+              "en": "Relate excitation to parameter sensitivity.",
+              "zh": "将激励与参数灵敏度联系起来。"
+            }
+          ],
+          "outline": [
+            {
+              "en": "Terminal measurements and hidden controller states",
+              "zh": "端口测量与隐藏控制器状态"
+            },
+            {
+              "en": "Excitation and sensitivity",
+              "zh": "激励与灵敏度"
+            },
+            {
+              "en": "Selected parameters and information limits",
+              "zh": "选定参数与信息限制"
+            }
+          ],
+          "experiment": {
+            "en": "Compare parameter sensitivity under two excitation patterns.",
+            "zh": "比较两种激励模式下的参数灵敏度。"
+          },
+          "practice": {
+            "en": "State which parameters the experiment intends to estimate.",
+            "zh": "明确实验拟估计的参数。"
+          },
+          "sources": [
+            "week07",
+            "vsm"
+          ],
+          "status": "outline",
+          "readiness": "research",
+          "next_step": {
+            "en": "Adapt the existing material into a lesson, a reproducible experiment, and worked practice.",
+            "zh": "将现有材料整理为逐步讲义、可复现实验与带解答练习。"
+          },
+          "id": "T1-01"
+        },
+        {
+          "slug": "parameter-residual-ambiguity",
+          "title": {
+            "en": "Parameter–Residual Compensation",
+            "zh": "参数与残差补偿"
+          },
+          "summary": {
+            "en": "Inspect equivalent fits and test the assumptions of staged estimation.",
+            "zh": "检查等效拟合并检验分阶段估计的假设。"
+          },
+          "objectives": [
+            {
+              "en": "Explain how a residual can absorb parameter error.",
+              "zh": "解释残差如何吸收参数误差。"
+            },
+            {
+              "en": "Keep approximate separation assumptions explicit.",
+              "zh": "明确近似分离假设。"
+            }
+          ],
+          "outline": [
+            {
+              "en": "Joint physical and neural parameters",
+              "zh": "联合物理与神经参数"
+            },
+            {
+              "en": "Small-speed and staged fitting",
+              "zh": "小速度与分阶段拟合"
+            },
+            {
+              "en": "Prediction versus recovered parameter meaning",
+              "zh": "预测与恢复参数的含义"
+            }
+          ],
+          "experiment": {
+            "en": "Compare several parameter-residual pairs with similar prediction errors.",
+            "zh": "比较预测误差相近的多组参数与残差。"
+          },
+          "practice": {
+            "en": "Propose one additional measurement that could resolve an ambiguity.",
+            "zh": "提出一种可能消除歧义的附加测量。"
+          },
+          "sources": [
+            "week07",
+            "historical-learning"
+          ],
+          "status": "outline",
+          "readiness": "research",
+          "next_step": {
+            "en": "Adapt the existing material into a lesson, a reproducible experiment, and worked practice.",
+            "zh": "将现有材料整理为逐步讲义、可复现实验与带解答练习。"
+          },
+          "id": "T1-02"
+        },
+        {
+          "slug": "configuration-and-baselines",
+          "title": {
+            "en": "Configuration Uncertainty and Fair Baselines",
+            "zh": "配置不确定性与公平基线"
+          },
+          "summary": {
+            "en": "Evaluate models without giving one method hidden information advantages.",
+            "zh": "评价模型时避免给某种方法隐藏的信息优势。"
+          },
+          "objectives": [
+            {
+              "en": "Separate configuration uncertainty from parameter uncertainty.",
+              "zh": "区分配置不确定性与参数不确定性。"
+            },
+            {
+              "en": "Match candidate knowledge, initial conditions, and budgets.",
+              "zh": "匹配候选知识、初态与预算。"
+            }
+          ],
+          "outline": [
+            {
+              "en": "GFL, GFM, and parallel configurations",
+              "zh": "GFL、GFM 与并联配置"
+            },
+            {
+              "en": "Oracle diagnostics and validation-based selection",
+              "zh": "Oracle 诊断与基于验证的选择"
+            },
+            {
+              "en": "Noise, seeds, failures, and paired comparisons",
+              "zh": "噪声、种子、失败与配对比较"
+            }
+          ],
+          "experiment": {
+            "en": "Write a protocol for the fixed low-frequency configuration models.",
+            "zh": "为固定低频配置模型编写实验规范。"
+          },
+          "practice": {
+            "en": "Identify one unfair baseline and repair its information budget.",
+            "zh": "识别一个不公平基线并修正其信息预算。"
+          },
+          "sources": [
+            "configuration",
+            "historical-learning"
+          ],
+          "status": "outline",
+          "readiness": "research",
+          "next_step": {
+            "en": "Develop the planned configuration-learning experiments before presenting new results.",
+            "zh": "先完成计划中的配置学习实验，再展示新结果。"
+          },
+          "id": "T1-03"
+        },
+        {
+          "slug": "independent-model-validation",
+          "title": {
+            "en": "Independent Validation of Learned Dynamics",
+            "zh": "学习动态的独立验证"
+          },
+          "summary": {
+            "en": "Build evidence that extends beyond fitting the calibration trajectories.",
+            "zh": "构建超出校准轨迹拟合的证据。"
+          },
+          "objectives": [
+            {
+              "en": "Hold out complete operating and disturbance cases.",
+              "zh": "留出完整运行与扰动工况。"
+            },
+            {
+              "en": "Report prediction, parameter, and stability evidence separately.",
+              "zh": "分别报告预测、参数与稳定性证据。"
+            }
+          ],
+          "outline": [
+            {
+              "en": "Interpolation, extrapolation, and long-horizon rollout",
+              "zh": "插值、外推与长时预测"
+            },
+            {
+              "en": "Equilibrium and modal discrepancies",
+              "zh": "平衡点与模态差异"
+            },
+            {
+              "en": "Failure counts and evidence boundaries",
+              "zh": "失败计数与证据边界"
+            }
+          ],
+          "experiment": {
+            "en": "Audit a learned model using a predeclared independent test matrix.",
+            "zh": "用预先明确的独立测试矩阵审阅学习模型。"
+          },
+          "practice": {
+            "en": "Write a conclusion supported by the available observations only.",
+            "zh": "写出仅由现有观测支持的结论。"
+          },
+          "sources": [
+            "week08",
+            "teaching-experiments",
+            "configuration"
+          ],
+          "status": "outline",
+          "readiness": "research",
+          "next_step": {
+            "en": "Adapt the existing material into a lesson, a reproducible experiment, and worked practice.",
+            "zh": "将现有材料整理为逐步讲义、可复现实验与带解答练习。"
+          },
+          "id": "T1-04"
+        }
+      ]
+    },
+    {
+      "id": "T2",
+      "slug": "network-dynamics",
+      "title": {
+        "en": "Multi-IBR Network Dynamics",
+        "zh": "多 IBR 网络动态"
+      },
+      "role": "topic",
+      "summary": {
+        "en": "Connect device models through network constraints and study coupled disturbances.",
+        "zh": "通过网络约束连接设备模型，并研究耦合扰动。"
+      },
+      "prerequisites": {
+        "en": "Device modeling, power flow, and small-signal stability.",
+        "zh": "设备建模、潮流与小信号稳定性。"
+      },
+      "depends_on": [
+        "C1",
+        "C2"
+      ],
+      "capstone": {
+        "en": "Analyze a declared disturbance in the three-GFM IEEE 9-bus case and explain network interactions.",
+        "zh": "分析三 GFM IEEE 9 节点案例中的指定扰动，并解释网络相互作用。"
+      },
+      "deliverables": [
+        {
+          "en": "Network, state ordering, and initialization documentation.",
+          "zh": "网络、状态顺序与初始化说明。"
+        },
+        {
+          "en": "Load-disturbance and parameter-sensitivity experiments.",
+          "zh": "负荷扰动与参数灵敏度实验。"
+        },
+        {
+          "en": "An interpretation of coupled responses and model limits.",
+          "zh": "耦合响应与模型限制的解读。"
+        }
+      ],
+      "status": "framework",
+      "modules": [
+        {
+          "slug": "shared-pcc-coupling",
+          "title": {
+            "en": "Shared-PCC Coupling",
+            "zh": "共享 PCC 耦合"
+          },
+          "summary": {
+            "en": "Move from a single device to coupled branches at a shared connection point.",
+            "zh": "从单设备过渡到共用并网点的耦合支路。"
+          },
+          "objectives": [
+            {
+              "en": "Write the shared-terminal constraint.",
+              "zh": "写出共用端口约束。"
+            },
+            {
+              "en": "Explain interaction between branch controls.",
+              "zh": "解释支路控制之间的相互作用。"
+            }
+          ],
+          "outline": [
+            {
+              "en": "Common terminal voltage and branch currents",
+              "zh": "共同端口电压与支路电流"
+            },
+            {
+              "en": "Power allocation and coupling",
+              "zh": "功率分配与耦合"
+            },
+            {
+              "en": "Single-device and parallel response comparison",
+              "zh": "单设备与并联响应比较"
+            }
+          ],
+          "experiment": {
+            "en": "Compare isolated and shared-PCC configurations under a common input.",
+            "zh": "在共同输入下比较独立与共享 PCC 配置。"
+          },
+          "practice": {
+            "en": "Explain why parallel response is not a sum of isolated responses.",
+            "zh": "解释为什么并联响应不是独立响应的简单叠加。"
+          },
+          "sources": [
+            "configuration",
+            "parallel"
+          ],
+          "status": "outline",
+          "readiness": "adaptation",
+          "next_step": {
+            "en": "Adapt the existing material into a lesson, a reproducible experiment, and worked practice.",
+            "zh": "将现有材料整理为逐步讲义、可复现实验与带解答练习。"
+          },
+          "id": "T2-01"
+        },
+        {
+          "slug": "network-dae-and-nine-bus",
+          "title": {
+            "en": "Network Dynamics and the IEEE 9-Bus Case",
+            "zh": "网络动态与 IEEE 9 节点案例"
+          },
+          "summary": {
+            "en": "Assemble and initialize the corrected three-GFM system model.",
+            "zh": "组装并初始化修正后的三 GFM 系统模型。"
+          },
+          "objectives": [
+            {
+              "en": "Map converter and network states to the system equations.",
+              "zh": "把变流器与网络状态对应到系统方程。"
+            },
+            {
+              "en": "Check initialization and equation consistency.",
+              "zh": "检查初始化与方程一致性。"
+            }
+          ],
+          "outline": [
+            {
+              "en": "Network interconnection and ODE/DAE representations",
+              "zh": "网络连接与 ODE/DAE 表示"
+            },
+            {
+              "en": "The 81-state system and state ordering",
+              "zh": "81 状态系统与状态顺序"
+            },
+            {
+              "en": "Equilibrium recalculation and legacy variants",
+              "zh": "平衡点重算与历史方程变体"
+            }
+          ],
+          "experiment": {
+            "en": "Reproduce the corrected nominal case and inspect initial-condition drift.",
+            "zh": "复现修正后的标称工况并检查初态漂移。"
+          },
+          "practice": {
+            "en": "Trace one load disturbance through network and converter states.",
+            "zh": "追踪一个负荷扰动如何经过网络与变流器状态。"
+          },
+          "sources": [
+            "network"
+          ],
+          "status": "outline",
+          "readiness": "adaptation",
+          "next_step": {
+            "en": "Adapt the existing material into a lesson, a reproducible experiment, and worked practice.",
+            "zh": "将现有材料整理为逐步讲义、可复现实验与带解答练习。"
+          },
+          "id": "T2-02"
+        },
+        {
+          "slug": "system-disturbances",
+          "title": {
+            "en": "System Disturbances and Sensitivity",
+            "zh": "系统扰动与灵敏度"
+          },
+          "summary": {
+            "en": "Compare disturbance size, location, and physical parameter changes.",
+            "zh": "比较扰动幅值、位置与物理参数变化。"
+          },
+          "objectives": [
+            {
+              "en": "Design a system disturbance matrix.",
+              "zh": "设计系统扰动矩阵。"
+            },
+            {
+              "en": "Interpret coupled frequency and voltage responses.",
+              "zh": "解读耦合频率与电压响应。"
+            }
+          ],
+          "outline": [
+            {
+              "en": "Load-step size and location",
+              "zh": "负荷阶跃幅值与位置"
+            },
+            {
+              "en": "LCL and network parameter sensitivity",
+              "zh": "LCL 与网络参数灵敏度"
+            },
+            {
+              "en": "Transient metrics and simulation-horizon limits",
+              "zh": "暂态指标与仿真时域限制"
+            }
+          ],
+          "experiment": {
+            "en": "Compare the same load increment at two buses with common initialization.",
+            "zh": "在共同初始化条件下比较两个母线上的相同负荷增量。"
+          },
+          "practice": {
+            "en": "Explain why a boundary-time minimum may not be a completed nadir.",
+            "zh": "解释为什么仿真边界处的最小值未必是完整的最低点。"
+          },
+          "sources": [
+            "network"
+          ],
+          "status": "outline",
+          "readiness": "adaptation",
+          "next_step": {
+            "en": "Adapt the existing material into a lesson, a reproducible experiment, and worked practice.",
+            "zh": "将现有材料整理为逐步讲义、可复现实验与带解答练习。"
+          },
+          "id": "T2-03"
+        },
+        {
+          "slug": "limits-and-switching",
+          "title": {
+            "en": "Current Limits and Switching Dynamics",
+            "zh": "限流与切换动态"
+          },
+          "summary": {
+            "en": "Frame an advanced research study of limits, faults, and changing modes.",
+            "zh": "建立限流、故障与模式变化的进阶研究问题。"
+          },
+          "objectives": [
+            {
+              "en": "Separate fixed-mode stability from switching-trajectory evidence.",
+              "zh": "区分固定模式稳定性与切换轨迹证据。"
+            },
+            {
+              "en": "Declare limiter and fault-clearing assumptions.",
+              "zh": "声明限流与故障清除假设。"
+            }
+          ],
+          "outline": [
+            {
+              "en": "Current-limiting patterns and physical constraints",
+              "zh": "限流组合与物理约束"
+            },
+            {
+              "en": "Fault entry, clearing, and mode changes",
+              "zh": "故障接入、清除与模式变化"
+            },
+            {
+              "en": "Evidence gaps and minimum validation studies",
+              "zh": "证据缺口与最小验证研究"
+            }
+          ],
+          "experiment": {
+            "en": "Design a small-network test linking limiter activity to an actual fault trajectory.",
+            "zh": "设计把限流活动与真实故障轨迹连接起来的小网络测试。"
+          },
+          "practice": {
+            "en": "List the evidence needed before claiming a dynamic stability guarantee.",
+            "zh": "列出声称动态稳定保证前所需的证据。"
+          },
+          "sources": [
+            "limiting",
+            "transition"
+          ],
+          "status": "outline",
+          "readiness": "research",
+          "next_step": {
+            "en": "Develop a complete network experiment; the existing limiting-pattern material is research review evidence.",
+            "zh": "补充完整网络实验；现有限流组合材料属于研究审阅证据。"
+          },
+          "id": "T2-04"
+        }
+      ]
+    }
+  ],
+  "preparation": [
+    {
+      "title": {
+        "en": "Python and Jupyter",
+        "zh": "Python 与 Jupyter"
+      },
+      "summary": {
+        "en": "Run a notebook, inspect arrays, and reproduce a numerical experiment.",
+        "zh": "运行 Notebook、查看数组并复现数值实验。"
+      },
+      "sources": [
+        "preparation"
+      ]
+    },
+    {
+      "title": {
+        "en": "Power electronics essentials",
+        "zh": "电力电子基础"
+      },
+      "summary": {
+        "en": "Read the converter energy path, switching abstraction, and filter circuit.",
+        "zh": "理解变流器能量路径、开关抽象与滤波电路。"
+      },
+      "sources": [
+        "power-electronics"
+      ]
+    },
+    {
+      "title": {
+        "en": "ODE and simulation essentials",
+        "zh": "ODE 与仿真基础"
+      },
+      "summary": {
+        "en": "Interpret states, equilibria, numerical integration, and step-size effects.",
+        "zh": "理解状态、平衡点、数值积分与步长影响。"
+      },
+      "sources": [
+        "week01"
+      ]
+    }
+  ],
+  "writing": {
+    "title": {
+      "en": "Shared research writing workshop",
+      "zh": "共同研究写作工作坊"
+    },
+    "summary": {
+      "en": "Turn a completed project into a methods-and-evidence report, with figures, limitations, and reproducibility instructions.",
+      "zh": "把完成的项目整理为方法与证据报告，包含图表、限制与复现说明。"
+    },
+    "sources": [
+      "week09"
+    ]
+  }
+}

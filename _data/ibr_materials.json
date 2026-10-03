@@ -1,0 +1,335 @@
+{
+  "repository": "PINN-IBR",
+  "reviewed_at": "2026-10-03",
+  "sources": [
+    {
+      "id": "tutorial",
+      "title": {
+        "en": "Bilingual IBR tutorial",
+        "zh": "中英文 IBR 教程"
+      },
+      "paths": [
+        "Teaching/Tutorial-IBR/src/tutorial_en.tex",
+        "Teaching/Tutorial-IBR/src/tutorial_cn.tex"
+      ]
+    },
+    {
+      "id": "preparation",
+      "title": {
+        "en": "Python and Jupyter preparation",
+        "zh": "Python 与 Jupyter 准备"
+      },
+      "paths": [
+        "Teaching/Course-Overview/Coding_Pre_Content_EN.tex",
+        "Teaching/Course-Overview/Coding_Pre_Content_CN.tex"
+      ]
+    },
+    {
+      "id": "power-electronics",
+      "title": {
+        "en": "Power electronics introduction",
+        "zh": "电力电子入门"
+      },
+      "paths": [
+        "Teaching/Power-Electronics-Intro/Basic_Power_Electronics_Beamer.tex"
+      ]
+    },
+    {
+      "id": "model-library",
+      "title": {
+        "en": "Single-IBR model library",
+        "zh": "单 IBR 模型库"
+      },
+      "paths": [
+        "Coding/Modeling/Single-IBR-Infinite-Bus/README.md"
+      ]
+    },
+    {
+      "id": "gfl",
+      "title": {
+        "en": "PLL-following GFL model",
+        "zh": "PLL 跟网型模型"
+      },
+      "paths": [
+        "Coding/Modeling/Single-IBR-Infinite-Bus/02_GFL_PLL_PQDroop_Infinite_Bus.ipynb"
+      ]
+    },
+    {
+      "id": "droop",
+      "title": {
+        "en": "Droop-GFM model and reductions",
+        "zh": "Droop-GFM 模型与降阶"
+      },
+      "paths": [
+        "Coding/Modeling/Single-IBR-Infinite-Bus/00_Droop_GFM_Infinite_Bus_Model_Library.ipynb"
+      ]
+    },
+    {
+      "id": "vsm",
+      "title": {
+        "en": "VSM and GFL virtual inertia",
+        "zh": "VSM 与 GFL 虚拟惯性"
+      },
+      "paths": [
+        "Coding/Modeling/Single-IBR-Infinite-Bus/06_VSM_GFM_Infinite_Bus.ipynb",
+        "Coding/Modeling/Single-IBR-Infinite-Bus/04_GFL_PLL_Virtual_Inertia_Infinite_Bus.ipynb"
+      ]
+    },
+    {
+      "id": "parallel",
+      "title": {
+        "en": "REGFM_C1 parallel hybrid",
+        "zh": "REGFM_C1 并联混合模型"
+      },
+      "paths": [
+        "Coding/Modeling/Single-IBR-Infinite-Bus/08_REGFM_C1_Hybrid_Infinite_Bus.ipynb"
+      ]
+    },
+    {
+      "id": "transition",
+      "title": {
+        "en": "VSM–PLL mode transition",
+        "zh": "VSM–PLL 模式切换"
+      },
+      "paths": [
+        "Coding/Modeling/Single-IBR-Infinite-Bus/10_VSM_PLL_Transition_Infinite_Bus.ipynb"
+      ]
+    },
+    {
+      "id": "comparison",
+      "title": {
+        "en": "Six-family comparison",
+        "zh": "六类控制模型比较"
+      },
+      "paths": [
+        "Coding/Modeling/Single-IBR-Infinite-Bus/12_Single_IBR_Control_Family_Comparison.ipynb"
+      ]
+    },
+    {
+      "id": "cross-tool",
+      "title": {
+        "en": "ANDES and PNNL comparisons",
+        "zh": "ANDES 与 PNNL 对照"
+      },
+      "paths": [
+        "Coding/Modeling/Single-IBR-Infinite-Bus/01_ANDES_REGF1_Qualitative_Validation.ipynb",
+        "Coding/Modeling/Single-IBR-Infinite-Bus/03_ANDES_GFL_Qualitative_Validation.ipynb",
+        "Coding/Modeling/Single-IBR-Infinite-Bus/07_ANDES_REGF2_Qualitative_Validation.ipynb",
+        "Coding/Modeling/Single-IBR-Infinite-Bus/09_ANDES_REGFMC1_Nearest_Qualitative_Validation.ipynb",
+        "Coding/Modeling/Single-IBR-Infinite-Bus/11_ANDES_Hybrid_Nearest_Qualitative_Validation.ipynb"
+      ]
+    },
+    {
+      "id": "reductions",
+      "title": {
+        "en": "Conventional reduction implementations",
+        "zh": "常规降阶实现"
+      },
+      "paths": [
+        "Coding/Modeling/src/ibrsim/singular_perturbation.py",
+        "Coding/Modeling/src/ibrsim/balanced_reduction.py",
+        "Coding/Modeling/src/ibrsim/reduction_selection.py"
+      ]
+    },
+    {
+      "id": "counterexamples",
+      "title": {
+        "en": "Stability and reduction counterexamples",
+        "zh": "稳定性与降阶反例"
+      },
+      "paths": [
+        "Research-IBR-Modeling/notes/reduction/R11 L2 QSS Reduction Validity Case Study.md",
+        "Research-IBR-Modeling/notes/model-families/GFL PLL Virtual Inertia Stability and Reduction Counterexample.md",
+        "Research-IBR-Modeling/notes/reduction/VSM GFM Reduction Conditions and L2 QSS Counterexample.md"
+      ]
+    },
+    {
+      "id": "research-analysis",
+      "title": {
+        "en": "Model-reduction research notebooks",
+        "zh": "模型降阶研究 Notebook"
+      },
+      "paths": [
+        "Research-IBR-Modeling/Coding/notebooks/README.md",
+        "Research-IBR-Modeling/Coding/notebooks/03_Homotopy_Paths_and_Conventional_Baselines.ipynb",
+        "Research-IBR-Modeling/Coding/notebooks/05_Decision_Value_and_Physical_SCR.ipynb",
+        "Research-IBR-Modeling/Coding/notebooks/06_Physical_Mode_and_Targeted_Closure.ipynb"
+      ]
+    },
+    {
+      "id": "multiscale",
+      "title": {
+        "en": "Power-system modeling review",
+        "zh": "电力系统建模综述"
+      },
+      "paths": [
+        "Power System Modeling Review/Paper-I-Modeling-Converter-Dominated-Power-Systems/main.tex"
+      ]
+    },
+    {
+      "id": "teaching-experiments",
+      "title": {
+        "en": "Shared identification and stability experiments",
+        "zh": "共享辨识与稳定性实验"
+      },
+      "paths": [
+        "Coding/Teaching/README.md",
+        "Coding/Teaching/weekly_pinode_applications.py",
+        "Coding/Teaching/weekly_stability_analysis.py"
+      ]
+    },
+    {
+      "id": "ibr-data",
+      "title": {
+        "en": "A1/B1/C1 models and learning datasets",
+        "zh": "A1/B1/C1 模型与学习数据"
+      },
+      "paths": [
+        "Research-Langchen-Huang/regfm_c1_model_updated/README.md",
+        "Research-Langchen-Huang/regfm_c1_model_updated/generate_dataset.py"
+      ]
+    },
+    {
+      "id": "configuration",
+      "title": {
+        "en": "Low-frequency configuration models and research plan",
+        "zh": "低频配置模型与研究计划"
+      },
+      "paths": [
+        "Research-Xirui-Zhang/Low_Frequency_GFL_GFM_Models.ipynb",
+        "Research-Xirui-Zhang/Review_and_Next_Steps.md"
+      ]
+    },
+    {
+      "id": "historical-learning",
+      "title": {
+        "en": "Historical grey-box and PI-NODE review",
+        "zh": "历史 grey-box 与 PI-NODE 审阅"
+      },
+      "paths": [
+        "Research-Xirui-Zhang/archive/2026-08/GreyBox_vs_PINODE_GFM_Parameter_Identification_Advisor_Review.ipynb"
+      ]
+    },
+    {
+      "id": "network",
+      "title": {
+        "en": "Three-GFM IEEE 9-bus analysis",
+        "zh": "三 GFM IEEE 9 节点分析"
+      },
+      "paths": [
+        "Coding/Network-Simulation/IEEE-9-Bus/README.md",
+        "Coding/Network-Simulation/IEEE-9-Bus/GFM_IEEE9bus_Corrected_Analysis_Notebook.ipynb"
+      ]
+    },
+    {
+      "id": "limiting",
+      "title": {
+        "en": "GFM limiting-pattern research review",
+        "zh": "GFM 限流组合研究审阅"
+      },
+      "paths": [
+        "Research-IBR-Stability/README.md",
+        "Research-IBR-Modeling/notes/foundations/GFM Fault Current Limiting Domain Primer.md"
+      ]
+    },
+    {
+      "id": "week01",
+      "title": {
+        "en": "Dynamical systems",
+        "zh": "动力系统"
+      },
+      "paths": [
+        "Teaching/Weekly-Materials/Week-01/Introduction_to_Dynamical_Systems_Teaching_Deck.ipynb",
+        "Teaching/Weekly-Materials/Week-01/Introduction_to_Dynamical_Systems_Beamer.tex"
+      ]
+    },
+    {
+      "id": "week02",
+      "title": {
+        "en": "Swing-model dynamics",
+        "zh": "Swing model 动态"
+      },
+      "paths": [
+        "Teaching/Weekly-Materials/Week-02/Simplified_GFM_Dynamic_Model_Teaching_Deck.ipynb",
+        "Teaching/Weekly-Materials/Week-02/Simplified_GFM_Dynamic_Model_Beamer.tex"
+      ]
+    },
+    {
+      "id": "week03",
+      "title": {
+        "en": "Neural network foundations",
+        "zh": "神经网络基础"
+      },
+      "paths": [
+        "Teaching/Weekly-Materials/Week-03/Neural_Network_Basics_Teaching_Deck.ipynb",
+        "Teaching/Weekly-Materials/Week-03/Neural_Network_Basics_Beamer.tex"
+      ]
+    },
+    {
+      "id": "week04",
+      "title": {
+        "en": "Neural ODE introduction",
+        "zh": "Neural ODE 入门"
+      },
+      "paths": [
+        "Teaching/Weekly-Materials/Week-04/Neural_ODE_Introduction_Teaching_Deck.ipynb",
+        "Teaching/Weekly-Materials/Week-04/Neural_ODE_Introduction_Beamer.tex"
+      ]
+    },
+    {
+      "id": "week05",
+      "title": {
+        "en": "Neural ODE for GFM",
+        "zh": "GFM Neural ODE"
+      },
+      "paths": [
+        "Teaching/Weekly-Materials/Week-05/Neural_ODE_for_GFM_Modeling_Teaching_Deck.ipynb",
+        "Teaching/Weekly-Materials/Week-05/Neural_ODE_for_GFM_Modeling_Beamer.tex"
+      ]
+    },
+    {
+      "id": "week06",
+      "title": {
+        "en": "Physics-aware Neural ODE",
+        "zh": "结合物理的 Neural ODE"
+      },
+      "paths": [
+        "Teaching/Weekly-Materials/Week-06/Physics_Augmented_Neural_ODE_Teaching_Deck.ipynb",
+        "Teaching/Weekly-Materials/Week-06/Physics_Augmented_Neural_ODE_Beamer.tex"
+      ]
+    },
+    {
+      "id": "week07",
+      "title": {
+        "en": "Parameter identification",
+        "zh": "参数辨识"
+      },
+      "paths": [
+        "Teaching/Weekly-Materials/Week-07/Parameter_Identification_Teaching_Deck.ipynb",
+        "Teaching/Weekly-Materials/Week-07/Parameter_Identification_Beamer.tex"
+      ]
+    },
+    {
+      "id": "week08",
+      "title": {
+        "en": "Learned-model stability",
+        "zh": "学习模型稳定性"
+      },
+      "paths": [
+        "Teaching/Weekly-Materials/Week-08/Stability_Analysis_Teaching_Deck.ipynb",
+        "Teaching/Weekly-Materials/Week-08/Stability_Analysis_Beamer.tex"
+      ]
+    },
+    {
+      "id": "week09",
+      "title": {
+        "en": "Research writing workshop",
+        "zh": "研究写作工作坊"
+      },
+      "paths": [
+        "Teaching/Weekly-Materials/Week-09/Writing_IEEE_Trans_Papers_Teaching_Deck.ipynb",
+        "Teaching/Weekly-Materials/Week-09/Writing_IEEE_Trans_Papers_Beamer.tex"
+      ]
+    }
+  ]
+}

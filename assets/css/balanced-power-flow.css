@@ -1,0 +1,62 @@
+.balanced-lesson { --bf-ink:#303b44; --bf-muted:#586875; --bf-border:#dce3e8; --bf-green:#27785f; --bf-blue:#2571a2; --bf-orange:#b76819; --bf-danger:#af2831; --bf-surface:#fff; }
+.bf-toc { display:flex; flex-wrap:wrap; gap:.5rem 1rem; padding:.85rem 0; margin-bottom:1.5rem; border-top:1px solid var(--bf-border); border-bottom:1px solid var(--bf-border); font-size:.85rem; }
+.bf-equation { max-width:100%; overflow-x:auto; margin:1rem 0; padding:.25rem 0; font-size:.9em; }
+.bf-equation .katex-display { margin:.5em 0; }
+.bf-equation .katex-display > .katex { text-align:left; }
+.bf-overview { display:grid; grid-template-columns:minmax(0, 320px) minmax(0, 1fr); align-items:center; gap:1.5rem; margin:1.5rem 0; padding:1rem; background:#f4f8fb; border-radius:10px; }
+.bf-overview figcaption { margin:0; font-size:.9em; color:var(--bf-muted); }
+.bf-phasors { width:100%; display:block; }
+.bf-lab { margin:1.5rem 0; padding:1.25rem; border:1px solid var(--bf-border); border-radius:12px; background:var(--bf-surface); font-size:16px; }
+.bf-lab-header { display:flex; align-items:baseline; justify-content:space-between; flex-wrap:wrap; gap:.5rem; }
+.bf-lab-header h3 { margin:0; font-size:1.15rem; }
+.bf-lab-header span { font-size:.8rem; color:var(--bf-muted); }
+.bf-selectors { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:1rem; margin:1rem 0; }
+.bf-selectors label { font-size:.85rem; font-weight:400; }
+.bf-selectors select { width:100%; min-width:0; margin:.35rem 0 0; padding:.4rem; font-size:16px; color:var(--bf-ink); border:1px solid var(--bf-border); border-radius:5px; background:var(--bf-surface); }
+.bf-network { width:100%; display:block; }
+.balanced-lesson svg text { fill:var(--bf-ink); font-family:inherit; font-size:12px; }
+.bf-network text { paint-order:stroke fill; stroke:var(--bf-surface); stroke-width:3px; stroke-linejoin:round; }
+.page__content .bf-caption { margin:.5rem 0 1rem; color:var(--bf-muted); font-size:.8rem; }
+.bf-stats { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:1rem; margin:1.25rem 0; font-variant-numeric:tabular-nums; }
+.bf-stats span { display:block; font-size:.8rem; color:var(--bf-muted); }
+.bf-stats strong { display:block; font-size:1rem; font-weight:600; }
+.page__content .bf-status { padding:.7rem .85rem; margin-bottom:1.25rem; border-radius:6px; background:#eaf4ef; color:#215844; font-size:.9rem; }
+.page__content .bf-status[data-state="warning"] { background:#fff0ee; color:var(--bf-danger); }
+.bf-controls { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:1rem 1.5rem; }
+.bf-control label { display:flex; justify-content:space-between; align-items:baseline; gap:.6rem; font-weight:400; font-size:.85rem; margin-bottom:.2rem; }
+.bf-control output { font-weight:600; white-space:nowrap; font-variant-numeric:tabular-nums; }
+.bf-control input[type="range"] { display:block; width:100%; height:28px; padding:0; margin:0; border:0; box-shadow:none; accent-color:var(--bf-green); cursor:ew-resize; }
+.bf-actions, .bf-code-actions { display:flex; align-items:center; flex-wrap:wrap; gap:.6rem 1rem; margin:1rem 0; }
+.bf-actions label { display:inline-flex; align-items:center; gap:.3rem; min-height:36px; font-weight:400; font-size:.85rem; margin:0; }
+.bf-actions input { margin:0; accent-color:var(--bf-green); }
+.bf-actions .btn { margin-left:auto; }
+.bf-actions .btn, .bf-code-actions .btn, .bf-code > details .btn { font-size:.8rem; margin-bottom:0; }
+.bf-plots { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:1.5rem; margin-top:1.5rem; }
+.bf-plots figure, .bf-code-result { margin:0; min-width:0; }
+.bf-plots h4, .bf-code-result h4 { font-size:.9rem; margin:0 0 .5rem; }
+.bf-profile, .bf-loading, .bf-code-profile { display:block; width:100%; }
+.bf-details { border-top:1px solid var(--bf-border); margin:1.25rem 0; padding-top:.8rem; }
+.bf-details summary { cursor:pointer; color:var(--bf-blue); font-size:.9rem; }
+.bf-details > p { margin-top:.8rem; }
+.bf-table-wrap { max-width:100%; overflow-x:auto; margin-top:1rem; }
+.bf-table { width:100%; margin:0; font-size:.8rem; font-variant-numeric:tabular-nums; }
+.bf-table th, .bf-table td { padding:.4rem; text-align:right; white-space:nowrap; }
+.bf-table th:first-child, .bf-table td:first-child { text-align:left; }
+.bf-code { padding:1.25rem; border:1px solid var(--bf-border); border-radius:12px; background:#f7fafc; font-size:16px; }
+.bf-code label { font-size:.85rem; font-weight:600; }
+.bf-code textarea { width:100%; max-width:100%; padding:.85rem; font-family:Monaco,Consolas,monospace; font-size:14px; line-height:1.6; tab-size:4; white-space:pre; overflow:auto; border:1px solid #becbd5; border-radius:6px; resize:vertical; background:#fff; color:#26313b; }
+.bf-code-actions a { font-size:.8rem; }
+.bf-code-status { font-size:.85rem; color:var(--bf-muted); }
+.bf-code-status[data-state="error"] { color:var(--bf-danger); }
+.bf-console { min-height:5rem; max-height:24rem; overflow:auto; padding:1rem; white-space:pre-wrap; overflow-wrap:anywhere; background:#eef3f7; font-size:13px; line-height:1.6; }
+.bf-code-result { margin-top:1rem; }
+.bf-code-result[hidden] { display:none; }
+.bf-quiz { border-top:1px solid var(--bf-border); border-bottom:1px solid var(--bf-border); padding:1rem 0; margin:1.5rem 0; }
+.bf-quiz fieldset { padding:0; margin:0; border:0; }
+.bf-quiz legend { font-weight:600; margin-bottom:.6rem; }
+.bf-quiz label { display:flex; align-items:baseline; gap:.55rem; font-weight:400; margin:.5rem 0; }
+.bf-quiz input { margin:0; flex-shrink:0; accent-color:var(--bf-blue); }
+.bf-quiz [data-quiz-feedback] { margin:.5rem 0 0; }
+.balanced-lesson :focus-visible { outline:2px solid var(--bf-blue); outline-offset:3px; }
+@media(max-width:700px) { .bf-overview { grid-template-columns:1fr; } .bf-phasors { max-width:320px; margin:0 auto; } .bf-plots { grid-template-columns:1fr; } }
+@media(max-width:600px) { .bf-lab, .bf-code { padding:.8rem; } .bf-controls, .bf-selectors { grid-template-columns:1fr; } .bf-stats { grid-template-columns:repeat(2,minmax(0,1fr)); } .bf-control input[type="range"] { height:36px; } .bf-actions label { min-height:44px; } .bf-code textarea { font-size:16px; } }

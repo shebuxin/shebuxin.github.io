@@ -1,0 +1,13 @@
+---
+layout: default
+---
+<div id="main" role="main" class="course-main">
+  <article class="course-page">
+    <header class="course-header">
+      <a class="course-back" href="{% if page.parent_url %}{{ page.parent_url | relative_url }}{% elsif page.lang == 'zh' %}{{ '/zh/teaching/' | relative_url }}#courses{% else %}{{ '/teaching/' | relative_url }}#courses{% endif %}">← {% if page.parent_title %}{{ page.parent_title }}{% elsif page.lang == 'zh' %}返回课程{% else %}Courses{% endif %}</a>
+      <p class="course-eyebrow">{{ page.course_title | default: 'ECE 685 · Power System Design' }}</p>
+      <h1>{{ page.title }}</h1>
+    </header>
+    <section class="page__content{% if page.balanced_power_flow or page.unbalanced_power_flow or page.pandapower_implementation %} balanced-lesson{% endif %}{% if page.unbalanced_power_flow %} unbalanced-lesson{% endif %}{% if page.pandapower_implementation %} pandapower-lesson{% endif %}">{{ content }}</section>
+  </article>
+</div>

@@ -1,0 +1,50 @@
+.ibr-framework { --ibr-ink: #174563; --ibr-line: #d8e2e8; --ibr-muted: #526671; }
+.ibr-framework > section { margin: 2rem 0; scroll-margin-top: 5rem; }
+.ibr-framework h2 { font-size: 1.35em; line-height: 1.45; }
+.ibr-framework h3 { line-height: 1.5; overflow-wrap: anywhere; }
+.ibr-framework p { line-height: 1.75; }
+.ibr-framework .ibr-kicker { margin: 0 0 .7rem; color: var(--ibr-muted); font-size: .75em; }
+.ibr-intro { padding: 1.6rem; border: 1px solid #bad2df; border-radius: 12px; background: #f1f7fb; }
+.ibr-intro h2 { margin-top: 0; color: var(--ibr-ink); }
+.ibr-framework .ibr-framework-note { color: var(--ibr-muted); font-size: .85em; }
+.ibr-action { display: inline-block; padding: .65rem 1rem; border-radius: 6px; background: var(--ibr-ink); color: #fff !important; text-decoration: none !important; }
+.ibr-action:hover { background: #246285; }
+.ibr-course-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; }
+.ibr-course-grid--topics { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.ibr-course-card { min-width: 0; padding: 1.1rem; border: 1px solid var(--ibr-line); border-top: 3px solid #3e829d; border-radius: 8px; }
+.ibr-course-card h3 { margin: .6rem 0; font-size: 1em; }
+.ibr-course-card > p { font-size: .85em; }
+.ibr-framework .ibr-card-meta { display: flex; flex-wrap: wrap; justify-content: space-between; gap: .4rem; margin: 0; color: var(--ibr-muted); font-size: .72em; }
+.ibr-framework .ibr-card-detail { padding-top: .8rem; border-top: 1px solid var(--ibr-line); font-size: .78em; }
+.ibr-card-detail strong { display: block; margin-bottom: .3rem; }
+.ibr-preparation { margin: 0; }
+.ibr-preparation > div { padding: .8rem 0; border-bottom: 1px solid var(--ibr-line); }
+.ibr-preparation dt { font-weight: 600; }
+.ibr-preparation dd { margin: .35rem 0 0; color: var(--ibr-muted); font-size: .85em; }
+.ibr-writing, .ibr-project { padding: 1.2rem; border: 1px solid var(--ibr-line); border-radius: 8px; background: #fafcfd; }
+.ibr-writing h2, .ibr-project h2 { margin-top: 0; }
+.ibr-path-links { font-size: .85em; }
+.page__content .ibr-module-list { list-style: none; margin: 0; padding: 0; }
+.ibr-module-list > li { display: flex; gap: 1rem; padding: 1.15rem 0; border-top: 1px solid var(--ibr-line); }
+.ibr-module-number { flex: 0 0 2rem; color: #39768e; font-size: 1.15em; font-weight: 600; }
+.ibr-module-copy { min-width: 0; }
+.ibr-module-copy h3 { margin: 0 0 .5rem; font-size: 1em; }
+.ibr-module-copy p { margin: 0 0 .4rem; font-size: .85em; }
+.ibr-status { color: var(--ibr-muted); font-size: .72em; }
+.ibr-section-nav { display: flex; flex-wrap: wrap; gap: .55rem 1rem; padding: .9rem 0; border-top: 1px solid var(--ibr-line); border-bottom: 1px solid var(--ibr-line); font-size: .8em; }
+.ibr-planned-work { padding: 1.2rem; border-left: 3px solid #3e829d; background: #f3f8fb; }
+.ibr-planned-work h2 { margin-top: 0; }
+.ibr-framework .ibr-small { color: var(--ibr-muted); font-size: .8em; }
+.ibr-material-note { padding: 1rem 1.2rem; border: 1px solid var(--ibr-line); border-radius: 8px; font-size: .9em; }
+.ibr-material-note h2 { margin-top: 0; }
+.ibr-module-pagination { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 1rem; margin: 2rem 0; padding: 1rem 0; border-top: 1px solid var(--ibr-line); }
+.ibr-module-pagination a { max-width: 46%; font-size: .85em; }
+.ibr-module-pagination small, .ibr-module-pagination span { display: block; }
+.ibr-module-pagination small { margin-bottom: .4rem; color: var(--ibr-muted); }
+.ibr-next { margin-left: auto; text-align: right; }
+.ibr-course-navigation summary { cursor: pointer; color: var(--ibr-ink); font-size: .85em; }
+.ibr-course-navigation ol { margin-top: 1rem; font-size: .85em; }
+.ibr-course-navigation [aria-current="page"] { color: var(--ibr-ink); font-weight: 600; }
+.ibr-framework a:focus-visible, .ibr-framework summary:focus-visible { outline: 2px solid #2979ab; outline-offset: 4px; }
+@media (max-width: 800px) { .ibr-course-grid { grid-template-columns: 1fr; } .ibr-course-grid--topics { grid-template-columns: 1fr; } }
+@media (max-width: 480px) { .ibr-intro { padding: 1.1rem; } .ibr-module-list > li { gap: .65rem; } .ibr-module-pagination a { max-width: 100%; } }

@@ -1,0 +1,4 @@
+{% for control in stage_module.controls %}{% if control.advanced == include.advanced %}
+<div class="stage-control"><label for="stage-param-{{ control.key }}">{{ control.label[ece_lang] }}{% unless control.unit == '' %} / {{ control.unit }}{% endunless %}{% if control.type == 'range' %}<output data-stage-value="{{ control.key }}" for="stage-param-{{ control.key }}"></output>{% endif %}</label>
+{% if control.type == 'select' %}<select id="stage-param-{{ control.key }}" data-stage-param="{{ control.key }}">{% for option in control.options %}<option value="{{ option.value }}">{{ option.label[ece_lang] }}</option>{% endfor %}</select>{% else %}<input id="stage-param-{{ control.key }}" type="{{ control.type }}" min="{{ control.min }}" max="{{ control.max }}" step="{{ control.step }}" data-stage-param="{{ control.key }}" required>{% endif %}</div>
+{% endif %}{% endfor %}

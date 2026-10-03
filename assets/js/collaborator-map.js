@@ -45,9 +45,6 @@ async function renderCollaboratorMap(root) {
     return;
   }
 
-  const visitorCountLabel = (count) => isChinese
-    ? `${numberFormatter.format(count)} 位网站访客`
-    : pluralize(count, "website visitor");
   const collaboratorCountLabel = (count) => isChinese
     ? `${numberFormatter.format(count)} 位合作者`
     : pluralize(count, "collaborator");
@@ -58,6 +55,9 @@ async function renderCollaboratorMap(root) {
       collaborator_count: Number(region.collaborator_count) || 0
     }));
     const visitorData = JSON.parse(visitorDataElement.textContent);
+    const visitorCountLabel = (count) => visitorData.metric === "pageviews"
+      ? (isChinese ? `${numberFormatter.format(count)} 次页面访问` : pluralize(count, "pageview"))
+      : (isChinese ? `${numberFormatter.format(count)} 位网站访客` : pluralize(count, "website visitor"));
     const countryNames = isChinese ? JSON.parse(countryNamesElement.textContent) : {};
     const visitorCountries = (visitorData.countries || []).filter((country) =>
       /^[A-Z]{3}$/.test(country.iso3) && Number.isFinite(country.visitors) &&

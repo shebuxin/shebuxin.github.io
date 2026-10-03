@@ -1,0 +1,15 @@
+---
+layout: course
+ibr_courses: true
+lang: "en"
+course_title: "IBR Stability, Model Reduction, and Validation"
+course_id: "C2"
+module_id: "C2-04"
+title: "Time Scales, QSS, and Singular Perturbation"
+description: "Understand the assumptions behind removing selected state dynamics."
+permalink: "/teaching/course-development/ibr/stability-reduction/qss-and-timescales/"
+parent_url: "/teaching/course-development/ibr/stability-reduction/"
+parent_title: "IBR Stability, Model Reduction, and Validation"
+---
+
+{% include ibr-module.html %}

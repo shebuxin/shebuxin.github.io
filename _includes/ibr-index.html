@@ -1,0 +1,50 @@
+{% include ibr-context.html %}
+<div class="ibr-framework">
+  <section class="ibr-intro" aria-labelledby="ibr-path-title">
+    <p class="ibr-kicker">{% if ibr_lang == 'zh' %}课程框架 · 逐模块开发{% else %}Course framework · Development by module{% endif %}</p>
+    <h2 id="ibr-path-title">{% if ibr_lang == 'zh' %}从物理模型，到模型有效性，再到学习动态。{% else %}From physical models to model validity and learned dynamics.{% endif %}</h2>
+    <p>{{ ibr_catalog.summary[ibr_lang] }}</p>
+    <p class="ibr-framework-note">{% if ibr_lang == 'zh' %}C1 的九个单元已包含双语讲解、可运行实验和练习反馈；其余课程提供模块框架，后续逐步开发。{% else %}C1 now includes nine bilingual lessons, runnable experiments and practice feedback. The other courses provide module frameworks for further development.{% endif %}</p>
+    <a class="ibr-action" href="{{ ibr_base | append: 'modeling/' | relative_url }}">{% if ibr_lang == 'zh' %}从 IBR 建模开始{% else %}Start with IBR modeling{% endif %} <span aria-hidden="true">→</span></a>
+  </section>
+
+  <section aria-labelledby="ibr-core-title">
+    <h2 id="ibr-core-title">{% if ibr_lang == 'zh' %}三门核心课程{% else %}Three core courses{% endif %}</h2>
+    <p>{% if ibr_lang == 'zh' %}C1 建立共同建模基础，随后分别进入 C2 的分析与降阶、C3 的动态学习。C3 的基础单元可从简单 swing model 开始，高阶变流器项目再使用 C1 的模型。{% else %}C1 establishes the modeling foundation, followed by C2 for analysis and reduction or C3 for learned dynamics. C3 starts with a simple swing model; its advanced converter project uses the models from C1.{% endif %}</p>
+    <div class="ibr-course-grid">
+      {% for item in ibr_catalog.courses %}{% if item.role == 'core' %}
+      <article class="ibr-course-card">
+        <p class="ibr-card-meta"><span>{{ item.id }}</span><span>{% if ibr_lang == 'zh' %}{{ item.modules.size }} 个模块{% else %}{{ item.modules.size }} modules{% endif %}</span></p>
+        <h3><a href="{{ ibr_base | append: item.slug | append: '/' | relative_url }}">{{ item.title[ibr_lang] }}</a></h3>
+        <p>{{ item.summary[ibr_lang] }}</p>
+        <p class="ibr-card-detail"><strong>{% if ibr_lang == 'zh' %}结课项目{% else %}Course project{% endif %}</strong> {{ item.capstone[ibr_lang] }}</p>
+      </article>
+      {% endif %}{% endfor %}
+    </div>
+  </section>
+
+  <section aria-labelledby="ibr-topics-title">
+    <h2 id="ibr-topics-title">{% if ibr_lang == 'zh' %}两个进阶专题{% else %}Two advanced topics{% endif %}</h2>
+    <p>{% if ibr_lang == 'zh' %}作为核心课程之后的研究工作坊，逐步扩充为独立课程。{% else %}Research workshops following the core courses, with room to develop into independent courses.{% endif %}</p>
+    <div class="ibr-course-grid ibr-course-grid--topics">
+      {% for item in ibr_catalog.courses %}{% if item.role == 'topic' %}
+      <article class="ibr-course-card">
+        <p class="ibr-card-meta"><span>{{ item.id }} · {% if ibr_lang == 'zh' %}进阶专题{% else %}Advanced topic{% endif %}</span><span>{% if ibr_lang == 'zh' %}{{ item.modules.size }} 个模块{% else %}{{ item.modules.size }} modules{% endif %}</span></p>
+        <h3><a href="{{ ibr_base | append: item.slug | append: '/' | relative_url }}">{{ item.title[ibr_lang] }}</a></h3>
+        <p>{{ item.summary[ibr_lang] }}</p>
+      </article>
+      {% endif %}{% endfor %}
+    </div>
+  </section>
+
+  <section aria-labelledby="ibr-preparation-title">
+    <h2 id="ibr-preparation-title">{% if ibr_lang == 'zh' %}前置准备{% else %}Preparation{% endif %}</h2>
+    <dl class="ibr-preparation">
+      {% for item in ibr_catalog.preparation %}<div><dt>{{ item.title[ibr_lang] }}</dt><dd>{{ item.summary[ibr_lang] }}</dd></div>{% endfor %}
+    </dl>
+  </section>
+  <section class="ibr-writing" aria-labelledby="ibr-writing-title">
+    <h2 id="ibr-writing-title">{{ ibr_catalog.writing.title[ibr_lang] }}</h2>
+    <p>{{ ibr_catalog.writing.summary[ibr_lang] }}</p>
+  </section>
+</div>

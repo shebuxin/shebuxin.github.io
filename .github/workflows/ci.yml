@@ -35,7 +35,24 @@ jobs:
         run: |
           npm run check:js
           node --check assets/js/collaborator-map.js
+          node --check assets/js/owned-analytics.js
+          node --check services/analytics/dashboard.js
           node --check assets/js/research-landscape.js
+          node --check assets/js/ece685.js
+          node --check assets/js/ece685-stage-model.js
+          node --check assets/js/ece685-stage-lesson.js
+          node --check assets/js/l05-phasor-model.js
+          node --check assets/js/l05-phasor-lesson.js
+          node --check assets/js/balanced-power-flow-model.js
+          node --check assets/js/balanced-power-flow-lesson.js
+          node --check assets/js/balanced-python-worker.js
+          node --check assets/js/course-python-worker.js
+          node --check assets/js/course-python-runner.js
+          node --check assets/js/unbalanced-power-flow-model.js
+          node --check assets/js/unbalanced-power-flow-lesson.js
+          node --check assets/js/pandapower-worker.js
+          node --check assets/js/pandapower-implementation-lesson.js
+          node --check assets/js/ibr-modeling-lesson.js
 
       - name: Set up Python
         uses: actions/setup-python@v6
@@ -48,6 +65,26 @@ jobs:
         run: |
           python -m pip install -r scripts/requirements-visitor-map.txt
           python -m unittest discover -s tests
+
+      - name: Verify balanced AC power flow
+        run: node --test tests/balanced_power_flow_test.cjs
+
+      - name: Verify owned analytics tracking
+        run: node --test tests/owned_analytics_test.cjs
+
+      - name: Verify ECE 685 phasors and editable Python model
+        run: node --test tests/l05_phasor_test.cjs
+
+      - name: Verify ECE 685 seven-module models and Python parity
+        run: node --test tests/ece685_stage_test.cjs
+
+      - name: Verify four-wire unbalanced power flow
+        run: node --test tests/unbalanced_power_flow_test.cjs
+
+      - name: Verify real pandapower and downloadable notebook
+        run: |
+          python -m pip install -r assets/code/requirements-pandapower.txt
+          python tests/pandapower_implementation_test.py
 
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
@@ -64,6 +101,12 @@ jobs:
         run: |
           bundle exec ruby tests/research_landscape_data_test.rb
           python tests/research_rendered_test.py
+
+      - name: Validate ECE 685 lecture framework
+        run: python tests/ece685_rendered_test.py
+
+      - name: Validate IBR modeling lessons and physics
+        run: python tests/ibr_modeling_test.py
 
       - name: Check generated HTML
         run: |

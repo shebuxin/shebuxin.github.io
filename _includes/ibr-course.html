@@ -1,0 +1,48 @@
+{% include ibr-context.html %}
+<div class="ibr-framework{% if page.ibr_modeling %} ibr-modeling{% endif %}">
+  <p class="ibr-kicker">{{ ibr_course.id }} · {% if ibr_course.role == 'core' %}{% if ibr_lang == 'zh' %}核心课程{% else %}Core course{% endif %}{% else %}{% if ibr_lang == 'zh' %}进阶专题{% else %}Advanced topic{% endif %}{% endif %} · {% if ibr_lang == 'zh' %}{{ ibr_course.modules.size }} 个模块{% else %}{{ ibr_course.modules.size }} modules{% endif %}</p>
+  <p class="ibr-lead">{{ ibr_course.summary[ibr_lang] }}</p>
+  {% if page.ibr_modeling %}
+  <section class="ibr-intro">
+    <h2>{% if ibr_lang == 'zh' %}从电气电路，走到控制与混合动态。{% else %}From electrical circuits to control and hybrid dynamics.{% endif %}</h2>
+    <p>{% if ibr_lang == 'zh' %}九个双语单元，每个包含讲解、方程、可运行 Python 实验和带解释的练习。先学习端口、坐标与 LCL，再建立 GFL、droop、VSM，最后研究并联、模式切换和公平比较。建议按顺序学习，共约 12 小时。{% else %}Nine bilingual lessons, each with explanations, equations, runnable Python and practice with feedback. Start with ports, coordinates and LCL dynamics; build GFL, droop and VSM; then study parallel control, switching and fair comparison. Follow the sequence for approximately 12 hours of study.{% endif %}</p>
+    <div class="ibr-system-chain" aria-label="{% if ibr_lang == 'zh' %}物理电路链路{% else %}Physical circuit chain{% endif %}"><span>{% if ibr_lang == 'zh' %}平均变流器{% else %}Averaged converter{% endif %}</span> → <span>L₁</span> → <span>C</span> → <span>L₂</span> → <span>PoC</span> → <span>Z<sub>grid</sub></span> → <span>{% if ibr_lang == 'zh' %}无穷大母线{% else %}Infinite bus{% endif %}</span></div>
+    <div class="ibr-course-start"><a class="ibr-action" href="{{ ibr_course_url | append: 'system-boundaries/' | relative_url }}">{% if ibr_lang == 'zh' %}开始学习{% else %}Start learning{% endif %} →</a><span>{% if ibr_lang == 'zh' %}浏览器即可运行 · 可下载完整 Python 实验{% else %}Run in the browser · Download complete Python experiments{% endif %}</span></div>
+    <p class="ibr-small"><a href="{{ '/assets/code/ibr-dynamic-modeling-' | append: ibr_lang | append: '.ipynb' | relative_url }}" download>{% if ibr_lang == 'zh' %}下载整门课程 Notebook{% else %}Download the complete course notebook{% endif %}</a> · <a href="{{ '/assets/code/ibr-modeling.py' | relative_url }}" download>{% if ibr_lang == 'zh' %}下载独立 Python 求解器{% else %}Download the standalone Python solver{% endif %}</a></p>
+  </section>
+  <section class="ibr-course-scope"><h2>{% if ibr_lang == 'zh' %}实验层次与适用范围{% else %}Experiment levels and scope{% endif %}</h2><p>{% if ibr_lang == 'zh' %}模块 2 直接检查功率不变坐标变换；模块 3 保留六状态平均 LCL 电路；模块 4–9 使用额定频率代数网络和理想电流 / 电压实现，单独突出同步规律与 hybrid 接口。低频教学实现不是源仓库完整控制模型，也不代表 REGFM_C1 官方实现。每个单元列出对应源材料，可继续进入完整阶次仿真。{% else %}Module 2 checks the power-invariant transform. Module 3 retains a six-state averaged LCL plant. Modules 4–9 use a nominal-frequency algebraic network with ideal current/voltage realization to isolate synchronization laws and hybrid interfaces. The low-frequency teaching models are separate from the source full-order controllers and the official REGFM_C1 implementation. Each lesson points to its source materials for further study.{% endif %}</p></section>
+  {% else %}
+  <p class="ibr-framework-note">{% if ibr_lang == 'zh' %}当前提供模块框架；完整讲义、可运行实验与练习解答逐步开发。{% else %}Module framework available; full lessons, runnable experiments, and worked practice are in development.{% endif %}</p>
+  {% endif %}
+
+  <section aria-labelledby="ibr-prerequisites-title">
+    <h2 id="ibr-prerequisites-title">{% if ibr_lang == 'zh' %}先修知识与学习路径{% else %}Prerequisites and learning path{% endif %}</h2>
+    <p>{{ ibr_course.prerequisites[ibr_lang] }}</p>
+    {% if ibr_course.depends_on.size > 0 %}
+    <ul class="ibr-path-links">{% for id in ibr_course.depends_on %}{% assign prerequisite = ibr_catalog.courses | where: 'id', id | first %}<li><a href="{{ ibr_base | append: prerequisite.slug | append: '/' | relative_url }}">{{ prerequisite.id }} · {{ prerequisite.title[ibr_lang] }}</a></li>{% endfor %}</ul>
+    {% endif %}
+  </section>
+
+  <section aria-labelledby="ibr-modules-title">
+    <h2 id="ibr-modules-title">{% if ibr_lang == 'zh' %}模块目录{% else %}Modules{% endif %}</h2>
+    <ol class="ibr-module-list">
+      {% for item in ibr_course.modules %}
+      <li>
+        <div class="ibr-module-number" aria-hidden="true">{{ forloop.index | prepend: '0' | slice: -2, 2 }}</div>
+        <div class="ibr-module-copy">
+          <h3><a href="{{ ibr_course_url | append: item.slug | append: '/' | relative_url }}">{{ item.title[ibr_lang] }}</a></h3>
+          <p>{{ item.summary[ibr_lang] }}</p>
+          <span class="ibr-status">{% if item.status == 'lesson' %}{% if ibr_lang == 'zh' %}讲解 · 仿真 · Python · 练习{% else %}Lesson · lab · Python · practice{% endif %}{% else %}{% if ibr_lang == 'zh' %}模块提纲{% else %}Module outline{% endif %}{% endif %}</span>
+        </div>
+      </li>
+      {% endfor %}
+    </ol>
+  </section>
+
+  <section class="ibr-project" aria-labelledby="ibr-project-title">
+    <h2 id="ibr-project-title">{% if ibr_lang == 'zh' %}结课项目{% else %}Course project{% endif %}</h2>
+    <p>{{ ibr_course.capstone[ibr_lang] }}</p>
+    <h3>{% if ibr_lang == 'zh' %}交付内容{% else %}Deliverables{% endif %}</h3>
+    <ul>{% for item in ibr_course.deliverables %}<li>{{ item[ibr_lang] }}</li>{% endfor %}</ul>
+  </section>
+</div>

@@ -63,8 +63,11 @@ social:
 
 # Analytics
 analytics:
-  provider               : "goatcounter" # false (default), "google", "google-universal", "custom", "goatcounter"
+  provider               : "goatcounter" # false (default), "google", "google-universal", "custom", "goatcounter", "self-hosted"
   goatcounter_code       : buxin.goatcounter.com
+  # Switch provider to "self-hosted" after deploying your own backend.
+  self_hosted:
+    endpoint            : "" # e.g. https://stats.example.org/collect
   google:
     tracking_id          :
 
@@ -121,6 +124,7 @@ exclude:
   - package.json
   - package-lock.json
   - scripts
+  - services
   - tests
   - tmp
   - vendor

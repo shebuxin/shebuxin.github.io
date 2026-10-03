@@ -1,0 +1,3160 @@
+{
+  "title": {
+    "zh": "ECE 685 · 电力系统设计",
+    "en": "ECE 685 · Power Systems Design"
+  },
+  "summary": {
+    "zh": "电力系统设计课程中已完成的七个教学模块：理解概念、预测变化、调整模型、修改代码，再独立核对结果。",
+    "en": "Seven completed teaching modules within Power Systems Design: understand, predict, adjust models, edit code, then verify independently."
+  },
+  "modules": [
+    {
+      "id": "overview",
+      "number": 1,
+      "title": {
+        "zh": "课程导论与电力系统概览",
+        "en": "Course introduction & power-system overview"
+      },
+      "summary": {
+        "zh": "从设备、单线图和功率账本出发，建立“表示—计算—核查”的设计流程。",
+        "en": "Build the represent–calculate–check workflow from equipment, one-line diagrams, and power accounting."
+      },
+      "sources": [
+        "L01",
+        "L02"
+      ],
+      "extension": [],
+      "goals": [
+        {
+          "zh": "说出发电、变压、输电、母线、负荷和并联补偿的作用。",
+          "en": "Explain generators, transformers, lines, buses, loads, and shunt compensation."
+        },
+        {
+          "zh": "区分 MW、Mvar、MVA，并用统一符号核对功率账本。",
+          "en": "Distinguish MW, Mvar, and MVA and reconcile power with a declared sign convention."
+        },
+        {
+          "zh": "先声明数据、参考方向和模型假设，再判断计算结果。",
+          "en": "Declare data, reference directions, and assumptions before interpreting a result."
+        }
+      ],
+      "opening": {
+        "zh": "负荷需要 80 MW、30 Mvar。若线路和变压器有损耗，发电机能只提供 80 MW 吗？先预测并联电容改变哪一项。",
+        "en": "A load requires 80 MW and 30 Mvar. Can the generator supply only 80 MW when equipment has losses? Predict which quantity shunt capacitors change."
+      },
+      "concepts": [
+        {
+          "title": {
+            "zh": "1. 从物理设备到单线图",
+            "en": "1. From equipment to a one-line"
+          },
+          "body": {
+            "zh": "发电机提供电能；变压器连接电压等级；线路连接母线；负荷消耗功率；并联元件注入或吸收无功。单线图用一条路径表示三相网络，同时保留设备端点和角色。",
+            "en": "Generators supply energy, transformers connect voltage levels, lines connect buses, loads consume power, and shunts inject or absorb reactive power. A one-line preserves equipment endpoints and roles while representing a three-phase network."
+          },
+          "formula": ""
+        },
+        {
+          "title": {
+            "zh": "2. 三种功率量",
+            "en": "2. Three power quantities"
+          },
+          "body": {
+            "zh": "P 描述平均能量转换，Q 描述无功交换，|S| 描述设备的电压电流容量。设备额定 MVA 与有功 MW 不能直接互换。",
+            "en": "P describes average energy conversion, Q reactive exchange, and |S| voltage–current loading. Equipment MVA ratings and real MW are not interchangeable."
+          },
+          "formula": "S=P+jQ,\\qquad |S|=\\sqrt{P^2+Q^2}"
+        },
+        {
+          "title": {
+            "zh": "3. 声明账本符号",
+            "en": "3. Declare accounting signs"
+          },
+          "body": {
+            "zh": "本案例负荷 P、Q 为消耗正值，电容 Qc 为注入正值。线路和变压器的有功损耗、无功吸收加入电源需求。先核对局部母线，再核对全系统。",
+            "en": "Here load P and Q are positive consumption and capacitor Qc is positive injection. Add equipment real loss and reactive absorption to the source requirement. Check the receiving bus before the complete system."
+          },
+          "formula": "P_G=P_L+P_{line}+P_{tx},\\quad Q_G=Q_L-Q_c+Q_{line}+Q_{tx}"
+        },
+        {
+          "title": {
+            "zh": "4. 课程工作方式",
+            "en": "4. Working through the course"
+          },
+          "body": {
+            "zh": "先用手算判断数量级，再用可编辑 Python 复现，最后检查单位、符号、守恒和限值。课程工具包括讲义、教材、Python 与 PowerWorld；这里的网页实验服务于稳态模型理解。",
+            "en": "Estimate orders of magnitude by hand, reproduce them in editable Python, then check units, signs, balances, and limits. Slides, the textbook, Python, and PowerWorld support the course; these web experiments explain steady-state models."
+          },
+          "formula": ""
+        }
+      ],
+      "controls": [
+        {
+          "key": "load_mw",
+          "label": {
+            "zh": "负荷有功",
+            "en": "Load real power"
+          },
+          "unit": "MW",
+          "step": 1,
+          "advanced": false,
+          "type": "range",
+          "min": 20,
+          "max": 160
+        },
+        {
+          "key": "load_mvar",
+          "label": {
+            "zh": "负荷无功",
+            "en": "Load reactive power"
+          },
+          "unit": "Mvar",
+          "step": 1,
+          "advanced": false,
+          "type": "range",
+          "min": -40,
+          "max": 80
+        },
+        {
+          "key": "shunt_mvar",
+          "label": {
+            "zh": "电容无功注入",
+            "en": "Capacitor injection"
+          },
+          "unit": "Mvar",
+          "step": 1,
+          "advanced": false,
+          "type": "range",
+          "min": 0,
+          "max": 80
+        },
+        {
+          "key": "transmission_kv",
+          "label": {
+            "zh": "输电线电压",
+            "en": "Transmission line voltage"
+          },
+          "unit": "kV",
+          "step": 1,
+          "advanced": false,
+          "type": "range",
+          "min": 69,
+          "max": 230
+        },
+        {
+          "key": "line_loss_mw",
+          "label": {
+            "zh": "线路有功损耗",
+            "en": "Specified line real loss"
+          },
+          "unit": "MW",
+          "step": 0.1,
+          "advanced": true,
+          "type": "number",
+          "min": 0,
+          "max": 10
+        },
+        {
+          "key": "line_mvar",
+          "label": {
+            "zh": "线路无功吸收",
+            "en": "Specified line reactive absorption"
+          },
+          "unit": "Mvar",
+          "step": 0.1,
+          "advanced": true,
+          "type": "number",
+          "min": 0,
+          "max": 20
+        },
+        {
+          "key": "transformer_loss_mw",
+          "label": {
+            "zh": "变压器有功损耗",
+            "en": "Specified transformer real loss"
+          },
+          "unit": "MW",
+          "step": 0.1,
+          "advanced": true,
+          "type": "number",
+          "min": 0,
+          "max": 10
+        },
+        {
+          "key": "transformer_mvar",
+          "label": {
+            "zh": "变压器无功吸收",
+            "en": "Specified transformer reactive absorption"
+          },
+          "unit": "Mvar",
+          "step": 0.1,
+          "advanced": true,
+          "type": "number",
+          "min": 0,
+          "max": 20
+        }
+      ],
+      "metrics": [
+        {
+          "key": "generator_mw",
+          "label": {
+            "zh": "电源有功",
+            "en": "Generator P"
+          },
+          "unit": "MW",
+          "digits": 3
+        },
+        {
+          "key": "generator_mvar",
+          "label": {
+            "zh": "电源无功",
+            "en": "Generator Q"
+          },
+          "unit": "Mvar",
+          "digits": 3
+        },
+        {
+          "key": "net_load_mvar",
+          "label": {
+            "zh": "受端净无功",
+            "en": "Net receiving Q"
+          },
+          "unit": "Mvar",
+          "digits": 3
+        },
+        {
+          "key": "transmission_current_a",
+          "label": {
+            "zh": "输电线电流",
+            "en": "Transmission current"
+          },
+          "unit": "A",
+          "digits": 3
+        }
+      ],
+      "practice": [
+        {
+          "key": "generator_mw",
+          "label": {
+            "zh": "电源 P",
+            "en": "Generator P"
+          },
+          "unit": "MW",
+          "hint": {
+            "zh": "将 80 MW 负荷、3 MW 线路损耗和 1 MW 变压器损耗相加。",
+            "en": "Add the 80 MW load, 3 MW line loss, and 1 MW transformer loss."
+          },
+          "tolerance": 0.05
+        },
+        {
+          "key": "generator_mvar",
+          "label": {
+            "zh": "电源 Q",
+            "en": "Generator Q"
+          },
+          "unit": "Mvar",
+          "hint": {
+            "zh": "电容注入从负荷无功中扣除，再加设备无功吸收。",
+            "en": "Subtract capacitor injection from load Q, then add equipment absorption."
+          },
+          "tolerance": 0.05
+        },
+        {
+          "key": "net_load_mvar",
+          "label": {
+            "zh": "受端净 Q",
+            "en": "Net receiving Q"
+          },
+          "unit": "Mvar",
+          "hint": {
+            "zh": "受端净无功 = 负荷无功 − 电容注入。",
+            "en": "Net receiving Q = load Q − capacitor injection."
+          },
+          "tolerance": 0.05
+        }
+      ],
+      "quiz": {
+        "question": {
+          "zh": "电容从 10 Mvar 增加到 20 Mvar，给定损耗保持不变时会怎样？",
+          "en": "What happens when capacitor injection increases from 10 to 20 Mvar with prescribed losses unchanged?"
+        },
+        "choices": [
+          {
+            "value": "0",
+            "label": {
+              "zh": "电源 P、Q 都减少 10",
+              "en": "Both generator P and Q fall by 10"
+            }
+          },
+          {
+            "value": "1",
+            "label": {
+              "zh": "电源 Q 减少 10 Mvar，P 不变",
+              "en": "Generator Q falls by 10 Mvar; P is unchanged"
+            }
+          },
+          {
+            "value": "2",
+            "label": {
+              "zh": "电源 Q 增加 10 Mvar",
+              "en": "Generator Q rises by 10 Mvar"
+            }
+          }
+        ],
+        "correct": "1",
+        "feedback": [
+          {
+            "zh": "电容改变无功账本；本模型有功负荷与损耗没有改变。",
+            "en": "The capacitor changes the reactive account; real load and prescribed loss are unchanged."
+          },
+          {
+            "zh": "正确。按正注入约定，更多电容注入减少电源无功需求。",
+            "en": "Correct. Positive capacitor injection reduces the source reactive requirement."
+          },
+          {
+            "zh": "检查 QG = QL − Qc + Q设备 中 Qc 的负号。",
+            "en": "Check the minus sign on Qc in QG = QL − Qc + Qequipment."
+          }
+        ]
+      },
+      "worked": [
+        {
+          "zh": "受端：Qnet = 30 − 10 = 20 Mvar。",
+          "en": "Receiving bus: Qnet = 30 − 10 = 20 Mvar."
+        },
+        {
+          "zh": "线路送端：P = 80 + 3 = 83 MW，Q = 20 + 5 = 25 Mvar。",
+          "en": "Line sending end: P = 83 MW and Q = 25 Mvar."
+        },
+        {
+          "zh": "电源：P = 83 + 1 = 84 MW，Q = 25 + 2 = 27 Mvar。",
+          "en": "Generator: P = 84 MW and Q = 27 Mvar."
+        },
+        {
+          "zh": "用线电压 138 kV 和线路送端 |S| 计算平衡三相电流，约 362.657 A。",
+          "en": "Using 138 kV line voltage and sending-end |S| gives balanced current ≈ 362.657 A."
+        }
+      ],
+      "limits": {
+        "zh": "这是采用给定损耗的功率账本；电流按平衡三相关系估算。改变电压会改变估算电流，损耗仍由输入给定。",
+        "en": "This account uses prescribed equipment losses and a balanced three-phase current estimate. Voltage changes the estimated current; loss values remain input data."
+      },
+      "challenge": {
+        "zh": "比较 69 kV 与 138 kV 的电流。解释为何实际线路的 I²R 损耗需要另一个阻抗模型来计算。",
+        "en": "Compare current at 69 and 138 kV. Explain why physical I²R losses require a line-impedance model."
+      },
+      "code_key": "shunt_mvar",
+      "code_values": [
+        0,
+        10,
+        20,
+        30
+      ],
+      "plot_titles": [
+        {
+          "zh": "功率在各边界的账本",
+          "en": "Power at the declared boundaries"
+        }
+      ],
+      "given": {
+        "zh": "负荷 80 MW、30 Mvar；电容 10 Mvar；线路损耗 3 MW、吸收 5 Mvar；变压器损耗 1 MW、吸收 2 Mvar。",
+        "en": "Load 80 MW/30 Mvar; capacitor 10 Mvar; line loss 3 MW/absorption 5 Mvar; transformer loss 1 MW/absorption 2 Mvar."
+      }
+    },
+    {
+      "id": "generation",
+      "number": 2,
+      "title": {
+        "zh": "发电机组组合",
+        "en": "Generation fleet mix"
+      },
+      "summary": {
+        "zh": "从时序负荷、能量和备用裕度，走到成本筛选、机组数量与容量信用。",
+        "en": "Move from demand, energy, and reserve margin to screening costs, unit counts, and capacity credit."
+      },
+      "sources": [
+        "L03",
+        "L04"
+      ],
+      "extension": [],
+      "goals": [
+        {
+          "zh": "对同一负荷记录排序，验证能量守恒。",
+          "en": "Sort a load record and verify unchanged energy."
+        },
+        {
+          "zh": "计算备用容量目标和 GT/CC 成本交叉小时。",
+          "en": "Calculate reserve capacity targets and GT/CC crossover hours."
+        },
+        {
+          "zh": "先覆盖负荷，再按可信容量核对备用，并识别简化假设。",
+          "en": "Cover net load, then check accredited reserve and identify the simplifications."
+        }
+      ],
+      "opening": {
+        "zh": "4380 MW 峰值、4850 MW 可信容量和 15% 备用目标是否相容？在 2000 与 6000 运行小时下，GT 和 CC 的选择是否一样？",
+        "en": "Do 4380 MW peak, 4850 MW accredited capacity, and 15% reserve agree? Is the GT/CC choice the same at 2000 and 6000 operating hours?"
+      },
+      "concepts": [
+        {
+          "title": {
+            "zh": "1. 功率、能量与容量",
+            "en": "1. Power, energy, and capacity"
+          },
+          "body": {
+            "zh": "负荷 MW 是功率率；每个两小时块的能量为 MW×2 h，合计得到 MWh。L03 的日曲线与 L04 的年曲线是不同记录，不能将一天直接当一年。",
+            "en": "Demand in MW is a rate. A two-hour block contributes MW×2 h to MWh. The L03 daily record and L04 annual record are distinct; do not treat one day as a year."
+          },
+          "formula": "E=\\sum_i P_i\\Delta t_i"
+        },
+        {
+          "title": {
+            "zh": "2. 负荷持续曲线与备用",
+            "en": "2. Duration curves and reserve"
+          },
+          "body": {
+            "zh": "将相同持续时间的负荷从大到小排序，不改变总能量，但会丢失时序。备用目标按可信规划容量核对；它不能单独证明所有运行时刻都可靠。",
+            "en": "Sorting equal-duration blocks retains energy but loses chronology. Compare reserve with accredited planning capacity; that check alone does not establish reliability at every operating time."
+          },
+          "formula": "C_{target}=P_{peak}(1+PRM),\\quad PRM=C_{acc}/P_{peak}-1"
+        },
+        {
+          "title": {
+            "zh": "3. 筛选成本曲线",
+            "en": "3. Screening cost curves"
+          },
+          "body": {
+            "zh": "固定成本 F 的单位为 $/MW-year，变动成本 v 为 $/MWh，T 为 h/year。不同技术的年成本相等时得到交叉小时；平行曲线可能没有唯一交点。",
+            "en": "F is in $/MW-year, v in $/MWh, and T in h/year. Equating annual costs gives crossover hours; parallel curves may have no unique crossover."
+          },
+          "formula": "c(T)=F+vT,\\qquad T^*=\\frac{F_{CC}-F_{GT}}{v_{GT}-v_{CC}}"
+        },
+        {
+          "title": {
+            "zh": "4. 从 MW 层到机组数量",
+            "en": "4. From MW layers to unit counts"
+          },
+          "body": {
+            "zh": "L04 年负荷为 4200、3400、2600、1800 MW，边界为 0、1000、4000、7000、8760 h。这里用恒定风光出力扣减形成简化净负荷。逐 MW 层比较成本，CC 按 543 MW、GT 按 211 MW 向上取整，再增加 GT 满足备用目标。",
+            "en": "The L04 annual levels are 4200, 3400, 2600, 1800 MW at 0, 1000, 4000, 7000, 8760 h. Constant renewable output forms this simplified net load. Compare each MW layer, round CC at 543 MW and GT at 211 MW, then add GT for reserve."
+          },
+          "formula": ""
+        }
+      ],
+      "controls": [
+        {
+          "key": "demand_scale",
+          "label": {
+            "zh": "负荷倍率",
+            "en": "Demand multiplier"
+          },
+          "unit": "×",
+          "step": 0.05,
+          "advanced": false,
+          "type": "range",
+          "min": 0.5,
+          "max": 1.5
+        },
+        {
+          "key": "prm_percent",
+          "label": {
+            "zh": "备用目标",
+            "en": "Reserve target"
+          },
+          "unit": "%",
+          "step": 1,
+          "advanced": false,
+          "type": "range",
+          "min": 0,
+          "max": 30
+        },
+        {
+          "key": "hours",
+          "label": {
+            "zh": "比较运行小时",
+            "en": "Comparison operating hours"
+          },
+          "unit": "h/year",
+          "step": 100,
+          "advanced": false,
+          "type": "range",
+          "min": 0,
+          "max": 8760
+        },
+        {
+          "key": "accredited_mw",
+          "label": {
+            "zh": "L03 已有可信容量",
+            "en": "L03 existing accredited capacity"
+          },
+          "unit": "MW",
+          "step": 10,
+          "advanced": false,
+          "type": "range",
+          "min": 3000,
+          "max": 6500
+        },
+        {
+          "key": "wind_mw",
+          "label": {
+            "zh": "L04 风电块",
+            "en": "L04 wind block"
+          },
+          "unit": "MW",
+          "step": 50,
+          "advanced": true,
+          "type": "number",
+          "min": 0,
+          "max": 1500
+        },
+        {
+          "key": "solar_mw",
+          "label": {
+            "zh": "L04 光伏块",
+            "en": "L04 solar block"
+          },
+          "unit": "MW",
+          "step": 50,
+          "advanced": true,
+          "type": "number",
+          "min": 0,
+          "max": 1500
+        },
+        {
+          "key": "wind_credit",
+          "label": {
+            "zh": "风电容量信用",
+            "en": "Wind capacity credit"
+          },
+          "unit": "fraction",
+          "step": 0.05,
+          "advanced": true,
+          "type": "number",
+          "min": 0,
+          "max": 1
+        },
+        {
+          "key": "solar_credit",
+          "label": {
+            "zh": "光伏容量信用",
+            "en": "Solar capacity credit"
+          },
+          "unit": "fraction",
+          "step": 0.05,
+          "advanced": true,
+          "type": "number",
+          "min": 0,
+          "max": 1
+        },
+        {
+          "key": "gt_fixed",
+          "label": {
+            "zh": "GT 年固定成本",
+            "en": "GT annual fixed cost"
+          },
+          "unit": "$/MW-year",
+          "step": 1000,
+          "advanced": true,
+          "type": "number",
+          "min": 0,
+          "max": 600000
+        },
+        {
+          "key": "gt_variable",
+          "label": {
+            "zh": "GT 变动成本",
+            "en": "GT variable cost"
+          },
+          "unit": "$/MWh",
+          "step": 0.001,
+          "advanced": true,
+          "type": "number",
+          "min": 0,
+          "max": 200
+        },
+        {
+          "key": "cc_fixed",
+          "label": {
+            "zh": "CC 年固定成本",
+            "en": "CC annual fixed cost"
+          },
+          "unit": "$/MW-year",
+          "step": 1000,
+          "advanced": true,
+          "type": "number",
+          "min": 0,
+          "max": 600000
+        },
+        {
+          "key": "cc_variable",
+          "label": {
+            "zh": "CC 变动成本",
+            "en": "CC variable cost"
+          },
+          "unit": "$/MWh",
+          "step": 0.001,
+          "advanced": true,
+          "type": "number",
+          "min": 0,
+          "max": 200
+        }
+      ],
+      "metrics": [
+        {
+          "key": "energy_mwh",
+          "label": {
+            "zh": "L03 日能量",
+            "en": "L03 daily energy"
+          },
+          "unit": "MWh",
+          "digits": 0
+        },
+        {
+          "key": "capacity_gap_mw",
+          "label": {
+            "zh": "L03 可信容量缺口",
+            "en": "L03 accredited capacity gap"
+          },
+          "unit": "MW",
+          "digits": 3
+        },
+        {
+          "key": "crossover_hours",
+          "label": {
+            "zh": "成本交叉小时",
+            "en": "Cost crossover"
+          },
+          "unit": "h/year",
+          "digits": 3
+        },
+        {
+          "key": "mix_accredited_mw",
+          "label": {
+            "zh": "L04 组合可信容量",
+            "en": "L04 mix accredited capacity"
+          },
+          "unit": "MW",
+          "digits": 0
+        },
+        {
+          "key": "cc_units",
+          "label": {
+            "zh": "CC 机组数量",
+            "en": "CC units"
+          },
+          "unit": "units",
+          "digits": 0
+        },
+        {
+          "key": "gt_units_load",
+          "label": {
+            "zh": "负荷匹配 GT",
+            "en": "GT units for net load"
+          },
+          "unit": "units",
+          "digits": 0
+        },
+        {
+          "key": "extra_gt_prm",
+          "label": {
+            "zh": "备用追加 GT",
+            "en": "Additional GT for reserve"
+          },
+          "unit": "units",
+          "digits": 0
+        },
+        {
+          "key": "annual_target_mw",
+          "label": {
+            "zh": "L04 备用容量目标",
+            "en": "L04 reserve capacity target"
+          },
+          "unit": "MW",
+          "digits": 0
+        }
+      ],
+      "practice": [
+        {
+          "key": "energy_mwh",
+          "label": {
+            "zh": "L03 日能量",
+            "en": "L03 daily energy"
+          },
+          "unit": "MWh",
+          "hint": {
+            "zh": "十二个 MW 数值相加后乘 2 h。",
+            "en": "Sum all twelve MW values and multiply by 2 h."
+          },
+          "tolerance": 0.5
+        },
+        {
+          "key": "capacity_gap_mw",
+          "label": {
+            "zh": "L03 容量缺口",
+            "en": "L03 capacity gap"
+          },
+          "unit": "MW",
+          "hint": {
+            "zh": "4380×1.15 − 4850。",
+            "en": "Compute 4380×1.15 − 4850."
+          },
+          "tolerance": 0.05
+        },
+        {
+          "key": "crossover_hours",
+          "label": {
+            "zh": "交叉运行小时",
+            "en": "Crossover hours"
+          },
+          "unit": "h/year",
+          "hint": {
+            "zh": "使用 (284000−217000)/(40.901−26.05)。",
+            "en": "Use (284000−217000)/(40.901−26.05)."
+          },
+          "tolerance": 0.5
+        }
+      ],
+      "quiz": {
+        "question": {
+          "zh": "把负荷排序为持续曲线后，哪项信息保持不变？",
+          "en": "Which information is preserved by sorting a load-duration curve?"
+        },
+        "choices": [
+          {
+            "value": "0",
+            "label": {
+              "zh": "每个负荷值发生的钟表时刻",
+              "en": "The clock time of each load"
+            }
+          },
+          {
+            "value": "1",
+            "label": {
+              "zh": "相邻小时的爬坡顺序",
+              "en": "Chronological ramp sequence"
+            }
+          },
+          {
+            "value": "2",
+            "label": {
+              "zh": "同一记录的总能量",
+              "en": "Total energy of the same record"
+            }
+          }
+        ],
+        "correct": "2",
+        "feedback": [
+          {
+            "zh": "排序保留负荷和持续时间，但不保留发生时刻。",
+            "en": "Sorting retains demand and durations, not clock times."
+          },
+          {
+            "zh": "排序丢失时序；爬坡与启停分析需要原时序记录。",
+            "en": "Sorting loses chronology; ramp and commitment analysis needs the original record."
+          },
+          {
+            "zh": "正确。相同持续时间的块只是重新排列，总 MWh 不变。",
+            "en": "Correct. Equal-duration blocks are reordered without changing MWh."
+          }
+        ]
+      },
+      "worked": [
+        {
+          "zh": "L03：12 个两小时块合计 77960 MWh；峰值 4380 MW。",
+          "en": "L03: twelve two-hour blocks total 77960 MWh; peak is 4380 MW."
+        },
+        {
+          "zh": "现有 PRM ≈ 10.731%；15% 目标需要 5037 MW，缺口 187 MW。",
+          "en": "Current PRM ≈ 10.731%; the 15% target is 5037 MW, leaving 187 MW."
+        },
+        {
+          "zh": "GT/CC 成本交点 T* ≈ 4511.481 h/year；2000 h 时 GT 成本更低。",
+          "en": "GT/CC crossover is ≈ 4511.481 h/year; GT costs less at 2000 h."
+        },
+        {
+          "zh": "L04 简化净负荷要求连续 CC 容量 1800 MW，取 4 台 CC 后，需 6 台 GT 覆盖峰值。",
+          "en": "The simplified L04 net load assigns 1800 MW to CC; rounding to four CC units leaves six GT units for peak coverage."
+        },
+        {
+          "zh": "默认风光容量信用为 0；再加 7 台 GT，可信容量 4915 MW ≥ 4830 MW 备用目标。",
+          "en": "Default renewable capacity credit is zero; seven additional GT units give 4915 MW ≥ the 4830 MW reserve target."
+        }
+      ],
+      "limits": {
+        "zh": "默认风光块出力恒定，容量信用单独输入。机组向上取整并追加 GT 给出可行教学组合；成本曲线按固定、变动成本比较，未加入启停或爬坡约束。",
+        "en": "Renewable output blocks are constant and capacity credit is a separate input. Rounding and adding GT give a feasible teaching portfolio; costs use fixed/variable coefficients without startup or ramp constraints."
+      },
+      "challenge": {
+        "zh": "把 GT 与 CC 的变动成本设成相同，观察“无唯一交点”。再改变容量信用，说明出力扣减与备用信用为何是两种输入。",
+        "en": "Set equal GT and CC variable costs and inspect the lack of a unique crossover. Change capacity credit and explain why energy output and reserve credit are separate inputs."
+      },
+      "code_key": "hours",
+      "code_values": [
+        1000,
+        2000,
+        4511,
+        6000,
+        8760
+      ],
+      "plot_titles": [
+        {
+          "zh": "L03：时序与排序负荷",
+          "en": "L03: chronological and sorted load"
+        },
+        {
+          "zh": "L04：年度成本筛选",
+          "en": "L04: annual screening costs"
+        }
+      ],
+      "given": {
+        "zh": "L03 原十二个两小时块：2500, 2300, 2200, 2400, 2900, 3500, 4000, 4200, 3900, 4380, 3700, 3000 MW。可信容量 4850 MW、PRM 15%；L04 GT: 217000+40.901T，CC: 284000+26.05T。",
+        "en": "Original L03 twelve two-hour MW blocks: 2500, 2300, 2200, 2400, 2900, 3500, 4000, 4200, 3900, 4380, 3700, 3000. Accredited capacity 4850 MW, PRM 15%; L04 GT: 217000+40.901T, CC: 284000+26.05T."
+      }
+    },
+    {
+      "id": "single-phase",
+      "number": 3,
+      "title": {
+        "zh": "单相交流电路",
+        "en": "Single-phase AC circuits"
+      },
+      "summary": {
+        "zh": "连接 RMS 相量、复功率、功率三角形与并联电容补偿。",
+        "en": "Connect RMS phasors, complex power, the power triangle, and shunt capacitor correction."
+      },
+      "sources": [
+        "L05",
+        "L06",
+        "L07"
+      ],
+      "extension": [],
+      "goals": [
+        {
+          "zh": "保持 RMS、余弦参考与电流方向一致。",
+          "en": "Keep RMS, cosine reference, and current direction consistent."
+        },
+        {
+          "zh": "用电流共轭计算 P、Q、|S| 与功率因数。",
+          "en": "Use the current conjugate to calculate P, Q, |S|, and power factor."
+        },
+        {
+          "zh": "计算目标无功、电容容量和补偿后电源电流。",
+          "en": "Calculate target Q, capacitor rating, and corrected source current."
+        }
+      ],
+      "opening": {
+        "zh": "120 V RMS、10 A RMS，电压超前电流 50°。为什么 P 不是 1200 W？把 pf 提高到 0.95 后，电源电流会如何变化？",
+        "en": "At 120 V RMS and 10 A RMS, voltage leads current by 50°. Why is P not 1200 W? How does source current change when pf reaches 0.95?"
+      },
+      "concepts": [
+        {
+          "title": {
+            "zh": "1. RMS 与相量",
+            "en": "1. RMS and phasors"
+          },
+          "body": {
+            "zh": "波形系数是峰值 √2×RMS；相量幅值采用 RMS。完整的波形—相量转换与相量加法实验保留在原 L05 页面，本模块继续连接到功率计算。",
+            "en": "The waveform coefficient is peak = √2×RMS, while phasor magnitude is RMS. The original L05 page retains the full conversion and phasor-addition lesson; this module connects it to power."
+          },
+          "formula": "v(t)=\\sqrt2 V\\cos(\\omega t+\\phi_V)"
+        },
+        {
+          "title": {
+            "zh": "2. 共轭与符号",
+            "en": "2. Conjugate and signs"
+          },
+          "body": {
+            "zh": "电流进入负荷正电压端，采用被动符号。Δφ = φV−φI；Δφ>0 对应滞后电流和正 Q。先算 S = V I*，再分别读取 P 与 Q。",
+            "en": "Current enters the positive load terminal, using the passive convention. Δφ = φV−φI; positive Δφ means lagging current and positive Q. Calculate S = V I* before reading P and Q."
+          },
+          "formula": "S=\\mathbf V\\mathbf I^*=VI(\\cos\\Delta\\phi+j\\sin\\Delta\\phi)"
+        },
+        {
+          "title": {
+            "zh": "3. 功率三角形",
+            "en": "3. Power triangle"
+          },
+          "body": {
+            "zh": "P 是 |S| 在有功轴上的投影，pf = P/|S|。负 Q 表示超前电流；只写 pf 数值会遗漏超前或滞后信息。瞬时功率含振荡项，但平均值为 P。",
+            "en": "P is the real-axis projection of |S| and pf = P/|S|. Negative Q means leading current; a pf number alone omits lead/lag. Instantaneous power oscillates while its average is P."
+          },
+          "formula": "|S|^2=P^2+Q^2,\\qquad pf=\\cos\\Delta\\phi"
+        },
+        {
+          "title": {
+            "zh": "4. 并联补偿",
+            "en": "4. Shunt correction"
+          },
+          "body": {
+            "zh": "保持负荷 P 不变，目标滞后无功为 P tan(arccos pf目标)。电容提供 Qc = Q负荷−Q目标。只有需要减少感性无功时才增加电容；已经满足目标或为容性负荷时，本实验不增加电容。",
+            "en": "Keep load P fixed. Target lagging Q is P tan(arccos target pf), and Qc = Qload−Qtarget. Add capacitance only to reduce inductive Q; this lab adds none when the target is already met or the load is capacitive."
+          },
+          "formula": "Q_c=Q-P\\tan(\\cos^{-1}pf_t),\\quad C=\\frac{Q_c}{\\omega V^2}"
+        }
+      ],
+      "controls": [
+        {
+          "key": "voltage_rms",
+          "label": {
+            "zh": "电压 RMS",
+            "en": "Voltage RMS"
+          },
+          "unit": "V",
+          "step": 1,
+          "advanced": false,
+          "type": "range",
+          "min": 60,
+          "max": 240
+        },
+        {
+          "key": "current_rms",
+          "label": {
+            "zh": "负荷电流 RMS",
+            "en": "Load current RMS"
+          },
+          "unit": "A",
+          "step": 0.5,
+          "advanced": false,
+          "type": "range",
+          "min": 0,
+          "max": 30
+        },
+        {
+          "key": "delta_deg",
+          "label": {
+            "zh": "电压超前电流 Δφ",
+            "en": "Voltage minus current phase"
+          },
+          "unit": "°",
+          "step": 1,
+          "advanced": false,
+          "type": "range",
+          "min": -80,
+          "max": 80
+        },
+        {
+          "key": "target_pf",
+          "label": {
+            "zh": "目标功率因数",
+            "en": "Target power factor"
+          },
+          "unit": "",
+          "step": 0.01,
+          "advanced": false,
+          "type": "range",
+          "min": 0.7,
+          "max": 1
+        },
+        {
+          "key": "omega",
+          "label": {
+            "zh": "角频率",
+            "en": "Angular frequency"
+          },
+          "unit": "rad/s",
+          "step": 1,
+          "advanced": true,
+          "type": "number",
+          "min": 250,
+          "max": 500
+        }
+      ],
+      "metrics": [
+        {
+          "key": "p_w",
+          "label": {
+            "zh": "有功 P",
+            "en": "Real P"
+          },
+          "unit": "W",
+          "digits": 3
+        },
+        {
+          "key": "q_var",
+          "label": {
+            "zh": "无功 Q",
+            "en": "Reactive Q"
+          },
+          "unit": "var",
+          "digits": 3
+        },
+        {
+          "key": "pf",
+          "label": {
+            "zh": "负荷功率因数",
+            "en": "Load pf"
+          },
+          "unit": "",
+          "digits": 3
+        },
+        {
+          "key": "capacitance_uf",
+          "label": {
+            "zh": "补偿电容",
+            "en": "Correction capacitance"
+          },
+          "unit": "μF",
+          "digits": 3
+        },
+        {
+          "key": "capacitor_var",
+          "label": {
+            "zh": "电容无功",
+            "en": "Capacitor rating"
+          },
+          "unit": "var",
+          "digits": 3
+        },
+        {
+          "key": "corrected_pf",
+          "label": {
+            "zh": "补偿后 pf",
+            "en": "Corrected pf"
+          },
+          "unit": "",
+          "digits": 3
+        },
+        {
+          "key": "current_after_a",
+          "label": {
+            "zh": "补偿后电源电流",
+            "en": "Corrected source current"
+          },
+          "unit": "A",
+          "digits": 3
+        }
+      ],
+      "practice": [
+        {
+          "key": "p_w",
+          "label": {
+            "zh": "负荷 P",
+            "en": "Load P"
+          },
+          "unit": "W",
+          "hint": {
+            "zh": "用 120×10×cos50°，幅值是 RMS。",
+            "en": "Use 120×10×cos50° with RMS magnitudes."
+          },
+          "tolerance": 0.05
+        },
+        {
+          "key": "q_var",
+          "label": {
+            "zh": "负荷 Q",
+            "en": "Load Q"
+          },
+          "unit": "var",
+          "hint": {
+            "zh": "用 120×10×sin50°；滞后电流对应正 Q。",
+            "en": "Use 120×10×sin50°; lagging current gives positive Q."
+          },
+          "tolerance": 0.05
+        },
+        {
+          "key": "capacitance_uf",
+          "label": {
+            "zh": "目标 pf=0.95 所需 C",
+            "en": "C for target pf=0.95"
+          },
+          "unit": "μF",
+          "hint": {
+            "zh": "先求 Qc，再除以 377×120²，并乘 10⁶。",
+            "en": "Find Qc, divide by 377×120², then multiply by 10⁶."
+          },
+          "tolerance": 0.05
+        }
+      ],
+      "quiz": {
+        "question": {
+          "zh": "在被动符号约定下，哪一种操作计算负荷复功率？",
+          "en": "Which operation gives load complex power under the passive convention?"
+        },
+        "choices": [
+          {
+            "value": "0",
+            "label": {
+              "zh": "S = V I",
+              "en": "S = V I"
+            }
+          },
+          {
+            "value": "1",
+            "label": {
+              "zh": "S = V I*",
+              "en": "S = V I*"
+            }
+          },
+          {
+            "value": "2",
+            "label": {
+              "zh": "S = V* I*",
+              "en": "S = V* I*"
+            }
+          }
+        ],
+        "correct": "1",
+        "feedback": [
+          {
+            "zh": "没有共轭会把角度相加，而不是求电压—电流相位差。",
+            "en": "Without the conjugate the angles add instead of giving voltage–current difference."
+          },
+          {
+            "zh": "正确。电流共轭给出 φV−φI。",
+            "en": "Correct. Conjugating current gives φV−φI."
+          },
+          {
+            "zh": "两者共轭不能给出所需的负荷功率符号。",
+            "en": "Conjugating both does not give the required load-power sign."
+          }
+        ]
+      },
+      "worked": [
+        {
+          "zh": "Δφ = 50°，|S| = 1200 VA。",
+          "en": "Δφ = 50° and |S| = 1200 VA."
+        },
+        {
+          "zh": "P ≈ 771.345 W，Q ≈ 919.253 var，pf ≈ 0.643 滞后。",
+          "en": "P ≈ 771.345 W, Q ≈ 919.253 var, pf ≈ 0.643 lagging."
+        },
+        {
+          "zh": "目标无功 ≈ 253.529 var；电容提供 ≈ 665.724 var。",
+          "en": "Target Q ≈ 253.529 var; capacitor rating ≈ 665.724 var."
+        },
+        {
+          "zh": "C ≈ 122.628 μF；负荷电流仍为 10 A，电源电流降到约 6.766 A。",
+          "en": "C ≈ 122.628 μF; load current remains 10 A while source current falls to ≈ 6.766 A."
+        }
+      ],
+      "limits": {
+        "zh": "模型为单频正弦稳态、恒定电压和固定负荷功率。电容补偿改变电源无功和电流；归一化曲线只比较相位。",
+        "en": "The model assumes single-frequency sinusoidal steady state, fixed voltage, and fixed load power. Correction changes source Q and current; normalized curves compare phase only."
+      },
+      "challenge": {
+        "zh": "将 Δφ 改为 −30°，解释 Q 的符号和“无新增电容”。修改 Python 中的相位，检查 P²+Q²=|S|²。",
+        "en": "Set Δφ to −30° and explain Q and the absence of added capacitance. Edit the Python phase and check P²+Q²=|S|²."
+      },
+      "code_key": "delta_deg",
+      "code_values": [
+        -60,
+        -30,
+        0,
+        30,
+        60
+      ],
+      "plot_titles": [
+        {
+          "zh": "电压电流相位比较",
+          "en": "Voltage/current phase comparison"
+        },
+        {
+          "zh": "瞬时功率与平均功率",
+          "en": "Instantaneous and average power"
+        }
+      ],
+      "given": {
+        "zh": "V=120 V RMS，I=10 A RMS，电压超前电流 50°，ω=377 rad/s，目标 pf=0.95 滞后。",
+        "en": "V=120 V RMS, I=10 A RMS, voltage leads current by 50°, ω=377 rad/s, target pf=0.95 lagging."
+      }
+    },
+    {
+      "id": "three-phase",
+      "number": 4,
+      "title": {
+        "zh": "三相交流电路",
+        "en": "Three-phase AC circuits"
+      },
+      "summary": {
+        "zh": "在明确的相序与参考角下，从支路相量推导线量和总功率。",
+        "en": "Derive branch, line, and total-power quantities under declared sequence and phase references."
+      },
+      "sources": [
+        "L08",
+        "L09",
+        "L09b"
+      ],
+      "extension": [],
+      "goals": [
+        {
+          "zh": "区分相电压/线电压与支路电流/线电流。",
+          "en": "Distinguish phase/line voltage and branch/line current."
+        },
+        {
+          "zh": "用相量相减与节点电流关系检验 √3 和 30°。",
+          "en": "Check √3 and 30° using voltage differences and terminal KCL."
+        },
+        {
+          "zh": "核对三相功率和理想平衡时的零中性电流。",
+          "en": "Check three-phase power and zero neutral current in a balanced set."
+        }
+      ],
+      "opening": {
+        "zh": "线电压 400 V，三个相同阻抗均为 20+j15 Ω。把负荷从 Y 改为 Δ，线电流是原来的 √3 倍还是 3 倍？",
+        "en": "At 400 V line voltage with three identical 20+j15 Ω impedances, does changing Y to Δ make line current √3 or 3 times larger?"
+      },
+      "concepts": [
+        {
+          "title": {
+            "zh": "1. 相序与参考",
+            "en": "1. Sequence and reference"
+          },
+          "body": {
+            "zh": "本模块以虚拟电源中性点的 VAN=V相∠0° 为参考；abc 相序使 B、C 分别为 −120°、+120°。改变相序改变相角关系，而不改变平衡负荷总功率。",
+            "en": "This module uses source VAN = Vphase∠0° relative to a reference neutral. In abc, B and C are −120° and +120°. Reversing sequence changes angles while retaining balanced-load total power."
+          },
+          "formula": ""
+        },
+        {
+          "title": {
+            "zh": "2. 星形 Y",
+            "en": "2. Wye Y"
+          },
+          "body": {
+            "zh": "Y 负荷每支路承受 VLL/√3，支路电流就是线电流。对正相序，VAB=VAN−VBN 的相角比 VAN 超前 30°。",
+            "en": "A Y branch sees VLL/√3, and branch current equals line current. For positive sequence VAB = VAN−VBN leads VAN by 30°."
+          },
+          "formula": "V_{LL}=\\sqrt3 V_{phase},\\qquad I_{line}=I_{phase}"
+        },
+        {
+          "title": {
+            "zh": "3. 三角形 Δ",
+            "en": "3. Delta Δ"
+          },
+          "body": {
+            "zh": "Δ 支路承受线电压，先求 IAB、IBC、ICA，再用 IA=IAB−ICA。平衡时线电流幅值为支路电流的 √3 倍。等值 Y 阻抗为 ZΔ/3。",
+            "en": "A Δ branch sees line voltage. Find IAB, IBC, ICA, then IA = IAB−ICA. Balanced line-current magnitude is √3 times branch current. Equivalent Y impedance is ZΔ/3."
+          },
+          "formula": "I_A=I_{AB}-I_{CA},\\qquad Z_Y=Z_\\Delta/3"
+        },
+        {
+          "title": {
+            "zh": "4. 三相功率",
+            "en": "4. Three-phase power"
+          },
+          "body": {
+            "zh": "用三个相电压与对应线电流的共轭求和，或用支路功率求和。平衡正弦三相的瞬时总功率为常数；每相瞬时功率仍有振荡。",
+            "en": "Sum source phase-voltage times line-current conjugates, or sum load branch powers. Balanced sinusoidal three-phase total instantaneous power is constant although each phase power oscillates."
+          },
+          "formula": "S_{3\\phi}=\\sum_k\\mathbf V_k\\mathbf I_k^*,\\quad |S|=\\sqrt3 V_{LL}I_{line}"
+        }
+      ],
+      "controls": [
+        {
+          "key": "connection",
+          "label": {
+            "zh": "负荷接线",
+            "en": "Load connection"
+          },
+          "unit": "",
+          "step": 1,
+          "advanced": false,
+          "type": "select",
+          "options": [
+            {
+              "value": "wye",
+              "label": {
+                "zh": "星形 Y",
+                "en": "Wye Y"
+              }
+            },
+            {
+              "value": "delta",
+              "label": {
+                "zh": "三角形 Δ",
+                "en": "Delta Δ"
+              }
+            }
+          ]
+        },
+        {
+          "key": "sequence",
+          "label": {
+            "zh": "相序",
+            "en": "Phase sequence"
+          },
+          "unit": "",
+          "step": 1,
+          "advanced": false,
+          "type": "select",
+          "options": [
+            {
+              "value": "abc",
+              "label": {
+                "zh": "正相序 abc",
+                "en": "Positive abc"
+              }
+            },
+            {
+              "value": "acb",
+              "label": {
+                "zh": "负相序 acb",
+                "en": "Negative acb"
+              }
+            }
+          ]
+        },
+        {
+          "key": "voltage_ll",
+          "label": {
+            "zh": "线电压 RMS",
+            "en": "Line voltage RMS"
+          },
+          "unit": "V",
+          "step": 1,
+          "advanced": false,
+          "type": "range",
+          "min": 100,
+          "max": 600
+        },
+        {
+          "key": "resistance",
+          "label": {
+            "zh": "支路电阻",
+            "en": "Branch resistance"
+          },
+          "unit": "Ω",
+          "step": 1,
+          "advanced": false,
+          "type": "range",
+          "min": 1,
+          "max": 100
+        },
+        {
+          "key": "reactance",
+          "label": {
+            "zh": "支路电抗",
+            "en": "Branch reactance"
+          },
+          "unit": "Ω",
+          "step": 1,
+          "advanced": false,
+          "type": "range",
+          "min": -30,
+          "max": 50
+        },
+        {
+          "key": "phase_ref_deg",
+          "label": {
+            "zh": "VAN 参考角",
+            "en": "VAN reference angle"
+          },
+          "unit": "°",
+          "step": 1,
+          "advanced": true,
+          "type": "number",
+          "min": -180,
+          "max": 180
+        },
+        {
+          "key": "omega",
+          "label": {
+            "zh": "角频率",
+            "en": "Angular frequency"
+          },
+          "unit": "rad/s",
+          "step": 1,
+          "advanced": true,
+          "type": "number",
+          "min": 250,
+          "max": 500
+        }
+      ],
+      "metrics": [
+        {
+          "key": "branch_voltage",
+          "label": {
+            "zh": "负荷支路电压",
+            "en": "Load branch voltage"
+          },
+          "unit": "V",
+          "digits": 3
+        },
+        {
+          "key": "branch_current_a",
+          "label": {
+            "zh": "支路电流",
+            "en": "Branch current"
+          },
+          "unit": "A",
+          "digits": 3
+        },
+        {
+          "key": "line_current_a",
+          "label": {
+            "zh": "线电流",
+            "en": "Line current"
+          },
+          "unit": "A",
+          "digits": 3
+        },
+        {
+          "key": "p_w",
+          "label": {
+            "zh": "总有功",
+            "en": "Total real power"
+          },
+          "unit": "W",
+          "digits": 3
+        },
+        {
+          "key": "q_var",
+          "label": {
+            "zh": "总无功",
+            "en": "Total reactive power"
+          },
+          "unit": "var",
+          "digits": 3
+        },
+        {
+          "key": "neutral_current_a",
+          "label": {
+            "zh": "平衡电流和",
+            "en": "Balanced current sum"
+          },
+          "unit": "A",
+          "digits": 6
+        }
+      ],
+      "practice": [
+        {
+          "key": "branch_voltage",
+          "label": {
+            "zh": "Y 支路电压",
+            "en": "Y branch voltage"
+          },
+          "unit": "V",
+          "hint": {
+            "zh": "400/√3。",
+            "en": "Compute 400/√3."
+          },
+          "tolerance": 0.05
+        },
+        {
+          "key": "line_current_a",
+          "label": {
+            "zh": "Y 线电流",
+            "en": "Y line current"
+          },
+          "unit": "A",
+          "hint": {
+            "zh": "Y 的支路电流等于线电流，|Z|=25 Ω。",
+            "en": "For Y, branch current equals line current and |Z|=25 Ω."
+          },
+          "tolerance": 0.05
+        },
+        {
+          "key": "p_w",
+          "label": {
+            "zh": "Y 总 P",
+            "en": "Y total P"
+          },
+          "unit": "W",
+          "hint": {
+            "zh": "3×(400/√3)²×20/25²。",
+            "en": "Use 3×(400/√3)²×20/25²."
+          },
+          "tolerance": 0.05
+        }
+      ],
+      "quiz": {
+        "question": {
+          "zh": "保持线电压和每个支路阻抗不变，将 Y 改为 Δ，线电流变为多少？",
+          "en": "With fixed line voltage and identical branch impedance, how much does line current increase from Y to Δ?"
+        },
+        "choices": [
+          {
+            "value": "0",
+            "label": {
+              "zh": "√3 倍",
+              "en": "√3 times"
+            }
+          },
+          {
+            "value": "1",
+            "label": {
+              "zh": "3 倍",
+              "en": "3 times"
+            }
+          },
+          {
+            "value": "2",
+            "label": {
+              "zh": "保持不变",
+              "en": "Unchanged"
+            }
+          }
+        ],
+        "correct": "1",
+        "feedback": [
+          {
+            "zh": "支路电压增加 √3，Δ 的线/支路电流关系还再乘 √3。",
+            "en": "Branch voltage rises by √3, then Δ line/branch current contributes another √3."
+          },
+          {
+            "zh": "正确。两个 √3 因子相乘得到 3；负荷阻抗没有做等值变换。",
+            "en": "Correct. Two √3 factors give 3; these are unchanged impedances, not equivalent loads."
+          },
+          {
+            "zh": "只有将 ZY 与 ZΔ 按等值关系改变，才可保持外部量不变。",
+            "en": "Terminal quantities stay unchanged only when impedances are changed using the Y–Δ equivalence."
+          }
+        ]
+      },
+      "worked": [
+        {
+          "zh": "Y：V支路 = 400/√3 ≈ 230.940 V。",
+          "en": "Y branch voltage = 400/√3 ≈ 230.940 V."
+        },
+        {
+          "zh": "I支路=I线≈9.238 A；负载角 atan2(15,20)≈36.870°。",
+          "en": "Branch and line current ≈ 9.238 A; impedance angle ≈ 36.870°."
+        },
+        {
+          "zh": "P=5120 W，Q=3840 var，|S|=6400 VA。",
+          "en": "P=5120 W, Q=3840 var, |S|=6400 VA."
+        },
+        {
+          "zh": "Δ 且同支路阻抗：I支路=16 A，I线≈27.713 A，P=15360 W。",
+          "en": "With the same branch impedance in Δ: branch current=16 A, line current≈27.713 A, P=15360 W."
+        }
+      ],
+      "limits": {
+        "zh": "模型为理想平衡三相源、三个相同负荷阻抗和零线路阻抗。图中的电源中性点是相位参考；Δ 负荷没有中性导体。",
+        "en": "The model uses an ideal balanced source, three identical impedances, and zero line impedance. The source neutral provides a phase reference; a delta load has no neutral conductor."
+      },
+      "challenge": {
+        "zh": "将接线切成 Δ，再把阻抗各分量乘 3，验证线电流和总功率恢复到原 Y 的结果。切换相序后检查 VAB 相角。",
+        "en": "Switch to Δ and multiply both impedance components by 3. Verify the original Y current and power return. Reverse sequence and inspect VAB phase."
+      },
+      "code_key": "reactance",
+      "code_values": [
+        -15,
+        0,
+        15,
+        30
+      ],
+      "plot_titles": [
+        {
+          "zh": "三相相电压",
+          "en": "Three phase voltages"
+        },
+        {
+          "zh": "三相线电流",
+          "en": "Three line currents"
+        }
+      ],
+      "given": {
+        "zh": "VLL=400 V RMS，正 abc 相序，Y 负荷每支路 Z=20+j15 Ω，VAN 相角为 0°。",
+        "en": "VLL=400 V RMS, abc sequence, Y branch Z=20+j15 Ω, VAN angle 0°."
+      }
+    },
+    {
+      "id": "transformers",
+      "number": 5,
+      "title": {
+        "zh": "三相变压器建模",
+        "en": "Three-phase transformer modeling"
+      },
+      "summary": {
+        "zh": "从理想绕组比、试验参数和近似电路，连接到三相 Y/Δ 变压器组。",
+        "en": "Connect ideal winding ratios, test parameters, and approximate circuits to three-phase Y/Δ banks."
+      },
+      "sources": [
+        "L10",
+        "L11",
+        "L12"
+      ],
+      "extension": [
+        "L20",
+        "L21"
+      ],
+      "goals": [
+        {
+          "zh": "区分绕组匝数比与三相线电压比。",
+          "en": "Distinguish winding turns ratio from three-phase line-voltage ratio."
+        },
+        {
+          "zh": "从开路、短路读数推算等值参数，并保持折算侧一致。",
+          "en": "Infer equivalent parameters from open/short tests with consistent referred sides."
+        },
+        {
+          "zh": "估算电压调整率、铜损与效率，并检查近似适用条件。",
+          "en": "Estimate regulation, copper loss, and efficiency and check approximation conditions."
+        }
+      ],
+      "opening": {
+        "zh": "匝数比 a=10 时，138 kV 的高压线电压一定对应 13.8 kV 低压线电压吗？先比较 Y–Y 和 Δ–Y，再进入试验与损耗。",
+        "en": "Does a turns ratio a=10 always convert 138 kV high-side line voltage to 13.8 kV low-side line voltage? Compare Y–Y and Δ–Y before studying tests and losses."
+      },
+      "concepts": [
+        {
+          "title": {
+            "zh": "1. 理想绕组与折算",
+            "en": "1. Ideal winding and referral"
+          },
+          "body": {
+            "zh": "a=NH/NL=VH绕组/VL绕组；同一理想变压器内绕组电流幅值反比，复功率守恒。将低压阻抗折到高压侧时乘 a²，电压乘 a、电流除以 a。",
+            "en": "a=NH/NL=VH,winding/VL,winding. Ideal winding-current magnitudes scale inversely and complex power is conserved. Refer low-side impedance by a², voltage by a, and current by 1/a."
+          },
+          "formula": "V_H=aV_L,\\quad I_H=I_L/a,\\quad Z_H=a^2Z_L"
+        },
+        {
+          "title": {
+            "zh": "2. 三相接线因子",
+            "en": "2. Three-phase connection factors"
+          },
+          "body": {
+            "zh": "Y 的线电压为 √3×绕组电压，Δ 的线电压等于绕组电压。按每侧的接线因子算线比，不能把线比直接当成匝数比。单台额定容量为变压器组总容量的 1/3。",
+            "en": "Y line voltage is √3 times winding voltage; Δ line voltage equals winding voltage. Apply each side’s connection factor before finding the line ratio. Each unit is rated at one-third of bank apparent power."
+          },
+          "formula": "\\frac{V_{LL,H}}{V_{LL,L}}=a\\frac{k_H}{k_L},\\quad k_Y=\\sqrt3,\\ k_\\Delta=1"
+        },
+        {
+          "title": {
+            "zh": "3. 相移需要端子约定",
+            "en": "3. Phase shift needs terminal conventions"
+          },
+          "body": {
+            "zh": "Y–Δ 或 Δ–Y 接线可以产生 30° 线量相移，符号取决于端子、同名端和相序约定。这里的接线实验计算幅值；L21 的端子相量推导用于确定相移方向。",
+            "en": "Y–Δ and Δ–Y can produce 30° line-quantity displacement; its sign depends on terminals, dot correspondence, and sequence. This connection experiment calculates magnitudes; the L21 terminal derivation determines the displacement direction."
+          },
+          "formula": ""
+        },
+        {
+          "title": {
+            "zh": "4. 开路与短路试验",
+            "en": "4. Open- and short-circuit tests"
+          },
+          "body": {
+            "zh": "开路试验主要识别励磁支路：Ic=Poc/Voc，Im=√(Ioc²−Ic²)。短路试验主要识别串联支路：|Zeq|=Vsc/Isc，Req=Psc/Isc²。读数必须满足 P≤VI，且参数必须注明试验侧。",
+            "en": "The open test identifies excitation: Ic=Poc/Voc and Im=√(Ioc²−Ic²). The short test identifies series terms: |Zeq|=Vsc/Isc and Req=Psc/Isc². Readings require P≤VI and parameters need their test side."
+          },
+          "formula": "R_c=V_{oc}^2/P_{oc},\\quad X_m=V_{oc}/I_m,\\quad X_{eq}=\\sqrt{|Z_{eq}|^2-R_{eq}^2}"
+        },
+        {
+          "title": {
+            "zh": "5. 非理想模型与近似",
+            "en": "5. Nonideal model and approximations"
+          },
+          "body": {
+            "zh": "绕组电阻产生铜损，漏抗产生串联压降，励磁支路描述磁化与铁损。这里以额定基准上的 rpu、xpu 和负载率 λ 估算滞后负荷的电压调整率。",
+            "en": "Resistance gives copper loss, leakage reactance gives series drop, and excitation represents magnetization and core loss. Here rated-base rpu, xpu and loading λ estimate regulation at lagging pf."
+          },
+          "formula": "VR\\approx\\lambda(r_{pu}\\cos\\phi+x_{pu}\\sin\\phi)"
+        },
+        {
+          "title": {
+            "zh": "6. 功率与效率",
+            "en": "6. Power and efficiency"
+          },
+          "body": {
+            "zh": "输出有功为 S额定×λ×pf；铜损按 λ² 变化，铁损在固定电压下近似恒定。理想组的幅值、电流关系与含损耗效率分开核查。",
+            "en": "Real output is Srated×λ×pf. Copper loss varies with λ² and core loss is approximately constant at fixed voltage. Check ideal bank ratios separately from loss-based efficiency."
+          },
+          "formula": "\\eta=\\frac{P_{out}}{P_{out}+P_{cu}+P_{core}}"
+        }
+      ],
+      "controls": [
+        {
+          "key": "h_connection",
+          "label": {
+            "zh": "高压侧接线",
+            "en": "High-side connection"
+          },
+          "unit": "",
+          "step": 1,
+          "advanced": false,
+          "type": "select",
+          "options": [
+            {
+              "value": "wye",
+              "label": {
+                "zh": "星形 Y",
+                "en": "Wye Y"
+              }
+            },
+            {
+              "value": "delta",
+              "label": {
+                "zh": "三角形 Δ",
+                "en": "Delta Δ"
+              }
+            }
+          ]
+        },
+        {
+          "key": "l_connection",
+          "label": {
+            "zh": "低压侧接线",
+            "en": "Low-side connection"
+          },
+          "unit": "",
+          "step": 1,
+          "advanced": false,
+          "type": "select",
+          "options": [
+            {
+              "value": "wye",
+              "label": {
+                "zh": "星形 Y",
+                "en": "Wye Y"
+              }
+            },
+            {
+              "value": "delta",
+              "label": {
+                "zh": "三角形 Δ",
+                "en": "Delta Δ"
+              }
+            }
+          ]
+        },
+        {
+          "key": "turns_ratio",
+          "label": {
+            "zh": "绕组匝数比 a",
+            "en": "Winding turns ratio a"
+          },
+          "unit": "",
+          "step": 0.5,
+          "advanced": false,
+          "type": "range",
+          "min": 2,
+          "max": 20
+        },
+        {
+          "key": "loading",
+          "label": {
+            "zh": "变压器组负载率 λ",
+            "en": "Bank loading λ"
+          },
+          "unit": "pu",
+          "step": 0.05,
+          "advanced": false,
+          "type": "range",
+          "min": 0,
+          "max": 1.2
+        },
+        {
+          "key": "power_factor",
+          "label": {
+            "zh": "滞后负荷 pf",
+            "en": "Lagging load pf"
+          },
+          "unit": "",
+          "step": 0.01,
+          "advanced": false,
+          "type": "range",
+          "min": 0.6,
+          "max": 1
+        },
+        {
+          "key": "h_kv",
+          "label": {
+            "zh": "高压线电压",
+            "en": "High-side line voltage"
+          },
+          "unit": "kV",
+          "step": 0.1,
+          "advanced": true,
+          "type": "number",
+          "min": 10,
+          "max": 230
+        },
+        {
+          "key": "s_mva",
+          "label": {
+            "zh": "变压器组额定容量",
+            "en": "Bank rated apparent power"
+          },
+          "unit": "MVA",
+          "step": 1,
+          "advanced": true,
+          "type": "number",
+          "min": 1,
+          "max": 100
+        },
+        {
+          "key": "r_pu",
+          "label": {
+            "zh": "额定基准串联电阻",
+            "en": "Rated-base series resistance"
+          },
+          "unit": "pu",
+          "step": 0.001,
+          "advanced": true,
+          "type": "number",
+          "min": 0,
+          "max": 0.05
+        },
+        {
+          "key": "x_pu",
+          "label": {
+            "zh": "额定基准漏抗",
+            "en": "Rated-base leakage reactance"
+          },
+          "unit": "pu",
+          "step": 0.001,
+          "advanced": true,
+          "type": "number",
+          "min": 0,
+          "max": 0.2
+        },
+        {
+          "key": "core_kw",
+          "label": {
+            "zh": "变压器组铁损",
+            "en": "Bank core loss"
+          },
+          "unit": "kW",
+          "step": 1,
+          "advanced": true,
+          "type": "number",
+          "min": 0,
+          "max": 200
+        },
+        {
+          "key": "oc_v",
+          "label": {
+            "zh": "L12 开路电压（LV）",
+            "en": "L12 OC voltage (LV)"
+          },
+          "unit": "V",
+          "step": 0.1,
+          "advanced": true,
+          "type": "number",
+          "min": 1,
+          "max": 500
+        },
+        {
+          "key": "oc_a",
+          "label": {
+            "zh": "L12 开路电流",
+            "en": "L12 OC current"
+          },
+          "unit": "A",
+          "step": 0.1,
+          "advanced": true,
+          "type": "number",
+          "min": 0.1,
+          "max": 10
+        },
+        {
+          "key": "oc_w",
+          "label": {
+            "zh": "L12 开路有功",
+            "en": "L12 OC real power"
+          },
+          "unit": "W",
+          "step": 1,
+          "advanced": true,
+          "type": "number",
+          "min": 1,
+          "max": 500
+        },
+        {
+          "key": "sc_v",
+          "label": {
+            "zh": "L12 短路电压（HV）",
+            "en": "L12 SC voltage (HV)"
+          },
+          "unit": "V",
+          "step": 0.1,
+          "advanced": true,
+          "type": "number",
+          "min": 1,
+          "max": 500
+        },
+        {
+          "key": "sc_a",
+          "label": {
+            "zh": "L12 短路电流",
+            "en": "L12 SC current"
+          },
+          "unit": "A",
+          "step": 0.0001,
+          "advanced": true,
+          "type": "number",
+          "min": 0.1,
+          "max": 10
+        },
+        {
+          "key": "sc_w",
+          "label": {
+            "zh": "L12 短路有功",
+            "en": "L12 SC real power"
+          },
+          "unit": "W",
+          "step": 1,
+          "advanced": true,
+          "type": "number",
+          "min": 1,
+          "max": 500
+        }
+      ],
+      "metrics": [
+        {
+          "key": "l_line_kv",
+          "label": {
+            "zh": "低压空载线电压",
+            "en": "LV no-load line voltage"
+          },
+          "unit": "kV",
+          "digits": 3
+        },
+        {
+          "key": "line_ratio",
+          "label": {
+            "zh": "高/低线电压比",
+            "en": "H/L line-voltage ratio"
+          },
+          "unit": "",
+          "digits": 3
+        },
+        {
+          "key": "l_line_a",
+          "label": {
+            "zh": "理想低压线电流",
+            "en": "Ideal LV line current"
+          },
+          "unit": "A",
+          "digits": 3
+        },
+        {
+          "key": "regulation_percent",
+          "label": {
+            "zh": "近似调整率",
+            "en": "Approx. regulation"
+          },
+          "unit": "%",
+          "digits": 3
+        },
+        {
+          "key": "efficiency_percent",
+          "label": {
+            "zh": "含损耗效率",
+            "en": "Loss-based efficiency"
+          },
+          "unit": "%",
+          "digits": 3
+        },
+        {
+          "key": "rc_lv_ohm",
+          "label": {
+            "zh": "L12 Rc（LV）",
+            "en": "L12 Rc (LV)"
+          },
+          "unit": "Ω",
+          "digits": 3
+        },
+        {
+          "key": "req_hv_ohm",
+          "label": {
+            "zh": "L12 Req（HV）",
+            "en": "L12 Req (HV)"
+          },
+          "unit": "Ω",
+          "digits": 3
+        },
+        {
+          "key": "xeq_hv_ohm",
+          "label": {
+            "zh": "L12 Xeq（HV）",
+            "en": "L12 Xeq (HV)"
+          },
+          "unit": "Ω",
+          "digits": 3
+        }
+      ],
+      "practice": [
+        {
+          "key": "l_line_kv",
+          "label": {
+            "zh": "默认 Y–Y 低压线电压",
+            "en": "Default Y–Y LV line voltage"
+          },
+          "unit": "kV",
+          "hint": {
+            "zh": "两侧接线因子相同，线电压比等于 a=10。",
+            "en": "Equal connection factors make the line ratio a=10."
+          },
+          "tolerance": 0.05
+        },
+        {
+          "key": "rc_lv_ohm",
+          "label": {
+            "zh": "L12 Rc（LV）",
+            "en": "L12 Rc (LV)"
+          },
+          "unit": "Ω",
+          "hint": {
+            "zh": "开路读数为 240 V、2 A、120 W，用 Voc²/Poc。",
+            "en": "Use Voc²/Poc for 240 V, 2 A, 120 W OC readings."
+          },
+          "tolerance": 0.05
+        },
+        {
+          "key": "req_hv_ohm",
+          "label": {
+            "zh": "L12 Req（HV）",
+            "en": "L12 Req (HV)"
+          },
+          "unit": "Ω",
+          "hint": {
+            "zh": "短路读数为 120 V、4.1667 A、180 W，用 Psc/Isc²。",
+            "en": "Use Psc/Isc² for 120 V, 4.1667 A, 180 W SC readings."
+          },
+          "tolerance": 0.05
+        }
+      ],
+      "quiz": {
+        "question": {
+          "zh": "只知道“Δ–Y”，能唯一确定低压线电压相对高压侧是 +30° 还是 −30° 吗？",
+          "en": "Does the label Δ–Y alone uniquely determine +30° or −30° low-side line displacement?"
+        },
+        "choices": [
+          {
+            "value": "0",
+            "label": {
+              "zh": "一定是 +30°",
+              "en": "Always +30°"
+            }
+          },
+          {
+            "value": "1",
+            "label": {
+              "zh": "一定是 −30°",
+              "en": "Always −30°"
+            }
+          },
+          {
+            "value": "2",
+            "label": {
+              "zh": "还需端子、同名端和相序约定",
+              "en": "Terminal, dot, and sequence conventions are also needed"
+            }
+          }
+        ],
+        "correct": "2",
+        "feedback": [
+          {
+            "zh": "接线名称不含完整端子与同名端信息。",
+            "en": "The connection name omits complete terminal and dot information."
+          },
+          {
+            "zh": "需要检查实际相量和参考方向，不能仅凭接线名称指定符号。",
+            "en": "Inspect actual phasors and references instead of assigning a sign from the connection name."
+          },
+          {
+            "zh": "正确。按 L21 的端子约定逐步推导，才能确定相移方向。",
+            "en": "Correct. Derive the terminal phasors with the L21 conventions to determine direction."
+          }
+        ]
+      },
+      "worked": [
+        {
+          "zh": "三相组教学案例：138 kV、a=10、Y–Y、30 MVA、负载率 0.8、pf=0.9。",
+          "en": "Bank teaching case: 138 kV, a=10, Y–Y, 30 MVA, loading 0.8, pf=0.9."
+        },
+        {
+          "zh": "空载低压线电压 13.8 kV；理想低压线电流约 1004.087 A。",
+          "en": "No-load LV line voltage is 13.8 kV; ideal LV line current ≈ 1004.087 A."
+        },
+        {
+          "zh": "rpu=0.01、xpu=0.08 给出近似调整率约 3.510%；含铜损与 30 kW 铁损的效率约 98.983%。",
+          "en": "rpu=0.01 and xpu=0.08 give ≈ 3.510% regulation; copper and 30 kW core loss give ≈ 98.983% efficiency."
+        },
+        {
+          "zh": "独立 L12 单相试验案例为 10 kVA、2400/240 V。OC 得 Rc,L=480 Ω、Xm,L≈123.935 Ω。",
+          "en": "The independent L12 test case is a 10 kVA, 2400/240 V single-phase unit. OC gives Rc,L=480 Ω and Xm,L≈123.935 Ω."
+        },
+        {
+          "zh": "SC 得 Req,H≈10.368 Ω、Xeq,H≈26.869 Ω；励磁参数折算到 HV 乘原试验匝数比 10²。",
+          "en": "SC gives Req,H≈10.368 Ω and Xeq,H≈26.869 Ω. Refer excitation parameters to HV using the test transformer’s fixed ratio 10²."
+        }
+      ],
+      "limits": {
+        "zh": "三相组采用理想绕组幅值关系与小压降一阶近似。L12 试验是另一台固定 10 kVA 单相变压器；其试验参数不直接写入三相组。L20–L21 为考试一之后的接线拓展。",
+        "en": "The bank uses ideal winding magnitudes and first-order small-drop approximations. L12 tests concern a separate fixed 10 kVA single-phase unit; they do not parameterize this bank. L20–L21 are the post-Exam-1 connection extension."
+      },
+      "challenge": {
+        "zh": "切换 Δ–Y，检查线比 a/√3；再提高 OC 有功至超过 VI，观察读数相容性提示，并解释无效测量为何不能推算参数。",
+        "en": "Switch to Δ–Y and check line ratio a/√3. Raise OC watts above VI and inspect the consistency feedback; explain why invalid readings cannot determine parameters."
+      },
+      "code_key": "loading",
+      "code_values": [
+        0,
+        0.25,
+        0.5,
+        0.75,
+        1
+      ],
+      "plot_titles": [
+        {
+          "zh": "近似电压调整率与负载率",
+          "en": "Approximate regulation versus loading"
+        },
+        {
+          "zh": "效率与负载率",
+          "en": "Efficiency versus loading"
+        }
+      ],
+      "given": {
+        "zh": "三相组：VH,LL=138 kV、a=10、Y–Y。L12 独立试验：10 kVA、2400/240 V；OC(LV) 240 V、2 A、120 W；SC(HV) 120 V、4.1667 A、180 W。",
+        "en": "Bank: VH,LL=138 kV, a=10, Y–Y. Independent L12 test unit: 10 kVA, 2400/240 V; OC(LV) 240 V/2 A/120 W; SC(HV) 120 V/4.1667 A/180 W."
+      }
+    },
+    {
+      "id": "per-unit",
+      "number": 6,
+      "title": {
+        "zh": "标幺系统",
+        "en": "Per-unit systems"
+      },
+      "summary": {
+        "zh": "选择相容基准，跨变压器传递基准，并用物理量还原检查换基准结果。",
+        "en": "Choose coherent bases, propagate them through transformers, and verify base changes by recovering physical quantities."
+      },
+      "sources": [
+        "L13",
+        "L14",
+        "L15"
+      ],
+      "extension": [],
+      "goals": [
+        {
+          "zh": "先选功率与电压基准，再导出电流、阻抗基准。",
+          "en": "Choose power and voltage bases before deriving current and impedance bases."
+        },
+        {
+          "zh": "区分单相端电压基准与三相线电压/总功率基准。",
+          "en": "Distinguish single-phase terminal bases from three-phase line-voltage/total-power bases."
+        },
+        {
+          "zh": "验证对应变压器基准下两侧标幺阻抗一致。",
+          "en": "Verify invariant per-unit impedance on corresponding transformer bases."
+        }
+      ],
+      "opening": {
+        "zh": "同一个 1+j4 Ω 阻抗，将功率基准从 100 MVA 改为 50 MVA，标幺值会怎样？物理阻抗会改变吗？",
+        "en": "For the same 1+j4 Ω impedance, what happens when power base changes from 100 to 50 MVA? Does physical impedance change?"
+      },
+      "concepts": [
+        {
+          "title": {
+            "zh": "1. 独立与导出基准",
+            "en": "1. Independent and derived bases"
+          },
+          "body": {
+            "zh": "选择 Sb 与 Vb 后，其他基准必须随之导出。三相用总三相 Sb 和线电压 Vb,LL；单相用该电路的端电压和单相 Sb。",
+            "en": "After choosing Sb and Vb, derive other bases coherently. Three-phase uses total Sb and line voltage Vb,LL; single-phase uses terminal voltage and single-phase Sb."
+          },
+          "formula": "I_{b,3\\phi}=\\frac{S_b}{\\sqrt3 V_{b,LL}},\\quad I_{b,1\\phi}=\\frac{S_b}{V_b},\\quad Z_b=\\frac{V_b^2}{S_b}"
+        },
+        {
+          "title": {
+            "zh": "2. 归一化与还原",
+            "en": "2. Normalize and recover"
+          },
+          "body": {
+            "zh": "用物理量除以对应基准得到标幺量，乘回同一基准应恢复原值。电压、电流与功率基准相容时，三相 |Spu|=Vpu Ipu。",
+            "en": "Divide physical quantities by matching bases, then multiply back to recover them. Coherent voltage, current, and power bases give |Spu|=Vpu Ipu in three-phase."
+          },
+          "formula": "z_{pu}=Z/Z_b,\\qquad Z=z_{pu}Z_b"
+        },
+        {
+          "title": {
+            "zh": "3. 穿过变压器",
+            "en": "3. Across the transformer"
+          },
+          "body": {
+            "zh": "功率基准保持一致，电压基准按对应理想变压器比传播。这里用两侧接线因子相同的电压比 a；物理阻抗折算乘 a²，阻抗基准也乘 a²，因此标幺值不变。",
+            "en": "Keep the same power base and propagate voltage bases through the corresponding ideal ratio. Here both connection factors match, so the voltage ratio is a. Physical impedance and its base both scale by a², retaining per-unit impedance."
+          },
+          "formula": "V_{b,H}=aV_{b,L},\\quad Z_{b,H}=a^2Z_{b,L}"
+        },
+        {
+          "title": {
+            "zh": "4. 换基准",
+            "en": "4. Change of base"
+          },
+          "body": {
+            "zh": "保持物理 Z 不变，改用新的 Sb、Vb。标幺值会随基准改变；不要把改变后的 pu 数字解释为物理设备变化。",
+            "en": "Keep physical Z fixed and choose new Sb and Vb. Per-unit numbers change with the base; do not interpret that change as modified equipment."
+          },
+          "formula": "z_{pu,new}=z_{pu,old}\\frac{S_{b,new}}{S_{b,old}}\\left(\\frac{V_{b,old}}{V_{b,new}}\\right)^2"
+        }
+      ],
+      "controls": [
+        {
+          "key": "system",
+          "label": {
+            "zh": "电路基准类型",
+            "en": "Base-system type"
+          },
+          "unit": "",
+          "step": 1,
+          "advanced": false,
+          "type": "select",
+          "options": [
+            {
+              "value": "three-phase",
+              "label": {
+                "zh": "三相：总 S 与线电压",
+                "en": "Three-phase: total S and line V"
+              }
+            },
+            {
+              "value": "single-phase",
+              "label": {
+                "zh": "单相：单相 S 与端电压",
+                "en": "Single-phase: single S and terminal V"
+              }
+            }
+          ]
+        },
+        {
+          "key": "s_base_mva",
+          "label": {
+            "zh": "功率基准 Sb",
+            "en": "Power base Sb"
+          },
+          "unit": "MVA",
+          "step": 5,
+          "advanced": false,
+          "type": "range",
+          "min": 20,
+          "max": 200
+        },
+        {
+          "key": "v_base_h_kv",
+          "label": {
+            "zh": "高压电压基准",
+            "en": "High-side voltage base"
+          },
+          "unit": "kV",
+          "step": 1,
+          "advanced": false,
+          "type": "range",
+          "min": 69,
+          "max": 230
+        },
+        {
+          "key": "turns_ratio",
+          "label": {
+            "zh": "对应电压比 a",
+            "en": "Corresponding voltage ratio a"
+          },
+          "unit": "",
+          "step": 0.5,
+          "advanced": false,
+          "type": "range",
+          "min": 2,
+          "max": 20
+        },
+        {
+          "key": "z_re_ohm",
+          "label": {
+            "zh": "低压物理电阻",
+            "en": "Physical LV resistance"
+          },
+          "unit": "Ω",
+          "step": 0.1,
+          "advanced": false,
+          "type": "range",
+          "min": 0,
+          "max": 5
+        },
+        {
+          "key": "z_im_ohm",
+          "label": {
+            "zh": "低压物理电抗",
+            "en": "Physical LV reactance"
+          },
+          "unit": "Ω",
+          "step": 0.1,
+          "advanced": false,
+          "type": "range",
+          "min": -5,
+          "max": 10
+        },
+        {
+          "key": "v_actual_l_kv",
+          "label": {
+            "zh": "低压物理电压",
+            "en": "Physical LV voltage"
+          },
+          "unit": "kV",
+          "step": 0.1,
+          "advanced": true,
+          "type": "number",
+          "min": 1,
+          "max": 50
+        },
+        {
+          "key": "current_a",
+          "label": {
+            "zh": "物理电流",
+            "en": "Physical current"
+          },
+          "unit": "A",
+          "step": 1,
+          "advanced": true,
+          "type": "number",
+          "min": 0,
+          "max": 3000
+        },
+        {
+          "key": "power_factor",
+          "label": {
+            "zh": "负荷功率因数",
+            "en": "Load power factor"
+          },
+          "unit": "",
+          "step": 0.01,
+          "advanced": true,
+          "type": "number",
+          "min": 0.1,
+          "max": 1
+        }
+      ],
+      "metrics": [
+        {
+          "key": "v_base_l_kv",
+          "label": {
+            "zh": "低压电压基准",
+            "en": "LV voltage base"
+          },
+          "unit": "kV",
+          "digits": 3
+        },
+        {
+          "key": "i_base_l_a",
+          "label": {
+            "zh": "低压电流基准",
+            "en": "LV current base"
+          },
+          "unit": "A",
+          "digits": 3
+        },
+        {
+          "key": "z_base_l_ohm",
+          "label": {
+            "zh": "低压阻抗基准",
+            "en": "LV impedance base"
+          },
+          "unit": "Ω",
+          "digits": 3
+        },
+        {
+          "key": "z_pu_re",
+          "label": {
+            "zh": "阻抗 pu 实部",
+            "en": "Re(Zpu)"
+          },
+          "unit": "pu",
+          "digits": 3
+        },
+        {
+          "key": "z_pu_im",
+          "label": {
+            "zh": "阻抗 pu 虚部",
+            "en": "Im(Zpu)"
+          },
+          "unit": "pu",
+          "digits": 3
+        },
+        {
+          "key": "recovered_z_re_ohm",
+          "label": {
+            "zh": "还原物理电阻",
+            "en": "Recovered physical resistance"
+          },
+          "unit": "Ω",
+          "digits": 3
+        },
+        {
+          "key": "i_pu",
+          "label": {
+            "zh": "电流标幺",
+            "en": "Current per unit"
+          },
+          "unit": "pu",
+          "digits": 3
+        },
+        {
+          "key": "physical_s_mva",
+          "label": {
+            "zh": "物理视在功率",
+            "en": "Physical apparent power"
+          },
+          "unit": "MVA",
+          "digits": 3
+        }
+      ],
+      "practice": [
+        {
+          "key": "z_base_l_ohm",
+          "label": {
+            "zh": "低压 Zb",
+            "en": "LV Zb"
+          },
+          "unit": "Ω",
+          "hint": {
+            "zh": "13.8²/100，kV²/MVA 的结果为 Ω。",
+            "en": "Use 13.8²/100; kV²/MVA gives Ω."
+          },
+          "tolerance": 0.005
+        },
+        {
+          "key": "z_pu_re",
+          "label": {
+            "zh": "Re(Zpu)",
+            "en": "Re(Zpu)"
+          },
+          "unit": "pu",
+          "hint": {
+            "zh": "物理电阻 1 Ω 除以低压阻抗基准。",
+            "en": "Divide physical 1 Ω resistance by the LV impedance base."
+          },
+          "tolerance": 0.005
+        },
+        {
+          "key": "i_base_l_a",
+          "label": {
+            "zh": "低压 Ib",
+            "en": "LV Ib"
+          },
+          "unit": "A",
+          "hint": {
+            "zh": "100×1000/(√3×13.8)。",
+            "en": "Compute 100×1000/(√3×13.8)."
+          },
+          "tolerance": 0.05
+        }
+      ],
+      "quiz": {
+        "question": {
+          "zh": "仅改变功率基准、保持电压基准与物理阻抗不变时，哪项不变？",
+          "en": "If only power base changes while voltage base and physical impedance stay fixed, what remains unchanged?"
+        },
+        "choices": [
+          {
+            "value": "0",
+            "label": {
+              "zh": "物理阻抗",
+              "en": "Physical impedance"
+            }
+          },
+          {
+            "value": "1",
+            "label": {
+              "zh": "标幺阻抗",
+              "en": "Per-unit impedance"
+            }
+          },
+          {
+            "value": "2",
+            "label": {
+              "zh": "电流基准",
+              "en": "Current base"
+            }
+          }
+        ],
+        "correct": "0",
+        "feedback": [
+          {
+            "zh": "正确。换基准改变表示方法；乘回基准应恢复同一物理阻抗。",
+            "en": "Correct. Base changes alter representation; multiplying back recovers the same physical impedance."
+          },
+          {
+            "zh": "zpu 随 Sb 成正比改变。",
+            "en": "zpu changes in proportion to Sb."
+          },
+          {
+            "zh": "Ib 随 Sb 成正比改变。",
+            "en": "Ib changes in proportion to Sb."
+          }
+        ]
+      },
+      "worked": [
+        {
+          "zh": "三相 Sb=100 MVA，Vb,H=138 kV，a=10，因此 Vb,L=13.8 kV。",
+          "en": "For three-phase Sb=100 MVA, Vb,H=138 kV and a=10, Vb,L=13.8 kV."
+        },
+        {
+          "zh": "Zb,L=1.9044 Ω；Ib,L≈4183.698 A。",
+          "en": "Zb,L=1.9044 Ω and Ib,L≈4183.698 A."
+        },
+        {
+          "zh": "1+j4 Ω 对应 zpu≈0.525100+j2.100399。",
+          "en": "1+j4 Ω gives zpu≈0.525100+j2.100399."
+        },
+        {
+          "zh": "折到高压侧为 100+j400 Ω；Zb,H=190.44 Ω，得到同一 zpu。",
+          "en": "Referring to HV gives 100+j400 Ω with Zb,H=190.44 Ω and the same zpu."
+        },
+        {
+          "zh": "功率基准减半、对应电压基准不变时，zpu 减半，乘回新 Zb 后物理 Z 不变。",
+          "en": "Halving the power base at fixed voltage bases halves zpu, while recovery with the new Zb retains physical Z."
+        }
+      ],
+      "limits": {
+        "zh": "本实验使用对应电压比、统一功率基准和一段固定物理阻抗。切换单相/三相会改变额定量的含义，标签中已明确电压和总功率约定。",
+        "en": "This lab uses corresponding voltage ratios, one power base, and a fixed physical impedance. Switching single/three-phase changes quantity interpretation; labels state voltage and total-power conventions."
+      },
+      "challenge": {
+        "zh": "先只改变 Sb，核对物理阻抗还原；再改变 Vb,H，观察平方比例。修改 Python 换基准公式并通过还原误差检查。",
+        "en": "Change only Sb and check physical recovery. Change Vb,H and inspect the square dependence. Edit the Python base formula and use recovery error to test it."
+      },
+      "code_key": "s_base_mva",
+      "code_values": [
+        25,
+        50,
+        100,
+        150,
+        200
+      ],
+      "plot_titles": [
+        {
+          "zh": "基准变化与标幺阻抗",
+          "en": "Base changes and per-unit impedance"
+        },
+        {
+          "zh": "同一物理阻抗的还原",
+          "en": "Recovery of the same physical impedance"
+        }
+      ],
+      "given": {
+        "zh": "三相 Sb=100 MVA，Vb,H=138 kV，a=10，低压物理 Z=1+j4 Ω。",
+        "en": "Three-phase Sb=100 MVA, Vb,H=138 kV, a=10, physical LV Z=1+j4 Ω."
+      }
+    },
+    {
+      "id": "exam-review",
+      "number": 7,
+      "title": {
+        "zh": "考试一练习与复习",
+        "en": "Exam 1 practice & review"
+      },
+      "summary": {
+        "zh": "按原 L16 的公开练习综合核对相量、三相、变压器基准与容量规划。",
+        "en": "Use the original L16 slide practice to reconcile phasors, three-phase quantities, transformer bases, and planning."
+      },
+      "sources": [
+        "L16",
+        "L17"
+      ],
+      "extension": [],
+      "goals": [
+        {
+          "zh": "先写已知量、参考和所求量，再选择对应模块方法。",
+          "en": "Write given data, references, and unknowns before choosing the method."
+        },
+        {
+          "zh": "分别核对物理单位、相序、功率符号与变压器侧。",
+          "en": "Check physical units, sequence, power sign, and transformer side."
+        },
+        {
+          "zh": "用 Python 重现中间值，再独立提交固定练习结果。",
+          "en": "Reproduce intermediate values in Python, then submit independent fixed-case answers."
+        }
+      ],
+      "opening": {
+        "zh": "考试一复习不仅检查最后数字。先判断：电压相位 −20°、电流相位 +10° 时，负荷 Q 为正还是负？再把方法连接到 Δ 负荷、换基准和容量规划。",
+        "en": "Review requires more than final numbers. Predict the sign of load Q when voltage is −20° and current +10°, then connect the method to a delta load, base changes, and capacity planning."
+      },
+      "concepts": [
+        {
+          "title": {
+            "zh": "1. 相量与共轭",
+            "en": "1. Phasors and conjugation"
+          },
+          "body": {
+            "zh": "L16 例 1：V=180∠−20° V，I=12∠+10° A，电流进入正电压端。Δφ=−30°，电流超前，负荷无功为负。",
+            "en": "L16 example 1: V=180∠−20° V, I=12∠+10° A with current entering the positive terminal. Δφ=−30° means leading current and negative load Q."
+          },
+          "formula": "S=\\mathbf V\\mathbf I^*"
+        },
+        {
+          "title": {
+            "zh": "2. Δ 负荷参考",
+            "en": "2. Delta-load reference"
+          },
+          "body": {
+            "zh": "L16 例 2：ZΔ=8+j6 Ω，VAB=208∠0° V，正 abc 相序。先将电源 VAN 参考设为 −30°，再由支路电流求 IA。不要沿用本课程其他例题的 VAN=0° 参考。",
+            "en": "L16 example 2 uses ZΔ=8+j6 Ω, VAB=208∠0° V and abc. Set source VAN to −30° before deriving branch and line currents. This differs from other examples using VAN=0°."
+          },
+          "formula": ""
+        },
+        {
+          "title": {
+            "zh": "3. 单相变压器基准",
+            "en": "3. Single-phase transformer bases"
+          },
+          "body": {
+            "zh": "L16 例 5A：Sb=30 kVA，Vb,H=1500 V，Vb,L=150 V。ZH=1.50+j3.4369 Ω；单相 Ib=Sb/Vb，Zb=Vb²/Sb。折到低压后必须得到同一 zpu。",
+            "en": "L16 example 5A uses Sb=30 kVA, Vb,H=1500 V, Vb,L=150 V and ZH=1.50+j3.4369 Ω. Single-phase Ib=Sb/Vb and Zb=Vb²/Sb. Referral to LV must retain zpu."
+          },
+          "formula": ""
+        },
+        {
+          "title": {
+            "zh": "4. 容量与经济性",
+            "en": "4. Capacity and economics"
+          },
+          "body": {
+            "zh": "L16 例 6：GT 固定/变动成本为 75000、85，CC 为 195000、45。单独的容量案例峰值为 160 MW、备用为 15%，且所有容量按全额可信。",
+            "en": "L16 example 6 uses GT fixed/variable costs 75000 and 85, and CC 195000 and 45. A separate capacity case has 160 MW peak, 15% reserve, and full capacity credit."
+          },
+          "formula": ""
+        },
+        {
+          "title": {
+            "zh": "5. 分步检查",
+            "en": "5. Stepwise checks"
+          },
+          "body": {
+            "zh": "先检查 RMS 还是峰值；再检查线量还是支路量、单相还是三相基准、源端还是受端。最后用还原、功率账本或等值变换核对。错题应返回对应模块重新练习。",
+            "en": "Check RMS versus peak, line versus branch, single- versus three-phase bases, and source versus receiving end. Then use recovery, power accounting, or equivalent transforms. Return to the relevant module after an error."
+          },
+          "formula": ""
+        }
+      ],
+      "controls": [
+        {
+          "key": "focus",
+          "label": {
+            "zh": "复习图形主题",
+            "en": "Review plot focus"
+          },
+          "unit": "",
+          "step": 1,
+          "advanced": false,
+          "type": "select",
+          "options": [
+            {
+              "value": "single-phase",
+              "label": {
+                "zh": "相量与功率",
+                "en": "Phasors and power"
+              }
+            },
+            {
+              "value": "three-phase",
+              "label": {
+                "zh": "Δ 三相负荷",
+                "en": "Delta three-phase load"
+              }
+            },
+            {
+              "value": "planning",
+              "label": {
+                "zh": "发电成本",
+                "en": "Generation screening"
+              }
+            }
+          ]
+        },
+        {
+          "key": "v_phase_deg",
+          "label": {
+            "zh": "例 1 电压相位",
+            "en": "Example 1 voltage phase"
+          },
+          "unit": "°",
+          "step": 1,
+          "advanced": false,
+          "type": "range",
+          "min": -80,
+          "max": 80
+        },
+        {
+          "key": "i_phase_deg",
+          "label": {
+            "zh": "例 1 电流相位",
+            "en": "Example 1 current phase"
+          },
+          "unit": "°",
+          "step": 1,
+          "advanced": false,
+          "type": "range",
+          "min": -80,
+          "max": 80
+        },
+        {
+          "key": "hours",
+          "label": {
+            "zh": "例 6 运行小时",
+            "en": "Example 6 operating hours"
+          },
+          "unit": "h/year",
+          "step": 100,
+          "advanced": false,
+          "type": "range",
+          "min": 0,
+          "max": 8760
+        },
+        {
+          "key": "voltage_rms",
+          "label": {
+            "zh": "例 1 电压 RMS",
+            "en": "Example 1 voltage RMS"
+          },
+          "unit": "V",
+          "step": 1,
+          "advanced": true,
+          "type": "number",
+          "min": 1,
+          "max": 300
+        },
+        {
+          "key": "current_rms",
+          "label": {
+            "zh": "例 1 电流 RMS",
+            "en": "Example 1 current RMS"
+          },
+          "unit": "A",
+          "step": 1,
+          "advanced": true,
+          "type": "number",
+          "min": 1,
+          "max": 50
+        },
+        {
+          "key": "delta_voltage_ll",
+          "label": {
+            "zh": "例 2 VAB 幅值",
+            "en": "Example 2 VAB magnitude"
+          },
+          "unit": "V",
+          "step": 1,
+          "advanced": true,
+          "type": "number",
+          "min": 1,
+          "max": 600
+        },
+        {
+          "key": "delta_r",
+          "label": {
+            "zh": "例 2 支路电阻",
+            "en": "Example 2 branch resistance"
+          },
+          "unit": "Ω",
+          "step": 0.1,
+          "advanced": true,
+          "type": "number",
+          "min": 1,
+          "max": 50
+        },
+        {
+          "key": "delta_x",
+          "label": {
+            "zh": "例 2 支路电抗",
+            "en": "Example 2 branch reactance"
+          },
+          "unit": "Ω",
+          "step": 0.1,
+          "advanced": true,
+          "type": "number",
+          "min": -30,
+          "max": 50
+        },
+        {
+          "key": "s_base_kva",
+          "label": {
+            "zh": "例 5A 单相 Sb",
+            "en": "Example 5A single-phase Sb"
+          },
+          "unit": "kVA",
+          "step": 1,
+          "advanced": true,
+          "type": "number",
+          "min": 1,
+          "max": 100
+        },
+        {
+          "key": "v_base_h_v",
+          "label": {
+            "zh": "例 5A 高压 Vb",
+            "en": "Example 5A HV Vb"
+          },
+          "unit": "V",
+          "step": 1,
+          "advanced": true,
+          "type": "number",
+          "min": 100,
+          "max": 5000
+        },
+        {
+          "key": "turns_ratio",
+          "label": {
+            "zh": "例 5A 电压比",
+            "en": "Example 5A voltage ratio"
+          },
+          "unit": "",
+          "step": 0.1,
+          "advanced": true,
+          "type": "number",
+          "min": 1,
+          "max": 20
+        },
+        {
+          "key": "z_h_re",
+          "label": {
+            "zh": "例 5A 高压 R",
+            "en": "Example 5A HV resistance"
+          },
+          "unit": "Ω",
+          "step": 0.01,
+          "advanced": true,
+          "type": "number",
+          "min": 0,
+          "max": 20
+        },
+        {
+          "key": "z_h_im",
+          "label": {
+            "zh": "例 5A 高压 X",
+            "en": "Example 5A HV reactance"
+          },
+          "unit": "Ω",
+          "step": 0.0001,
+          "advanced": true,
+          "type": "number",
+          "min": 0,
+          "max": 20
+        },
+        {
+          "key": "peak_mw",
+          "label": {
+            "zh": "例 6 峰值",
+            "en": "Example 6 peak"
+          },
+          "unit": "MW",
+          "step": 1,
+          "advanced": true,
+          "type": "number",
+          "min": 1,
+          "max": 500
+        },
+        {
+          "key": "prm_percent",
+          "label": {
+            "zh": "例 6 备用",
+            "en": "Example 6 reserve"
+          },
+          "unit": "%",
+          "step": 1,
+          "advanced": true,
+          "type": "number",
+          "min": 0,
+          "max": 30
+        },
+        {
+          "key": "gt_fixed",
+          "label": {
+            "zh": "例 6 GT 固定成本",
+            "en": "Example 6 GT fixed cost"
+          },
+          "unit": "$/MW-year",
+          "step": 1000,
+          "advanced": true,
+          "type": "number",
+          "min": 0,
+          "max": 500000
+        },
+        {
+          "key": "gt_variable",
+          "label": {
+            "zh": "例 6 GT 变动成本",
+            "en": "Example 6 GT variable cost"
+          },
+          "unit": "$/MWh",
+          "step": 1,
+          "advanced": true,
+          "type": "number",
+          "min": 0,
+          "max": 200
+        },
+        {
+          "key": "cc_fixed",
+          "label": {
+            "zh": "例 6 CC 固定成本",
+            "en": "Example 6 CC fixed cost"
+          },
+          "unit": "$/MW-year",
+          "step": 1000,
+          "advanced": true,
+          "type": "number",
+          "min": 0,
+          "max": 500000
+        },
+        {
+          "key": "cc_variable",
+          "label": {
+            "zh": "例 6 CC 变动成本",
+            "en": "Example 6 CC variable cost"
+          },
+          "unit": "$/MWh",
+          "step": 1,
+          "advanced": true,
+          "type": "number",
+          "min": 0,
+          "max": 200
+        }
+      ],
+      "metrics": [
+        {
+          "key": "p_w",
+          "label": {
+            "zh": "例 1 P",
+            "en": "Example 1 P"
+          },
+          "unit": "W",
+          "digits": 3
+        },
+        {
+          "key": "q_var",
+          "label": {
+            "zh": "例 1 Q",
+            "en": "Example 1 Q"
+          },
+          "unit": "var",
+          "digits": 3
+        },
+        {
+          "key": "delta_line_a",
+          "label": {
+            "zh": "例 2 线电流",
+            "en": "Example 2 line current"
+          },
+          "unit": "A",
+          "digits": 3
+        },
+        {
+          "key": "z_pu_re",
+          "label": {
+            "zh": "例 5A Re(Zpu)",
+            "en": "Example 5A Re(Zpu)"
+          },
+          "unit": "pu",
+          "digits": 6
+        },
+        {
+          "key": "z_pu_im",
+          "label": {
+            "zh": "例 5A Im(Zpu)",
+            "en": "Example 5A Im(Zpu)"
+          },
+          "unit": "pu",
+          "digits": 6
+        },
+        {
+          "key": "required_capacity_mw",
+          "label": {
+            "zh": "例 6 备用容量",
+            "en": "Example 6 reserve capacity"
+          },
+          "unit": "MW",
+          "digits": 3
+        },
+        {
+          "key": "crossover_hours",
+          "label": {
+            "zh": "例 6 成本交点",
+            "en": "Example 6 crossover"
+          },
+          "unit": "h/year",
+          "digits": 0
+        }
+      ],
+      "practice": [
+        {
+          "key": "p_w",
+          "label": {
+            "zh": "例 1 有功",
+            "en": "Example 1 real power"
+          },
+          "unit": "W",
+          "hint": {
+            "zh": "180×12×cos(−30°)。",
+            "en": "Compute 180×12×cos(−30°)."
+          },
+          "tolerance": 0.05
+        },
+        {
+          "key": "q_var",
+          "label": {
+            "zh": "例 1 无功",
+            "en": "Example 1 reactive power"
+          },
+          "unit": "var",
+          "hint": {
+            "zh": "相位差为 −30°，共轭后 Q 应为负。",
+            "en": "The phase difference is −30°; conjugation gives negative Q."
+          },
+          "tolerance": 0.05
+        },
+        {
+          "key": "delta_line_a",
+          "label": {
+            "zh": "例 2 线电流幅值",
+            "en": "Example 2 line-current magnitude"
+          },
+          "unit": "A",
+          "hint": {
+            "zh": "先求 208/|8+j6|，再乘 √3。",
+            "en": "Find 208/|8+j6|, then multiply by √3."
+          },
+          "tolerance": 0.05
+        },
+        {
+          "key": "z_pu_re",
+          "label": {
+            "zh": "例 5A Re(Zpu)",
+            "en": "Example 5A Re(Zpu)"
+          },
+          "unit": "pu",
+          "hint": {
+            "zh": "Zb,H=1500²/30000=75 Ω。",
+            "en": "Zb,H=1500²/30000=75 Ω."
+          },
+          "tolerance": 0.0005
+        },
+        {
+          "key": "z_pu_im",
+          "label": {
+            "zh": "例 5A Im(Zpu)",
+            "en": "Example 5A Im(Zpu)"
+          },
+          "unit": "pu",
+          "hint": {
+            "zh": "3.4369/75。",
+            "en": "Compute 3.4369/75."
+          },
+          "tolerance": 0.0005
+        },
+        {
+          "key": "required_capacity_mw",
+          "label": {
+            "zh": "例 6 所需容量",
+            "en": "Example 6 required capacity"
+          },
+          "unit": "MW",
+          "hint": {
+            "zh": "160×1.15，容量按全额可信。",
+            "en": "Use 160×1.15 with full capacity credit."
+          },
+          "tolerance": 0.05
+        },
+        {
+          "key": "crossover_hours",
+          "label": {
+            "zh": "例 6 交叉小时",
+            "en": "Example 6 crossover hours"
+          },
+          "unit": "h/year",
+          "hint": {
+            "zh": "(195000−75000)/(85−45)。",
+            "en": "Use (195000−75000)/(85−45)."
+          },
+          "tolerance": 0.5
+        }
+      ],
+      "quiz": {
+        "question": {
+          "zh": "若两侧对应基准下的 zpu 不一致，首先应做什么？",
+          "en": "If zpu differs between corresponding transformer bases, what should you check first?"
+        },
+        "choices": [
+          {
+            "value": "0",
+            "label": {
+              "zh": "把两个 pu 数字取平均",
+              "en": "Average the two pu values"
+            }
+          },
+          {
+            "value": "1",
+            "label": {
+              "zh": "核对折算侧、a²、Sb 与对应 Vb",
+              "en": "Check side, a², Sb, and corresponding Vb"
+            }
+          },
+          {
+            "value": "2",
+            "label": {
+              "zh": "将所有电压基准改为相同数值",
+              "en": "Use the same voltage-base number on both sides"
+            }
+          }
+        ],
+        "correct": "1",
+        "feedback": [
+          {
+            "zh": "平均会掩盖侧别或基准错误，不能恢复物理模型。",
+            "en": "Averaging hides a side/base error rather than restoring the physical model."
+          },
+          {
+            "zh": "正确。先还原物理阻抗，再检查折算和基准传播。",
+            "en": "Correct. Recover physical impedance and check referral and base propagation."
+          },
+          {
+            "zh": "对应电压基准应按变压器比传播，而不是强行设成相同。",
+            "en": "Corresponding voltage bases follow the transformer ratio; they need not have the same number."
+          }
+        ]
+      },
+      "worked": [
+        {
+          "zh": "例 1：P≈1870.615 W，Q=−1080 var，pf≈0.866 超前。",
+          "en": "Example 1: P≈1870.615 W, Q=−1080 var, pf≈0.866 leading."
+        },
+        {
+          "zh": "例 2：IAB=20.8∠−36.870° A，IA≈36.027∠−66.870° A。",
+          "en": "Example 2: IAB=20.8∠−36.870° A and IA≈36.027∠−66.870° A."
+        },
+        {
+          "zh": "例 2：P=10383.36 W，Q=7787.52 var；ZY=(8+j6)/3 Ω 可核对。",
+          "en": "Example 2: P=10383.36 W and Q=7787.52 var; ZY=(8+j6)/3 Ω checks equivalence."
+        },
+        {
+          "zh": "例 5A：Ib,H=20 A，Ib,L=200 A，zpu≈0.020000+j0.045825，两侧一致。",
+          "en": "Example 5A: Ib,H=20 A, Ib,L=200 A, zpu≈0.020000+j0.045825 on both sides."
+        },
+        {
+          "zh": "例 6：成本交点 3000 h/year；2000 h 时 GT 为 245000，CC 为 285000 $/MW-year；容量目标 184 MW。",
+          "en": "Example 6: crossover 3000 h/year; at 2000 h GT=245000 and CC=285000 $/MW-year; required capacity=184 MW."
+        }
+      ],
+      "limits": {
+        "zh": "固定练习使用原 L16 例 1、2、5A、6 的数据，与上方可变参数实验分开。三相变压器组接线为拓展；本考试一检查不新增 L20–L21 内容。",
+        "en": "Fixed practice uses original L16 examples 1, 2, 5A, and 6 separately from variable experiments. Three-phase bank connections are extensions and are not added to this Exam-1 check."
+      },
+      "challenge": {
+        "zh": "先完成七个数值，再用基准扫描代码检查换基准的物理不变量。把错误归到相量、三相、设备或规划模块，并返回复习。",
+        "en": "Complete the seven numbers, then use a base scan to check physical invariance. Classify errors as phasor, three-phase, equipment, or planning and revisit that module."
+      },
+      "code_key": "v_phase_deg",
+      "code_values": [
+        -40,
+        -20,
+        0,
+        20,
+        40
+      ],
+      "plot_titles": [
+        {
+          "zh": "按主题切换复习图形",
+          "en": "Switch review plots by topic"
+        }
+      ],
+      "given": {
+        "zh": "使用上文原 L16 四个例题的固定数据：V=180∠−20°、I=12∠10°；Δ 支路 8+j6 Ω、VAB=208∠0°；单相 Sb=30 kVA、VH=1500 V、ZH=1.5+j3.4369 Ω；规划峰值 160 MW、PRM 15%。",
+        "en": "Use the fixed original L16 data above: V=180∠−20°, I=12∠10°; Δ branch 8+j6 Ω, VAB=208∠0°; single-phase Sb=30 kVA, VH=1500 V, ZH=1.5+j3.4369 Ω; planning peak 160 MW, PRM 15%."
+      }
+    }
+  ]
+}

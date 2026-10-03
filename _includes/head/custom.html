@@ -18,3 +18,43 @@
 <link rel="stylesheet" href="{{ base_path }}/assets/css/academicons.css"/>
 
 <!-- end custom head snippets -->
+{% if page.layout == 'course' %}
+<link rel="stylesheet" href="{{ '/assets/css/course.css' | relative_url }}">
+{% endif %}
+{% if page.ece685 %}
+<link rel="stylesheet" href="{{ '/assets/css/ece685.css' | relative_url }}">
+{% endif %}
+{% if page.stage_one %}
+<link rel="stylesheet" href="{{ '/assets/css/ece685-stage.css' | relative_url }}">
+{% if page.stage_module %}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+{% endif %}
+{% endif %}
+{% if page.ece685 and page.lecture_id == 'L05' %}
+<link rel="stylesheet" href="{{ '/assets/css/l05-phasors.css' | relative_url }}">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+{% endif %}
+{% if page.teaching_catalog %}
+<link rel="stylesheet" href="{{ '/assets/css/teaching.css' | relative_url }}">
+{% endif %}
+{% if page.ibr_courses %}
+<link rel="stylesheet" href="{{ '/assets/css/ibr-courses.css' | relative_url }}">
+{% endif %}
+{% if page.ibr_modeling %}
+<link rel="stylesheet" href="{{ '/assets/css/ibr-modeling.css' | relative_url }}">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+{% endif %}
+{% if page.balanced_power_flow or page.unbalanced_power_flow or page.pandapower_implementation %}
+<link rel="stylesheet" href="{{ '/assets/css/balanced-power-flow.css' | relative_url }}">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+{% endif %}
+{% if page.unbalanced_power_flow %}
+<link rel="stylesheet" href="{{ '/assets/css/unbalanced-power-flow.css' | relative_url }}">
+{% endif %}
+{% if page.pandapower_implementation %}
+<link rel="stylesheet" href="{{ '/assets/css/pandapower-implementation.css' | relative_url }}">
+{% endif %}

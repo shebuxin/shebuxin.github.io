@@ -10,6 +10,11 @@ __pycache__/
 *.py[cod]
 .venv/
 goatcounter-export-*.zip
+services/analytics/data/
+*.sqlite3
+*.sqlite3-wal
+*.sqlite3-shm
+*.mmdb
 
 .DS_Store
 .Rproj.user/

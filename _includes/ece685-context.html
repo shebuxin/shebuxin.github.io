@@ -1,0 +1,4 @@
+{% assign ece_lang = 'en' %}{% assign ece_prefix = '' %}{% assign lecture = nil %}
+{% if page.lang == 'zh' %}{% assign ece_lang = 'zh' %}{% assign ece_prefix = '/zh' %}{% endif %}
+{% assign ece_path = ece_prefix | append: '/teaching/course-development/ece685/' %}
+{% if page.lecture_id %}{% assign lecture = site.data.ece685.lectures | where: 'id', page.lecture_id | first %}{% endif %}

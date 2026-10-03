@@ -1,0 +1,7 @@
+<nav class="ibr-module-pagination" aria-label="{% if ibr_lang == 'zh' %}前后模块{% else %}Previous and next modules{% endif %}">
+  {% for item in ibr_course.modules %}{% if item.id == ibr_module.id %}
+    {% unless forloop.first %}{% assign previous_index = forloop.index0 | minus: 1 %}{% assign previous_module = ibr_course.modules[previous_index] %}<a href="{{ ibr_course_url | append: previous_module.slug | append: '/' | relative_url }}"><small>← {% if ibr_lang == 'zh' %}上一模块{% else %}Previous{% endif %}</small><span>{{ previous_module.title[ibr_lang] }}</span></a>{% endunless %}
+    {% unless forloop.last %}{% assign next_index = forloop.index0 | plus: 1 %}{% assign next_module = ibr_course.modules[next_index] %}<a class="ibr-next" href="{{ ibr_course_url | append: next_module.slug | append: '/' | relative_url }}"><small>{% if ibr_lang == 'zh' %}下一模块{% else %}Next{% endif %} →</small><span>{{ next_module.title[ibr_lang] }}</span></a>{% endunless %}
+  {% endif %}{% endfor %}
+</nav>
+<details class="ibr-course-navigation"><summary>{% if ibr_lang == 'zh' %}全部九个模块{% else %}All nine modules{% endif %}</summary><ol>{% for item in ibr_course.modules %}<li><a href="{{ ibr_course_url | append: item.slug | append: '/' | relative_url }}"{% if item.id == ibr_module.id %} aria-current="page"{% endif %}>{{ item.title[ibr_lang] }}</a></li>{% endfor %}</ol></details>

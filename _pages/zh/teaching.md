@@ -3,18 +3,15 @@ title: "教学"
 permalink: /zh/teaching/
 lang: zh
 description: "佘步鑫的课程教学与学生指导经历。"
+teaching_catalog: true
 ---
 
+<span id="course-development"></span>
+
 ## 课程
+{: #courses }
 
-### IEEE Learning Network
-
-* **项目联合讲师**：[Artificial Intelligence for Power and Energy Systems](https://iln.ieee.org/public/contentdetails.aspx?id=48A92EF8188E4D2E8331E1381CAF98E7)，IEEE Power & Energy Society，2026 年。该在线项目包含五门课程，由我与 Fangxing (Fran) Li 博士共同讲授。我参与了以下第一门课程，并负责其余三门课程：
-
-  * **参与：** [AI for Power & Energy Systems: Computation Acceleration in Modeling and Control](https://iln.ieee.org/Public/ContentDetails.aspx?id=21D915950CBE4139A40C62BBE7A59556)
-  * **负责：** [AI for Power & Energy Systems: Forecasting, Awareness, and Data Augmentation](https://iln.ieee.org/Public/ContentDetails.aspx?id=550105AB2F69474BA043C35CEC71E0A3)
-  * **负责：** [AI for Power & Energy Systems: Physics-Informed, Explainable, and Safe AI Solutions](https://iln.ieee.org/Public/ContentDetails.aspx?id=0CFD1158E2D14CD1B97AD88BCF6FD38A)
-  * **负责：** [AI for Power & Energy Systems: Generative AI and Large Language Models](https://iln.ieee.org/Public/ContentDetails.aspx?id=FD79BE256C2B4944A65F89EDED1DE6AA)
+{% include teaching-courses.html %}
 
 ## 学生指导
 

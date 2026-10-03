@@ -1,0 +1,13 @@
+{
+  "source": "Self-hosted analytics",
+  "scope": "all_paths",
+  "metric": "pageviews",
+  "updated_at": null,
+  "period": {"start": null, "end": null},
+  "privacy": {"minimum_country_visitors": 2},
+  "total_visitors": 0,
+  "displayed_visitors": 0,
+  "suppressed_visitors": 0,
+  "unmapped_visitors": 0,
+  "countries": []
+}

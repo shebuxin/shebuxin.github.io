@@ -1,0 +1,117 @@
+- key: "p3_a_kw"
+  en: "Bus 3 load · phase A"
+  zh: "节点 3 负荷 · A 相"
+  min: 0
+  max: 140
+  step: 5
+  value: 90
+  unit: "kW"
+  advanced: false
+- key: "p3_b_kw"
+  en: "Bus 3 load · phase B"
+  zh: "节点 3 负荷 · B 相"
+  min: 0
+  max: 140
+  step: 5
+  value: 55
+  unit: "kW"
+  advanced: false
+- key: "p3_c_kw"
+  en: "Bus 3 load · phase C"
+  zh: "节点 3 负荷 · C 相"
+  min: 0
+  max: 140
+  step: 5
+  value: 35
+  unit: "kW"
+  advanced: false
+- key: "load_scale"
+  en: "All loads · multiplier"
+  zh: "全部负荷 · 倍率"
+  min: 0.4
+  max: 2
+  step: 0.05
+  value: 1
+  unit: "×"
+  advanced: false
+- key: "power_factor"
+  en: "Load power factor (lagging)"
+  zh: "负荷功率因数（滞后）"
+  min: 0.8
+  max: 1
+  step: 0.005
+  value: 0.95
+  unit: ""
+  advanced: false
+- key: "dg_kw"
+  en: "Bus 3 PV · total output"
+  zh: "节点 3 光伏 · 总出力"
+  min: 0
+  max: 180
+  step: 5
+  value: 50
+  unit: "kW"
+  advanced: false
+- key: "neutral_scale"
+  en: "Neutral impedance multiplier"
+  zh: "中性线阻抗倍率"
+  min: 0.25
+  max: 2
+  step: 0.05
+  value: 1
+  unit: "×"
+  advanced: false
+- key: "slack_pu"
+  en: "Source phase voltage"
+  zh: "电源相电压"
+  min: 0.96
+  max: 1.04
+  step: 0.005
+  value: 1
+  unit: "pu"
+  advanced: true
+- key: "r_scale"
+  en: "All conductor resistances"
+  zh: "全部导线电阻倍率"
+  min: 0.5
+  max: 2
+  step: 0.05
+  value: 1
+  unit: "×"
+  advanced: true
+- key: "x_scale"
+  en: "All conductor reactances"
+  zh: "全部导线电抗倍率"
+  min: 0.5
+  max: 2
+  step: 0.05
+  value: 1
+  unit: "×"
+  advanced: true
+- key: "mutual_ratio"
+  en: "Phase mutual / self reactance"
+  zh: "相间互电抗 / 自电抗"
+  min: 0
+  max: 0.6
+  step: 0.05
+  value: 0.2
+  unit: ""
+  advanced: true
+- key: "current_limit_a"
+  en: "Phase-conductor current limit"
+  zh: "相线电流限值"
+  min: 250
+  max: 1000
+  step: 10
+  value: 600
+  unit: "A"
+  advanced: true
+- key: "neutral_limit_a"
+  en: "Neutral-conductor current limit"
+  zh: "中性线电流限值"
+  min: 100
+  max: 800
+  step: 10
+  value: 250
+  unit: "A"
+  advanced: true

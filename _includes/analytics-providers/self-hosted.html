@@ -1,0 +1,4 @@
+{% if site.analytics.self_hosted.endpoint and site.analytics.self_hosted.endpoint != "" %}
+<script defer src="{{ '/assets/js/owned-analytics.js' | relative_url }}"
+        data-endpoint="{{ site.analytics.self_hosted.endpoint | escape }}"></script>
+{% endif %}

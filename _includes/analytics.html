@@ -1,6 +1,8 @@
 {% if site.analytics.provider and page.analytics != false %}
 
 {% case site.analytics.provider %}
+{% when "self-hosted" %}
+  {% include /analytics-providers/self-hosted.html %}
 {% when "google" %}
   {% include /analytics-providers/google.html %}
 {% when "google-universal" %}

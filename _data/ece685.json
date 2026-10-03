@@ -1,0 +1,5177 @@
+{
+  "source": "ECE685_Course_Package_v2/01_lectures",
+  "groups": [
+    {
+      "id": "orientation",
+      "title": {
+        "en": "Course & power-system overview",
+        "zh": "课程导论与电力系统概览"
+      }
+    },
+    {
+      "id": "generation",
+      "title": {
+        "en": "Generation mix planning",
+        "zh": "发电组合规划"
+      }
+    },
+    {
+      "id": "single-phase",
+      "title": {
+        "en": "Single-phase AC circuits",
+        "zh": "单相交流电路"
+      }
+    },
+    {
+      "id": "three-phase",
+      "title": {
+        "en": "Three-phase AC circuits",
+        "zh": "三相交流电路"
+      }
+    },
+    {
+      "id": "transformers",
+      "title": {
+        "en": "Transformer modeling",
+        "zh": "变压器建模"
+      }
+    },
+    {
+      "id": "per-unit",
+      "title": {
+        "en": "Per-unit systems",
+        "zh": "标幺值系统"
+      }
+    },
+    {
+      "id": "exam-one",
+      "title": {
+        "en": "Exam 1 practice & review",
+        "zh": "考试 1 练习与复习"
+      }
+    },
+    {
+      "id": "three-phase-transformers",
+      "title": {
+        "en": "Three-phase transformers",
+        "zh": "三相变压器"
+      }
+    },
+    {
+      "id": "line-parameters",
+      "title": {
+        "en": "Transmission-line parameters",
+        "zh": "输电线路参数"
+      }
+    },
+    {
+      "id": "line-models",
+      "title": {
+        "en": "Transmission-line models",
+        "zh": "输电线路模型"
+      }
+    },
+    {
+      "id": "exam-two",
+      "title": {
+        "en": "Exam 2 review",
+        "zh": "考试 2 复习"
+      }
+    },
+    {
+      "id": "power-flow",
+      "title": {
+        "en": "Power-flow analysis",
+        "zh": "潮流分析"
+      }
+    },
+    {
+      "id": "final-review",
+      "title": {
+        "en": "Comprehensive final review",
+        "zh": "期末综合复习"
+      }
+    }
+  ],
+  "lectures": [
+    {
+      "group": "orientation",
+      "summary": {
+        "en": "People, course expectations, tools, assessments, and the power-system design workflow.",
+        "zh": "认识课程团队、学习要求、工具与考核，了解电力系统设计流程。"
+      },
+      "lab_focus": {
+        "en": "Explore the course workflow from system data to a design decision.",
+        "zh": "沿课程设计流程，连接系统数据、计算分析与设计决策。"
+      },
+      "id": "L01",
+      "slug": "l01-course-orientation",
+      "title": {
+        "en": "Course Orientation & Logistics",
+        "zh": "课程介绍与安排"
+      },
+      "source_directory": "L01_course_orientation",
+      "source_file": "L01_course_orientation.pdf",
+      "slide_count": 27,
+      "slide_outline": [
+        {
+          "slide": 2,
+          "title": "Meet your instructor"
+        },
+        {
+          "slide": 3,
+          "title": "Research Mission"
+        },
+        {
+          "slide": 4,
+          "title": "Meet your teaching assistant"
+        },
+        {
+          "slide": 5,
+          "title": "Course overview"
+        },
+        {
+          "slide": 6,
+          "title": "Course goals"
+        },
+        {
+          "slide": 7,
+          "title": "Reading"
+        },
+        {
+          "slide": 8,
+          "title": "Course outline"
+        },
+        {
+          "slide": 9,
+          "title": "Suggested problems"
+        },
+        {
+          "slide": 10,
+          "title": "Course logistics"
+        },
+        {
+          "slide": 11,
+          "title": "Getting help"
+        },
+        {
+          "slide": 12,
+          "title": "Course tools"
+        },
+        {
+          "slide": 13,
+          "title": "Grading"
+        },
+        {
+          "slide": 14,
+          "title": "Workload and practice"
+        },
+        {
+          "slide": 15,
+          "title": "Early-semester dates"
+        },
+        {
+          "slide": 16,
+          "title": "Final-month dates"
+        },
+        {
+          "slide": 17,
+          "title": "Problems and late work"
+        },
+        {
+          "slide": 18,
+          "title": "Final Project"
+        },
+        {
+          "slide": 19,
+          "title": "Responsible AI use"
+        },
+        {
+          "slide": 20,
+          "title": "Prohibited AI use"
+        },
+        {
+          "slide": 21,
+          "title": "Three-phase foundations"
+        },
+        {
+          "slide": 22,
+          "title": "Prerequisite check"
+        },
+        {
+          "slide": 23,
+          "title": "Power-system history"
+        },
+        {
+          "slide": 24,
+          "title": "Physical power system"
+        },
+        {
+          "slide": 25,
+          "title": "Grid transformation"
+        },
+        {
+          "slide": 26,
+          "title": "Reliability challenge"
+        },
+        {
+          "slide": 27,
+          "title": "Design workflow"
+        }
+      ],
+      "status": "framework"
+    },
+    {
+      "group": "orientation",
+      "summary": {
+        "en": "Trace the physical power system, construct a one-line diagram, and reconcile real and reactive power.",
+        "zh": "梳理电力系统的物理路径，建立单线图，核对有功与无功功率平衡。"
+      },
+      "lab_focus": {
+        "en": "Connect generators, buses, transformers, lines, loads, and shunts in a one-line diagram.",
+        "zh": "在单线图中连接发电机、母线、变压器、线路、负荷与并联元件。"
+      },
+      "id": "L02",
+      "slug": "l02-power-system-overview",
+      "title": {
+        "en": "Power-System Evolution and Symbolic Representation",
+        "zh": "电力系统演进与符号表示"
+      },
+      "source_directory": "L02_power_system_overview",
+      "source_file": "L02_power_system_overview.pdf",
+      "slide_count": 32,
+      "slide_outline": [
+        {
+          "slide": 1,
+          "title": "Two views of the same power system"
+        },
+        {
+          "slide": 3,
+          "title": "From local service to interconnection"
+        },
+        {
+          "slide": 4,
+          "title": "National grid"
+        },
+        {
+          "slide": 5,
+          "title": "Network reliability"
+        },
+        {
+          "slide": 6,
+          "title": "Smart-grid layers"
+        },
+        {
+          "slide": 7,
+          "title": "Traditional and evolving grids"
+        },
+        {
+          "slide": 8,
+          "title": "Generation mix"
+        },
+        {
+          "slide": 9,
+          "title": "Resource geography"
+        },
+        {
+          "slide": 10,
+          "title": "Variable generation and net load"
+        },
+        {
+          "slide": 12,
+          "title": "Starting problem"
+        },
+        {
+          "slide": 13,
+          "title": "Physical path"
+        },
+        {
+          "slide": 14,
+          "title": "Generator"
+        },
+        {
+          "slide": 15,
+          "title": "Bus"
+        },
+        {
+          "slide": 16,
+          "title": "Transformer"
+        },
+        {
+          "slide": 17,
+          "title": "Transmission line"
+        },
+        {
+          "slide": 18,
+          "title": "Load"
+        },
+        {
+          "slide": 19,
+          "title": "Shunt"
+        },
+        {
+          "slide": 20,
+          "title": "Six symbols"
+        },
+        {
+          "slide": 21,
+          "title": "Three-phase system, one drawn path"
+        },
+        {
+          "slide": 22,
+          "title": "Plant to campus"
+        },
+        {
+          "slide": 23,
+          "title": "Define voltage zones"
+        },
+        {
+          "slide": 24,
+          "title": "Preserve endpoints and roles"
+        },
+        {
+          "slide": 25,
+          "title": "Complete the one-line"
+        },
+        {
+          "slide": 26,
+          "title": "Given data and sign convention"
+        },
+        {
+          "slide": 27,
+          "title": "Real-power balance at Bus 3"
+        },
+        {
+          "slide": 28,
+          "title": "Reactive power at Bus 3"
+        },
+        {
+          "slide": 29,
+          "title": "Line sending-end power"
+        },
+        {
+          "slide": 30,
+          "title": "Generator output"
+        },
+        {
+          "slide": 31,
+          "title": "System reconciliation"
+        },
+        {
+          "slide": 32,
+          "title": "System-data record"
+        }
+      ],
+      "status": "framework"
+    },
+    {
+      "group": "generation",
+      "summary": {
+        "en": "Demand, energy, capacity factor, planning reserve margin, and load-duration curves.",
+        "zh": "区分需求、能量与容量，学习容量因子、规划备用裕度和负荷持续曲线。"
+      },
+      "lab_focus": {
+        "en": "Reorder a chronological load profile and compare energy with its load-duration curve.",
+        "zh": "将时序负荷排序为负荷持续曲线，并比较两者的能量。"
+      },
+      "id": "L03",
+      "slug": "l03-fuel-mix-i",
+      "title": {
+        "en": "Optimal Fuel Mix Analysis I",
+        "zh": "最优燃料组合分析 I"
+      },
+      "source_directory": "L03_fuel_mix_i",
+      "source_file": "L03_fuel_mix_i.pdf",
+      "slide_count": 31,
+      "slide_outline": [
+        {
+          "slide": 1,
+          "title": "Two parts of today's lecture"
+        },
+        {
+          "slide": 3,
+          "title": "Demand is a power rate"
+        },
+        {
+          "slide": 4,
+          "title": "Power over time gives energy use"
+        },
+        {
+          "slide": 5,
+          "title": "Capacity is generation capability"
+        },
+        {
+          "slide": 6,
+          "title": "Rule: do not mix energy and power"
+        },
+        {
+          "slide": 7,
+          "title": "Capacity factor measures generation utilization"
+        },
+        {
+          "slide": 8,
+          "title": "Capacity factor example - interpret utilization"
+        },
+        {
+          "slide": 9,
+          "title": "Planning reserve margin is the capacity-planning metric"
+        },
+        {
+          "slide": 10,
+          "title": "PRM gives a target, not a complete resource plan"
+        },
+        {
+          "slide": 11,
+          "title": "Planning example - identify the capacity gap"
+        },
+        {
+          "slide": 12,
+          "title": "First check the current reserve margin"
+        },
+        {
+          "slide": 13,
+          "title": "Then calculate the capacity needed to reach 15%"
+        },
+        {
+          "slide": 14,
+          "title": "PRM is a primary metric for U.S. resource-adequacy planning"
+        },
+        {
+          "slide": 16,
+          "title": "Chronological demand"
+        },
+        {
+          "slide": 17,
+          "title": "Load-duration curve"
+        },
+        {
+          "slide": 18,
+          "title": "Same demand, new order"
+        },
+        {
+          "slide": 19,
+          "title": "Daily and annual LDCs use different source records"
+        },
+        {
+          "slide": 20,
+          "title": "Construct an annual LDC from hourly demand"
+        },
+        {
+          "slide": 21,
+          "title": "LDC construction"
+        },
+        {
+          "slide": 22,
+          "title": "Worked-example data"
+        },
+        {
+          "slide": 23,
+          "title": "LDC example - Step 1"
+        },
+        {
+          "slide": 24,
+          "title": "LDC example - Step 2"
+        },
+        {
+          "slide": 25,
+          "title": "LDC example - Step 3"
+        },
+        {
+          "slide": 26,
+          "title": "LDC example - Step 4"
+        },
+        {
+          "slide": 27,
+          "title": "One LDC block: energy"
+        },
+        {
+          "slide": 28,
+          "title": "Daily-energy check"
+        },
+        {
+          "slide": 29,
+          "title": "From LDC peak to capacity target"
+        },
+        {
+          "slide": 30,
+          "title": "A brief link to the Final Project"
+        },
+        {
+          "slide": 31,
+          "title": "Summary"
+        }
+      ],
+      "status": "framework"
+    },
+    {
+      "group": "generation",
+      "summary": {
+        "en": "Build screening curves, find cost crossovers, form net load, and check a generation portfolio.",
+        "zh": "建立成本筛选曲线、求交点、计算净负荷，并检验发电组合。"
+      },
+      "lab_focus": {
+        "en": "Change fixed and variable costs, then inspect crossover hours and net-load coverage.",
+        "zh": "调整固定成本与变动成本，观察交叉运行小时和净负荷覆盖情况。"
+      },
+      "id": "L04",
+      "slug": "l04-fuel-mix-ii",
+      "title": {
+        "en": "Generation Mix Planning II",
+        "zh": "发电组合规划 II"
+      },
+      "source_directory": "L04_fuel_mix_ii",
+      "source_file": "L04_fuel_mix_ii.pdf",
+      "slide_count": 25,
+      "slide_outline": [
+        {
+          "slide": 1,
+          "title": "One capacity target, many possible mixes"
+        },
+        {
+          "slide": 2,
+          "title": "Planning questions"
+        },
+        {
+          "slide": 3,
+          "title": "Why build a screening curve?"
+        },
+        {
+          "slide": 4,
+          "title": "One technology, one screening curve"
+        },
+        {
+          "slide": 5,
+          "title": "Concept 1: annual fixed-cost coefficient"
+        },
+        {
+          "slide": 6,
+          "title": "Example 1: annual fixed cost"
+        },
+        {
+          "slide": 7,
+          "title": "Concept 2: variable operating cost"
+        },
+        {
+          "slide": 8,
+          "title": "Example 2: variable operating cost"
+        },
+        {
+          "slide": 9,
+          "title": "Concept 3: build one screening curve"
+        },
+        {
+          "slide": 10,
+          "title": "Concept 4: curve crossover"
+        },
+        {
+          "slide": 11,
+          "title": "Example 3: simple cycle vs. combined cycle"
+        },
+        {
+          "slide": 12,
+          "title": "Four technologies for the case"
+        },
+        {
+          "slide": 13,
+          "title": "From load to net load"
+        },
+        {
+          "slide": 14,
+          "title": "Case inputs"
+        },
+        {
+          "slide": 15,
+          "title": "Place wind and solar"
+        },
+        {
+          "slide": 16,
+          "title": "Form the NLDC"
+        },
+        {
+          "slide": 17,
+          "title": "Recall the GT–CC crossover"
+        },
+        {
+          "slide": 18,
+          "title": "Map crossover to MW"
+        },
+        {
+          "slide": 19,
+          "title": "Round CC units"
+        },
+        {
+          "slide": 20,
+          "title": "Round GT units for peak load"
+        },
+        {
+          "slide": 21,
+          "title": "Check every load block"
+        },
+        {
+          "slide": 22,
+          "title": "Add PRM after load matching"
+        },
+        {
+          "slide": 23,
+          "title": "Repeat the planning loop"
+        },
+        {
+          "slide": 24,
+          "title": "How the two lectures connect"
+        },
+        {
+          "slide": 25,
+          "title": "Summary"
+        }
+      ],
+      "status": "framework"
+    },
+    {
+      "group": "single-phase",
+      "summary": {
+        "en": "Map sinusoidal waveforms to RMS phasors; convert and add polar and rectangular representations.",
+        "zh": "在正弦波形与 RMS 相量之间转换，练习极坐标、直角坐标和相量加法。"
+      },
+      "lab_focus": {
+        "en": "Vary magnitude and phase while comparing the waveform, phasor, and rectangular components.",
+        "zh": "调整幅值与相位，同时比较时域波形、相量和直角坐标分量。"
+      },
+      "lesson": "l05-phasors",
+      "id": "L05",
+      "slug": "l05-single-phase-ac-i",
+      "title": {
+        "en": "Single-Phase AC Circuits I",
+        "zh": "单相交流电路 I"
+      },
+      "source_directory": "L05_single_phase_ac_i",
+      "source_file": "L05_single_phase_ac_i.pdf",
+      "slide_count": 32,
+      "slide_outline": [
+        {
+          "slide": 1,
+          "title": "Lecture outline"
+        },
+        {
+          "slide": 2,
+          "title": "Starting problem"
+        },
+        {
+          "slide": 3,
+          "title": "Starting-problem solution"
+        },
+        {
+          "slide": 4,
+          "title": "Sinusoid"
+        },
+        {
+          "slide": 5,
+          "title": "Waveform magnitudes"
+        },
+        {
+          "slide": 6,
+          "title": "Frequency and period"
+        },
+        {
+          "slide": 7,
+          "title": "What phase means"
+        },
+        {
+          "slide": 8,
+          "title": "Read phase from the time curve"
+        },
+        {
+          "slide": 9,
+          "title": "Phase difference"
+        },
+        {
+          "slide": 10,
+          "title": "RMS"
+        },
+        {
+          "slide": 11,
+          "title": "RMS derivation"
+        },
+        {
+          "slide": 12,
+          "title": "Three equivalent representations"
+        },
+        {
+          "slide": 13,
+          "title": "Time domain to polar form"
+        },
+        {
+          "slide": 14,
+          "title": "Polar form to time domain"
+        },
+        {
+          "slide": 15,
+          "title": "Polar form to rectangular form"
+        },
+        {
+          "slide": 16,
+          "title": "Rectangular form to polar form"
+        },
+        {
+          "slide": 17,
+          "title": "Choose polar or rectangular form"
+        },
+        {
+          "slide": 18,
+          "title": "Before adding, confirm compatibility"
+        },
+        {
+          "slide": 19,
+          "title": "Phasor addition is component addition"
+        },
+        {
+          "slide": 20,
+          "title": "Phasor addition as vectors"
+        },
+        {
+          "slide": 21,
+          "title": "CE-2A setup"
+        },
+        {
+          "slide": 22,
+          "title": "CE-2A Step 1"
+        },
+        {
+          "slide": 23,
+          "title": "CE-2A Step 2"
+        },
+        {
+          "slide": 24,
+          "title": "CE-2A Step 3"
+        },
+        {
+          "slide": 25,
+          "title": "CE-2A Step 4"
+        },
+        {
+          "slide": 26,
+          "title": "CE-2A Step 5"
+        },
+        {
+          "slide": 27,
+          "title": "CE-2A Step 6"
+        },
+        {
+          "slide": 28,
+          "title": "Practice problem"
+        },
+        {
+          "slide": 29,
+          "title": "Rectangular addition"
+        },
+        {
+          "slide": 30,
+          "title": "Polar reconstruction"
+        },
+        {
+          "slide": 31,
+          "title": "RMS waveform reconstruction"
+        },
+        {
+          "slide": 32,
+          "title": "Phasor summary"
+        }
+      ],
+      "status": "live"
+    },
+    {
+      "group": "single-phase",
+      "summary": {
+        "en": "Calculate real, reactive, complex, and apparent power with consistent load and generator signs.",
+        "zh": "按统一的负荷与发电机符号约定，计算有功、无功、复功率和视在功率。"
+      },
+      "lab_focus": {
+        "en": "Change the voltage–current phase difference and follow the power triangle and power factor.",
+        "zh": "改变电压与电流的相位差，观察功率三角形和功率因数。"
+      },
+      "id": "L06",
+      "slug": "l06-single-phase-ac-ii",
+      "title": {
+        "en": "Single-Phase AC Circuits II",
+        "zh": "单相交流电路 II"
+      },
+      "source_directory": "L06_single_phase_ac_ii",
+      "source_file": "L06_single_phase_ac_ii.pdf",
+      "slide_count": 17,
+      "slide_outline": [
+        {
+          "slide": 1,
+          "title": "Lecture outline"
+        },
+        {
+          "slide": 2,
+          "title": "Starting problem"
+        },
+        {
+          "slide": 3,
+          "title": "Starting-problem solution"
+        },
+        {
+          "slide": 4,
+          "title": "Instantaneous power"
+        },
+        {
+          "slide": 5,
+          "title": "Average real power P"
+        },
+        {
+          "slide": 6,
+          "title": "Reactive power Q"
+        },
+        {
+          "slide": 7,
+          "title": "Recap: complex and apparent power"
+        },
+        {
+          "slide": 8,
+          "title": "Power triangle"
+        },
+        {
+          "slide": 9,
+          "title": "Power factor"
+        },
+        {
+          "slide": 10,
+          "title": "Load and generator sign conventions"
+        },
+        {
+          "slide": 11,
+          "title": "Reactive power of loads and generators"
+        },
+        {
+          "slide": 12,
+          "title": "Example setup"
+        },
+        {
+          "slide": 13,
+          "title": "CE-2B Step 1"
+        },
+        {
+          "slide": 14,
+          "title": "CE-2B Step 2"
+        },
+        {
+          "slide": 15,
+          "title": "CE-2B Step 3"
+        },
+        {
+          "slide": 16,
+          "title": "CE-2B Step 4"
+        },
+        {
+          "slide": 17,
+          "title": "Complex-power summary"
+        }
+      ],
+      "status": "framework"
+    },
+    {
+      "group": "single-phase",
+      "summary": {
+        "en": "Determine target reactive power, shunt compensation, and capacitance for power-factor correction.",
+        "zh": "从目标功率因数计算目标无功、并联补偿容量与电容值。"
+      },
+      "lab_focus": {
+        "en": "Adjust the target power factor and compare compensation requirements with the original load.",
+        "zh": "调整目标功率因数，比较补偿需求与原始负荷。"
+      },
+      "id": "L07",
+      "slug": "l07-single-phase-ac-iii",
+      "title": {
+        "en": "Single-Phase AC Circuits III",
+        "zh": "单相交流电路 III"
+      },
+      "source_directory": "L07_single_phase_ac_iii",
+      "source_file": "L07_single_phase_ac_iii.pdf",
+      "slide_count": 15,
+      "slide_outline": [
+        {
+          "slide": 1,
+          "title": "Lecture outline"
+        },
+        {
+          "slide": 2,
+          "title": "Load and generator sign conventions"
+        },
+        {
+          "slide": 3,
+          "title": "Capacitor power and power balance"
+        },
+        {
+          "slide": 4,
+          "title": "Shunt compensation"
+        },
+        {
+          "slide": 5,
+          "title": "Power-factor correction"
+        },
+        {
+          "slide": 6,
+          "title": "Step 1: Target reactive power"
+        },
+        {
+          "slide": 7,
+          "title": "Step 2: Required compensation"
+        },
+        {
+          "slide": 8,
+          "title": "Step 3: Capacitance"
+        },
+        {
+          "slide": 9,
+          "title": "Step 4: Verification"
+        },
+        {
+          "slide": 10,
+          "title": "Worked example: the L06 load"
+        },
+        {
+          "slide": 11,
+          "title": "Example: Step 1"
+        },
+        {
+          "slide": 12,
+          "title": "Example: Step 2"
+        },
+        {
+          "slide": 13,
+          "title": "Example: Step 3"
+        },
+        {
+          "slide": 14,
+          "title": "Example: Step 4"
+        },
+        {
+          "slide": 15,
+          "title": "Correction summary"
+        }
+      ],
+      "status": "framework"
+    },
+    {
+      "group": "three-phase",
+      "summary": {
+        "en": "Balanced sets, phase sequence, symmetrical components, and wye/delta voltage and current relations.",
+        "zh": "学习平衡三相相量、相序、对称分量，以及星形和三角形的电压电流关系。"
+      },
+      "lab_focus": {
+        "en": "Switch phase sequence and connection while inspecting phase and line phasors.",
+        "zh": "切换相序与接线方式，比较相电压、线电压及相电流、线电流。"
+      },
+      "id": "L08",
+      "slug": "l08-three-phase-ac-i",
+      "title": {
+        "en": "Three-Phase AC Circuits I",
+        "zh": "三相交流电路 I"
+      },
+      "source_directory": "L08_three_phase_ac_i",
+      "source_file": "L08_three_phase_ac_i.pdf",
+      "slide_count": 46,
+      "slide_outline": [
+        {
+          "slide": 1,
+          "title": "Lecture outline"
+        },
+        {
+          "slide": 2,
+          "title": "Why three phases: constant total power"
+        },
+        {
+          "slide": 3,
+          "title": "Why three phases: economical conductors"
+        },
+        {
+          "slide": 4,
+          "title": "Why three phases: a rotating magnetic field"
+        },
+        {
+          "slide": 5,
+          "title": "Balanced source"
+        },
+        {
+          "slide": 6,
+          "title": "Phasor-to-waveform mapping"
+        },
+        {
+          "slide": 7,
+          "title": "Sequence rule"
+        },
+        {
+          "slide": 8,
+          "title": "Positive abc geometry"
+        },
+        {
+          "slide": 9,
+          "title": "Negative acb geometry"
+        },
+        {
+          "slide": 10,
+          "title": "Phase angles and peak times"
+        },
+        {
+          "slide": 11,
+          "title": "Time-order test"
+        },
+        {
+          "slide": 12,
+          "title": "Three forms of a complex number"
+        },
+        {
+          "slide": 13,
+          "title": "Balanced phasor sum"
+        },
+        {
+          "slide": 14,
+          "title": "Example: positive-sequence phasors"
+        },
+        {
+          "slide": 15,
+          "title": "Example: negative-sequence phasors"
+        },
+        {
+          "slide": 16,
+          "title": "Example: instantaneous voltage checks"
+        },
+        {
+          "slide": 17,
+          "title": "Shifted reference"
+        },
+        {
+          "slide": 18,
+          "title": "Three sequence basis vectors"
+        },
+        {
+          "slide": 19,
+          "title": "Why do the weighted sums isolate one sequence?"
+        },
+        {
+          "slide": 20,
+          "title": "Finding the three sequence coefficients"
+        },
+        {
+          "slide": 21,
+          "title": "Example: symmetrical components"
+        },
+        {
+          "slide": 22,
+          "title": "Wye source"
+        },
+        {
+          "slide": 23,
+          "title": "Orientation before arithmetic"
+        },
+        {
+          "slide": 24,
+          "title": "Wye voltage: complex subtraction"
+        },
+        {
+          "slide": 25,
+          "title": "Component triangle"
+        },
+        {
+          "slide": 26,
+          "title": "Other two line voltages"
+        },
+        {
+          "slide": 27,
+          "title": "Line-to-line rating"
+        },
+        {
+          "slide": 28,
+          "title": "Example: two voltage reference choices"
+        },
+        {
+          "slide": 29,
+          "title": "Current relation"
+        },
+        {
+          "slide": 30,
+          "title": "Balanced neutral current"
+        },
+        {
+          "slide": 31,
+          "title": "Delta phase voltage"
+        },
+        {
+          "slide": 32,
+          "title": "Current notation in delta"
+        },
+        {
+          "slide": 33,
+          "title": "Delta branch currents from voltage"
+        },
+        {
+          "slide": 34,
+          "title": "From voltage to line current at terminal A"
+        },
+        {
+          "slide": 35,
+          "title": "All three line currents from voltage"
+        },
+        {
+          "slide": 36,
+          "title": "A-line current: algebra from voltage"
+        },
+        {
+          "slide": 37,
+          "title": "A-line current: voltage geometry"
+        },
+        {
+          "slide": 38,
+          "title": "Balanced delta current result"
+        },
+        {
+          "slide": 39,
+          "title": "Positive-sequence delta current phasors"
+        },
+        {
+          "slide": 40,
+          "title": "Negative-sequence connection shifts"
+        },
+        {
+          "slide": 41,
+          "title": "Wye and delta: one reference table"
+        },
+        {
+          "slide": 42,
+          "title": "Wye and delta: visual summary"
+        },
+        {
+          "slide": 43,
+          "title": "Example: balanced 13.8-kV delta"
+        },
+        {
+          "slide": 44,
+          "title": "Example: delta branch-current calculation"
+        },
+        {
+          "slide": 45,
+          "title": "Example: line current from rectangular KCL"
+        },
+        {
+          "slide": 46,
+          "title": "Example: branch and line current sets"
+        }
+      ],
+      "status": "framework"
+    },
+    {
+      "group": "three-phase",
+      "summary": {
+        "en": "Use per-phase equivalents to calculate three-phase power and reconcile source, line, and load.",
+        "zh": "利用每相等值电路计算三相功率，核对电源、线路与负荷的功率平衡。"
+      },
+      "lab_focus": {
+        "en": "Compare balanced wye and delta feeders, voltage drop, and power balance.",
+        "zh": "比较平衡星形与三角形馈线的电压降和功率平衡。"
+      },
+      "id": "L09",
+      "slug": "l09-three-phase-ac-ii",
+      "title": {
+        "en": "Three-Phase AC Circuits II",
+        "zh": "三相交流电路 II"
+      },
+      "source_directory": "L09_three_phase_ac_ii",
+      "source_file": "L09_three_phase_ac_ii.pdf",
+      "slide_count": 39,
+      "slide_outline": [
+        {
+          "slide": 1,
+          "title": "Lecture outline"
+        },
+        {
+          "slide": 2,
+          "title": "Identify the source, line, and load first"
+        },
+        {
+          "slide": 3,
+          "title": "Start with a balanced Y–Y network"
+        },
+        {
+          "slide": 4,
+          "title": "Extract one phase, then reconstruct three"
+        },
+        {
+          "slide": 5,
+          "title": "A Y source feeding a Δ load"
+        },
+        {
+          "slide": 6,
+          "title": "Compare Y and Δ at the same terminals"
+        },
+        {
+          "slide": 7,
+          "title": "Derive the balanced impedance relation"
+        },
+        {
+          "slide": 8,
+          "title": "Use the balanced Δ↔Y conversion"
+        },
+        {
+          "slide": 9,
+          "title": "Start from the Y–Y diagram: one-phase power"
+        },
+        {
+          "slide": 10,
+          "title": "Sum the three Y-connected load branches"
+        },
+        {
+          "slide": 11,
+          "title": "Change the load connection: Y versus Δ"
+        },
+        {
+          "slide": 12,
+          "title": "Derive both phase and line forms"
+        },
+        {
+          "slide": 13,
+          "title": "Three-phase power: phase and line forms"
+        },
+        {
+          "slide": 14,
+          "title": "From load power to feeder power balance"
+        },
+        {
+          "slide": 15,
+          "title": "Why line power uses |I_A|^2"
+        },
+        {
+          "slide": 16,
+          "title": "Source, line, and load power balance"
+        },
+        {
+          "slide": 17,
+          "title": "Example: complex power of one delta leg"
+        },
+        {
+          "slide": 18,
+          "title": "Example: power of the 13.8-kV delta"
+        },
+        {
+          "slide": 19,
+          "title": "Example A: 480-V wye feeder"
+        },
+        {
+          "slide": 20,
+          "title": "Example A: per-phase circuit"
+        },
+        {
+          "slide": 21,
+          "title": "Example A: solve the phase current"
+        },
+        {
+          "slide": 22,
+          "title": "Example A: line voltage drop"
+        },
+        {
+          "slide": 23,
+          "title": "Example A: load phase voltage and KVL"
+        },
+        {
+          "slide": 24,
+          "title": "Example A: load line-to-line voltage"
+        },
+        {
+          "slide": 25,
+          "title": "Example A: load complex power"
+        },
+        {
+          "slide": 26,
+          "title": "Example A: complete power balance"
+        },
+        {
+          "slide": 27,
+          "title": "Example A: independent checks"
+        },
+        {
+          "slide": 28,
+          "title": "Example B: 4.16-kV delta feeder"
+        },
+        {
+          "slide": 29,
+          "title": "Example B: delta-to-wye load conversion"
+        },
+        {
+          "slide": 30,
+          "title": "Example B: source reference and phase circuit"
+        },
+        {
+          "slide": 31,
+          "title": "Example B: solve the line current"
+        },
+        {
+          "slide": 32,
+          "title": "Example B: load voltage and KVL"
+        },
+        {
+          "slide": 33,
+          "title": "Example B: load terminal line voltage"
+        },
+        {
+          "slide": 34,
+          "title": "Example B: physical delta branch currents"
+        },
+        {
+          "slide": 35,
+          "title": "Example B: source complex power"
+        },
+        {
+          "slide": 36,
+          "title": "Example B: line and load absorption"
+        },
+        {
+          "slide": 37,
+          "title": "Example B: source, line, and load powers"
+        },
+        {
+          "slide": 38,
+          "title": "Example B: independent reconstruction checks"
+        },
+        {
+          "slide": 39,
+          "title": "A complete balanced three-phase solution"
+        }
+      ],
+      "status": "framework"
+    },
+    {
+      "group": "three-phase",
+      "summary": {
+        "en": "Worked examples on phase sequence, wye/delta conversion, branch currents, and feeder power balance.",
+        "zh": "通过例题练习相序、星形与三角形变换、支路电流及馈线功率平衡。"
+      },
+      "lab_focus": {
+        "en": "Step through connection and power examples with explicit reference directions.",
+        "zh": "按明确的参考方向，逐步完成接线关系与功率计算例题。"
+      },
+      "id": "L09b",
+      "slug": "l09b-three-phase-examples",
+      "title": {
+        "en": "Three-Phase AC Circuits",
+        "zh": "三相交流电路例题"
+      },
+      "source_directory": "L09b_three_phase_examples",
+      "source_file": "L09b_three_phase_examples.pdf",
+      "slide_count": 37,
+      "slide_outline": [
+        {
+          "slide": 1,
+          "title": "Lecture map"
+        },
+        {
+          "slide": 2,
+          "title": "Balanced set and phase sequence"
+        },
+        {
+          "slide": 3,
+          "title": "Example 1: a positive-sequence voltage set"
+        },
+        {
+          "slide": 4,
+          "title": "Example 1, Q1: positive-sequence B and C voltages"
+        },
+        {
+          "slide": 5,
+          "title": "Example 1, Q2: all three voltages after a +30° shift"
+        },
+        {
+          "slide": 6,
+          "title": "Example 1, Q3: shifted voltages in rectangular form"
+        },
+        {
+          "slide": 7,
+          "title": "Example 1, Q4: balance verification after the shift"
+        },
+        {
+          "slide": 8,
+          "title": "Y connection: phase and line quantities"
+        },
+        {
+          "slide": 9,
+          "title": "Example 2: a balanced Y-connected load"
+        },
+        {
+          "slide": 10,
+          "title": "Example 2, step 1: line voltage to phase voltage"
+        },
+        {
+          "slide": 11,
+          "title": "Example 2, step 2: complete the phase-voltage set"
+        },
+        {
+          "slide": 12,
+          "title": "Example 2, step 3: solve the phase-A current"
+        },
+        {
+          "slide": 13,
+          "title": "Example 2, step 4: other line currents and neutral"
+        },
+        {
+          "slide": 14,
+          "title": "Example 2, step 5: rebuild and verify line voltages"
+        },
+        {
+          "slide": 15,
+          "title": "Delta connection: branch quantities and line currents"
+        },
+        {
+          "slide": 16,
+          "title": "Example 3: balanced 13.8-kV delta load"
+        },
+        {
+          "slide": 17,
+          "title": "Example 3, step 1: branch-voltage set"
+        },
+        {
+          "slide": 18,
+          "title": "Example 3, step 2: branch-current set"
+        },
+        {
+          "slide": 19,
+          "title": "Example 3, step 3: line current from KCL"
+        },
+        {
+          "slide": 20,
+          "title": "Example 3, step 4: complete current set and checks"
+        },
+        {
+          "slide": 21,
+          "title": "Balanced Y–Delta transformation"
+        },
+        {
+          "slide": 22,
+          "title": "Y–Delta: terminal and branch quantities"
+        },
+        {
+          "slide": 23,
+          "title": "Example 4: an equivalent delta for a Y load"
+        },
+        {
+          "slide": 24,
+          "title": "Example 4, Q1: Y-to-delta impedance conversion"
+        },
+        {
+          "slide": 25,
+          "title": "Example 4, Q2: delta branch currents"
+        },
+        {
+          "slide": 26,
+          "title": "Example 4, Q3: line-current comparison"
+        },
+        {
+          "slide": 27,
+          "title": "Example 4, Q4: delta-to-Y conversion"
+        },
+        {
+          "slide": 28,
+          "title": "Balanced three-phase power"
+        },
+        {
+          "slide": 29,
+          "title": "Source, line, and load power"
+        },
+        {
+          "slide": 30,
+          "title": "Example 5: power with line impedance"
+        },
+        {
+          "slide": 31,
+          "title": "Example 5: the source–line–load circuit"
+        },
+        {
+          "slide": 32,
+          "title": "Example 5, step 1: line current"
+        },
+        {
+          "slide": 33,
+          "title": "Example 5, step 2: source complex power"
+        },
+        {
+          "slide": 34,
+          "title": "Example 5, step 3: three-phase line absorption"
+        },
+        {
+          "slide": 35,
+          "title": "Example 5, step 4: load power by two routes"
+        },
+        {
+          "slide": 36,
+          "title": "Example 5, step 5: check the power balance"
+        },
+        {
+          "slide": 37,
+          "title": "Complete solution workflow"
+        }
+      ],
+      "status": "framework"
+    },
+    {
+      "group": "transformers",
+      "summary": {
+        "en": "Derive ideal voltage and current ratios, power conservation, and impedance referral.",
+        "zh": "推导理想变压器的电压、电流比，功率守恒和阻抗折算关系。"
+      },
+      "lab_focus": {
+        "en": "Change the turns ratio and compare physical quantities and referred impedance on both sides.",
+        "zh": "调整匝数比，比较两侧物理量与折算后的阻抗。"
+      },
+      "id": "L10",
+      "slug": "l10-transformer-modeling-i",
+      "title": {
+        "en": "Transformer Modeling I",
+        "zh": "变压器建模 I"
+      },
+      "source_directory": "L10_transformer_modeling_i",
+      "source_file": "L10_transformer_modeling_i.pdf",
+      "slide_count": 34,
+      "slide_outline": [
+        {
+          "slide": 1,
+          "title": "Lecture outline"
+        },
+        {
+          "slide": 2,
+          "title": "Transformers in the power system"
+        },
+        {
+          "slide": 3,
+          "title": "Transformers in Power Systems"
+        },
+        {
+          "slide": 4,
+          "title": "How a transformer works"
+        },
+        {
+          "slide": 5,
+          "title": "Winding variables and units"
+        },
+        {
+          "slide": 6,
+          "title": "Core material and geometry"
+        },
+        {
+          "slide": 7,
+          "title": "Magnetizing current"
+        },
+        {
+          "slide": 8,
+          "title": "Zero winding resistance Ideal assumption 1"
+        },
+        {
+          "slide": 9,
+          "title": "Zero leakage flux Ideal assumption 2"
+        },
+        {
+          "slide": 10,
+          "title": "Infinite core permeability Ideal assumption 3"
+        },
+        {
+          "slide": 11,
+          "title": "Zero core loss Ideal assumption 4"
+        },
+        {
+          "slide": 12,
+          "title": "Ideal model and reference directions"
+        },
+        {
+          "slide": 13,
+          "title": "Flux linkage in an ideal winding"
+        },
+        {
+          "slide": 14,
+          "title": "Equal flux per turn"
+        },
+        {
+          "slide": 15,
+          "title": "Induced winding voltage"
+        },
+        {
+          "slide": 16,
+          "title": "Voltage ratio"
+        },
+        {
+          "slide": 17,
+          "title": "Ampere-turn balance"
+        },
+        {
+          "slide": 18,
+          "title": "Current ratio"
+        },
+        {
+          "slide": 19,
+          "title": "Power quantities and units"
+        },
+        {
+          "slide": 20,
+          "title": "Complex-power conservation"
+        },
+        {
+          "slide": 21,
+          "title": "Load impedance referred to H"
+        },
+        {
+          "slide": 22,
+          "title": "Impedance referred to L"
+        },
+        {
+          "slide": 23,
+          "title": "Low-voltage-side equivalent circuit"
+        },
+        {
+          "slide": 24,
+          "title": "Equivalent circuit referred to H"
+        },
+        {
+          "slide": 25,
+          "title": "Example setup"
+        },
+        {
+          "slide": 26,
+          "title": "Example: Step 1"
+        },
+        {
+          "slide": 27,
+          "title": "Example: Step 2"
+        },
+        {
+          "slide": 28,
+          "title": "Example: Step 3"
+        },
+        {
+          "slide": 29,
+          "title": "Example: Step 4"
+        },
+        {
+          "slide": 30,
+          "title": "Example: Step 5"
+        },
+        {
+          "slide": 31,
+          "title": "Example: Step 6"
+        },
+        {
+          "slide": 32,
+          "title": "Direct high-side impedance"
+        },
+        {
+          "slide": 33,
+          "title": "Apparent-power check"
+        },
+        {
+          "slide": 34,
+          "title": "Ideal-transformer summary"
+        }
+      ],
+      "status": "framework"
+    },
+    {
+      "group": "transformers",
+      "summary": {
+        "en": "Add winding resistance, leakage reactance, excitation, and checked equivalent-circuit approximations.",
+        "zh": "引入绕组电阻、漏抗和励磁支路，检验等值电路的近似。"
+      },
+      "lab_focus": {
+        "en": "Compare exact, input-shunt, and series transformer approximations at an operating point.",
+        "zh": "在同一运行点比较精确电路、输入并联励磁近似和串联近似。"
+      },
+      "id": "L11",
+      "slug": "l11-transformer-modeling-ii",
+      "title": {
+        "en": "Transformer Modeling II",
+        "zh": "变压器建模 II"
+      },
+      "source_directory": "L11_transformer_modeling_ii",
+      "source_file": "L11_transformer_modeling_ii.pdf",
+      "slide_count": 28,
+      "slide_outline": [
+        {
+          "slide": 1,
+          "title": "Lecture outline"
+        },
+        {
+          "slide": 2,
+          "title": "Ideal-model limitation"
+        },
+        {
+          "slide": 3,
+          "title": "Ideal transformer equivalent circuit"
+        },
+        {
+          "slide": 4,
+          "title": "Winding resistance"
+        },
+        {
+          "slide": 5,
+          "title": "Leakage flux"
+        },
+        {
+          "slide": 6,
+          "title": "Why resistance and leakage reactance?"
+        },
+        {
+          "slide": 7,
+          "title": "Finite core permeability"
+        },
+        {
+          "slide": 8,
+          "title": "Core loss"
+        },
+        {
+          "slide": 9,
+          "title": "Why R_c and j X_m?"
+        },
+        {
+          "slide": 10,
+          "title": "Exact equivalent circuit"
+        },
+        {
+          "slide": 11,
+          "title": "Why referral and approximation?"
+        },
+        {
+          "slide": 12,
+          "title": "Referral: replace the boxed network"
+        },
+        {
+          "slide": 13,
+          "title": "Refer low-side quantities to H"
+        },
+        {
+          "slide": 14,
+          "title": "Referral derivation"
+        },
+        {
+          "slide": 15,
+          "title": "Equivalent circuit referred to H"
+        },
+        {
+          "slide": 16,
+          "title": "Excitation current"
+        },
+        {
+          "slide": 17,
+          "title": "Why the excitation branch can move"
+        },
+        {
+          "slide": 18,
+          "title": "Input-shunt approximation"
+        },
+        {
+          "slide": 19,
+          "title": "Equivalent series impedance"
+        },
+        {
+          "slide": 20,
+          "title": "Approximate circuit with excitation"
+        },
+        {
+          "slide": 21,
+          "title": "Neglecting excitation current"
+        },
+        {
+          "slide": 22,
+          "title": "Neglecting winding resistance"
+        },
+        {
+          "slide": 23,
+          "title": "Limits of the steady-state model"
+        },
+        {
+          "slide": 24,
+          "title": "Example: data and required quantities"
+        },
+        {
+          "slide": 25,
+          "title": "Example: circuit referred to H"
+        },
+        {
+          "slide": 26,
+          "title": "Example: load current"
+        },
+        {
+          "slide": 27,
+          "title": "Example: required input voltage"
+        },
+        {
+          "slide": 28,
+          "title": "Example: results and circuit check"
+        }
+      ],
+      "status": "framework"
+    },
+    {
+      "group": "transformers",
+      "summary": {
+        "en": "Infer transformer parameters from open- and short-circuit tests; calculate regulation and efficiency.",
+        "zh": "从开路与短路试验确定模型参数，计算电压调整率和效率。"
+      },
+      "lab_focus": {
+        "en": "Enter test readings and inspect the inferred parameters, regulation, and loss balance.",
+        "zh": "输入试验读数，检验推算参数、电压调整率与损耗平衡。"
+      },
+      "id": "L12",
+      "slug": "l12-transformer-modeling-iii",
+      "title": {
+        "en": "Transformer Modeling III",
+        "zh": "变压器建模 III"
+      },
+      "source_directory": "L12_transformer_modeling_iii",
+      "source_file": "L12_transformer_modeling_iii.pdf",
+      "slide_count": 35,
+      "slide_outline": [
+        {
+          "slide": 1,
+          "title": "Lecture outline"
+        },
+        {
+          "slide": 2,
+          "title": "Determining model parameters"
+        },
+        {
+          "slide": 3,
+          "title": "The model established in L11"
+        },
+        {
+          "slide": 4,
+          "title": "Parameters to determine"
+        },
+        {
+          "slide": 5,
+          "title": "Open-circuit condition"
+        },
+        {
+          "slide": 6,
+          "title": "Why energize LV for the OC test?"
+        },
+        {
+          "slide": 7,
+          "title": "Open-circuit test"
+        },
+        {
+          "slide": 8,
+          "title": "Meter readings and RMS phasors"
+        },
+        {
+          "slide": 9,
+          "title": "Inferring the current phase"
+        },
+        {
+          "slide": 10,
+          "title": "OC formulas: resolve the measured current"
+        },
+        {
+          "slide": 11,
+          "title": "OC formulas: identify the core-loss branch"
+        },
+        {
+          "slide": 12,
+          "title": "OC formulas: identify the magnetizing branch"
+        },
+        {
+          "slide": 13,
+          "title": "Example: OC measurements"
+        },
+        {
+          "slide": 14,
+          "title": "Example: excitation-current components"
+        },
+        {
+          "slide": 15,
+          "title": "Example: core-loss resistance"
+        },
+        {
+          "slide": 16,
+          "title": "Example: magnetizing reactance"
+        },
+        {
+          "slide": 17,
+          "title": "Short-circuit condition"
+        },
+        {
+          "slide": 18,
+          "title": "Why energize HV for the SC test?"
+        },
+        {
+          "slide": 19,
+          "title": "Short-circuit test"
+        },
+        {
+          "slide": 20,
+          "title": "SC formulas: identify impedance and resistance"
+        },
+        {
+          "slide": 21,
+          "title": "SC formulas: identify leakage reactance"
+        },
+        {
+          "slide": 22,
+          "title": "Example: SC measurements"
+        },
+        {
+          "slide": 23,
+          "title": "Example: SC current phasor"
+        },
+        {
+          "slide": 24,
+          "title": "Example: series impedance magnitude"
+        },
+        {
+          "slide": 25,
+          "title": "Example: series resistance"
+        },
+        {
+          "slide": 26,
+          "title": "Example: leakage reactance"
+        },
+        {
+          "slide": 27,
+          "title": "Putting both test results on HV"
+        },
+        {
+          "slide": 28,
+          "title": "The L11 model with measured parameters"
+        },
+        {
+          "slide": 29,
+          "title": "Operation at rated load"
+        },
+        {
+          "slide": 30,
+          "title": "Voltage regulation: no-load and full-load"
+        },
+        {
+          "slide": 31,
+          "title": "Voltage regulation: series voltage drop"
+        },
+        {
+          "slide": 32,
+          "title": "Example: voltage regulation"
+        },
+        {
+          "slide": 33,
+          "title": "Losses in the operating circuit"
+        },
+        {
+          "slide": 34,
+          "title": "Efficiency: real-power balance"
+        },
+        {
+          "slide": 35,
+          "title": "Summary: tests, regulation, and efficiency"
+        }
+      ],
+      "status": "framework"
+    },
+    {
+      "group": "per-unit",
+      "summary": {
+        "en": "Choose coherent bases and normalize voltage, current, impedance, admittance, and power.",
+        "zh": "选择相容的基准值，对电压、电流、阻抗、导纳和功率进行标幺化。"
+      },
+      "lab_focus": {
+        "en": "Change independent bases and recover the same physical circuit from per-unit quantities.",
+        "zh": "调整独立基准值，从标幺量还原同一个物理电路。"
+      },
+      "id": "L13",
+      "slug": "l13-per-unit-i",
+      "title": {
+        "en": "Per Unit System I",
+        "zh": "标幺值系统 I"
+      },
+      "source_directory": "L13_per_unit_i",
+      "source_file": "L13_per_unit_i.pdf",
+      "slide_count": 38,
+      "slide_outline": [
+        {
+          "slide": 1,
+          "title": "Lecture outline"
+        },
+        {
+          "slide": 2,
+          "title": "What is a per-unit system?"
+        },
+        {
+          "slide": 3,
+          "title": "Why use per unit?"
+        },
+        {
+          "slide": 4,
+          "title": "Per unit makes voltage levels comparable"
+        },
+        {
+          "slide": 5,
+          "title": "One network, several voltage levels"
+        },
+        {
+          "slide": 6,
+          "title": "The same equipment in per unit"
+        },
+        {
+          "slide": 7,
+          "title": "Equipment operating quantities in per unit"
+        },
+        {
+          "slide": 8,
+          "title": "Voltage, current, and power along a line"
+        },
+        {
+          "slide": 9,
+          "title": "Four coupled electrical quantities"
+        },
+        {
+          "slide": 10,
+          "title": "Circuit laws couple the four quantities"
+        },
+        {
+          "slide": 11,
+          "title": "Two independent bases determine the rest"
+        },
+        {
+          "slide": 12,
+          "title": "Convert all four quantities"
+        },
+        {
+          "slide": 13,
+          "title": "One impedance base for Z, R, and X"
+        },
+        {
+          "slide": 14,
+          "title": "Admittance and its reciprocal base"
+        },
+        {
+          "slide": 15,
+          "title": "One power base for P, Q, and S"
+        },
+        {
+          "slide": 16,
+          "title": "Coherent bases preserve circuit laws"
+        },
+        {
+          "slide": 17,
+          "title": "Two independent bases for Y and delta"
+        },
+        {
+          "slide": 18,
+          "title": "Y branch quantities and voltage references"
+        },
+        {
+          "slide": 19,
+          "title": "Y branch: calculating the bases"
+        },
+        {
+          "slide": 20,
+          "title": "Y branch: normalized circuit laws"
+        },
+        {
+          "slide": 21,
+          "title": "Delta branch quantities and current directions"
+        },
+        {
+          "slide": 22,
+          "title": "Delta branch: calculating the bases"
+        },
+        {
+          "slide": 23,
+          "title": "Delta branch: normalized circuit laws"
+        },
+        {
+          "slide": 24,
+          "title": "Checking the delta–Y relationship"
+        },
+        {
+          "slide": 25,
+          "title": "Normalization workflow"
+        },
+        {
+          "slide": 26,
+          "title": "Per-unit calculation and recovery"
+        },
+        {
+          "slide": 27,
+          "title": "Example: circuit data and specified bases"
+        },
+        {
+          "slide": 28,
+          "title": "Step 2: Derive the current base"
+        },
+        {
+          "slide": 29,
+          "title": "Step 2: Derive the impedance base"
+        },
+        {
+          "slide": 30,
+          "title": "Step 3: Normalize the given data"
+        },
+        {
+          "slide": 31,
+          "title": "The circuit ready for per-unit calculation"
+        },
+        {
+          "slide": 32,
+          "title": "Step 4: Calculate the line current"
+        },
+        {
+          "slide": 33,
+          "title": "Step 4: Calculate the load voltage"
+        },
+        {
+          "slide": 34,
+          "title": "Step 4: Calculate the circuit powers"
+        },
+        {
+          "slide": 35,
+          "title": "Step 5: Recover current and voltage"
+        },
+        {
+          "slide": 36,
+          "title": "Step 5: Recover the circuit powers"
+        },
+        {
+          "slide": 37,
+          "title": "Check: the recovered physical circuit"
+        },
+        {
+          "slide": 38,
+          "title": "Per-unit summary"
+        }
+      ],
+      "status": "framework"
+    },
+    {
+      "group": "per-unit",
+      "summary": {
+        "en": "Propagate bases through transformers and apply change of base across a multi-voltage network.",
+        "zh": "通过变压器传递基准值，在多电压等级网络中应用基准变换。"
+      },
+      "lab_focus": {
+        "en": "Track corresponding voltage bases through a transformer and verify impedance invariance.",
+        "zh": "跟踪变压器两侧对应电压基准，检验物理阻抗的一致性。"
+      },
+      "id": "L14",
+      "slug": "l14-per-unit-ii",
+      "title": {
+        "en": "Per Unit System II",
+        "zh": "标幺值系统 II"
+      },
+      "source_directory": "L14_per_unit_ii",
+      "source_file": "L14_per_unit_ii.pdf",
+      "slide_count": 34,
+      "slide_outline": [
+        {
+          "slide": 1,
+          "title": "Lecture outline"
+        },
+        {
+          "slide": 2,
+          "title": "The ideal transformer and local bases"
+        },
+        {
+          "slide": 3,
+          "title": "Transformer per-unit base rules"
+        },
+        {
+          "slide": 4,
+          "title": "The current and impedance bases on each side"
+        },
+        {
+          "slide": 5,
+          "title": "Voltage normalization cancels the turns ratio"
+        },
+        {
+          "slide": 6,
+          "title": "Current normalization cancels the inverse ratio"
+        },
+        {
+          "slide": 7,
+          "title": "The ideal per-unit circuit"
+        },
+        {
+          "slide": 8,
+          "title": "Approximate circuit referred to H"
+        },
+        {
+          "slide": 9,
+          "title": "Equivalent impedance before and after normalization"
+        },
+        {
+          "slide": 10,
+          "title": "The series per-unit circuit"
+        },
+        {
+          "slide": 11,
+          "title": "The complete physical circuit"
+        },
+        {
+          "slide": 12,
+          "title": "Normalization of the excitation branch"
+        },
+        {
+          "slide": 13,
+          "title": "The complete per-unit circuit"
+        },
+        {
+          "slide": 14,
+          "title": "Transformer normalization: summary"
+        },
+        {
+          "slide": 15,
+          "title": "The goal: one complete per-unit circuit"
+        },
+        {
+          "slide": 16,
+          "title": "The supplied component bases are incompatible"
+        },
+        {
+          "slide": 17,
+          "title": "System bases for every component"
+        },
+        {
+          "slide": 18,
+          "title": "Change of base"
+        },
+        {
+          "slide": 19,
+          "title": "Voltage and current"
+        },
+        {
+          "slide": 20,
+          "title": "Impedance"
+        },
+        {
+          "slide": 21,
+          "title": "Admittance"
+        },
+        {
+          "slide": 22,
+          "title": "Power"
+        },
+        {
+          "slide": 23,
+          "title": "System application"
+        },
+        {
+          "slide": 24,
+          "title": "Example circuit"
+        },
+        {
+          "slide": 25,
+          "title": "Step 1: select corresponding voltage bases"
+        },
+        {
+          "slide": 26,
+          "title": "Step 2: calculate both impedance bases"
+        },
+        {
+          "slide": 27,
+          "title": "Step 3: normalize directly on the 120-V side"
+        },
+        {
+          "slide": 28,
+          "title": "Step 4: verify from the 480-V side"
+        },
+        {
+          "slide": 29,
+          "title": "The per-unit result on both sides"
+        },
+        {
+          "slide": 30,
+          "title": "The transformer series circuit in per unit"
+        },
+        {
+          "slide": 31,
+          "title": "Recovering quantities on the correct side"
+        },
+        {
+          "slide": 32,
+          "title": "The same transformer on new system bases"
+        },
+        {
+          "slide": 33,
+          "title": "The new bases preserve the physical impedance"
+        },
+        {
+          "slide": 34,
+          "title": "Summary"
+        }
+      ],
+      "status": "framework"
+    },
+    {
+      "group": "per-unit",
+      "summary": {
+        "en": "Complete single-phase transformer and three-phase wye/delta normalization examples.",
+        "zh": "完成单相变压器及三相星形、三角形电路的标幺化例题。"
+      },
+      "lab_focus": {
+        "en": "Normalize complete transformer networks and recover the correct line and phase quantities.",
+        "zh": "对完整变压器网络进行标幺化，恢复正确的线量和相量。"
+      },
+      "id": "L15",
+      "slug": "l15-per-unit-iii",
+      "title": {
+        "en": "Per Unit System III",
+        "zh": "标幺值系统 III"
+      },
+      "source_directory": "L15_per_unit_iii",
+      "source_file": "L15_per_unit_iii.pdf",
+      "slide_count": 47,
+      "slide_outline": [
+        {
+          "slide": 1,
+          "title": "Lecture outline"
+        },
+        {
+          "slide": 2,
+          "title": "Part 1: single-phase voltage levels"
+        },
+        {
+          "slide": 3,
+          "title": "Example 1: circuit and data"
+        },
+        {
+          "slide": 4,
+          "title": "Example 1: questions"
+        },
+        {
+          "slide": 5,
+          "title": "Example 1 workflow: bases and current"
+        },
+        {
+          "slide": 6,
+          "title": "Example 1 workflow: voltages and power"
+        },
+        {
+          "slide": 7,
+          "title": "E1 Step 1: single-phase bases"
+        },
+        {
+          "slide": 8,
+          "title": "E1 Step 1: normalized data"
+        },
+        {
+          "slide": 9,
+          "title": "E1 Step 2: PU circuit"
+        },
+        {
+          "slide": 10,
+          "title": "E1 Step 2: network impedance"
+        },
+        {
+          "slide": 11,
+          "title": "E1 Step 2: total impedance"
+        },
+        {
+          "slide": 12,
+          "title": "E1 Step 2: series current"
+        },
+        {
+          "slide": 13,
+          "title": "E1 Step 3: T1 drop"
+        },
+        {
+          "slide": 14,
+          "title": "E1 Step 3: bus B2"
+        },
+        {
+          "slide": 15,
+          "title": "E1 Step 3: line drop"
+        },
+        {
+          "slide": 16,
+          "title": "E1 Step 3: bus B3"
+        },
+        {
+          "slide": 17,
+          "title": "E1 Step 3: bus B4"
+        },
+        {
+          "slide": 18,
+          "title": "E1 Step 3: voltage check"
+        },
+        {
+          "slide": 19,
+          "title": "E1 Step 3: load voltage"
+        },
+        {
+          "slide": 20,
+          "title": "E1 Step 3: actual currents"
+        },
+        {
+          "slide": 21,
+          "title": "E1 Step 3: voltage results"
+        },
+        {
+          "slide": 22,
+          "title": "E1 Step 4: source power"
+        },
+        {
+          "slide": 23,
+          "title": "E1 Step 4: absorbed powers"
+        },
+        {
+          "slide": 24,
+          "title": "E1 Step 4: power balance"
+        },
+        {
+          "slide": 25,
+          "title": "Example 1: final answer"
+        },
+        {
+          "slide": 26,
+          "title": "Part 2: three-phase Y–Δ normalization"
+        },
+        {
+          "slide": 27,
+          "title": "Example 2: circuit and data"
+        },
+        {
+          "slide": 28,
+          "title": "Example 2: questions"
+        },
+        {
+          "slide": 29,
+          "title": "Example 2 workflow: connection and bases"
+        },
+        {
+          "slide": 30,
+          "title": "Example 2 workflow: solve and restore"
+        },
+        {
+          "slide": 31,
+          "title": "E2 Step 1: Y–delta conversion"
+        },
+        {
+          "slide": 32,
+          "title": "E2 Step 1: equivalent Y load"
+        },
+        {
+          "slide": 33,
+          "title": "E2 Step 2: three-phase bases"
+        },
+        {
+          "slide": 34,
+          "title": "E2 Step 2: source phase voltage"
+        },
+        {
+          "slide": 35,
+          "title": "E2 Step 2: normalized data"
+        },
+        {
+          "slide": 36,
+          "title": "E2 Step 2: delta on the same base"
+        },
+        {
+          "slide": 37,
+          "title": "E2 Step 2: equivalent PU circuit"
+        },
+        {
+          "slide": 38,
+          "title": "E2 Step 3: line current"
+        },
+        {
+          "slide": 39,
+          "title": "E2 Step 3: equivalent phase voltage"
+        },
+        {
+          "slide": 40,
+          "title": "E2 Step 3: load line voltage"
+        },
+        {
+          "slide": 41,
+          "title": "E2 Step 4: delta branch voltages"
+        },
+        {
+          "slide": 42,
+          "title": "E2 Step 4: delta branch currents"
+        },
+        {
+          "slide": 43,
+          "title": "E2 Step 4: line-current check"
+        },
+        {
+          "slide": 44,
+          "title": "E2 Step 4: load power in pu"
+        },
+        {
+          "slide": 45,
+          "title": "E2 Step 4: Y–delta power check"
+        },
+        {
+          "slide": 46,
+          "title": "Example 2: circuit answer"
+        },
+        {
+          "slide": 47,
+          "title": "Two examples: base conventions"
+        }
+      ],
+      "status": "framework"
+    },
+    {
+      "group": "exam-one",
+      "summary": {
+        "en": "Practice the first-exam topics with the current lecture's worked problem sequence.",
+        "zh": "按照当前讲义的例题顺序，练习第一次考试涉及的课程内容。"
+      },
+      "lab_focus": {
+        "en": "Organize a guided practice workspace around the lecture's problem sequence.",
+        "zh": "围绕讲义中的题目顺序组织分步练习区域。"
+      },
+      "id": "L16",
+      "slug": "l16-exam1-practice",
+      "title": {
+        "en": "Exam 1 Practice",
+        "zh": "考试 1 练习"
+      },
+      "source_directory": "L16_exam1_practice",
+      "source_file": "L16_exam1_practice.pdf",
+      "slide_count": 35,
+      "slide_outline": [
+        {
+          "slide": 1,
+          "title": "Exam 1 format and timing"
+        },
+        {
+          "slide": 2,
+          "title": "Exam materials and conduct"
+        },
+        {
+          "slide": 3,
+          "title": "Answer format and grading"
+        },
+        {
+          "slide": 4,
+          "title": "Practice topics"
+        },
+        {
+          "slide": 5,
+          "title": "RMS phasors and complex power"
+        },
+        {
+          "slide": 6,
+          "title": "Example 1: sinusoidal voltage and current"
+        },
+        {
+          "slide": 7,
+          "title": "Solution 1: phasors and power"
+        },
+        {
+          "slide": 8,
+          "title": "Balanced three-phase circuits"
+        },
+        {
+          "slide": 9,
+          "title": "Example 2: balanced delta load"
+        },
+        {
+          "slide": 10,
+          "title": "Solution 2: branch and line currents"
+        },
+        {
+          "slide": 11,
+          "title": "Solution 2: power and equivalent Y"
+        },
+        {
+          "slide": 12,
+          "title": "Power-factor correction: the L07 method"
+        },
+        {
+          "slide": 13,
+          "title": "Example 3A: single-phase correction"
+        },
+        {
+          "slide": 14,
+          "title": "Solution 3A: target power and capacitor rating"
+        },
+        {
+          "slide": 15,
+          "title": "Solution 3A: capacitance and current check"
+        },
+        {
+          "slide": 16,
+          "title": "Parallel loads: combine powers first"
+        },
+        {
+          "slide": 17,
+          "title": "Example 3B: combine parallel loads"
+        },
+        {
+          "slide": 18,
+          "title": "Solution 3B: combined power and compensation"
+        },
+        {
+          "slide": 19,
+          "title": "Ideal transformer ratios"
+        },
+        {
+          "slide": 20,
+          "title": "Transformer tests and referral"
+        },
+        {
+          "slide": 21,
+          "title": "Example 4A: SC test and referral"
+        },
+        {
+          "slide": 22,
+          "title": "Solution 4A: impedance on both sides"
+        },
+        {
+          "slide": 23,
+          "title": "Open-circuit test"
+        },
+        {
+          "slide": 24,
+          "title": "Example 4B: open-circuit measurements"
+        },
+        {
+          "slide": 25,
+          "title": "Solution 4B: excitation parameters"
+        },
+        {
+          "slide": 26,
+          "title": "Per-unit bases"
+        },
+        {
+          "slide": 27,
+          "title": "Example 5A: transformer on rated bases"
+        },
+        {
+          "slide": 28,
+          "title": "Solution 5A: current and impedance bases"
+        },
+        {
+          "slide": 29,
+          "title": "Solution 5A: normalized impedance"
+        },
+        {
+          "slide": 30,
+          "title": "Changing the per-unit base"
+        },
+        {
+          "slide": 31,
+          "title": "Example 5B: changing the power base"
+        },
+        {
+          "slide": 32,
+          "title": "Solution 5B: new base and physical check"
+        },
+        {
+          "slide": 33,
+          "title": "Planning: screening cost and capacity"
+        },
+        {
+          "slide": 34,
+          "title": "Example 6: cost and required capacity"
+        },
+        {
+          "slide": 35,
+          "title": "Solution 6: screening and capacity"
+        }
+      ],
+      "status": "framework"
+    },
+    {
+      "group": "exam-one",
+      "summary": {
+        "en": "Review the first course block and connect circuit calculations with design checks.",
+        "zh": "复习第一阶段知识，将电路计算与设计核查联系起来。"
+      },
+      "lab_focus": {
+        "en": "Compare intermediate results across the review's calculation workflows.",
+        "zh": "在复习中的计算流程之间比较中间结果。"
+      },
+      "id": "L17",
+      "slug": "l17-exam1-review",
+      "title": {
+        "en": "Exam 1 Review",
+        "zh": "考试 1 复习"
+      },
+      "source_directory": "L17_exam1_review",
+      "source_file": "L17_exam1_review.pdf",
+      "slide_count": 38,
+      "slide_outline": [
+        {
+          "slide": 1,
+          "title": "Review outline"
+        },
+        {
+          "slide": 2,
+          "title": "Starting problem"
+        },
+        {
+          "slide": 3,
+          "title": "RMS phasors"
+        },
+        {
+          "slide": 4,
+          "title": "Time domain to RMS phasors"
+        },
+        {
+          "slide": 5,
+          "title": "Complex-number forms"
+        },
+        {
+          "slide": 6,
+          "title": "Complex power uses the current conjugate"
+        },
+        {
+          "slide": 7,
+          "title": "Impedance power check"
+        },
+        {
+          "slide": 8,
+          "title": "Power-factor correction"
+        },
+        {
+          "slide": 9,
+          "title": "Positive-sequence set"
+        },
+        {
+          "slide": 10,
+          "title": "Wye line voltage"
+        },
+        {
+          "slide": 11,
+          "title": "Delta line current"
+        },
+        {
+          "slide": 12,
+          "title": "Three-phase power"
+        },
+        {
+          "slide": 13,
+          "title": "Example: feeder data"
+        },
+        {
+          "slide": 14,
+          "title": "Example: solution route"
+        },
+        {
+          "slide": 15,
+          "title": "Example: voltage reference"
+        },
+        {
+          "slide": 16,
+          "title": "Example: delta equivalent"
+        },
+        {
+          "slide": 17,
+          "title": "Example: line current"
+        },
+        {
+          "slide": 18,
+          "title": "Example: sending voltage"
+        },
+        {
+          "slide": 19,
+          "title": "Example: total load power"
+        },
+        {
+          "slide": 20,
+          "title": "Example: feeder loss"
+        },
+        {
+          "slide": 21,
+          "title": "Transformer quantities"
+        },
+        {
+          "slide": 22,
+          "title": "Practical transformer model"
+        },
+        {
+          "slide": 23,
+          "title": "Example: short-circuit test"
+        },
+        {
+          "slide": 24,
+          "title": "Example: test solution"
+        },
+        {
+          "slide": 25,
+          "title": "Single-phase per-unit bases"
+        },
+        {
+          "slide": 26,
+          "title": "Practice: referral and base"
+        },
+        {
+          "slide": 27,
+          "title": "Practice: referral answer"
+        },
+        {
+          "slide": 28,
+          "title": "Review error checks"
+        },
+        {
+          "slide": 29,
+          "title": "Core review summary"
+        },
+        {
+          "slide": 30,
+          "title": "Demand, energy, capacity"
+        },
+        {
+          "slide": 31,
+          "title": "Load-duration curve"
+        },
+        {
+          "slide": 32,
+          "title": "Screening curves"
+        },
+        {
+          "slide": 33,
+          "title": "Renewable shares"
+        },
+        {
+          "slide": 34,
+          "title": "Feasible generation mix"
+        },
+        {
+          "slide": 35,
+          "title": "Planning extension: data"
+        },
+        {
+          "slide": 36,
+          "title": "Planning: installed capacity"
+        },
+        {
+          "slide": 37,
+          "title": "Planning: peak adequacy"
+        },
+        {
+          "slide": 38,
+          "title": "Planning: result summary"
+        }
+      ],
+      "status": "framework"
+    },
+    {
+      "group": "three-phase-transformers",
+      "summary": {
+        "en": "Build three-phase banks and distinguish winding, line, and bank relationships.",
+        "zh": "建立三相变压器组，区分绕组量、线量与变压器组关系。"
+      },
+      "lab_focus": {
+        "en": "Switch bank connections and inspect winding versus line ratios.",
+        "zh": "切换变压器组接线，比较绕组比与线量比。"
+      },
+      "id": "L20",
+      "slug": "l20-three-phase-transformers-i",
+      "title": {
+        "en": "Three-Phase Transformers I",
+        "zh": "三相变压器 I"
+      },
+      "source_directory": "L20_three_phase_transformers_i",
+      "source_file": "L20_three_phase_transformers_i.pdf",
+      "slide_count": 26,
+      "slide_outline": [
+        {
+          "slide": 1,
+          "title": "Lecture outline"
+        },
+        {
+          "slide": 2,
+          "title": "Starting problem"
+        },
+        {
+          "slide": 3,
+          "title": "Three identical single-phase units"
+        },
+        {
+          "slide": 4,
+          "title": "Winding and bank conventions"
+        },
+        {
+          "slide": 5,
+          "title": "Wye connection quantities"
+        },
+        {
+          "slide": 6,
+          "title": "Delta winding"
+        },
+        {
+          "slide": 7,
+          "title": "Delta current factor"
+        },
+        {
+          "slide": 8,
+          "title": "Wye and delta factors"
+        },
+        {
+          "slide": 9,
+          "title": "Y–Y bank"
+        },
+        {
+          "slide": 10,
+          "title": "Δ–Δ bank"
+        },
+        {
+          "slide": 11,
+          "title": "Y–Δ bank"
+        },
+        {
+          "slide": 12,
+          "title": "Delta on H, wye on L"
+        },
+        {
+          "slide": 13,
+          "title": "Bank voltage and current ratios"
+        },
+        {
+          "slide": 14,
+          "title": "Neutral and grounding"
+        },
+        {
+          "slide": 15,
+          "title": "Example: data"
+        },
+        {
+          "slide": 16,
+          "title": "Example: solution route"
+        },
+        {
+          "slide": 17,
+          "title": "Example: winding currents"
+        },
+        {
+          "slide": 18,
+          "title": "Example: wye–wye voltages"
+        },
+        {
+          "slide": 19,
+          "title": "Example: wye–wye power"
+        },
+        {
+          "slide": 20,
+          "title": "Example: delta–wye voltages"
+        },
+        {
+          "slide": 21,
+          "title": "Example: delta–wye power"
+        },
+        {
+          "slide": 22,
+          "title": "Example: solution check"
+        },
+        {
+          "slide": 23,
+          "title": "Practice: model and calculation"
+        },
+        {
+          "slide": 24,
+          "title": "Practice: solution"
+        },
+        {
+          "slide": 25,
+          "title": "Connection-factor summary"
+        },
+        {
+          "slide": 26,
+          "title": "Closing check"
+        }
+      ],
+      "status": "framework"
+    },
+    {
+      "group": "three-phase-transformers",
+      "summary": {
+        "en": "Apply phase conventions and delta–wye terminal relationships to transformer phasors.",
+        "zh": "应用相位约定和三角形—星形端口关系分析变压器相量。"
+      },
+      "lab_focus": {
+        "en": "Inspect terminal phasors under an explicit high-side/low-side phase convention.",
+        "zh": "在明确的高、低压侧相位约定下观察端口相量。"
+      },
+      "id": "L21",
+      "slug": "l21-three-phase-transformers-ii",
+      "title": {
+        "en": "Three-Phase Transformers II",
+        "zh": "三相变压器 II"
+      },
+      "source_directory": "L21_three_phase_transformers_ii",
+      "source_file": "L21_three_phase_transformers_ii.pdf",
+      "slide_count": 27,
+      "slide_outline": [
+        {
+          "slide": 1,
+          "title": "Lecture outline"
+        },
+        {
+          "slide": 2,
+          "title": "Starting problem"
+        },
+        {
+          "slide": 3,
+          "title": "Textbook phase convention"
+        },
+        {
+          "slide": 4,
+          "title": "Angle conventions"
+        },
+        {
+          "slide": 5,
+          "title": "Delta-wye terminal relationships"
+        },
+        {
+          "slide": 6,
+          "title": "H-side delta phasors"
+        },
+        {
+          "slide": 7,
+          "title": "L-side wye phasors"
+        },
+        {
+          "slide": 8,
+          "title": "Dot correspondence"
+        },
+        {
+          "slide": 9,
+          "title": "Positive sequence"
+        },
+        {
+          "slide": 10,
+          "title": "L-side line voltage"
+        },
+        {
+          "slide": 11,
+          "title": "Remaining L-side voltages"
+        },
+        {
+          "slide": 12,
+          "title": "Sequence and phase displacement"
+        },
+        {
+          "slide": 13,
+          "title": "Per-unit base"
+        },
+        {
+          "slide": 14,
+          "title": "Bank impedance and winding impedance"
+        },
+        {
+          "slide": 15,
+          "title": "Example setup"
+        },
+        {
+          "slide": 16,
+          "title": "Example: solution route"
+        },
+        {
+          "slide": 17,
+          "title": "Example: two voltage ratios"
+        },
+        {
+          "slide": 18,
+          "title": "Example: winding phasors"
+        },
+        {
+          "slide": 19,
+          "title": "Example: low-side line voltage"
+        },
+        {
+          "slide": 20,
+          "title": "Example: tap angle"
+        },
+        {
+          "slide": 21,
+          "title": "Example: impedance base"
+        },
+        {
+          "slide": 22,
+          "title": "Example: rated currents"
+        },
+        {
+          "slide": 23,
+          "title": "Example: no-load model"
+        },
+        {
+          "slide": 24,
+          "title": "Practice: model and calculation"
+        },
+        {
+          "slide": 25,
+          "title": "Practice: solution"
+        },
+        {
+          "slide": 26,
+          "title": "Summary"
+        },
+        {
+          "slide": 27,
+          "title": "Closing check"
+        }
+      ],
+      "status": "framework"
+    },
+    {
+      "group": "line-parameters",
+      "summary": {
+        "en": "Relate conductor geometry and series-line physics to per-length resistance and inductance.",
+        "zh": "从导线几何和线路物理关系推导单位长度的电阻与电感。"
+      },
+      "lab_focus": {
+        "en": "Change conductor dimensions and compare the resulting series parameters.",
+        "zh": "改变导线尺寸，比较相应的串联参数。"
+      },
+      "id": "L22",
+      "slug": "l22-line-parameters-i",
+      "title": {
+        "en": "Transmission-Line Parameters I",
+        "zh": "输电线路参数 I"
+      },
+      "source_directory": "L22_line_parameters_i",
+      "source_file": "L22_line_parameters_i.pdf",
+      "slide_count": 31,
+      "slide_outline": [
+        {
+          "slide": 1,
+          "title": "Lecture outline"
+        },
+        {
+          "slide": 2,
+          "title": "Starting problem"
+        },
+        {
+          "slide": 3,
+          "title": "Series-line physics"
+        },
+        {
+          "slide": 4,
+          "title": "Per-length quantities"
+        },
+        {
+          "slide": 5,
+          "title": "Area and outer radius"
+        },
+        {
+          "slide": 6,
+          "title": "Differential slice"
+        },
+        {
+          "slide": 7,
+          "title": "Area"
+        },
+        {
+          "slide": 8,
+          "title": "Temperature"
+        },
+        {
+          "slide": 9,
+          "title": "Resistance factors"
+        },
+        {
+          "slide": 10,
+          "title": "Unit ladder"
+        },
+        {
+          "slide": 11,
+          "title": "Inductance"
+        },
+        {
+          "slide": 12,
+          "title": "Amp ere's law"
+        },
+        {
+          "slide": 13,
+          "title": "Net gap field"
+        },
+        {
+          "slide": 14,
+          "title": "External flux linkage"
+        },
+        {
+          "slide": 15,
+          "title": "Internal current distribution"
+        },
+        {
+          "slide": 16,
+          "title": "Internal shells"
+        },
+        {
+          "slide": 17,
+          "title": "Ideal internal inductance"
+        },
+        {
+          "slide": 18,
+          "title": "Conductor and loop inductance"
+        },
+        {
+          "slide": 19,
+          "title": "Example: data"
+        },
+        {
+          "slide": 20,
+          "title": "Example: solution route"
+        },
+        {
+          "slide": 21,
+          "title": "Example: resistance rate"
+        },
+        {
+          "slide": 22,
+          "title": "Example: temperature correction"
+        },
+        {
+          "slide": 23,
+          "title": "Example: route resistance"
+        },
+        {
+          "slide": 24,
+          "title": "Example: magnetic components"
+        },
+        {
+          "slide": 25,
+          "title": "Example: total inductance"
+        },
+        {
+          "slide": 26,
+          "title": "Example: reactance"
+        },
+        {
+          "slide": 27,
+          "title": "Example: conductor and loop"
+        },
+        {
+          "slide": 28,
+          "title": "Practice: model and calculation"
+        },
+        {
+          "slide": 29,
+          "title": "Practice: solution"
+        },
+        {
+          "slide": 30,
+          "title": "Summary"
+        },
+        {
+          "slide": 31,
+          "title": "Closing check"
+        }
+      ],
+      "status": "framework"
+    },
+    {
+      "group": "line-parameters",
+      "summary": {
+        "en": "Use conductor GMR, tower geometry, and phase spacing to calculate line inductance.",
+        "zh": "利用导线 GMR、杆塔几何和相间距离计算线路电感。"
+      },
+      "lab_focus": {
+        "en": "Adjust phase spacing and GMR while tracing the inductance calculation.",
+        "zh": "调整相间距和 GMR，跟踪电感的计算过程。"
+      },
+      "id": "L23",
+      "slug": "l23-line-parameters-ii",
+      "title": {
+        "en": "Transmission-Line Parameters II",
+        "zh": "输电线路参数 II"
+      },
+      "source_directory": "L23_line_parameters_ii",
+      "source_file": "L23_line_parameters_ii.pdf",
+      "slide_count": 28,
+      "slide_outline": [
+        {
+          "slide": 1,
+          "title": "Lecture outline"
+        },
+        {
+          "slide": 2,
+          "title": "Starting problem"
+        },
+        {
+          "slide": 3,
+          "title": "Series-parameter carry-forward"
+        },
+        {
+          "slide": 4,
+          "title": "GMR substitution"
+        },
+        {
+          "slide": 5,
+          "title": "Conductor GMR"
+        },
+        {
+          "slide": 6,
+          "title": "Tower geometry"
+        },
+        {
+          "slide": 7,
+          "title": "Equal spacing"
+        },
+        {
+          "slide": 8,
+          "title": "Unequal spacing"
+        },
+        {
+          "slide": 9,
+          "title": "Complete transposition"
+        },
+        {
+          "slide": 10,
+          "title": "Phase rotation"
+        },
+        {
+          "slide": 11,
+          "title": "Distance table"
+        },
+        {
+          "slide": 12,
+          "title": "Why GMD is a geometric mean"
+        },
+        {
+          "slide": 13,
+          "title": "Balanced-current simplification"
+        },
+        {
+          "slide": 14,
+          "title": "Reactance formula"
+        },
+        {
+          "slide": 15,
+          "title": "Example: data"
+        },
+        {
+          "slide": 16,
+          "title": "Example: solution route"
+        },
+        {
+          "slide": 17,
+          "title": "Example: position spacings"
+        },
+        {
+          "slide": 18,
+          "title": "Example: distance matrix"
+        },
+        {
+          "slide": 19,
+          "title": "Example: transposition cycle"
+        },
+        {
+          "slide": 20,
+          "title": "Example: geometric mean"
+        },
+        {
+          "slide": 21,
+          "title": "Example: self-distance ratio"
+        },
+        {
+          "slide": 22,
+          "title": "Example: phase inductance"
+        },
+        {
+          "slide": 23,
+          "title": "Example: route reactance"
+        },
+        {
+          "slide": 24,
+          "title": "Example: independent checks"
+        },
+        {
+          "slide": 25,
+          "title": "Practice: model and calculation"
+        },
+        {
+          "slide": 26,
+          "title": "Practice: solution"
+        },
+        {
+          "slide": 27,
+          "title": "Summary"
+        },
+        {
+          "slide": 28,
+          "title": "Closing check"
+        }
+      ],
+      "status": "framework"
+    },
+    {
+      "group": "line-parameters",
+      "summary": {
+        "en": "Derive line capacitance from electric fields, potential difference, and conductor geometry.",
+        "zh": "从电场、电位差和导线几何推导线路电容。"
+      },
+      "lab_focus": {
+        "en": "Compare the role of physical radius in capacitance with GMR in inductance.",
+        "zh": "比较物理半径在电容计算中与 GMR 在电感计算中的作用。"
+      },
+      "id": "L24",
+      "slug": "l24-line-parameters-iii",
+      "title": {
+        "en": "Transmission-Line Parameters III",
+        "zh": "输电线路参数 III"
+      },
+      "source_directory": "L24_line_parameters_iii",
+      "source_file": "L24_line_parameters_iii.pdf",
+      "slide_count": 28,
+      "slide_outline": [
+        {
+          "slide": 1,
+          "title": "Lecture outline"
+        },
+        {
+          "slide": 2,
+          "title": "Starting problem"
+        },
+        {
+          "slide": 3,
+          "title": "Series and shunt line parameters"
+        },
+        {
+          "slide": 4,
+          "title": "Gauss's law"
+        },
+        {
+          "slide": 5,
+          "title": "Potential difference"
+        },
+        {
+          "slide": 6,
+          "title": "Two-conductor capacitance"
+        },
+        {
+          "slide": 7,
+          "title": "Ideal pair"
+        },
+        {
+          "slide": 8,
+          "title": "Balanced phase charge"
+        },
+        {
+          "slide": 9,
+          "title": "Complete transposition"
+        },
+        {
+          "slide": 10,
+          "title": "Potential-reference cancellation"
+        },
+        {
+          "slide": 11,
+          "title": "Phase capacitance"
+        },
+        {
+          "slide": 12,
+          "title": "Capacitance to susceptance"
+        },
+        {
+          "slide": 13,
+          "title": "Unit check"
+        },
+        {
+          "slide": 14,
+          "title": "Charging current"
+        },
+        {
+          "slide": 15,
+          "title": "Capacitive reactive power"
+        },
+        {
+          "slide": 16,
+          "title": "Nominal-π shunt split"
+        },
+        {
+          "slide": 17,
+          "title": "Example: data"
+        },
+        {
+          "slide": 18,
+          "title": "Example: solution route"
+        },
+        {
+          "slide": 19,
+          "title": "Example: electric distance ratio"
+        },
+        {
+          "slide": 20,
+          "title": "Example: capacitance rate"
+        },
+        {
+          "slide": 21,
+          "title": "Example: susceptance rate"
+        },
+        {
+          "slide": 22,
+          "title": "Example: route shunt totals"
+        },
+        {
+          "slide": 23,
+          "title": "Example: charging current and power"
+        },
+        {
+          "slide": 24,
+          "title": "Capacitance checks"
+        },
+        {
+          "slide": 25,
+          "title": "Practice: model and calculation"
+        },
+        {
+          "slide": 26,
+          "title": "Practice: solution"
+        },
+        {
+          "slide": 27,
+          "title": "Summary"
+        },
+        {
+          "slide": 28,
+          "title": "Closing check"
+        }
+      ],
+      "status": "framework"
+    },
+    {
+      "group": "line-parameters",
+      "summary": {
+        "en": "Calculate bundled-conductor parameters using bundle geometry and consistent line notation.",
+        "zh": "采用一致的线路符号，根据分裂导线的几何计算参数。"
+      },
+      "lab_focus": {
+        "en": "Change bundle spacing and subconductor count, then compare effective line parameters.",
+        "zh": "调整分裂间距与子导线数量，比较有效线路参数。"
+      },
+      "id": "L25",
+      "slug": "l25-line-parameters-iv",
+      "title": {
+        "en": "Transmission-Line Parameters IV",
+        "zh": "输电线路参数 IV"
+      },
+      "source_directory": "L25_line_parameters_iv",
+      "source_file": "L25_line_parameters_iv.pdf",
+      "slide_count": 28,
+      "slide_outline": [
+        {
+          "slide": 1,
+          "title": "Lecture outline"
+        },
+        {
+          "slide": 2,
+          "title": "Starting problem"
+        },
+        {
+          "slide": 3,
+          "title": "Carry-forward notation"
+        },
+        {
+          "slide": 4,
+          "title": "Phase bundle"
+        },
+        {
+          "slide": 5,
+          "title": "Equal bundle members"
+        },
+        {
+          "slide": 6,
+          "title": "Two-subconductor bundle notation"
+        },
+        {
+          "slide": 7,
+          "title": "Bundle GMR"
+        },
+        {
+          "slide": 8,
+          "title": "Electric bundle radius"
+        },
+        {
+          "slide": 9,
+          "title": "Physical totals"
+        },
+        {
+          "slide": 10,
+          "title": "Example setup"
+        },
+        {
+          "slide": 11,
+          "title": "Example: solution route"
+        },
+        {
+          "slide": 12,
+          "title": "Example: phase-center GMD"
+        },
+        {
+          "slide": 13,
+          "title": "Example: bundle GMR"
+        },
+        {
+          "slide": 14,
+          "title": "Example: electric bundle radius"
+        },
+        {
+          "slide": 15,
+          "title": "Example: bundle resistance"
+        },
+        {
+          "slide": 16,
+          "title": "Example: phase reactance"
+        },
+        {
+          "slide": 17,
+          "title": "Example: phase capacitance"
+        },
+        {
+          "slide": 18,
+          "title": "Example: shunt susceptance"
+        },
+        {
+          "slide": 19,
+          "title": "Example: full circuit totals"
+        },
+        {
+          "slide": 20,
+          "title": "Example: charging power"
+        },
+        {
+          "slide": 21,
+          "title": "Example: common-base record"
+        },
+        {
+          "slide": 22,
+          "title": "Bundle effects"
+        },
+        {
+          "slide": 23,
+          "title": "Double-circuit scaling"
+        },
+        {
+          "slide": 24,
+          "title": "Verification checks"
+        },
+        {
+          "slide": 25,
+          "title": "Practice: model and calculation"
+        },
+        {
+          "slide": 26,
+          "title": "Practice: solution"
+        },
+        {
+          "slide": 27,
+          "title": "Summary"
+        },
+        {
+          "slide": 28,
+          "title": "Closing check"
+        }
+      ],
+      "status": "framework"
+    },
+    {
+      "group": "line-models",
+      "summary": {
+        "en": "Construct the short-line model with declared terminal-current reference directions.",
+        "zh": "在明确的端口电流参考方向下建立短线路模型。"
+      },
+      "lab_focus": {
+        "en": "Vary the short line's series impedance and receiving-end load to inspect terminal quantities.",
+        "zh": "调整短线路串联阻抗与受端负荷，观察端口量。"
+      },
+      "id": "L26",
+      "slug": "l26-transmission-line-models-i",
+      "title": {
+        "en": "Transmission-Line Models I",
+        "zh": "输电线路模型 I"
+      },
+      "source_directory": "L26_transmission_line_models_i",
+      "source_file": "L26_transmission_line_models_i.pdf",
+      "slide_count": 28,
+      "slide_outline": [
+        {
+          "slide": 1,
+          "title": "Lecture outline"
+        },
+        {
+          "slide": 2,
+          "title": "Starting problem"
+        },
+        {
+          "slide": 3,
+          "title": "Physical line record"
+        },
+        {
+          "slide": 4,
+          "title": "Short-line model"
+        },
+        {
+          "slide": 5,
+          "title": "Short-line current"
+        },
+        {
+          "slide": 6,
+          "title": "Reference directions"
+        },
+        {
+          "slide": 7,
+          "title": "Short-line equations"
+        },
+        {
+          "slide": 8,
+          "title": "Three-phase conversion"
+        },
+        {
+          "slide": 9,
+          "title": "Receiving complex power"
+        },
+        {
+          "slide": 10,
+          "title": "Sending-end voltage"
+        },
+        {
+          "slide": 11,
+          "title": "Voltage regulation"
+        },
+        {
+          "slide": 12,
+          "title": "Sending-end power"
+        },
+        {
+          "slide": 13,
+          "title": "Example: complete input data"
+        },
+        {
+          "slide": 14,
+          "title": "Example: solution route"
+        },
+        {
+          "slide": 15,
+          "title": "Example: phase-voltage reference"
+        },
+        {
+          "slide": 16,
+          "title": "Example: receiving power"
+        },
+        {
+          "slide": 17,
+          "title": "Example: load current"
+        },
+        {
+          "slide": 18,
+          "title": "Example: route impedance"
+        },
+        {
+          "slide": 19,
+          "title": "Example: complex voltage drop"
+        },
+        {
+          "slide": 20,
+          "title": "Example: sending voltage"
+        },
+        {
+          "slide": 21,
+          "title": "Example: sending power"
+        },
+        {
+          "slide": 22,
+          "title": "Example: real-power efficiency"
+        },
+        {
+          "slide": 23,
+          "title": "Example: voltage regulation"
+        },
+        {
+          "slide": 24,
+          "title": "Example: checks"
+        },
+        {
+          "slide": 25,
+          "title": "Practice: model and calculation"
+        },
+        {
+          "slide": 26,
+          "title": "Practice: solution"
+        },
+        {
+          "slide": 27,
+          "title": "Summary"
+        },
+        {
+          "slide": 28,
+          "title": "Closing check"
+        }
+      ],
+      "status": "framework"
+    },
+    {
+      "group": "line-models",
+      "summary": {
+        "en": "Build the nominal-π circuit from series impedance and split shunt admittance.",
+        "zh": "利用串联阻抗与两端分配的并联导纳建立标称 π 型电路。"
+      },
+      "lab_focus": {
+        "en": "Compare nominal-π terminal results as line charging and load change.",
+        "zh": "改变线路充电与负荷，比较标称 π 模型的端口结果。"
+      },
+      "id": "L27",
+      "slug": "l27-transmission-line-models-ii",
+      "title": {
+        "en": "Transmission-Line Models II",
+        "zh": "输电线路模型 II"
+      },
+      "source_directory": "L27_transmission_line_models_ii",
+      "source_file": "L27_transmission_line_models_ii.pdf",
+      "slide_count": 30,
+      "slide_outline": [
+        {
+          "slide": 1,
+          "title": "Lecture outline"
+        },
+        {
+          "slide": 2,
+          "title": "Starting problem"
+        },
+        {
+          "slide": 3,
+          "title": "Nominal-π circuit"
+        },
+        {
+          "slide": 4,
+          "title": "Reference arrows"
+        },
+        {
+          "slide": 5,
+          "title": "Total shunt and terminal halves"
+        },
+        {
+          "slide": 6,
+          "title": "Receiving shunt current"
+        },
+        {
+          "slide": 7,
+          "title": "Series branch"
+        },
+        {
+          "slide": 8,
+          "title": "Series KVL"
+        },
+        {
+          "slide": 9,
+          "title": "Sending terminal"
+        },
+        {
+          "slide": 10,
+          "title": "ABCD constants"
+        },
+        {
+          "slide": 11,
+          "title": "ABCD cascade"
+        },
+        {
+          "slide": 12,
+          "title": "Nominal- π ABCD constants"
+        },
+        {
+          "slide": 13,
+          "title": "No-load voltage and regulation"
+        },
+        {
+          "slide": 14,
+          "title": "ABCD checks"
+        },
+        {
+          "slide": 15,
+          "title": "Example setup"
+        },
+        {
+          "slide": 16,
+          "title": "Example: solution route"
+        },
+        {
+          "slide": 17,
+          "title": "Example: receiving load current"
+        },
+        {
+          "slide": 18,
+          "title": "Example: receiving shunt current"
+        },
+        {
+          "slide": 19,
+          "title": "Example: series current"
+        },
+        {
+          "slide": 20,
+          "title": "Example: sending voltage"
+        },
+        {
+          "slide": 21,
+          "title": "Example: sending current"
+        },
+        {
+          "slide": 22,
+          "title": "Example: sending complex power"
+        },
+        {
+          "slide": 23,
+          "title": "Example: real-power balance"
+        },
+        {
+          "slide": 24,
+          "title": "Example: reactive-power balance"
+        },
+        {
+          "slide": 25,
+          "title": "Example: ABCD constants"
+        },
+        {
+          "slide": 26,
+          "title": "Example: cross-check"
+        },
+        {
+          "slide": 27,
+          "title": "Practice: model and calculation"
+        },
+        {
+          "slide": 28,
+          "title": "Practice: solution"
+        },
+        {
+          "slide": 29,
+          "title": "Summary"
+        },
+        {
+          "slide": 30,
+          "title": "Closing check"
+        }
+      ],
+      "status": "framework"
+    },
+    {
+      "group": "line-models",
+      "summary": {
+        "en": "Derive distributed long-line equations, propagation constants, and terminal relationships.",
+        "zh": "推导长线路分布参数方程、传播常数和端口关系。"
+      },
+      "lab_focus": {
+        "en": "Explore line length and loading while comparing distributed and lumped models.",
+        "zh": "调整线路长度与负载，比较分布参数和集中参数模型。"
+      },
+      "id": "L28",
+      "slug": "l28-transmission-line-models-iii",
+      "title": {
+        "en": "Transmission-Line Models III",
+        "zh": "输电线路模型 III"
+      },
+      "source_directory": "L28_transmission_line_models_iii",
+      "source_file": "L28_transmission_line_models_iii.pdf",
+      "slide_count": 29,
+      "slide_outline": [
+        {
+          "slide": 1,
+          "title": "Lecture outline"
+        },
+        {
+          "slide": 2,
+          "title": "Starting problem"
+        },
+        {
+          "slide": 3,
+          "title": "Spatial coordinate"
+        },
+        {
+          "slide": 4,
+          "title": "Segment KVL"
+        },
+        {
+          "slide": 5,
+          "title": "Segment KCL"
+        },
+        {
+          "slide": 6,
+          "title": "Coupled first-order equations"
+        },
+        {
+          "slide": 7,
+          "title": "Propagation constant"
+        },
+        {
+          "slide": 8,
+          "title": "Characteristic impedance"
+        },
+        {
+          "slide": 9,
+          "title": "General spatial solution"
+        },
+        {
+          "slide": 10,
+          "title": "Apply receiving-end conditions"
+        },
+        {
+          "slide": 11,
+          "title": "Exact ABCD constants"
+        },
+        {
+          "slide": 12,
+          "title": "Shared physical data"
+        },
+        {
+          "slide": 13,
+          "title": "Exact equivalent-π"
+        },
+        {
+          "slide": 14,
+          "title": "Surge-impedance loading"
+        },
+        {
+          "slide": 15,
+          "title": "Example setup"
+        },
+        {
+          "slide": 16,
+          "title": "Example: solution route"
+        },
+        {
+          "slide": 17,
+          "title": "Example: total line data"
+        },
+        {
+          "slide": 18,
+          "title": "Example: propagation and impedance"
+        },
+        {
+          "slide": 19,
+          "title": "Example: exact ABCD constants"
+        },
+        {
+          "slide": 20,
+          "title": "Example: exact sending quantities"
+        },
+        {
+          "slide": 21,
+          "title": "Example: equivalent-pi parameters"
+        },
+        {
+          "slide": 22,
+          "title": "Example: nominal-pi solution"
+        },
+        {
+          "slide": 23,
+          "title": "Example: short-line solution"
+        },
+        {
+          "slide": 24,
+          "title": "Example: output comparison"
+        },
+        {
+          "slide": 25,
+          "title": "Model selection"
+        },
+        {
+          "slide": 26,
+          "title": "Practice: model and calculation"
+        },
+        {
+          "slide": 27,
+          "title": "Practice: solution"
+        },
+        {
+          "slide": 28,
+          "title": "Summary"
+        },
+        {
+          "slide": 29,
+          "title": "Closing check"
+        }
+      ],
+      "status": "framework"
+    },
+    {
+      "group": "exam-two",
+      "summary": {
+        "en": "Review transformer models, per-unit bases, three-phase banks, and transmission-line topics.",
+        "zh": "复习变压器模型、标幺基准、三相变压器组和输电线路知识。"
+      },
+      "lab_focus": {
+        "en": "Organize the second review around parameter, model, and operating-point checks.",
+        "zh": "围绕参数、模型和运行点核查组织第二阶段复习。"
+      },
+      "id": "L30",
+      "slug": "l30-exam2-review",
+      "title": {
+        "en": "Exam 2 Review",
+        "zh": "考试 2 复习"
+      },
+      "source_directory": "L30_exam2_review",
+      "source_file": "L30_exam2_review.pdf",
+      "slide_count": 32,
+      "slide_outline": [
+        {
+          "slide": 1,
+          "title": "Review outline"
+        },
+        {
+          "slide": 2,
+          "title": "Starting problem"
+        },
+        {
+          "slide": 3,
+          "title": "Transformer ratios"
+        },
+        {
+          "slide": 4,
+          "title": "Practical transformer model"
+        },
+        {
+          "slide": 5,
+          "title": "Per-unit bases"
+        },
+        {
+          "slide": 6,
+          "title": "Change of base"
+        },
+        {
+          "slide": 7,
+          "title": "Three-phase bank ratios"
+        },
+        {
+          "slide": 8,
+          "title": "Phase displacement"
+        },
+        {
+          "slide": 9,
+          "title": "Line-parameter data"
+        },
+        {
+          "slide": 10,
+          "title": "Line-model selection"
+        },
+        {
+          "slide": 11,
+          "title": "Signs and directions"
+        },
+        {
+          "slide": 12,
+          "title": "Integrated review case"
+        },
+        {
+          "slide": 13,
+          "title": "Complete input record"
+        },
+        {
+          "slide": 14,
+          "title": "Example: solution route"
+        },
+        {
+          "slide": 15,
+          "title": "Example: transformer base"
+        },
+        {
+          "slide": 16,
+          "title": "Example: bank and winding ratios"
+        },
+        {
+          "slide": 17,
+          "title": "Example: transposed reactance"
+        },
+        {
+          "slide": 18,
+          "title": "Example: shunt capacitance"
+        },
+        {
+          "slide": 19,
+          "title": "Example: common-base line"
+        },
+        {
+          "slide": 20,
+          "title": "Example: load current"
+        },
+        {
+          "slide": 21,
+          "title": "Example: bank voltage and loading"
+        },
+        {
+          "slide": 22,
+          "title": "Example: receiving line terminal"
+        },
+        {
+          "slide": 23,
+          "title": "Example: sending line terminal"
+        },
+        {
+          "slide": 24,
+          "title": "Example: complete power balance"
+        },
+        {
+          "slide": 25,
+          "title": "Line-model comparison"
+        },
+        {
+          "slide": 26,
+          "title": "Engineering interpretation"
+        },
+        {
+          "slide": 27,
+          "title": "Practice: common-base record"
+        },
+        {
+          "slide": 28,
+          "title": "Practice: base solution"
+        },
+        {
+          "slide": 29,
+          "title": "Practice: equipment loading"
+        },
+        {
+          "slide": 30,
+          "title": "Practice: loading solution"
+        },
+        {
+          "slide": 31,
+          "title": "Exam 2 summary"
+        },
+        {
+          "slide": 32,
+          "title": "Closing check"
+        }
+      ],
+      "status": "framework"
+    },
+    {
+      "group": "power-flow",
+      "summary": {
+        "en": "Identify power-flow inputs, bus types, unknowns, net injections, topology, and operating limits.",
+        "zh": "识别潮流输入、节点类型、未知量、净注入、拓扑与运行限值。"
+      },
+      "lab_focus": {
+        "en": "Classify buses and inspect the known quantities, unknowns, and net injections of a network.",
+        "zh": "分类网络节点，检查各节点的已知量、未知量和净注入。"
+      },
+      "id": "L32",
+      "slug": "l32-power-flow-i",
+      "title": {
+        "en": "Power Flow I",
+        "zh": "潮流分析 I"
+      },
+      "source_directory": "L32_power_flow_i",
+      "source_file": "L32_power_flow_i.pdf",
+      "slide_count": 29,
+      "slide_outline": [
+        {
+          "slide": 1,
+          "title": "Lecture outline"
+        },
+        {
+          "slide": 2,
+          "title": "Starting problem"
+        },
+        {
+          "slide": 3,
+          "title": "Models already established"
+        },
+        {
+          "slide": 4,
+          "title": "Inputs and outputs"
+        },
+        {
+          "slide": 5,
+          "title": "Specifications and limits"
+        },
+        {
+          "slide": 6,
+          "title": "Topology and status"
+        },
+        {
+          "slide": 7,
+          "title": "Scope of the study"
+        },
+        {
+          "slide": 8,
+          "title": "Bus type"
+        },
+        {
+          "slide": 9,
+          "title": "Net bus injection"
+        },
+        {
+          "slide": 10,
+          "title": "Slack bus"
+        },
+        {
+          "slide": 11,
+          "title": "Slack real-power balance"
+        },
+        {
+          "slide": 12,
+          "title": "PV bus"
+        },
+        {
+          "slide": 13,
+          "title": "PQ bus"
+        },
+        {
+          "slide": 14,
+          "title": "Zero-injection junction"
+        },
+        {
+          "slide": 15,
+          "title": "Bus-type reference table"
+        },
+        {
+          "slide": 16,
+          "title": "Reactive capability"
+        },
+        {
+          "slide": 17,
+          "title": "Example: network and schedules"
+        },
+        {
+          "slide": 18,
+          "title": "Example: branch models"
+        },
+        {
+          "slide": 19,
+          "title": "Example: bus data and limits"
+        },
+        {
+          "slide": 20,
+          "title": "Example: solution workflow"
+        },
+        {
+          "slide": 21,
+          "title": "Example: known and unknown"
+        },
+        {
+          "slide": 22,
+          "title": "Example: voltage unknowns"
+        },
+        {
+          "slide": 23,
+          "title": "Preview: solved bus quantities"
+        },
+        {
+          "slide": 24,
+          "title": "Preview: real-power balance"
+        },
+        {
+          "slide": 25,
+          "title": "Practice: bus classification"
+        },
+        {
+          "slide": 26,
+          "title": "Practice: classification answers"
+        },
+        {
+          "slide": 27,
+          "title": "Practice: a PV limit"
+        },
+        {
+          "slide": 28,
+          "title": "Practice: limit answer"
+        },
+        {
+          "slide": 29,
+          "title": "Summary"
+        }
+      ],
+      "status": "framework"
+    },
+    {
+      "group": "power-flow",
+      "summary": {
+        "en": "Assemble Y-bus from series branches, line charging, fixed shunts, and transformer taps.",
+        "zh": "由串联支路、线路充电、固定并联元件和变压器分接头组装节点导纳矩阵。"
+      },
+      "lab_focus": {
+        "en": "Build branch stamps and inspect how charging, taps, and outages change Y-bus.",
+        "zh": "建立支路矩阵，观察充电、分接头与支路断开如何改变节点导纳矩阵。"
+      },
+      "id": "L33",
+      "slug": "l33-power-flow-ii",
+      "title": {
+        "en": "Power Flow II",
+        "zh": "潮流分析 II"
+      },
+      "source_directory": "L33_power_flow_ii",
+      "source_file": "L33_power_flow_ii.pdf",
+      "slide_count": 32,
+      "slide_outline": [
+        {
+          "slide": 1,
+          "title": "Lecture outline"
+        },
+        {
+          "slide": 2,
+          "title": "Starting problem"
+        },
+        {
+          "slide": 3,
+          "title": "Bus 1 current balance"
+        },
+        {
+          "slide": 4,
+          "title": "Collecting the voltage terms"
+        },
+        {
+          "slide": 5,
+          "title": "The bus-admittance equation"
+        },
+        {
+          "slide": 6,
+          "title": "Series-branch terminal currents"
+        },
+        {
+          "slide": 7,
+          "title": "Series-branch stamp"
+        },
+        {
+          "slide": 8,
+          "title": "Impedance to admittance"
+        },
+        {
+          "slide": 9,
+          "title": "Nominal-pi line"
+        },
+        {
+          "slide": 10,
+          "title": "Fixed bus shunt"
+        },
+        {
+          "slide": 11,
+          "title": "Transformer tap convention"
+        },
+        {
+          "slide": 12,
+          "title": "Tap current referral"
+        },
+        {
+          "slide": 13,
+          "title": "Transformer branch stamp"
+        },
+        {
+          "slide": 14,
+          "title": "Matrix checks"
+        },
+        {
+          "slide": 15,
+          "title": "Example: network data"
+        },
+        {
+          "slide": 16,
+          "title": "Example: assembly workflow"
+        },
+        {
+          "slide": 17,
+          "title": "Example: admittance 1–2"
+        },
+        {
+          "slide": 18,
+          "title": "Example: stamp 1–2"
+        },
+        {
+          "slide": 19,
+          "title": "Example: admittance 1–3"
+        },
+        {
+          "slide": 20,
+          "title": "Example: add branch 1–3"
+        },
+        {
+          "slide": 21,
+          "title": "Example: add branch 2–3"
+        },
+        {
+          "slide": 22,
+          "title": "Example: symbolic Y-bus"
+        },
+        {
+          "slide": 23,
+          "title": "Example: conductance and susceptance"
+        },
+        {
+          "slide": 24,
+          "title": "Example: independent row check"
+        },
+        {
+          "slide": 25,
+          "title": "Example: zero row sum"
+        },
+        {
+          "slide": 26,
+          "title": "Practice: line charging"
+        },
+        {
+          "slide": 27,
+          "title": "Practice: charging answer"
+        },
+        {
+          "slide": 28,
+          "title": "Practice: line 2–3 outage"
+        },
+        {
+          "slide": 29,
+          "title": "Practice: outage answer"
+        },
+        {
+          "slide": 30,
+          "title": "A diagonal-only difference"
+        },
+        {
+          "slide": 31,
+          "title": "Angle reference"
+        },
+        {
+          "slide": 32,
+          "title": "Summary"
+        }
+      ],
+      "status": "framework"
+    },
+    {
+      "group": "power-flow",
+      "summary": {
+        "en": "Form polar power equations, choose the state, calculate mismatches, and apply a stopping tolerance.",
+        "zh": "建立极坐标功率方程，确定状态量，计算不平衡量并应用收敛容差。"
+      },
+      "lab_focus": {
+        "en": "Change a trial voltage state and inspect real/reactive mismatches and the residual norm.",
+        "zh": "改变试算电压状态，观察有功与无功不平衡量及残差范数。"
+      },
+      "id": "L34",
+      "slug": "l34-power-flow-iii",
+      "title": {
+        "en": "Power Flow III",
+        "zh": "潮流分析 III"
+      },
+      "source_directory": "L34_power_flow_iii",
+      "source_file": "L34_power_flow_iii.pdf",
+      "slide_count": 31,
+      "slide_outline": [
+        {
+          "slide": 1,
+          "title": "Lecture outline"
+        },
+        {
+          "slide": 2,
+          "title": "Starting problem"
+        },
+        {
+          "slide": 3,
+          "title": "Current from a voltage state"
+        },
+        {
+          "slide": 4,
+          "title": "Complex power at a bus"
+        },
+        {
+          "slide": 5,
+          "title": "Combining current and power"
+        },
+        {
+          "slide": 6,
+          "title": "Polar notation"
+        },
+        {
+          "slide": 7,
+          "title": "Expanding one coupling term"
+        },
+        {
+          "slide": 8,
+          "title": "Real-power injection"
+        },
+        {
+          "slide": 9,
+          "title": "Reactive-power injection"
+        },
+        {
+          "slide": 10,
+          "title": "Angle difference and real power"
+        },
+        {
+          "slide": 11,
+          "title": "Active equations by bus type"
+        },
+        {
+          "slide": 12,
+          "title": "State and equation counts"
+        },
+        {
+          "slide": 13,
+          "title": "The three-bus state"
+        },
+        {
+          "slide": 14,
+          "title": "Mismatch convention"
+        },
+        {
+          "slide": 15,
+          "title": "PV reactive power"
+        },
+        {
+          "slide": 16,
+          "title": "Residual norm"
+        },
+        {
+          "slide": 17,
+          "title": "Example: complete input record"
+        },
+        {
+          "slide": 18,
+          "title": "Example: initial voltage state"
+        },
+        {
+          "slide": 19,
+          "title": "Example: calculation workflow"
+        },
+        {
+          "slide": 20,
+          "title": "Example: bus-3 current"
+        },
+        {
+          "slide": 21,
+          "title": "Example: bus-3 power"
+        },
+        {
+          "slide": 22,
+          "title": "Example: bus-3 mismatch"
+        },
+        {
+          "slide": 23,
+          "title": "Example: bus-2 power"
+        },
+        {
+          "slide": 24,
+          "title": "Example: PV-bus mismatch"
+        },
+        {
+          "slide": 25,
+          "title": "Example: complete mismatch"
+        },
+        {
+          "slide": 26,
+          "title": "Example: stopping test"
+        },
+        {
+          "slide": 27,
+          "title": "Tolerance in physical units"
+        },
+        {
+          "slide": 28,
+          "title": "Stored values and display rounding"
+        },
+        {
+          "slide": 29,
+          "title": "Practice: mismatch and stopping"
+        },
+        {
+          "slide": 30,
+          "title": "Practice: mismatch answer"
+        },
+        {
+          "slide": 31,
+          "title": "Summary"
+        }
+      ],
+      "status": "framework"
+    },
+    {
+      "group": "power-flow",
+      "summary": {
+        "en": "Run Gauss–Seidel PQ and PV updates, restore PV magnitude, and check reactive-power capability.",
+        "zh": "执行高斯—赛德尔 PQ、PV 更新，恢复 PV 电压幅值并检查无功能力。"
+      },
+      "lab_focus": {
+        "en": "Step through an ordered sweep and compare voltage updates, residuals, and PV reactive limits.",
+        "zh": "逐步执行有序迭代，比较电压更新、残差和 PV 无功限值。"
+      },
+      "id": "L35",
+      "slug": "l35-power-flow-iv",
+      "title": {
+        "en": "Power Flow IV",
+        "zh": "潮流分析 IV"
+      },
+      "source_directory": "L35_power_flow_iv",
+      "source_file": "L35_power_flow_iv.pdf",
+      "slide_count": 33,
+      "slide_outline": [
+        {
+          "slide": 1,
+          "title": "Lecture outline"
+        },
+        {
+          "slide": 2,
+          "title": "Starting problem"
+        },
+        {
+          "slide": 3,
+          "title": "The PQ-bus equation"
+        },
+        {
+          "slide": 4,
+          "title": "Isolating the diagonal term"
+        },
+        {
+          "slide": 5,
+          "title": "The indexed PQ update"
+        },
+        {
+          "slide": 6,
+          "title": "Bus order within a sweep"
+        },
+        {
+          "slide": 7,
+          "title": "PV-bus update"
+        },
+        {
+          "slide": 8,
+          "title": "PV magnitude projection"
+        },
+        {
+          "slide": 9,
+          "title": "Example: PQ then PV"
+        },
+        {
+          "slide": 10,
+          "title": "Example: declared procedure"
+        },
+        {
+          "slide": 11,
+          "title": "Example: network matrix"
+        },
+        {
+          "slide": 12,
+          "title": "Example: initial mismatch"
+        },
+        {
+          "slide": 13,
+          "title": "Example: first-sweep workflow"
+        },
+        {
+          "slide": 14,
+          "title": "Step 1: PQ power term"
+        },
+        {
+          "slide": 15,
+          "title": "Step 1: neighbor subtotal"
+        },
+        {
+          "slide": 16,
+          "title": "Step 1: new PQ voltage"
+        },
+        {
+          "slide": 17,
+          "title": "Step 2: required PV reactive power"
+        },
+        {
+          "slide": 18,
+          "title": "Step 2: capability check"
+        },
+        {
+          "slide": 19,
+          "title": "Step 3: provisional PV voltage"
+        },
+        {
+          "slide": 20,
+          "title": "Step 3: restored PV magnitude"
+        },
+        {
+          "slide": 21,
+          "title": "Step 4: completed-sweep mismatch"
+        },
+        {
+          "slide": 22,
+          "title": "Step 4: progress toward balance"
+        },
+        {
+          "slide": 23,
+          "title": "Example: convergence history"
+        },
+        {
+          "slide": 24,
+          "title": "Example: convergence curve"
+        },
+        {
+          "slide": 25,
+          "title": "Example: converged voltages"
+        },
+        {
+          "slide": 26,
+          "title": "Example: final reactive capability"
+        },
+        {
+          "slide": 27,
+          "title": "Optional: relaxation factor"
+        },
+        {
+          "slide": 28,
+          "title": "Practice: stale neighbor voltage"
+        },
+        {
+          "slide": 29,
+          "title": "Practice: stale-value answer"
+        },
+        {
+          "slide": 30,
+          "title": "Practice: tighter reactive limit"
+        },
+        {
+          "slide": 31,
+          "title": "Practice: limit-enforcement answer"
+        },
+        {
+          "slide": 32,
+          "title": "Common update errors"
+        },
+        {
+          "slide": 33,
+          "title": "Summary"
+        }
+      ],
+      "status": "framework"
+    },
+    {
+      "group": "power-flow",
+      "summary": {
+        "en": "Use Newton's Jacobian and corrections, then validate convergence, branch flows, and operating limits.",
+        "zh": "利用牛顿法雅可比矩阵与修正量，检验收敛、支路潮流和运行限值。"
+      },
+      "lab_focus": {
+        "en": "Inspect Newton corrections and distinguish a converged solution from an acceptable operating point.",
+        "zh": "观察牛顿修正量，区分求解收敛与运行点满足限值。"
+      },
+      "id": "L36",
+      "slug": "l36-power-flow-v",
+      "title": {
+        "en": "Power Flow V",
+        "zh": "潮流分析 V"
+      },
+      "source_directory": "L36_power_flow_v",
+      "source_file": "L36_power_flow_v.pdf",
+      "slide_count": 41,
+      "slide_outline": [
+        {
+          "slide": 1,
+          "title": "Lecture outline"
+        },
+        {
+          "slide": 2,
+          "title": "From sequential to coupled updates"
+        },
+        {
+          "slide": 3,
+          "title": "A scalar Newton step"
+        },
+        {
+          "slide": 4,
+          "title": "Linearizing the power equations"
+        },
+        {
+          "slide": 5,
+          "title": "Jacobian blocks"
+        },
+        {
+          "slide": 6,
+          "title": "Use radians for angle corrections"
+        },
+        {
+          "slide": 7,
+          "title": "Two-bus example"
+        },
+        {
+          "slide": 8,
+          "title": "Two-bus equations"
+        },
+        {
+          "slide": 9,
+          "title": "Two-state Jacobian"
+        },
+        {
+          "slide": 10,
+          "title": "Flat start"
+        },
+        {
+          "slide": 11,
+          "title": "First Newton correction"
+        },
+        {
+          "slide": 12,
+          "title": "State update"
+        },
+        {
+          "slide": 13,
+          "title": "Recalculate the original powers"
+        },
+        {
+          "slide": 14,
+          "title": "First residual check"
+        },
+        {
+          "slide": 15,
+          "title": "Second Jacobian"
+        },
+        {
+          "slide": 16,
+          "title": "Optional: second Newton correction"
+        },
+        {
+          "slide": 17,
+          "title": "Optional: second residual check"
+        },
+        {
+          "slide": 18,
+          "title": "Two-bus convergence history"
+        },
+        {
+          "slide": 19,
+          "title": "Two-bus solved voltage"
+        },
+        {
+          "slide": 20,
+          "title": "Two-bus power balance"
+        },
+        {
+          "slide": 21,
+          "title": "Two-bus operating checks"
+        },
+        {
+          "slide": 22,
+          "title": "Common case: data and initial state"
+        },
+        {
+          "slide": 23,
+          "title": "Common case: Jacobian order"
+        },
+        {
+          "slide": 24,
+          "title": "Reference: off-diagonal derivatives"
+        },
+        {
+          "slide": 25,
+          "title": "Reference: diagonal derivatives"
+        },
+        {
+          "slide": 26,
+          "title": "Common case: Newton system"
+        },
+        {
+          "slide": 27,
+          "title": "Common case: first correction"
+        },
+        {
+          "slide": 28,
+          "title": "Common case: convergence history"
+        },
+        {
+          "slide": 29,
+          "title": "Common case: solved bus records"
+        },
+        {
+          "slide": 30,
+          "title": "If the PV reactive limit binds"
+        },
+        {
+          "slide": 31,
+          "title": "Branch-flow sign convention"
+        },
+        {
+          "slide": 32,
+          "title": "Example: power on branch 2–3"
+        },
+        {
+          "slide": 33,
+          "title": "Common case: real-power paths"
+        },
+        {
+          "slide": 34,
+          "title": "Common case: flows and ratings"
+        },
+        {
+          "slide": 35,
+          "title": "Common case: independent power balance"
+        },
+        {
+          "slide": 36,
+          "title": "Common case: operating checks"
+        },
+        {
+          "slide": 37,
+          "title": "Stored precision and displayed precision"
+        },
+        {
+          "slide": 38,
+          "title": "Practice: change one branch rating"
+        },
+        {
+          "slide": 39,
+          "title": "Practice: rating-change answer"
+        },
+        {
+          "slide": 40,
+          "title": "Optional: comparing the methods"
+        },
+        {
+          "slide": 41,
+          "title": "Complete power-flow workflow"
+        }
+      ],
+      "status": "framework"
+    },
+    {
+      "group": "final-review",
+      "summary": {
+        "en": "Connect generation planning, AC circuits, transformers, line models, and power flow in a complete review.",
+        "zh": "综合复习发电规划、交流电路、变压器、线路模型和潮流分析。"
+      },
+      "lab_focus": {
+        "en": "Trace a complete system-design workflow through the course's calculation and validation steps.",
+        "zh": "沿课程计算与验证步骤，梳理完整的系统设计流程。"
+      },
+      "id": "L41",
+      "slug": "l41-comprehensive-final-review",
+      "title": {
+        "en": "Comprehensive Final Review",
+        "zh": "期末综合复习"
+      },
+      "source_directory": "L41_comprehensive_final_review",
+      "source_file": "L41_comprehensive_final_review.pdf",
+      "slide_count": 36,
+      "slide_outline": [
+        {
+          "slide": 1,
+          "title": "Course review outline"
+        },
+        {
+          "slide": 2,
+          "title": "Starting problem"
+        },
+        {
+          "slide": 3,
+          "title": "Demand, energy, and capacity"
+        },
+        {
+          "slide": 4,
+          "title": "Portfolio constraints"
+        },
+        {
+          "slide": 5,
+          "title": "RMS phasors and complex power"
+        },
+        {
+          "slide": 6,
+          "title": "Balanced three-phase relations"
+        },
+        {
+          "slide": 7,
+          "title": "Transformer models and tests"
+        },
+        {
+          "slide": 8,
+          "title": "Per-unit bases and conversion"
+        },
+        {
+          "slide": 9,
+          "title": "Transformer connection conventions"
+        },
+        {
+          "slide": 10,
+          "title": "Line parameters"
+        },
+        {
+          "slide": 11,
+          "title": "Transmission-line models"
+        },
+        {
+          "slide": 12,
+          "title": "Network matrix and bus types"
+        },
+        {
+          "slide": 13,
+          "title": "Power-flow iteration"
+        },
+        {
+          "slide": 14,
+          "title": "Example: complete network data"
+        },
+        {
+          "slide": 15,
+          "title": "Example: solution route"
+        },
+        {
+          "slide": 16,
+          "title": "Example: portfolio checks"
+        },
+        {
+          "slide": 17,
+          "title": "Example: load specification"
+        },
+        {
+          "slide": 18,
+          "title": "Example: physical line parameters"
+        },
+        {
+          "slide": 19,
+          "title": "Example: common-base records"
+        },
+        {
+          "slide": 20,
+          "title": "Example: network admittance"
+        },
+        {
+          "slide": 21,
+          "title": "Example: initial mismatch"
+        },
+        {
+          "slide": 22,
+          "title": "Example: initial Jacobian"
+        },
+        {
+          "slide": 23,
+          "title": "Example: first Newton update"
+        },
+        {
+          "slide": 24,
+          "title": "Example: mismatch convergence"
+        },
+        {
+          "slide": 25,
+          "title": "Example: converged bus records"
+        },
+        {
+          "slide": 26,
+          "title": "Example: branch terminal powers"
+        },
+        {
+          "slide": 27,
+          "title": "Example: total power balance"
+        },
+        {
+          "slide": 28,
+          "title": "Example: portfolio acceptance"
+        },
+        {
+          "slide": 29,
+          "title": "Example: network acceptance"
+        },
+        {
+          "slide": 30,
+          "title": "Practice: load and transformer"
+        },
+        {
+          "slide": 31,
+          "title": "Practice: cross-topic solution"
+        },
+        {
+          "slide": 32,
+          "title": "Practice: a tighter source limit"
+        },
+        {
+          "slide": 33,
+          "title": "Practice: capability decision"
+        },
+        {
+          "slide": 34,
+          "title": "Scope of the conclusions"
+        },
+        {
+          "slide": 35,
+          "title": "Course summary"
+        },
+        {
+          "slide": 36,
+          "title": "Closing check"
+        }
+      ],
+      "status": "framework"
+    }
+  ]
+}

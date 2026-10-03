@@ -1,0 +1,52 @@
+{% assign teaching_zh = false %}
+{% assign teaching_prefix = '' %}
+{% if page.lang == 'zh' %}{% assign teaching_zh = true %}{% assign teaching_prefix = '/zh' %}{% endif %}
+{% assign gnn_path = teaching_prefix | append: '/teaching/course-development/physics-informed-gnn/' %}
+<div class="teaching-courses">
+  <section class="teaching-course teaching-course--featured" aria-labelledby="ieee-course-title">
+    <p class="teaching-course__meta">IEEE Learning Network · IEEE Power &amp; Energy Society · 2026</p>
+    <h3 id="ieee-course-title"><a href="https://iln.ieee.org/public/contentdetails.aspx?id=48A92EF8188E4D2E8331E1381CAF98E7">AI for Power &amp; Energy Systems</a></h3>
+    <p>{% if teaching_zh %}五门课程组成的在线项目，与 Fangxing (Fran) Li 博士共同讲授。我参与其中第一门课程，并负责以下另外三门课程。{% else %}A five-course online program co-instructed with Dr. Fangxing (Fran) Li. I contributed to the first course below and was responsible for the other three listed here.{% endif %}</p>
+    <details class="teaching-course__details">
+      <summary>{% if teaching_zh %}查看参与及负责的课程{% else %}View courses and teaching roles{% endif %}</summary>
+      <ul>
+        <li><span class="teaching-course__role">{% if teaching_zh %}参与{% else %}Contributed to{% endif %}</span> <a href="https://iln.ieee.org/Public/ContentDetails.aspx?id=21D915950CBE4139A40C62BBE7A59556">Computation Acceleration in Modeling and Control</a></li>
+        <li><span class="teaching-course__role">{% if teaching_zh %}负责{% else %}Responsible for{% endif %}</span> <a href="https://iln.ieee.org/Public/ContentDetails.aspx?id=550105AB2F69474BA043C35CEC71E0A3">Forecasting, Awareness, and Data Augmentation</a></li>
+        <li><span class="teaching-course__role">{% if teaching_zh %}负责{% else %}Responsible for{% endif %}</span> <a href="https://iln.ieee.org/Public/ContentDetails.aspx?id=0CFD1158E2D14CD1B97AD88BCF6FD38A">Physics-Informed, Explainable, and Safe AI Solutions</a></li>
+        <li><span class="teaching-course__role">{% if teaching_zh %}负责{% else %}Responsible for{% endif %}</span> <a href="https://iln.ieee.org/Public/ContentDetails.aspx?id=FD79BE256C2B4944A65F89EDED1DE6AA">Generative AI and Large Language Models</a></li>
+      </ul>
+    </details>
+  </section>
+
+  <section class="teaching-course" aria-labelledby="ece685-course-title">
+    <p class="teaching-course__meta">{% if teaching_zh %}堪萨斯州立大学{% else %}Kansas State University{% endif %}</p>
+    <h3 id="ece685-course-title"><a href="{{ teaching_prefix | append: '/teaching/course-development/ece685/' | relative_url }}">ECE 685 — Power Systems Design</a></h3>
+    <p>{% if teaching_zh %}按照 lecture slides 学习发电规划、交流电路、变压器、输电线路与潮流分析。{% else %}Follow the lecture slides through generation planning, AC circuits, transformers, transmission lines, and power flow.{% endif %}</p>
+    <ul class="teaching-course__modules">
+      <li><a href="{{ teaching_prefix | append: '/teaching/course-development/ece685/' | relative_url }}">{% if teaching_zh %}查看全部 {{ site.data.ece685.lectures.size }} 讲{% else %}Explore all {{ site.data.ece685.lectures.size }} lectures{% endif %}</a><span class="teaching-course__status">{% if teaching_zh %}课程框架{% else %}Course framework{% endif %}</span></li>
+    </ul>
+  </section>
+
+  <section class="teaching-course" aria-labelledby="gnn-course-title">
+    <p class="teaching-course__meta">{% if teaching_zh %}微电网 · 配电系统{% else %}Microgrids · Distribution systems{% endif %}</p>
+    <h3 id="gnn-course-title"><a href="{{ gnn_path | relative_url }}">Physics-informed GNN for microgrid N-1 security prediction</a></h3>
+    <p>{% if teaching_zh %}从交互式潮流分析与代码实验，逐步扩展到物理信息图神经网络。{% else %}Interactive power-flow lessons and code experiments, extending toward physics-informed graph neural networks.{% endif %}</p>
+    <ul class="teaching-course__modules">
+      <li><a href="{{ gnn_path | append: 'balanced-power-flow/' | relative_url }}">Balanced Power Flow</a><span class="teaching-course__status teaching-course__status--live">{% if teaching_zh %}交互教材{% else %}Interactive lesson{% endif %}</span></li>
+      <li><a href="{{ gnn_path | append: 'unbalanced-power-flow/' | relative_url }}">Unbalanced Power Flow</a><span class="teaching-course__status teaching-course__status--live">{% if teaching_zh %}交互教材{% else %}Interactive lesson{% endif %}</span></li>
+      <li><a href="{{ gnn_path | append: 'pandapower-based-implementation/' | relative_url }}">PandaPower-based Implementation</a><span class="teaching-course__status teaching-course__status--live">{% if teaching_zh %}交互教材{% else %}Interactive lesson{% endif %}</span></li>
+    </ul>
+  </section>
+
+  <section class="teaching-course" aria-labelledby="ibr-course-title">
+    {% assign ibr_path = teaching_prefix | append: '/teaching/course-development/ibr/' %}
+    <p class="teaching-course__meta">{% if teaching_zh %}IBR 动态 · 建模 · 物理信息学习{% else %}IBR dynamics · Modeling · Physics-informed learning{% endif %}</p>
+    <h3 id="ibr-course-title"><a href="{{ ibr_path | relative_url }}">{% if teaching_zh %}IBR 动态与物理信息学习{% else %}IBR Dynamics and Physics-Informed Learning{% endif %}</a></h3>
+    <p>{% if teaching_zh %}三门核心课程连接 GFL、GFM 与 hybrid 建模、稳定性与降阶、Physics-informed Neural ODE；两个进阶专题扩展到辨识与多 IBR 网络动态。{% else %}Three core courses connect GFL, GFM, and hybrid modeling, stability and reduction, and physics-informed Neural ODEs. Two advanced topics extend the path to identification and multi-IBR network dynamics.{% endif %}</p>
+    <ul class="teaching-course__modules">
+      {% for item in site.data.ibr_courses.courses %}
+      <li><a href="{{ ibr_path | append: item.slug | append: '/' | relative_url }}">{% if teaching_zh %}{{ item.title.zh }}{% else %}{{ item.title.en }}{% endif %}</a><span class="teaching-course__status">{% if item.role == 'core' %}{% if teaching_zh %}核心课程 · 框架{% else %}Core course · Framework{% endif %}{% else %}{% if teaching_zh %}进阶专题 · 框架{% else %}Advanced topic · Framework{% endif %}{% endif %}</span></li>
+      {% endfor %}
+    </ul>
+  </section>
+</div>

@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 220" role="img" aria-labelledby="title desc">
+  <title id="title">Three representations of one sinusoidal voltage</title>
+  <desc id="desc">A cosine waveform with peak amplitude root two times V rms maps to a phasor V rms at angle phi, and to rectangular components a equals V rms cosine phi and b equals V rms sine phi.</desc>
+  <rect x="1" y="1" width="858" height="218" rx="12" fill="#fbfafc" stroke="#e4dfea"/>
+  <g font-family="system-ui,sans-serif" fill="#292536" font-size="14">
+    <text x="34" y="33" font-size="12" fill="#706a7c">TIME DOMAIN · PEAK AMPLITUDE</text>
+    <path d="M34 107h216M45 165V51" stroke="#c9bfda" fill="none"/>
+    <path d="M45 78C63 42 81 42 99 78S135 150 153 114S189 42 207 78S243 150 250 132" fill="none" stroke="#512888" stroke-width="3"/>
+    <text x="34" y="190">v(t) = √2 Vᵣₘₛ cos(ωt + φ)</text>
+    <text x="277" y="110" font-size="28" fill="#aa92c3">↔</text>
+    <text x="335" y="33" font-size="12" fill="#706a7c">POLAR PHASOR · RMS MAGNITUDE</text>
+    <path d="M350 154h148M364 166V53" stroke="#c9bfda" fill="none"/>
+    <path d="M364 154L469 86l-12 2m12-2-6 12" stroke="#512888" stroke-width="3" fill="none"/>
+    <path d="M396 154a32 32 0 0 0-6-18" stroke="#512888" fill="none"/>
+    <text x="400" y="143">φ</text><text x="412" y="98">Vᵣₘₛ</text>
+    <text x="354" y="190">V = Vᵣₘₛ ∠ φ</text>
+    <text x="553" y="110" font-size="28" fill="#aa92c3">↔</text>
+    <text x="604" y="33" font-size="12" fill="#706a7c">RECTANGULAR PHASOR · RMS</text>
+    <path d="M611 154h169M625 166V53" stroke="#c9bfda" fill="none"/>
+    <path d="M625 154L730 86l-12 2m12-2-6 12" stroke="#512888" stroke-width="3" fill="none"/>
+    <path d="M730 86v68H625" stroke="#258b80" stroke-width="2" stroke-dasharray="5 4" fill="none"/>
+    <text x="678" y="175">a</text><text x="743" y="125">b</text>
+    <text x="609" y="195">V = a + jb</text>
+  </g>
+</svg>

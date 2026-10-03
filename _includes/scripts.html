@@ -8,5 +8,40 @@
   <script type="module" src="{{ '/assets/js/research-landscape.js' | relative_url }}"></script>
 {% endif %}
 
+{% if page.ece685 %}
+  <script defer src="{{ '/assets/js/ece685.js' | relative_url }}"></script>
+{% endif %}
+{% if page.stage_one %}
+  <script defer src="{{ '/assets/js/ece685-stage-model.js' | relative_url }}"></script>
+  {% if page.stage_module %}<script defer src="{{ '/assets/js/course-python-runner.js' | relative_url }}"></script>{% endif %}
+  <script defer src="{{ '/assets/js/ece685-stage-lesson.js' | relative_url }}"></script>
+{% endif %}
+{% if page.ece685 and page.lecture_id == 'L05' %}
+  <script defer src="{{ '/assets/js/l05-phasor-model.js' | relative_url }}"></script>
+  <script defer src="{{ '/assets/js/course-python-runner.js' | relative_url }}"></script>
+  <script defer src="{{ '/assets/js/l05-phasor-lesson.js' | relative_url }}"></script>
+{% endif %}
+
+{% if page.balanced_power_flow %}
+  <script defer src="{{ '/assets/js/balanced-power-flow-model.js' | relative_url }}"></script>
+  <script defer src="{{ '/assets/js/balanced-power-flow-lesson.js' | relative_url }}"></script>
+{% endif %}
+
+{% if page.unbalanced_power_flow %}
+  <script defer src="{{ '/assets/js/unbalanced-power-flow-model.js' | relative_url }}"></script>
+  <script defer src="{{ '/assets/js/course-python-runner.js' | relative_url }}"></script>
+  <script defer src="{{ '/assets/js/unbalanced-power-flow-lesson.js' | relative_url }}"></script>
+{% endif %}
+
+{% if page.pandapower_implementation %}
+  <script defer src="{{ '/assets/js/course-python-runner.js' | relative_url }}"></script>
+  <script defer src="{{ '/assets/js/pandapower-implementation-lesson.js' | relative_url }}"></script>
+{% endif %}
+
+{% if page.ibr_modeling and page.module_id %}
+  <script defer src="{{ '/assets/js/course-python-runner.js' | relative_url }}"></script>
+  <script defer src="{{ '/assets/js/ibr-modeling-lesson.js' | relative_url }}"></script>
+{% endif %}
+
 {% include analytics.html %}
 {% include /comments-providers/scripts.html %}

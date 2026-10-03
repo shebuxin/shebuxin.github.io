@@ -1,0 +1,77 @@
+- key: load_scale
+  en: Load multiplier
+  zh: 负荷倍率
+  min: 0.2
+  max: 2
+  step: 0.05
+  unit: ×
+- key: p2_kw
+  en: Bus 2 total demand
+  zh: 节点 2 总负荷
+  min: 0
+  max: 240
+  step: 5
+  unit: kW
+- key: p3_a_kw
+  en: Bus 3 phase A demand
+  zh: 节点 3 A 相负荷
+  min: 0
+  max: 150
+  step: 5
+  unit: kW
+- key: p3_b_kw
+  en: Bus 3 phase B demand
+  zh: 节点 3 B 相负荷
+  min: 0
+  max: 150
+  step: 5
+  unit: kW
+- key: p3_c_kw
+  en: Bus 3 phase C demand
+  zh: 节点 3 C 相负荷
+  min: 0
+  max: 150
+  step: 5
+  unit: kW
+- key: pf
+  en: Load power factor (lagging)
+  zh: 负荷功率因数（滞后）
+  min: 0.85
+  max: 1
+  step: 0.01
+  unit: ''
+- key: dg_kw
+  en: Bus 3 PV generation
+  zh: 节点 3 光伏出力
+  min: 0
+  max: 200
+  step: 5
+  unit: kW
+- key: vm_pu
+  en: Source voltage setpoint
+  zh: 电源电压设定
+  min: 0.95
+  max: 1.05
+  step: 0.005
+  unit: pu
+- key: z_scale
+  en: Line impedance multiplier
+  zh: 线路阻抗倍率
+  min: 0.5
+  max: 2
+  step: 0.1
+  unit: ×
+- key: zero_ratio
+  en: Zero / positive sequence impedance
+  zh: 零序 / 正序阻抗比
+  min: 1
+  max: 5
+  step: 0.1
+  unit: ×
+- key: limit_a
+  en: Line current rating
+  zh: 线路电流限值
+  min: 200
+  max: 800
+  step: 25
+  unit: A

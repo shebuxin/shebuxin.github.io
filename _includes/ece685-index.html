@@ -1,0 +1,58 @@
+{% include ece685-context.html %}
+{% assign first_lecture = site.data.ece685.lectures | first %}
+{% assign first_interactive = site.data.ece685.lectures | where: 'status', 'live' | first %}
+<section class="ece-hero" aria-label="{% if ece_lang == 'zh' %}课程概况{% else %}Course at a glance{% endif %}">
+  <div class="ece-hero__copy">
+    <p class="ece-kicker">LEARN → EXPLORE → COMPUTE</p>
+    <h2>{% if ece_lang == 'zh' %}一讲，一个学习工作台。{% else %}One lecture. One learning workspace.{% endif %}</h2>
+    <p>{% if ece_lang == 'zh' %}按原始讲义组织整门课程。已完成模块提供概念图解、交互实验、Python 代码和练习反馈。{% else %}Explore the full course in the original slide sequence. Completed modules provide diagrams, interactive experiments, Python, and practice feedback.{% endif %}</p>
+    <div class="ece-hero__actions">
+      <a class="ece-button" href="#course-modules">{% if ece_lang == 'zh' %}进入已完成模块{% else %}Explore completed modules{% endif %} →</a>
+      <a class="ece-button" href="{{ ece_path | append: first_lecture.slug | append: '/' | relative_url }}">{% if ece_lang == 'zh' %}从 L01 开始{% else %}Start with L01{% endif %} <span aria-hidden="true">↗</span></a>
+      {% if first_interactive %}<a class="ece-button ece-button--secondary" href="{{ ece_path | append: first_interactive.slug | append: '/' | relative_url }}">{% if ece_lang == 'zh' %}体验 {{ first_interactive.id }} 交互教材{% else %}Explore {{ first_interactive.id }} lesson{% endif %} <span aria-hidden="true">↗</span></a>{% endif %}
+      <a class="ece-button ece-button--secondary" data-resume hidden href="{{ ece_path | append: first_lecture.slug | append: '/' | relative_url }}">{% if ece_lang == 'zh' %}继续阅读{% else %}Resume reading{% endif %}</a>
+    </div>
+  </div>
+  <div class="ece-hero__diagram" aria-hidden="true">
+    <div class="ece-diagram-label">SYSTEM → MODEL → DESIGN</div>
+    <svg viewBox="0 0 330 180" fill="none">
+      <path d="M45 92H128M145 92H238M258 92H304M145 92V147H254" stroke="currentColor" stroke-width="2"/>
+      <circle cx="28" cy="92" r="17" stroke="currentColor" stroke-width="2"/>
+      <path d="M17 92c5-15 16 15 22 0M128 67v50M145 67v50M238 67v50M254 67v50M295 76l9 16-9 16M237 133v27M254 133v27" stroke="currentColor" stroke-width="2"/>
+      <circle cx="128" cy="92" r="4" fill="currentColor"/><circle cx="238" cy="92" r="4" fill="currentColor"/>
+      <path d="M54 38H118M152 38H220M56 147H105" stroke="currentColor" opacity=".25" stroke-dasharray="3 5"/>
+      <text x="10" y="48">SOURCE</text><text x="125" y="48">NETWORK</text><text x="271" y="48">LOAD</text>
+    </svg>
+    <div class="ece-hero__numbers"><div><strong>{{ site.data.ece685.lectures.size }}</strong><span>LECTURES</span></div><div><strong>{{ site.data.ece685.groups.size }}</strong><span>TOPIC GROUPS</span></div></div>
+  </div>
+</section>
+{% include ece685-stage-index.html %}
+<section class="ece-catalog" aria-labelledby="ece-catalog-title" data-catalog>
+  <div class="ece-section-heading"><h2 id="ece-catalog-title">{% if ece_lang == 'zh' %}按 Lecture 学习{% else %}Explore the lectures{% endif %}</h2><span data-result-count aria-live="polite">{{ site.data.ece685.lectures.size }} {% if ece_lang == 'zh' %}讲{% else %}lectures{% endif %}</span></div>
+  <div class="ece-filters" data-filters hidden>
+    <div class="ece-search"><label for="ece-search">{% if ece_lang == 'zh' %}搜索课程内容{% else %}Search the course{% endif %}</label><input id="ece-search" type="search" data-search placeholder="{% if ece_lang == 'zh' %}Lecture 编号、标题或知识点…{% else %}Lecture, title, or concept…{% endif %}"></div>
+    <div><label for="ece-topic">{% if ece_lang == 'zh' %}主题{% else %}Topic{% endif %}</label><select id="ece-topic" data-topic><option value="">{% if ece_lang == 'zh' %}全部主题{% else %}All topics{% endif %}</option>{% for group in site.data.ece685.groups %}<option value="{{ group.id }}">{{ group.title[ece_lang] }}</option>{% endfor %}</select></div>
+    <div><label for="ece-reading">{% if ece_lang == 'zh' %}阅读状态{% else %}Reading{% endif %}</label><select id="ece-reading" data-reading><option value="">{% if ece_lang == 'zh' %}全部{% else %}All{% endif %}</option><option value="unread">{% if ece_lang == 'zh' %}未读目录{% else %}Not reviewed{% endif %}</option><option value="reviewed">{% if ece_lang == 'zh' %}已读目录{% else %}Reviewed{% endif %}</option></select></div>
+  </div>
+  <p class="ece-empty" data-empty hidden>{% if ece_lang == 'zh' %}没有匹配的 lecture。请调整搜索词或筛选条件。{% else %}No lectures match. Try a different search or filter.{% endif %}</p>
+  {% for group in site.data.ece685.groups %}
+  {% assign group_lectures = site.data.ece685.lectures | where: 'group', group.id %}
+  <section class="ece-topic-group" id="topic-{{ group.id }}" data-topic-group>
+    <div class="ece-group-heading"><span>{{ forloop.index | prepend: '0' | slice: -2, 2 }}</span><h3>{{ group.title[ece_lang] }}</h3><small>{{ group_lectures.size }} {% if ece_lang == 'zh' %}讲{% else %}lectures{% endif %}</small></div>
+    <div class="ece-lecture-grid">
+      {% for item in group_lectures %}
+      {% assign completed_module = nil %}{% for module in site.data.ece685_stage_one.modules %}{% if module.sources contains item.id or module.extension contains item.id %}{% assign completed_module = module %}{% break %}{% endif %}{% endfor %}
+      <article class="ece-lecture-card" data-lecture-card="{{ item.id }}" data-group="{{ group.id }}">
+        <div class="ece-card-meta"><span class="ece-lecture-id">{{ item.id }}</span><span class="ece-status{% if completed_module or item.status == 'live' %} ece-status--live{% endif %}">{% if completed_module %}{% if ece_lang == 'zh' %}交互模块已完成{% else %}Interactive module complete{% endif %}{% elsif item.status == 'live' %}{% if ece_lang == 'zh' %}交互教材{% else %}Interactive lesson{% endif %}{% elsif ece_lang == 'zh' %}待开发交互{% else %}Interaction planned{% endif %}</span></div>
+        <h4><a data-lecture-link href="{{ ece_path | append: item.slug | append: '/' | relative_url }}">{{ item.title[ece_lang] }} <span aria-hidden="true">↗</span></a></h4>
+        <p>{{ item.summary[ece_lang] }}</p>
+        {% if completed_module %}<p><a href="{{ ece_path | append: 'modules/' | append: completed_module.id | append: '/' | relative_url }}">{% if ece_lang == 'zh' %}进入对应交互模块{% else %}Open the interactive module{% endif %} →</a></p>{% endif %}
+        <div class="ece-card-footer"><span>{{ item.slide_outline.size }} {% if ece_lang == 'zh' %}个 slide 标题{% else %}slide headings{% endif %}</span><span data-reviewed-badge="{{ item.id }}" hidden>✓ {% if ece_lang == 'zh' %}目录已读{% else %}Outline reviewed{% endif %}</span></div>
+        <span data-search-text hidden>{{ item.title.en | escape }} {{ item.title.zh | escape }} {{ item.summary.en | escape }} {{ item.summary.zh | escape }} {% for slide in item.slide_outline %}{{ slide.title | escape }} {% endfor %}</span>
+      </article>
+      {% endfor %}
+    </div>
+  </section>
+  {% endfor %}
+</section>
+<p class="ece-source-note">{% if ece_lang == 'zh' %}目录来源{% else %}Outline source{% endif %}：<code>{{ site.data.ece685.source }}</code></p>

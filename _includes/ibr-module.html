@@ -1,0 +1,48 @@
+{% include ibr-context.html %}
+<div class="ibr-framework">
+  <p class="ibr-kicker">{{ ibr_module.id }} · {% if ibr_lang == 'zh' %}模块提纲{% else %}Module outline{% endif %}</p>
+  <p class="ibr-lead">{{ ibr_module.summary[ibr_lang] }}</p>
+  <nav class="ibr-section-nav" aria-label="{% if ibr_lang == 'zh' %}模块内容{% else %}Module contents{% endif %}">
+    <a href="#objectives">{% if ibr_lang == 'zh' %}学习目标{% else %}Objectives{% endif %}</a>
+    <a href="#outline">{% if ibr_lang == 'zh' %}内容提纲{% else %}Outline{% endif %}</a>
+    <a href="#experiment">{% if ibr_lang == 'zh' %}实验{% else %}Experiment{% endif %}</a>
+    <a href="#practice">{% if ibr_lang == 'zh' %}练习{% else %}Practice{% endif %}</a>
+    <a href="#development">{% if ibr_lang == 'zh' %}材料准备{% else %}Material preparation{% endif %}</a>
+  </nav>
+
+  <section id="objectives">
+    <h2>{% if ibr_lang == 'zh' %}学习目标{% else %}Learning objectives{% endif %}</h2>
+    <ul>{% for item in ibr_module.objectives %}<li>{{ item[ibr_lang] }}</li>{% endfor %}</ul>
+  </section>
+  <section id="outline">
+    <h2>{% if ibr_lang == 'zh' %}内容提纲{% else %}Concept outline{% endif %}</h2>
+    <ol>{% for item in ibr_module.outline %}<li>{{ item[ibr_lang] }}</li>{% endfor %}</ol>
+  </section>
+  <section id="experiment" class="ibr-planned-work">
+    <p class="ibr-kicker">{% if ibr_lang == 'zh' %}实验方向 · 待开发{% else %}Experiment direction · Planned{% endif %}</p>
+    <h2>{% if ibr_lang == 'zh' %}仿真与代码实验{% else %}Simulation and code experiment{% endif %}</h2>
+    <p>{{ ibr_module.experiment[ibr_lang] }}</p>
+    <p class="ibr-small">{% if ibr_lang == 'zh' %}后续在此加入模型说明、参数设置、可运行代码与结果解读。{% else %}Model explanations, parameter settings, runnable code, and result interpretation will be developed here.{% endif %}</p>
+  </section>
+  <section id="practice">
+    <h2>{% if ibr_lang == 'zh' %}练习与讨论{% else %}Practice and discussion{% endif %}</h2>
+    <p>{{ ibr_module.practice[ibr_lang] }}</p>
+    <p class="ibr-small">{% if ibr_lang == 'zh' %}解答与反馈将在完整教材中补充。{% else %}Worked solutions and feedback will accompany the full lesson.{% endif %}</p>
+  </section>
+  <section id="development" class="ibr-material-note">
+    <h2>{% if ibr_lang == 'zh' %}材料准备{% else %}Material preparation{% endif %}</h2>
+    <p>{% case ibr_module.readiness %}{% when 'new' %}{% if ibr_lang == 'zh' %}需要新增专门的教学实验。{% else %}A dedicated teaching experiment needs to be developed.{% endif %}{% when 'data' %}{% if ibr_lang == 'zh' %}已有物理模型与数据生成材料，学习流程和训练验证需要补充。{% else %}Physical models and data-generation material are available; the learning pipeline and training validation need development.{% endif %}{% when 'research' %}{% if ibr_lang == 'zh' %}已有相关研究案例或审阅记录，需要转化为范围明确的教学单元。{% else %}Related research cases or review records are available and need adaptation into a lesson with a declared scope.{% endif %}{% else %}{% if ibr_lang == 'zh' %}已有相关讲义、模型或 Notebook，需要整理为网页教材与实验。{% else %}Related notes, models, or notebooks are available and need adaptation into a web lesson and experiment.{% endif %}{% endcase %}</p>
+    <p>{{ ibr_module.next_step[ibr_lang] }}</p>
+  </section>
+
+  <nav class="ibr-module-pagination" aria-label="{% if ibr_lang == 'zh' %}前后模块{% else %}Previous and next modules{% endif %}">
+    {% for item in ibr_course.modules %}{% if item.id == ibr_module.id %}
+      {% unless forloop.first %}{% assign previous_index = forloop.index0 | minus: 1 %}{% assign previous_module = ibr_course.modules[previous_index] %}<a href="{{ ibr_course_url | append: previous_module.slug | append: '/' | relative_url }}"><small>← {% if ibr_lang == 'zh' %}上一模块{% else %}Previous{% endif %}</small><span>{{ previous_module.title[ibr_lang] }}</span></a>{% endunless %}
+      {% unless forloop.last %}{% assign next_index = forloop.index0 | plus: 1 %}{% assign next_module = ibr_course.modules[next_index] %}<a class="ibr-next" href="{{ ibr_course_url | append: next_module.slug | append: '/' | relative_url }}"><small>{% if ibr_lang == 'zh' %}下一模块{% else %}Next{% endif %} →</small><span>{{ next_module.title[ibr_lang] }}</span></a>{% endunless %}
+    {% endif %}{% endfor %}
+  </nav>
+  <details class="ibr-course-navigation">
+    <summary>{% if ibr_lang == 'zh' %}本课程的全部模块{% else %}All modules in this course{% endif %}</summary>
+    <ol>{% for item in ibr_course.modules %}<li><a href="{{ ibr_course_url | append: item.slug | append: '/' | relative_url }}"{% if item.id == ibr_module.id %} aria-current="page"{% endif %}>{{ item.title[ibr_lang] }}</a></li>{% endfor %}</ol>
+  </details>
+</div>

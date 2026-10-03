@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>网站访问统计 · Buxin She</title>
+  <link rel="stylesheet" href="/dashboard.css">
+  <script defer src="/dashboard.js"></script>
+</head>
+<body>
+  <main>
+    <header><div><p class="eyebrow">BUXIN SHE / SITE ANALYTICS</p><h1>网站访问统计</h1>
+      <p>查看访问趋势、来源与页面。数据存储在你自己的服务器。</p></div><button id="logout" hidden>退出</button></header>
+    <section id="login" class="panel">
+      <h2>登录统计面板</h2><p>输入部署时设置的管理员令牌。令牌只在当前页面内存中使用，刷新后需要重新登录。</p>
+      <form id="login-form"><label for="token">管理员令牌</label><input id="token" type="password" required autocomplete="off" minlength="32"><button type="submit">查看统计</button></form>
+    </section>
+    <p id="status" role="status" aria-live="polite"></p>
+    <div id="report" hidden>
+      <form id="filters" class="panel filters"><label>开始日期 <input id="start" type="date" required></label><label>结束日期 <input id="end" type="date" required></label><button type="submit">更新统计</button><button id="export" type="button">导出访问记录 CSV</button></form>
+      <p class="note">日期与记录时间均为 UTC。去重访客按匿名浏览器标识估算；会话在 30 分钟无访问后重新开始。</p>
+      <section class="cards" aria-label="访问概览">
+        <article class="panel"><span>页面访问次数 · PV</span><strong id="pageviews">—</strong><p>每次打开页面记一次，刷新会再次计数</p></article>
+        <article class="panel"><span>去重访客数 · UV</span><strong id="visitors">—</strong><p>所选期间去重，跨设备可能重复计算</p></article>
+        <article class="panel"><span>访问会话</span><strong id="sessions">—</strong><p>同一浏览器连续浏览合并为一次会话</p></article>
+      </section>
+      <section class="panel"><h2>每日趋势</h2><p class="note">每日访客数分别去重，不能相加得到期间访客数。</p><div class="table-scroll"><table><thead><tr><th>日期</th><th>访问次数</th><th>访客数</th><th>会话</th><th>访问趋势</th></tr></thead><tbody id="daily"></tbody></table></div></section>
+      <div class="grid" id="breakdowns"></div>
+      <section class="panel"><h2>最近访问记录</h2><p id="geo-note" class="note"></p><p class="note">仅管理员可查看。匿名标识用于核对重复访问；不保存原始 IP 地址或完整 User-Agent。</p>
+        <div class="table-scroll"><table><thead><tr><th>时间（UTC）</th><th>匿名访客</th><th>页面</th><th>来源</th><th>推广活动</th><th>国家 / 地区 / 城市</th><th>设备 / 浏览器 / 系统</th><th>语言</th></tr></thead><tbody id="records"></tbody></table></div>
+        <div class="pagination"><button id="previous" type="button">上一页</button><span id="record-page"></span><button id="next" type="button">下一页</button></div>
+      </section>
+    </div>
+    <footer>来源为空时合并为“直接访问 / 来源未知”。浏览器可能隐藏来源；机器人过滤和地理定位均有误差。</footer>
+  </main>
+</body>
+</html>
