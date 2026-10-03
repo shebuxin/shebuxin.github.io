@@ -64,7 +64,7 @@ description: "在浏览器中用真实 pandapower 建网并运行平衡与三相
 
 <div class="bf-equation" data-math="\begin{aligned}Q_D&amp;=P_D\tan(\arccos\mathrm{PF})\\S_i^{inj}&amp;=(P_{G,i}-P_{D,i})+j(Q_{G,i}-Q_{D,i})\\S_i^{inj}&amp;=V_i\left(\sum_jY_{ij}V_j\right)^*\end{aligned}"></div>
 
-120 kW、PF = 0.95 的负荷消耗约 39.442 kvar，对应 `p_mw=0.120`、`q_mvar=0.039442`。本例使用恒功率负荷，关闭电压相关负荷选项，同时求解 P 和 Q。DC 潮流近似不能给出这里的电压幅值变化与电阻损耗。
+120 kW、PF = 0.95 的负荷消耗约 39.442 kvar，对应 `p_mw=0.120`、`q_mvar=0.039442`。本例采用恒定 PQ 负荷，关闭电压相关负荷选项。AC 方程保留线路电阻与电抗，求解节点电压幅值和相角。
 
 ### C. 根据建模假设选择求解器
 

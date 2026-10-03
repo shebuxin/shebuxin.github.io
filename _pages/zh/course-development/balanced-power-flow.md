@@ -25,7 +25,17 @@ description: "平衡三相 AC 潮流互动教材：背景、公式推导、馈�
 
 {% include balanced-overview.html %}
 
-本章采用平衡 AC 模型，包含电阻、无功功率与电压幅值。它与此前 Power Flow demo 的无损 DC 近似不同。负荷采用恒定 PQ；节点 3 的逆变器按指定 P、Q 注入建模，并不作为 PV 节点调节电压。
+### 本章的模型假设
+
+本章的方程推导和交互实验采用以下假设：
+
+- **正弦稳态：** 电压与电流用有效值复相量表示。
+- **三相平衡：** 网络参数对称，负荷与分布式电源在三相上均衡分配。采用单相等值表示网络，P、Q 表示三相总功率。
+- **线路采用串联阻抗：** 保留电阻 R 与电抗 X，忽略线路充电、并联支路和变压器。
+- **负荷与分布式电源采用恒定 PQ：** 每个运行点的有功 P、无功 Q 为指定值，求解过程中不随电压变化；节点电压幅值和相角由潮流方程求得。
+- **只有一个电压参考：** 平衡节点的电压幅值和相角固定，其有功、无功供给平衡网络其余节点的净注入与线路损耗。
+
+这些假设定义通用模型。下方例题再给出具体馈线、节点编号，以及负荷与发电的设置。
 
 对于后续 N-1 预测任务，拓扑与运行点可作为输入，潮流解得到的电压、电流可作为标签或物理一致性检查。**求解收敛不等于运行安全**：还需要检查限值、连通性与模型适用范围。动态稳定性和保护行为需要另外分析。
 
@@ -38,7 +48,7 @@ description: "平衡三相 AC 潮流互动教材：背景、公式推导、馈�
 
 <div class="bf-equation" data-math="\begin{aligned}Z_B&amp;=\frac{V_{LL,B}^{2}}{S_B},\qquad I_B=\frac{S_B}{\sqrt{3}V_{LL,B}}\\z_{ij}^{pu}&amp;=\frac{r_{ij}+jx_{ij}}{Z_B},\qquad S_i^{pu}=\frac{P_i+jQ_i}{S_B}\end{aligned}"></div>
 
-取 S<sub>B</sub> = 1 MVA、V<sub>LL,B</sub> = 0.4 kV，得到 Z<sub>B</sub> = 0.16 Ω、I<sub>B</sub> = 1443.38 A。采用这些基准后，不要把三相总功率再次除以三。
+先确定基准，再把线路阻抗和功率注入换算为标幺值。采用三相总功率基准后，不要把三相总功率再次除以三。
 
 ### 步骤 B：构建节点导纳矩阵
 
@@ -66,13 +76,13 @@ description: "平衡三相 AC 潮流互动教材：背景、公式推导、馈�
 | PQ 节点 | 净 P、Q | 电压幅值、相角 |
 | PV 节点 | P、电压幅值 | Q、相角 |
 
-实验包含**一个平衡节点与两个 PQ 节点**，四个未知量为 x = [θ₂, θ₃, v₂, v₃]<sup>T</sup>。表中的 PV 类型用于建立完整概念，本例逆变器仍按 PQ 注入处理。节点分类与非线性功率平衡形式可参见 [MATPOWER AC 潮流手册](https://matpower.app/manual/matpower/ACPowerFlow.html)。
+在本章假设下，负荷和固定 PQ 分布式电源都接在 **PQ 节点**上。未知量是这些节点的电压相角与幅值，平衡节点电压已知。将未知量组成向量 x = [θ<sub>PQ</sub><sup>T</sup>, v<sub>PQ</sub><sup>T</sup>]<sup>T</sup>。表中的 PV 节点用于完整说明节点分类，它对应电压调节，本章实验不采用该类型。节点分类与非线性功率平衡形式可参见 [MATPOWER AC 潮流手册](https://matpower.app/manual/matpower/ACPowerFlow.html)。
 
 ### 步骤 E：用牛顿–拉夫逊方法求解
 
 从平坦电压与零相角开始，计算指定功率与当前计算功率的偏差。J 定义为**计算注入**对 x 的导数，因此下面的更新采用加号：
 
-<div class="bf-equation" data-math="\begin{aligned}\Delta\boldsymbol s&amp;=\begin{bmatrix}P_2^{spec}-P_2\\P_3^{spec}-P_3\\Q_2^{spec}-Q_2\\Q_3^{spec}-Q_3\end{bmatrix}\\J&amp;=\begin{bmatrix}H&amp;N\\M&amp;L\end{bmatrix}=\frac{\partial(P,Q)}{\partial(\theta,v)}\end{aligned}"></div>
+<div class="bf-equation" data-math="\begin{aligned}\Delta\boldsymbol s&amp;=\begin{bmatrix}\boldsymbol P_{PQ}^{spec}-\boldsymbol P_{PQ}\\\boldsymbol Q_{PQ}^{spec}-\boldsymbol Q_{PQ}\end{bmatrix}\\J&amp;=\begin{bmatrix}H&amp;N\\M&amp;L\end{bmatrix}=\frac{\partial(\boldsymbol P_{PQ},\boldsymbol Q_{PQ})}{\partial(\boldsymbol\theta_{PQ},\boldsymbol v_{PQ})}\end{aligned}"></div>
 <div class="bf-equation" data-math="\begin{aligned}J(x^{(k)})\Delta x^{(k)}&amp;=\Delta\boldsymbol s^{(k)}\\x^{(k+1)}&amp;=x^{(k)}+\alpha\Delta x^{(k)}\end{aligned}"></div>
 
 实现采用解析雅可比矩阵、带主元选择的消元和回溯步长 α，使偏差下降并保持电压幅值为正。停止条件为 ‖Δs‖∞ &lt; 10<sup>−10</sup> pu；迭代停滞或完成 30 次更新仍不收敛时报告失败。算法不收敛本身并不能证明物理系统不存在解。
@@ -88,13 +98,29 @@ description: "平衡三相 AC 潮流互动教材：背景、公式推导、馈�
 ## 3. 例题：400 V 馈线
 {: #worked-example }
 
-节点 1 保持 1∠0° pu。节点 2 消耗 120 kW；节点 3 消耗 180 kW，并配置 50 kW、单位功率因数的发电单元。两个负荷的功率因数均为 0.95 滞后。线路每相阻抗如下：
+### 建立馈线与节点设置
+
+考虑一个 **400 V 三节点配电馈线**。节点 1 是上级电源，通过线路 1–2 向节点 2 供电，再通过线路 2–3 向下游节点 3 供电。线路 1–3 是常开联络线，后续实验中可以将其闭合，形成替代供电路径。
+
+| 节点 | 设备与指定量 | 潮流节点类型 |
+|---|---|---|
+| 1 | 上级电源，电压固定为 1∠0° pu | 平衡 / 参考节点 |
+| 2 | 120 kW 负荷，功率因数 0.95 滞后 | PQ |
+| 3 | 180 kW 负荷，功率因数 0.95 滞后；另接 50 kW、单位功率因数的分布式电源 | PQ |
+
+节点 3 的逆变器按**指定 P、Q 注入**建模：P<sub>G</sub> = 50 kW、Q<sub>G</sub> = 0，不调节该节点的电压幅值。将发电与负荷合并为净注入后，节点 3 仍是 PQ 节点。
+
+取 S<sub>B</sub> = 1 MVA、V<sub>LL,B</sub> = 0.4 kV，得到 Z<sub>B</sub> = 0.16 Ω、I<sub>B</sub> = 1443.38 A。线路每相阻抗如下：
 
 | 线路 | 阻抗（Ω） | 阻抗（pu） |
 |---|---|---|
 | 1–2 | 0.012 + j0.008 | 0.075 + j0.050 |
 | 2–3 | 0.008 + j0.006 | 0.050 + j0.0375 |
 | 1–3，常开联络线 | 0.022 + j0.014 | 0.1375 + j0.0875 |
+
+节点 1 是参考节点，节点 2、3 是 PQ 节点，因此四个未知量为 x = [θ₂, θ₃, v₂, v₃]<sup>T</sup>。
+
+### 写出注入并求解
 
 **1. 由功率因数得到无功需求。** Q<sub>D</sub> = P<sub>D</sub> tan(arccos 0.95)，得到节点 2 的无功为 39.44 kvar、节点 3 为 59.16 kvar。
 
@@ -109,7 +135,7 @@ description: "平衡三相 AC 潮流互动教材：背景、公式推导、馈�
 ## 4. 交互实验：改变运行点
 {: #interactive-lab }
 
-每次先改变一个控制量。电网图、三相相量、电压分布、线路负载率和牛顿迭代表都基于同一运行点更新。断开辐射型支路会形成孤岛；闭合联络线可以提供替代供电路径。
+每次先改变一个控制量。上方三相相量图显示节点 3 的电压，它与电网图、电压分布、线路负载率和牛顿迭代表都基于同一运行点更新。断开辐射型支路会形成孤岛；闭合联络线可以提供替代供电路径。
 
 {% include balanced-lab.html %}
 

@@ -24,7 +24,17 @@ In a balanced three-phase system, phase magnitudes are equal and phase angles ar
 
 {% include balanced-overview.html %}
 
-This chapter uses a balanced AC model, not the lossless DC approximation in the earlier Power Flow demo. It includes resistance, reactive power, and voltage magnitudes. Loads are constant PQ. A fixed-PQ inverter at bus 3 supplies specified active and reactive power; it does not regulate voltage as a PV bus.
+### Modeling assumptions
+
+The equations and experiments in this chapter use the following assumptions:
+
+- **Sinusoidal steady state:** voltages and currents are represented by RMS complex phasors.
+- **Balanced three-phase operation:** the network is symmetric, and loads and distributed generation are balanced across the three phases. We use a single-phase equivalent, with P and Q expressed as three-phase totals.
+- **Series line impedances:** each line has resistance R and reactance X. Line charging, shunts, and transformers are omitted.
+- **Constant-PQ loads and distributed generation:** active power P and reactive power Q are specified at each operating point and remain fixed as the solver updates voltage. The model solves for both voltage magnitude and angle.
+- **One voltage reference:** a slack bus has a specified voltage magnitude and angle. Its active and reactive supply balance the remaining network injections and line losses.
+
+These assumptions define the general model. The worked example below introduces a specific feeder, assigns bus numbers, and sets its loads and generation.
 
 For the later N-1 prediction task, a topology and operating point become model inputs, and solved voltages/currents can become labels or physical consistency checks. A converged solution is **not automatically a secure operating point**: we must separately check limits, connectivity, and the scope of the model. Dynamic stability and protection behavior require additional analysis.
 
@@ -37,7 +47,7 @@ Use three-phase apparent-power base S<sub>B</sub> and line-to-line voltage base 
 
 <div class="bf-equation" data-math="\begin{aligned}Z_B&amp;=\frac{V_{LL,B}^{2}}{S_B},\qquad I_B=\frac{S_B}{\sqrt{3}V_{LL,B}}\\z_{ij}^{pu}&amp;=\frac{r_{ij}+jx_{ij}}{Z_B},\qquad S_i^{pu}=\frac{P_i+jQ_i}{S_B}\end{aligned}"></div>
 
-For S<sub>B</sub> = 1 MVA and V<sub>LL,B</sub> = 0.4 kV, Z<sub>B</sub> = 0.16 Ω and I<sub>B</sub> = 1443.38 A. Do not divide the total three-phase power by three again after applying these bases.
+Choose the bases before converting line impedances and power injections to per unit. Do not divide the total three-phase power by three again after applying the three-phase power base.
 
 ### Step B — Build the network admittance matrix
 
@@ -65,13 +75,13 @@ These equations retain resistance and reactive coupling. That matters in a distr
 | PQ | Net P and Q | Voltage magnitude and angle |
 | PV | P and voltage magnitude | Q and angle |
 
-The experiment has **one slack bus and two PQ buses**. Its four unknowns are x = [θ₂, θ₃, v₂, v₃]<sup>T</sup>. The PV type is included above for context; this lesson's inverter is represented as a PQ injection. This bus classification and nonlinear power-balance formulation are described in the [MATPOWER AC power-flow manual](https://matpower.app/manual/matpower/ACPowerFlow.html).
+Under this chapter's assumptions, loads and fixed-PQ distributed generators are represented at **PQ buses**. The unknowns are the voltage angles and magnitudes at those buses; the slack voltage is fixed. Collect them in x = [θ<sub>PQ</sub><sup>T</sup>, v<sub>PQ</sub><sup>T</sup>]<sup>T</sup>. The PV bus type is listed for context: it represents voltage regulation and is not used in this experiment. This bus classification and nonlinear power-balance formulation are described in the [MATPOWER AC power-flow manual](https://matpower.app/manual/matpower/ACPowerFlow.html).
 
 ### Step E — Solve with Newton–Raphson
 
 Start with flat voltages and zero angles. Compute the mismatch between specified and calculated P/Q. Let J be the derivatives of the **calculated** injections with respect to x, so the update sign below is positive:
 
-<div class="bf-equation" data-math="\begin{aligned}\Delta\boldsymbol s&amp;=\begin{bmatrix}P_2^{spec}-P_2\\P_3^{spec}-P_3\\Q_2^{spec}-Q_2\\Q_3^{spec}-Q_3\end{bmatrix}\\J&amp;=\begin{bmatrix}H&amp;N\\M&amp;L\end{bmatrix}=\frac{\partial(P,Q)}{\partial(\theta,v)}\end{aligned}"></div>
+<div class="bf-equation" data-math="\begin{aligned}\Delta\boldsymbol s&amp;=\begin{bmatrix}\boldsymbol P_{PQ}^{spec}-\boldsymbol P_{PQ}\\\boldsymbol Q_{PQ}^{spec}-\boldsymbol Q_{PQ}\end{bmatrix}\\J&amp;=\begin{bmatrix}H&amp;N\\M&amp;L\end{bmatrix}=\frac{\partial(\boldsymbol P_{PQ},\boldsymbol Q_{PQ})}{\partial(\boldsymbol\theta_{PQ},\boldsymbol v_{PQ})}\end{aligned}"></div>
 <div class="bf-equation" data-math="\begin{aligned}J(x^{(k)})\Delta x^{(k)}&amp;=\Delta\boldsymbol s^{(k)}\\x^{(k+1)}&amp;=x^{(k)}+\alpha\Delta x^{(k)}\end{aligned}"></div>
 
 The implementation uses an analytic Jacobian, pivoted elimination, and a backtracking step α to reduce the mismatch while keeping positive voltage magnitudes. It stops when ‖Δs‖∞ &lt; 10<sup>−10</sup> pu, or reports failure after a stalled step or 30 updates. Failure of this algorithm alone does not prove that no physical solution exists.
@@ -87,13 +97,29 @@ For each active line, calculate the current and the powers injected into the lin
 ## 3. Worked example: a 400 V feeder
 {: #worked-example }
 
-Bus 1 holds 1∠0° pu. Bus 2 consumes 120 kW; bus 3 consumes 180 kW and has a 50 kW unity-power-factor generator. Both loads operate at 0.95 lagging power factor. The radial lines have these per-phase impedances:
+### Set up the feeder and its buses
+
+Consider a **three-bus, 400 V distribution feeder**. Bus 1 is the upstream source, which connects to bus 2 through line 1–2. Line 2–3 supplies the downstream bus 3. A normally open tie line 1–3 can be closed in the later experiment to provide an alternative path.
+
+| Bus | Equipment and specified quantities | Power-flow type |
+|---|---|---|
+| 1 | Upstream source, with voltage fixed at 1∠0° pu | Slack / reference |
+| 2 | 120 kW load at PF = 0.95 lagging | PQ |
+| 3 | 180 kW load at PF = 0.95 lagging, plus 50 kW distributed generation at unity power factor | PQ |
+
+The inverter at bus 3 is modeled as a **specified P, Q injection**: P<sub>G</sub> = 50 kW and Q<sub>G</sub> = 0. It does not regulate the bus voltage. The bus remains PQ, with the generator and load combined into one net injection.
+
+Choose S<sub>B</sub> = 1 MVA and V<sub>LL,B</sub> = 0.4 kV. Then Z<sub>B</sub> = 0.16 Ω and I<sub>B</sub> = 1443.38 A. The lines have these per-phase impedances:
 
 | Line | Impedance (Ω) | Impedance (pu) |
 |---|---|---|
 | 1–2 | 0.012 + j0.008 | 0.075 + j0.050 |
 | 2–3 | 0.008 + j0.006 | 0.050 + j0.0375 |
 | 1–3, normally open tie | 0.022 + j0.014 | 0.1375 + j0.0875 |
+
+With bus 1 as the reference and buses 2 and 3 as PQ buses, the four unknowns are x = [θ₂, θ₃, v₂, v₃]<sup>T</sup>.
+
+### Form the injections and solve
 
 **1. Convert load power factors.** Q<sub>D</sub> = P<sub>D</sub> tan(arccos 0.95), giving 39.44 kvar at bus 2 and 59.16 kvar at bus 3.
 
@@ -108,7 +134,7 @@ Predict what doubling both loads will do before selecting **High demand** below.
 ## 4. Experiment: change the operating point
 {: #interactive-lab }
 
-Move one control at a time. The network, phase diagram, voltage profile, current loading, and Newton-iteration table all recompute from the same operating point. Opening a radial branch isolates buses; a closed tie can provide an alternative path.
+Move one control at a time. The phase diagram above shows the three-phase voltage at bus 3. It updates together with the network, voltage profile, current loading, and Newton-iteration table, all from the same operating point. Opening a radial branch isolates buses; a closed tie can provide an alternative path.
 
 {% include balanced-lab.html %}
 

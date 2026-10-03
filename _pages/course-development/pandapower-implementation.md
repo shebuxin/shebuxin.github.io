@@ -63,7 +63,7 @@ For lagging constant-PQ loads, reactive demand is positive. The inverter supplie
 
 <div class="bf-equation" data-math="\begin{aligned}Q_D&amp;=P_D\tan(\arccos\mathrm{PF})\\S_i^{inj}&amp;=(P_{G,i}-P_{D,i})+j(Q_{G,i}-Q_{D,i})\\S_i^{inj}&amp;=V_i\left(\sum_jY_{ij}V_j\right)^*\end{aligned}"></div>
 
-For 120 kW at PF = 0.95, Q ≈ 39.442 kvar. In code, that is `p_mw=0.120` and `q_mvar=0.039442`. This lesson uses constant power, disables voltage-dependent loads, and solves both P and Q; a DC power-flow approximation cannot produce these voltage drops and resistive losses.
+For 120 kW at PF = 0.95, Q ≈ 39.442 kvar. In code, that is `p_mw=0.120` and `q_mvar=0.039442`. This lesson uses constant-PQ loads and disables voltage-dependent load behavior. The AC equations include line resistance and reactance and solve for voltage magnitudes and angles.
 
 ### C. Choose balanced or three-phase equations deliberately
 

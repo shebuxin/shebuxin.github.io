@@ -52,7 +52,7 @@
   }
 
   function drawPhases() {
-    const w=canvas(phaseSvg,230,zh?"节点 3 的平衡三相电压相量":"Balanced phase-voltage phasors at bus 3"); if(!w) return;
+    const w=canvas(phaseSvg,230,zh?"平衡三相电压相量":"Balanced three-phase voltage phasors"); if(!w) return;
     if(!result.ok){text(phaseSvg,w/2,110,"—");return;}
     const cx=w/2, cy=112, radius=Math.min(78,w*.27), bus=result.buses[2], angle=bus.theta_deg*Math.PI/180;
     el(phaseSvg,"circle",{cx,cy,r:radius,stroke:"var(--bf-border)",fill:"none"});
