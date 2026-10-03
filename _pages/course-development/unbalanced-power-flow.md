@@ -22,7 +22,17 @@ An unequal load also produces **neutral return current**. If the neutral conduct
 
 {% include unbalanced-overview.html %}
 
-The experiment is a **radial, three-bus, four-wire AC model**. Bus 1 is a balanced ideal source with its neutral grounded. Loads and fixed-PQ PV inverters are wye connected. Downstream neutrals connect through the neutral wire; there are no additional earth-return or grounding paths. The line model includes adjustable phase-phase mutual reactance and neutral impedance, while phase-neutral mutual terms are set to zero as a teaching simplification.
+### Modeling assumptions
+
+This chapter uses a phase-domain, four-wire AC model. Its equations and experiments make the following assumptions:
+
+- **Sinusoidal steady state:** voltages and currents are fundamental-frequency RMS complex phasors; harmonics are excluded.
+- **Radial network:** retain the a, b, c phase conductors and the n neutral, and calculate branch currents and conductor voltages along the feeder.
+- **One balanced ideal source:** its phase-voltage magnitudes and angles are fixed, and its neutral is grounded. Downstream neutrals return through the neutral wire, without additional grounding or earth-return paths.
+- **Wye constant-PQ devices:** loads specify P and Q per phase; solar inverters inject specified active power with Q = 0. They connect phase to local neutral and do not regulate bus voltage.
+- **Series four-conductor lines:** retain phase and neutral resistance and reactance, plus adjustable phase-phase mutual reactance. Phase-neutral mutual terms are zero; shunts and transformers are omitted.
+
+These assumptions define the general model. First derive its equations with generic labels i, j, and k; the worked example then introduces the feeder, bus numbers, and phase demands.
 
 <div class="uf-compare">Before moving a slider, predict: if phase A demand increases, must phases B and C both fall by the same amount? The shared neutral makes that assumption unreliable.</div>
 
@@ -37,11 +47,11 @@ Use RMS complex phasors. Let V<sub>i,a</sub>, V<sub>i,b</sub>, V<sub>i,c</sub>, 
 
 {% include power-flow-illustration.html kind="neutral" %}
 
-Keep the previous chapter's 1 MVA three-phase base and 400 V line-to-line voltage base. This time, power is assigned to each phase individually:
+Let S<sub>B,3φ</sub> be the three-phase power base and V<sub>B,LL</sub> the line-to-line voltage base. Phase-specific powers need corresponding per-phase bases:
 
-<div class="bf-equation" data-math="\begin{aligned}S_{B,\phi}&amp;=S_{B,3\phi}/3,\qquad V_{B,\phi}=V_{B,LL}/\sqrt3\\Z_B&amp;=V_{B,\phi}^2/S_{B,\phi}=0.16\ \Omega\\I_B&amp;=S_{B,\phi}/V_{B,\phi}=1443.38\ \mathrm A\end{aligned}"></div>
+<div class="bf-equation" data-math="\begin{aligned}S_{B,\phi}&amp;=S_{B,3\phi}/3,\qquad V_{B,\phi}=V_{B,LL}/\sqrt3\\Z_B&amp;=V_{B,\phi}^2/S_{B,\phi}=V_{B,LL}^2/S_{B,3\phi}\\I_B&amp;=S_{B,\phi}/V_{B,\phi}\end{aligned}"></div>
 
-Thus V<sub>B,φ</sub> ≈ 230.94 V and S<sub>B,φ</sub> = 333.333 kVA. A **90 kW single-phase load** has an active demand of 0.27 pu on this per-phase power base. Its value is not the three-phase total 0.09 pu used for a 90 kW balanced aggregate.
+Divide each phase's power by the per-phase power base, and divide total three-phase power by the three-phase base. The worked example substitutes numerical values to check both conversions.
 
 ### Step B — Convert each constant-PQ demand into current
 
@@ -71,11 +81,11 @@ Starting with the source phasors at every bus, repeat three operations:
 
 1. Calculate each load's four terminal currents from the current phase-to-neutral voltages.
 2. **Backward sweep:** add downstream currents to get each branch current.
-3. **Forward sweep:** start at bus 1 and apply the four-wire KVL equations along the feeder.
+3. **Forward sweep:** start at the source bus and apply the four-wire KVL equations along the feeder.
 
-For this three-bus chain:
+Use a generic i → j → k chain to illustrate one update: i is the source, j and k have loads, and k is the end bus. Every voltage and current vector contains four components: a, b, c, and n.
 
-<div class="bf-equation" data-math="\begin{aligned}\boldsymbol I_{23}&amp;=\boldsymbol I_3^{load}\\\boldsymbol I_{12}&amp;=\boldsymbol I_2^{load}+\boldsymbol I_{23}\\\boldsymbol V_2^{sweep}&amp;=\boldsymbol V_1-Z_{12}\boldsymbol I_{12}\\\boldsymbol V_3^{sweep}&amp;=\boldsymbol V_2^{sweep}-Z_{23}\boldsymbol I_{23}\end{aligned}"></div>
+<div class="bf-equation" data-math="\begin{aligned}\boldsymbol I_{jk}&amp;=\boldsymbol I_k^{load}\\\boldsymbol I_{ij}&amp;=\boldsymbol I_j^{load}+\boldsymbol I_{jk}\\\boldsymbol V_j^{sweep}&amp;=\boldsymbol V_i-Z_{ij}\boldsymbol I_{ij}\\\boldsymbol V_k^{sweep}&amp;=\boldsymbol V_j^{sweep}-Z_{jk}\boldsymbol I_{jk}\end{aligned}"></div>
 
 {% include power-flow-illustration.html kind="sweep" %}
 
@@ -102,12 +112,32 @@ U₁ is positive sequence, U₂ negative sequence, and U₀ zero sequence. Here 
 ## 3. Worked example: the same 300 kW, distributed unequally
 {: #worked-example }
 
-Bus 1 supplies a balanced 400 V line-to-line source. Bus 2 consumes 40 kW on each phase. Bus 3 consumes **90 / 55 / 35 kW** on phases A/B/C. All loads have PF = 0.95 lagging. A 50 kW PV inverter supplies equal active power on the three phases at bus 3.
+### Introduce the feeder and bus settings
+
+Consider a **three-bus, 400 V radial distribution feeder**. Bus 1 is the upstream source, connected to bus 2 by line 1–2. Line 2–3 then supplies the end bus 3. Each branch has four conductors, a, b, c, and n; this example has no tie line.
+
+{% include unbalanced-feeder.html %}
+
+| Bus | Equipment and specified quantities | Treatment of voltage |
+|---|---|---|
+| 1 | Balanced 400 V line-to-line source with grounded neutral | Fixed three-phase voltage phasors and neutral voltage |
+| 2 | Wye loads: 40 / 40 / 40 kW, 120 kW total, PF = 0.95 lagging | Solve load-terminal voltages using the four-wire model |
+| 3 | Wye loads: 90 / 55 / 35 kW, 180 kW total, PF = 0.95 lagging; plus 50 kW solar generation | Solve load-terminal voltages using the four-wire model |
+
+The inverter at bus 3 is a **specified P, Q injection**: the baseline distributes 50 kW equally across phases, with Q = 0 on each phase and no voltage regulation. Subtract its injection from the phase loads to obtain net demand. The phasor diagram above observes this bus's phase-to-local-neutral voltages.
+
+### Substitute the bases and line parameters
+
+Use a 1 MVA three-phase power base and a 400 V line-to-line voltage base. This gives S<sub>B,φ</sub> = 333.333 kVA, V<sub>B,φ</sub> ≈ 230.94 V, Z<sub>B</sub> = 0.16 Ω, and I<sub>B</sub> = 1443.38 A. A **90 kW single-phase load** is 0.27 pu on the per-phase base; a 90 kW three-phase aggregate is 0.09 pu on the three-phase base.
+
+The conductor self impedances and phase mutual impedances are:
 
 | Branch | Phase self impedance (Ω) | Neutral impedance (Ω) | Phase mutual impedance (Ω) |
 |---|---|---|---|
 | 1–2 | 0.012 + j0.008 | 0.018 + j0.006 | j0.0016 |
 | 2–3 | 0.008 + j0.006 | 0.012 + j0.004 | j0.0012 |
+
+### Form phase demands and solve
 
 **1. Form each phase's net demand.** The PV supplies 50/3 kW per phase, so bus 3 has net active demands of 73.333 / 38.333 / 18.333 kW. Its load reactive demands remain P<sub>D,φ</sub> tan(arccos 0.95); PV does not supply Q in this example.
 
@@ -174,7 +204,7 @@ result = main(case)
 
 This fundamental-frequency, radial teaching model excludes delta loads, voltage-dependent loads, asymmetrical conductor geometry, phase-neutral mutual impedance, downstream grounding/earth return, transformers, regulators, harmonics, inverter limits, and dynamic/protection behavior. Opening a branch opens all four conductors; an open-neutral-only fault is not modeled. An isolated section has no voltage reference in this model.
 
-The future **PandaPower-based Implementation** chapter will compare tool assumptions explicitly. In particular, [pandapower's `runpp_3ph` documentation](https://pandapower.readthedocs.io/en/stable/powerflow/ac_3ph.html) describes a sequence-frame solver and its earth-return/wye conventions; its results should not be assumed identical to this explicit neutral-wire case without matching those assumptions.
+The [PandaPower-based Implementation chapter]({{ '/teaching/course-development/physics-informed-gnn/pandapower-based-implementation/' | relative_url }}) maps equipment to library functions and compares the modeling assumptions explicitly. In particular, [pandapower's `runpp_3ph` documentation](https://pandapower.readthedocs.io/en/v3.2.1/powerflow/ac_3ph.html) describes a sequence-frame solver and its earth-return/wye conventions; its results should not be assumed identical to this explicit neutral-wire case without matching those assumptions.
 
 ### References
 

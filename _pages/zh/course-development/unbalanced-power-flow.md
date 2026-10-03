@@ -23,7 +23,17 @@ description: "三相四线不平衡潮流交互教材：相域推导、中性点
 
 {% include unbalanced-overview.html %}
 
-实验采用**辐射型三节点、三相四线 AC 模型**。节点 1 是平衡理想电源，其中性点接地。负荷与固定 PQ 光伏逆变器按星形连接，下游中性点通过中性线返回电源，没有额外的接地或大地回流路径。线路包含可调的相间互电抗与中性线阻抗；为便于教学，相线与中性线之间的互阻抗设为零。
+### 本章的模型假设
+
+本章采用相域三相四线 AC 模型，方程和交互实验遵循以下假设：
+
+- **正弦稳态：** 电压与电流采用基波 RMS 复相量，不包含谐波。
+- **辐射型网络：** 保留 a、b、c 三根相线和 n 中性线，沿馈线逐支路计算电流与电压。
+- **一个平衡理想电源：** 电源三相电压幅值和相角固定，其中性点接地；下游中性点经中性线返回电源，没有额外接地或大地回流路径。
+- **星形恒定 PQ 设备：** 负荷逐相指定 P、Q，光伏按指定有功、Q = 0 注入；它们连接在相线与当地中性点之间，不调节节点电压。
+- **串联四导线线路：** 保留相线和中性线的电阻、电抗，以及可调的相间互电抗；相线与中性线互阻抗设为零，忽略并联支路和变压器。
+
+这些假设描述通用模型。下面先用 i、j、k 推导方程，再在例题中定义具体馈线、节点编号和逐相负荷。
 
 <div class="uf-compare">先预测，再拖动：如果增加 A 相负荷，B、C 相电压一定会同时下降，而且降幅相同吗？共享中性线使这个判断未必成立。</div>
 
@@ -38,11 +48,11 @@ description: "三相四线不平衡潮流交互教材：相域推导、中性点
 
 {% include power-flow-illustration.html kind="neutral" %}
 
-继续采用三相总容量 1 MVA、线电压 400 V 的基准，但这次功率按每相分别指定：
+设三相总容量基准为 S<sub>B,3φ</sub>、线电压基准为 V<sub>B,LL</sub>。功率按每相指定，因此需要对应的每相基准：
 
-<div class="bf-equation" data-math="\begin{aligned}S_{B,\phi}&amp;=S_{B,3\phi}/3,\qquad V_{B,\phi}=V_{B,LL}/\sqrt3\\Z_B&amp;=V_{B,\phi}^2/S_{B,\phi}=0.16\ \Omega\\I_B&amp;=S_{B,\phi}/V_{B,\phi}=1443.38\ \mathrm A\end{aligned}"></div>
+<div class="bf-equation" data-math="\begin{aligned}S_{B,\phi}&amp;=S_{B,3\phi}/3,\qquad V_{B,\phi}=V_{B,LL}/\sqrt3\\Z_B&amp;=V_{B,\phi}^2/S_{B,\phi}=V_{B,LL}^2/S_{B,3\phi}\\I_B&amp;=S_{B,\phi}/V_{B,\phi}\end{aligned}"></div>
 
-因此，相电压基准约为 230.94 V，每相容量基准为 333.333 kVA。一个 **90 kW 单相负荷**的有功需求在每相容量基准上为 0.27 pu，不能套用 90 kW 三相总负荷对应的 0.09 pu。
+每相功率必须除以每相容量基准，而三相总功率除以三相总容量基准。例题中再代入具体数值，核对这两种换算。
 
 ### 步骤 B：把各相恒定 PQ 需求转换成电流
 
@@ -72,11 +82,11 @@ description: "三相四线不平衡潮流交互教材：相域推导、中性点
 
 1. 根据当前相对中性点电压，计算每个负荷的四端子电流。
 2. **回代：** 从末端向电源汇总下游电流，得到各支路电流。
-3. **前推：** 从节点 1 出发，沿馈线应用四线 KVL，更新导线电压。
+3. **前推：** 从电源节点出发，沿馈线应用四线 KVL，更新导线电压。
 
-对于本例三节点链：
+用通用的 i → j → k 链说明一次更新：i 是电源，j、k 连接负荷，k 是末端。每个电压与电流向量都含 a、b、c、n 四个分量。
 
-<div class="bf-equation" data-math="\begin{aligned}\boldsymbol I_{23}&amp;=\boldsymbol I_3^{load}\\\boldsymbol I_{12}&amp;=\boldsymbol I_2^{load}+\boldsymbol I_{23}\\\boldsymbol V_2^{sweep}&amp;=\boldsymbol V_1-Z_{12}\boldsymbol I_{12}\\\boldsymbol V_3^{sweep}&amp;=\boldsymbol V_2^{sweep}-Z_{23}\boldsymbol I_{23}\end{aligned}"></div>
+<div class="bf-equation" data-math="\begin{aligned}\boldsymbol I_{jk}&amp;=\boldsymbol I_k^{load}\\\boldsymbol I_{ij}&amp;=\boldsymbol I_j^{load}+\boldsymbol I_{jk}\\\boldsymbol V_j^{sweep}&amp;=\boldsymbol V_i-Z_{ij}\boldsymbol I_{ij}\\\boldsymbol V_k^{sweep}&amp;=\boldsymbol V_j^{sweep}-Z_{jk}\boldsymbol I_{jk}\end{aligned}"></div>
 
 {% include power-flow-illustration.html kind="sweep" %}
 
@@ -103,12 +113,32 @@ U₁ 为正序，U₂ 为负序，U₀ 为零序。本章 **VUF 专指负序与�
 ## 3. 例题：总负荷仍为 300 kW，三相分配不同
 {: #worked-example }
 
-节点 1 提供平衡的 400 V 线电压。节点 2 每相消耗 40 kW；节点 3 的 A/B/C 相消耗 **90 / 55 / 35 kW**。所有负荷功率因数为 0.95 滞后。节点 3 的 50 kW 光伏在三相上均分有功出力。
+### 建立馈线与节点设置
+
+考虑一个 **400 V 三节点辐射型配电馈线**。节点 1 是上级电源，经线路 1–2 连接节点 2，再经线路 2–3 连接末端节点 3。每条线路均包含 a、b、c、n 四根导线，本例没有联络线。
+
+{% include unbalanced-feeder.html %}
+
+| 节点 | 设备与指定量 | 电压的处理方式 |
+|---|---|---|
+| 1 | 平衡电源，线电压 400 V，中性点接地 | 固定三相电压相量与中性点电压 |
+| 2 | 星形负荷，A/B/C 各 40 kW，共 120 kW，PF = 0.95 滞后 | 由四线潮流求负荷端电压 |
+| 3 | 星形负荷，A/B/C 为 90 / 55 / 35 kW，共 180 kW，PF = 0.95 滞后；另接 50 kW 光伏 | 由四线潮流求负荷端电压 |
+
+节点 3 的光伏采用**固定 P、Q 注入**：基准工况将 50 kW 在三相均分，各相 Q = 0，不调节电压。该节点的逐相净需求由负荷减去光伏注入得到。上方相量图观测的就是此处的相对当地中性点电压。
+
+### 代入基准与线路参数
+
+取三相总容量基准 1 MVA、线电压基准 400 V，得到每相容量基准 333.333 kVA、相电压基准约 230.94 V、Z<sub>B</sub> = 0.16 Ω、I<sub>B</sub> = 1443.38 A。一个 **90 kW 单相负荷**在每相容量基准上为 0.27 pu；90 kW 三相总负荷在三相总容量基准上才是 0.09 pu。
+
+线路每根导线的自阻抗及相间互阻抗如下：
 
 | 支路 | 相线自阻抗（Ω） | 中性线阻抗（Ω） | 相间互阻抗（Ω） |
 |---|---|---|---|
 | 1–2 | 0.012 + j0.008 | 0.018 + j0.006 | j0.0016 |
 | 2–3 | 0.008 + j0.006 | 0.012 + j0.004 | j0.0012 |
+
+### 写出逐相需求并求解
 
 **1. 形成逐相净需求。** 光伏每相供应 50/3 kW，因此节点 3 的净有功需求为 73.333 / 38.333 / 18.333 kW。无功需求仍为 P<sub>D,φ</sub> tan(arccos 0.95)，本例光伏不供应无功。
 
@@ -175,7 +205,7 @@ result = main(case)
 
 本章是基波、辐射型教学模型，不包含三角形负荷、电压相关负荷、不对称导线几何、相线与中性线互阻抗、下游接地与大地回流、变压器、调压器、谐波、逆变器能力限值或动态与保护行为。支路断开时四根导线同时断开，没有建模仅中性线断开的故障。孤岛在本模型中没有电压参考。
 
-后续 **PandaPower-based Implementation** 将明确比较工具的建模假设。[pandapower `runpp_3ph` 文档](https://pandapower.readthedocs.io/en/stable/powerflow/ac_3ph.html)说明了序域求解和大地回流、星形连接约定。在匹配这些假设之前，不应认为其结果会与本章显式中性线模型一致。
+在 [PandaPower-based Implementation]({{ '/zh/teaching/course-development/physics-informed-gnn/pandapower-based-implementation/' | relative_url }}) 中，我们将设备映射到库函数，并明确比较工具的建模假设。[pandapower `runpp_3ph` 文档](https://pandapower.readthedocs.io/en/v3.2.1/powerflow/ac_3ph.html)说明了序域求解和大地回流、星形连接约定。在匹配这些假设之前，不应认为其结果会与本章显式中性线模型一致。
 
 ### 参考资料
 

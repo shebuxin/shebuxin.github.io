@@ -16,7 +16,17 @@ The previous chapters explained the equations. Now turn a feeder diagram into a 
 ## 1. Translate the physical model into tables
 {: #background }
 
-Prerequisites: [Balanced Power Flow]({{ '/teaching/course-development/physics-informed-gnn/balanced-power-flow/' | relative_url }}) and [Unbalanced Power Flow]({{ '/teaching/course-development/physics-informed-gnn/unbalanced-power-flow/' | relative_url }}). Keep the same 400 V feeder and total demand so that implementation choices can be compared with equations you already know.
+Prerequisites: [Balanced Power Flow]({{ '/teaching/course-development/physics-informed-gnn/balanced-power-flow/' | relative_url }}) and [Unbalanced Power Flow]({{ '/teaching/course-development/physics-informed-gnn/unbalanced-power-flow/' | relative_url }}). First connect the physical assumptions to equipment tables and solvers; the worked example then introduces the feeder, bus numbers, and power settings.
+
+### Modeling assumptions
+
+- **Sinusoidal steady-state AC:** use fundamental-frequency RMS phasors to solve a static operating point.
+- **Series lines:** retain resistance and reactance, with shunt capacitance set to zero. This example contains lines, without transformers or regulators.
+- **Constant-PQ devices:** load P and Q remain specified during the solve. Solar generation uses fixed PQ, with Q = 0 in this example and no voltage regulation.
+- **Choose the phase model explicitly:** balanced mode uses a symmetric three-phase equivalent. Three-phase mode specifies wye load and generation powers per phase, using sequence impedances and earth return; it does not solve a separate finite-impedance neutral voltage.
+- **One external-grid reference:** `ext_grid` specifies positive-sequence voltage magnitude and angle; three-phase mode also needs source sequence impedances. The worked example lists these parameters.
+
+See the [official three-phase solver notes](https://pandapower.readthedocs.io/en/v3.2.1/powerflow/ac_3ph.html) for the return-path convention. The workflow below uses generic equipment; the worked example defines bus numbers and equipment settings.
 
 <div class="pp-workflow" role="list" aria-label="Modeling workflow"><div role="listitem"><strong>1 · Describe</strong><code>bus, line, load, sgen</code><span>Topology, impedances, demand, generation</span></div><div role="listitem"><strong>2 · Construct</strong><code>pp.create_*()</code><span>Equipment tables inside net</span></div><div role="listitem"><strong>3 · Solve</strong><code>runpp / runpp_3ph</code><span>AC operating point</span></div><div role="listitem"><strong>4 · Check</strong><code>net.res_*</code><span>Supply, voltage, current, losses</span></div></div>
 
@@ -32,7 +42,7 @@ Prerequisites: [Balanced Power Flow]({{ '/teaching/course-development/physics-in
 | Constant-PQ demand | `create_load()` | `create_asymmetric_load()` | Load result tables |
 | Fixed-PQ inverter | `create_sgen()` | `create_asymmetric_sgen()` | Generator result tables |
 
-The solar **PV inverter** here is a fixed-PQ `sgen`, with Q = 0. It is not a voltage-controlled **PV bus** in power-flow terminology. A disconnected fixed-PQ inverter also does not become a grid-forming source.
+Fixed-PQ generation enters `sgen` in balanced mode or `asymmetric_sgen` in three-phase mode. In **PV inverter**, PV means photovoltaic; a power-flow **PV bus** instead specifies active power and voltage magnitude. This lesson uses the fixed-PQ assumption above, and a disconnected solar inverter does not automatically become a grid-forming source.
 
 ## 2. From equations to API arguments
 {: #formulation }
@@ -92,7 +102,23 @@ Balanced `res_line.pl_mw` is already total three-phase loss. For `res_line_3ph`,
 ## 3. Worked example: reproduce, then change the model
 {: #worked-example }
 
-Bus 2 consumes 120 kW. Bus 3 consumes 180 kW and hosts 50 kW of unity-PF generation. Loads have PF = 0.95. The source positive-sequence voltage is 1 pu. The tie line is open.
+### Introduce the feeder and bus settings
+
+Consider a **three-bus, 400 V distribution feeder**. Bus 1 is the upstream source, connected to bus 2 through line 1–2. Line 2–3 then supplies downstream bus 3. Tie line 1–3 is initially open and can be closed in the later N-1 experiment. Both solver modes use the same bus and branch connections.
+
+{% include power-flow-illustration.html kind="feeder" %}
+
+| Bus | Equipment and specified quantities | pandapower representation |
+|---|---|---|
+| 1 | Upstream source, positive-sequence voltage 1∠0° pu | `ext_grid` provides the voltage reference |
+| 2 | 120 kW total load, PF = 0.95 lagging; three-phase mode uses 40 / 40 / 40 kW | `load` or `asymmetric_load` |
+| 3 | 180 kW total load, PF = 0.95 lagging; three-phase mode uses 90 / 55 / 35 kW; plus 50 kW solar generation | Load table plus `sgen` or `asymmetric_sgen` |
+
+The inverter at bus 3 is a **specified P, Q injection**: 50 kW total active power and Q = 0, with active power equally distributed in the three-phase baseline. It does not regulate voltage or turn the bus into a voltage-controlled PV bus. Combine the load and generation to obtain the bus's net injection.
+
+### Set line and source parameters
+
+Use a 1 MVA three-phase base and a 0.4 kV line-to-line voltage base. The total positive- and zero-sequence line impedances and current ratings are below; the initial ratio is κ = Z₀/Z₁ = 3.
 
 | Line | Z₁ (Ω) | Z₀ (Ω), three-phase mode | Current rating |
 |---|---|---|---|
@@ -101,6 +127,8 @@ Bus 2 consumes 120 kW. Bus 3 consumes 180 kW and hosts 50 kW of unity-PF generat
 | 1–3, initially open | 0.022 + j0.014 | 0.066 + j0.042 | 600 A |
 
 The three-phase source uses S<sub>sc,max</sub> = S<sub>sc,min</sub> = 1000 MVA, R/X = 0.1, X₀/X = 1, and R₀/X₀ = 0.1. These parameters supply the source zero/negative-sequence representation; they are teaching assumptions rather than measured feeder data.
+
+### Solve and check the results
 
 **Step 1 — Balanced solve.** Bus 3's three phase-demand controls are summed to 180 kW. `runpp()` gives:
 

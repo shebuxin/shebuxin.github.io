@@ -45,7 +45,7 @@
     });
   }
   function drawPhasors(){
-    const w=canvas(phaseSvg,260,zh?'节点 3 三相电压相量':'Bus 3 three-phase voltage phasors');if(!w)return;
+    const w=canvas(phaseSvg,260,zh?'负荷端相对当地中性点的三相电压相量':'Load-terminal phase-to-local-neutral voltage phasors');if(!w)return;
     if(!result.ok){text(phaseSvg,w/2,120,'—');return;}
     const cx=w/2,cy=116,radius=Math.min(82,w*.25);
     element(phaseSvg,'circle',{cx,cy,r:radius,stroke:'var(--bf-border)',fill:'none'});

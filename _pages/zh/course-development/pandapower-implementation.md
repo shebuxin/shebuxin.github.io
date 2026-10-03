@@ -17,7 +17,17 @@ description: "在浏览器中用真实 pandapower 建网并运行平衡与三相
 ## 1. 把物理系统映射为设备表
 {: #background }
 
-建议先学习 [Balanced Power Flow]({{ '/zh/teaching/course-development/physics-informed-gnn/balanced-power-flow/' | relative_url }}) 与 [Unbalanced Power Flow]({{ '/zh/teaching/course-development/physics-informed-gnn/unbalanced-power-flow/' | relative_url }})。本章继续使用 400 V 馈线及相同的总负荷，便于比较公式与库函数的实现。
+建议先学习 [Balanced Power Flow]({{ '/zh/teaching/course-development/physics-informed-gnn/balanced-power-flow/' | relative_url }}) 与 [Unbalanced Power Flow]({{ '/zh/teaching/course-development/physics-informed-gnn/unbalanced-power-flow/' | relative_url }})。本章先说明物理假设怎样进入设备表和求解器，再在例题中给出具体馈线、节点编号与功率设置。
+
+### 本章的模型假设
+
+- **正弦稳态 AC：** 电压与电流采用基波 RMS 相量，求解静态运行点。
+- **串联线路：** 保留电阻与电抗，并联电容设为零。本例网络只含线路，不含变压器和调压器。
+- **恒定 PQ 设备：** 负荷的 P、Q 在求解过程中保持指定值。光伏采用固定 PQ 发电模型，本例 Q = 0，不调节电压。
+- **明确选择相模型：** 平衡模式采用对称三相等值；三相模式逐相输入星形负荷与发电，采用序阻抗及大地回路表示，不单独求解有限阻抗中性线的电压。
+- **一个外部电网参考：** `ext_grid` 给定正序电压幅值与相角；三相模式还需电源序阻抗参数。具体参数在例题中列出。
+
+三相求解器的回流路径约定见 [pandapower 官方说明](https://pandapower.readthedocs.io/en/v3.2.1/powerflow/ac_3ph.html)。下方用通用设备说明建模流程，例题中再定义节点编号与设备设置。
 
 <div class="pp-workflow" role="list" aria-label="建模流程"><div role="listitem"><strong>1 · 描述系统</strong><code>bus, line, load, sgen</code><span>拓扑、阻抗、负荷与发电</span></div><div role="listitem"><strong>2 · 建网</strong><code>pp.create_*()</code><span>形成 net 中的设备表</span></div><div role="listitem"><strong>3 · 求解</strong><code>runpp / runpp_3ph</code><span>计算 AC 运行点</span></div><div role="listitem"><strong>4 · 检查</strong><code>net.res_*</code><span>供电、电压、电流与损耗</span></div></div>
 
@@ -33,7 +43,7 @@ description: "在浏览器中用真实 pandapower 建网并运行平衡与三相
 | 恒 PQ 负荷 | `create_load()` | `create_asymmetric_load()` | 对应负荷结果表 |
 | 固定 PQ 逆变器 | `create_sgen()` | `create_asymmetric_sgen()` | 对应发电结果表 |
 
-这里的光伏 **PV inverter** 用 `sgen` 表示，Q = 0，是固定 PQ 注入。它与潮流术语中调节电压幅值的 **PV 节点**不同。固定 PQ 光伏在与电网断开后，也不会自动变成构网电源。
+固定 PQ 发电通过 `sgen`（平衡模式）或 `asymmetric_sgen`（三相模式）写入设备表。**PV inverter** 中的 PV 指光伏；潮流术语中的 **PV 节点**则指定有功和电压幅值。这里采用前述固定 PQ 假设，光伏在断网后也不会自动变成构网电源。
 
 ## 2. 从方程推到 API 参数
 {: #formulation }
@@ -93,7 +103,23 @@ description: "在浏览器中用真实 pandapower 建网并运行平衡与三相
 ## 3. 例题：先复现平衡结果，再改变模型
 {: #worked-example }
 
-节点 2 负荷为 120 kW，节点 3 负荷为 180 kW，并接有 50 kW 单位功率因数光伏。负荷 PF = 0.95，电源正序电压为 1 pu，初始联络线断开。
+### 建立馈线与节点设置
+
+考虑一个 **400 V 三节点配电馈线**。节点 1 是上级电源，通过线路 1–2 连接节点 2，再通过线路 2–3 连接下游节点 3。线路 1–3 是初始断开的联络线，后续 N-1 实验中可以闭合。两个求解模式使用相同的节点与线路连接关系。
+
+{% include power-flow-illustration.html kind="feeder" %}
+
+| 节点 | 设备与指定量 | pandapower 表示 |
+|---|---|---|
+| 1 | 上级电源，正序电压 1∠0° pu | `ext_grid`，作为电压参考 |
+| 2 | 120 kW 总负荷，PF = 0.95 滞后；三相模式均分为 40 / 40 / 40 kW | `load` 或 `asymmetric_load` |
+| 3 | 180 kW 总负荷，PF = 0.95 滞后；三相模式分配为 90 / 55 / 35 kW；另接 50 kW 光伏 | 负荷表，加 `sgen` 或 `asymmetric_sgen` |
+
+节点 3 的光伏按**指定 P、Q 注入**建模：总有功 50 kW、Q = 0，三相基准工况均分有功；它不调节电压，也不把该节点变为电压控制的 PV 节点。负荷与发电共同形成该节点的净注入。
+
+### 设置线路与电源参数
+
+取三相容量基准 1 MVA、线电压基准 0.4 kV。线路的正序、零序总阻抗和电流限值如下；初始 κ = Z₀/Z₁ = 3。
 
 | 线路 | Z₁（Ω） | 三相模式的 Z₀（Ω） | 电流限值 |
 |---|---|---|---|
@@ -102,6 +128,8 @@ description: "在浏览器中用真实 pandapower 建网并运行平衡与三相
 | 1–3，初始断开 | 0.022 + j0.014 | 0.066 + j0.042 | 600 A |
 
 三相电源设 S<sub>sc,max</sub> = S<sub>sc,min</sub> = 1000 MVA、R/X = 0.1、X₀/X = 1、R₀/X₀ = 0.1，用于构造零序及负序电源表示。这些是教学假设，未作为实际馈线测量参数。
+
+### 求解并核对结果
 
 **第一步：运行平衡潮流。** 将节点 3 的 A/B/C 负荷控制相加，得到三相总负荷 180 kW。`runpp()` 的结果为：
 

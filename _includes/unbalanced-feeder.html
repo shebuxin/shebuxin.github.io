@@ -1,0 +1,23 @@
+{% assign uf_zh = false %}{% if page.lang == 'zh' %}{% assign uf_zh = true %}{% endif %}
+<figure class="pf-concept" id="example-four-wire-feeder" aria-labelledby="example-four-wire-feeder-title">
+  <h4 id="example-four-wire-feeder-title">{% if uf_zh %}例题网络：三相四线辐射馈线{% else %}Example network: a radial four-wire feeder{% endif %}</h4>
+  <div class="pf-scroll" tabindex="0" aria-label="{% if uf_zh %}教学示意图，可横向滚动{% else %}Teaching diagram, scroll horizontally{% endif %}">
+    <svg class="pf-svg pf-wide" viewBox="0 0 680 330" role="img" aria-label="{% if uf_zh %}节点1经四线线路向节点2和3供电；节点2各相负荷40千瓦，节点3各相负荷90、55、35千瓦，另接三相均分的50千瓦固定PQ光伏{% else %}Bus 1 supplies buses 2 and 3 through four-wire lines; bus 2 loads are 40 kW per phase, bus 3 loads are 90, 55, and 35 kW, with 50 kW fixed-PQ solar generation shared across phases{% endif %}">
+      <path class="pf-wire" d="M 110 84 H 275 M 335 84 H 565 M 110 94 H 275 M 335 94 H 565 M 110 104 H 275 M 335 104 H 565"/>
+      <path d="M 110 114 H 275 M 335 114 H 565" stroke="#697482" stroke-width="3" stroke-dasharray="6 4" fill="none"/>
+      <text x="195" y="43" text-anchor="middle">1–2</text><text x="450" y="43" text-anchor="middle">2–3</text>
+      <text class="pf-small" x="195" y="64" text-anchor="middle">a, b, c, n</text><text class="pf-small" x="450" y="64" text-anchor="middle">a, b, c, n</text>
+      <circle class="pf-source" cx="80" cy="100" r="30"/><circle class="pf-node" cx="305" cy="100" r="30"/><circle class="pf-node" cx="595" cy="100" r="30"/>
+      <text class="pf-node-label" x="80" y="109" text-anchor="middle">1</text><text class="pf-node-label" x="305" y="109" text-anchor="middle">2</text><text class="pf-node-label" x="595" y="109" text-anchor="middle">3</text>
+      <text x="80" y="175" text-anchor="middle">400 V LL</text><text class="pf-small" x="80" y="205" text-anchor="middle">{% if uf_zh %}平衡电源{% else %}Balanced source{% endif %}</text>
+      <path d="M 80 130 V 143 M 63 143 H 97 M 68 151 H 92 M 74 158 H 86" stroke="#697482" stroke-width="2" fill="none"/>
+      <text class="pf-small" x="80" y="285" text-anchor="middle">V₁,ₙ = 0</text>
+      <path class="pf-wire" d="M 305 130 V 175 M 595 130 V 175"/>
+      <rect class="pf-device" x="205" y="175" width="200" height="115" rx="7"/><rect class="pf-device" x="475" y="175" width="200" height="130" rx="7"/>
+      <text x="305" y="205" text-anchor="middle">{% if uf_zh %}负荷 A / B / C{% else %}Loads A / B / C{% endif %}</text><text class="pf-small" x="305" y="237" text-anchor="middle">40 / 40 / 40 kW</text><text class="pf-small" x="305" y="270" text-anchor="middle">PF = 0.95</text>
+      <text x="575" y="205" text-anchor="middle">{% if uf_zh %}负荷 A / B / C{% else %}Loads A / B / C{% endif %}</text><text class="pf-small" x="575" y="234" text-anchor="middle">90 / 55 / 35 kW</text><text class="pf-small" x="575" y="263" text-anchor="middle">PV: 50/3 kW {% if uf_zh %}每相{% else %}per phase{% endif %}</text><text class="pf-small" x="575" y="290" text-anchor="middle">Qɢ = 0</text>
+    </svg>
+  </div>
+  <p class="pf-scroll-hint">{% if uf_zh %}左右滑动查看完整示意图。{% else %}Swipe sideways to see the full diagram.{% endif %}</p>
+  <figcaption>{% if uf_zh %}每条连接代表三根相线和一根中性线；虚线仅用于辨认中性线，全部导线在基准工况均接通。只有电源中性点接地，负荷端中性点电压由线路压降求得。节点 3 的光伏按固定 PQ 注入，实际负荷端电压由四线潮流计算。{% else %}Each connection represents three phase wires and a neutral. The dashed stroke identifies the neutral; all conductors are connected in the baseline. Only the source neutral is grounded; line drops determine local neutral voltages. Bus 3 solar generation injects fixed PQ, and the four-wire power flow determines load-terminal voltages.{% endif %}</figcaption>
+</figure>
