@@ -81,7 +81,7 @@ jobs:
       - name: Verify ECE 685 phasors and editable Python model
         run: node --test tests/l05_phasor_test.cjs
 
-      - name: Verify ECE 685 seven-module models and Python parity
+      - name: Verify ECE 685 knowledge models and Python parity
         run: node --test tests/ece685_stage_test.cjs
 
       - name: Verify four-wire unbalanced power flow

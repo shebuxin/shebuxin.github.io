@@ -153,31 +153,5 @@
       "zh": "变压器侧与 Y/Δ 标幺化核查",
       "en": "Transformer sides and Y/Δ normalization checks"
     }
-  },
-  "L16": {
-    "concept_indices": [
-      0,
-      1,
-      2,
-      3,
-      4
-    ],
-    "focus": {
-      "zh": "考试一综合练习",
-      "en": "Exam-1 integrated practice"
-    }
-  },
-  "L17": {
-    "concept_indices": [
-      0,
-      1,
-      2,
-      3,
-      4
-    ],
-    "focus": {
-      "zh": "考试一复习与诊断",
-      "en": "Exam-1 review and diagnostics"
-    }
   }
 }

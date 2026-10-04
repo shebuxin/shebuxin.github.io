@@ -66,11 +66,6 @@
       body=box(15,25,180,175,words('高压基准','HV bases'),[fmt(p.v_base_h_kv)+' kV',fmt(m.z_base_h_ohm)+' Ω','Zref = '+fmt(m.referred_z_re_ohm)+' Ω'])+
         box(215,45,165,145,'Sb = '+fmt(p.s_base_mva,0)+' MVA',['a = '+fmt(p.turns_ratio),'Re(Zpu) = '+fmt(m.z_pu_re,5),'Im(Zpu) = '+fmt(m.z_pu_im,5)])+
         box(400,25,185,175,words('低压基准与还原','LV bases / recovery'),[fmt(m.v_base_l_kv)+' kV',fmt(m.z_base_l_ohm,4)+' Ω','Zreal = '+fmt(m.recovered_z_re_ohm)+' Ω'])+connector;
-    }else{
-      body=box(15,15,270,95,words('相量 → 功率','Phasors → power'),['P = '+fmt(m.p_w)+' W','Q = '+fmt(m.q_var)+' var'])+
-        box(315,15,270,95,words('Δ 支路 → 线电流','Δ branch → line current'),['IL = '+fmt(m.delta_line_a)+' A','P3 = '+fmt(m.delta_p_w)+' W'])+
-        box(15,130,270,95,words('单相基准 → 标幺','Single-phase bases → pu'),['Zpu = '+fmt(m.z_pu_re,6)+' + j'+fmt(m.z_pu_im,6)])+
-        box(315,130,270,95,words('经济性 → 可信容量','Cost → accredited capacity'),['T* = '+fmt(m.crossover_hours,0)+' h','Ctarget = '+fmt(m.required_capacity_mw)+' MW']);
     }
     svg.setAttribute('viewBox','0 0 600 250');svg.innerHTML=`<title>${esc(text(config.title))}</title><defs><marker id="stage-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#67359b"/></marker></defs>${body}`;
   }

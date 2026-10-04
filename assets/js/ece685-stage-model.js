@@ -7,7 +7,6 @@
     'three-phase':{voltage_ll:400,resistance:20,reactance:15,connection:'wye',sequence:'abc',phase_ref_deg:0,omega:377},
     transformers:{h_kv:138,turns_ratio:10,s_mva:30,loading:0.8,power_factor:0.9,h_connection:'wye',l_connection:'wye',r_pu:0.01,x_pu:0.08,core_kw:30,oc_v:240,oc_a:2,oc_w:120,sc_v:120,sc_a:4.1667,sc_w:180},
     'per-unit':{system:'three-phase',s_base_mva:100,v_base_h_kv:138,turns_ratio:10,v_actual_l_kv:13.8,current_a:600,z_re_ohm:1,z_im_ohm:4,power_factor:0.9},
-    'exam-review':{focus:'single-phase',voltage_rms:180,current_rms:12,v_phase_deg:-20,i_phase_deg:10,delta_voltage_ll:208,delta_r:8,delta_x:6,s_base_kva:30,v_base_h_v:1500,turns_ratio:10,z_h_re:1.5,z_h_im:3.4369,peak_mw:160,prm_percent:15,gt_fixed:75000,gt_variable:85,cc_fixed:195000,cc_variable:45,hours:2000}
   };
   Object.values(defaults).forEach(Object.freeze);Object.freeze(defaults);
   const rad=x=>x*Math.PI/180, wrap=x=>((x+180)%360+360)%360-180;
@@ -110,17 +109,6 @@
       return{metrics:{v_base_l_kv:vb,i_base_l_a:ib,i_base_h_a:ib/p.turns_ratio,z_base_l_ohm:zb,z_base_h_ohm:zhb,v_pu:p.v_actual_l_kv/vb,i_pu:p.current_a/ib,z_pu_re:zre,z_pu_im:zim,s_pu:S/p.s_base_mva,physical_s_mva:S,physical_p_mw:S*p.power_factor,recovered_z_re_ohm:zre*zb,recovered_z_im_ohm:zim*zb,referred_z_re_ohm:p.z_re_ohm*p.turns_ratio**2},
         checks:{reconstruction_re:zre*zb-p.z_re_ohm,reconstruction_im:zim*zb-p.z_im_ohm,referral_invariance:p.z_re_ohm*p.turns_ratio**2/zhb-zre,power_base_identity:(p.v_actual_l_kv/vb)*(p.current_a/ib)-S/p.s_base_mva},
         plots:[plot(bases,{'Re(Zpu)':bases.map(b=>p.z_re_ohm*b/vb**2),'Im(Zpu)':bases.map(b=>p.z_im_ohm*b/vb**2)},'Sbase / MVA','pu'),plot(bases,{'recovered Re(Z)':bases.map(()=>p.z_re_ohm),'recovered Im(Z)':bases.map(()=>p.z_im_ohm)},'Sbase / MVA','ohm')]};
-    },
-    'exam-review'(p){
-      positive(p,['voltage_rms','current_rms','delta_voltage_ll','s_base_kva','v_base_h_v','turns_ratio','peak_mw']);nonnegative(p,['delta_r','prm_percent','gt_fixed','gt_variable','cc_fixed','cc_variable','hours']);choice(p,'focus',['single-phase','three-phase','planning']);
-      const delta=wrap(p.v_phase_deg-p.i_phase_deg),P=p.voltage_rms*p.current_rms*Math.cos(rad(delta)),Q=p.voltage_rms*p.current_rms*Math.sin(rad(delta));
-      const three=threePhase({...defaults['three-phase'],voltage_ll:p.delta_voltage_ll,resistance:p.delta_r,reactance:p.delta_x,connection:'delta',phase_ref_deg:-30});
-      const zb=p.v_base_h_v**2/(p.s_base_kva*1000),vl=p.v_base_h_v/p.turns_ratio,zbl=vl*vl/(p.s_base_kva*1000),screen=screening(p),hours=Array.from({length:45},(_,i)=>8760*i/44);
-      const singleX=Array.from({length:241},(_,i)=>i/240*4*Math.PI/377*1000);
-      const singlePlot=plot(singleX,{'v / peak':singleX.map(t=>Math.cos(377*t/1000+rad(p.v_phase_deg))),'i / peak':singleX.map(t=>Math.cos(377*t/1000+rad(p.i_phase_deg)))},'ms','normalized');
-      return{metrics:{p_w:P,q_var:Q,pf:Math.abs(Math.cos(rad(delta))),delta_line_a:three.metrics.line_current_a,delta_p_w:three.metrics.p_w,delta_q_var:three.metrics.q_var,z_pu_re:p.z_h_re/zb,z_pu_im:p.z_h_im/zb,ib_h_a:p.s_base_kva*1000/p.v_base_h_v,ib_l_a:p.s_base_kva*1000/vl,required_capacity_mw:p.peak_mw*(1+p.prm_percent/100),...screen},
-        checks:{per_unit_referral:p.z_h_re/(p.turns_ratio**2)/zbl-p.z_h_re/zb},phasors:three.phasors,
-        plots:p.focus==='single-phase'?[singlePlot]:p.focus==='three-phase'?three.plots:[plot(hours,{GT:hours.map(t=>p.gt_fixed+p.gt_variable*t),CC:hours.map(t=>p.cc_fixed+p.cc_variable*t)},'h/year','$/MW-year')]};
     }
   };
   function solve(module,parameters={}){

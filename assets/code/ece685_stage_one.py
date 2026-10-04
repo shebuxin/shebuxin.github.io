@@ -1,6 +1,6 @@
-"""ECE 685 first-stage teaching models. Python standard library only.
+"""ECE 685 knowledge teaching models. Python standard library only.
 
-Run solve(case), where case['module'] selects one of the seven modules.
+Run solve(case), where case['module'] selects one of the six experiment families.
 The source examples and simplifications are described in each web lesson.
 This is an editable teaching model, with no external solver or server dependency.
 """
@@ -21,11 +21,6 @@ DEFAULTS = {
                          oc_v=240, oc_a=2, oc_w=120, sc_v=120, sc_a=4.1667, sc_w=180),
     'per-unit': dict(system='three-phase', s_base_mva=100, v_base_h_kv=138, turns_ratio=10,
                      v_actual_l_kv=13.8, current_a=600, z_re_ohm=1, z_im_ohm=4, power_factor=0.9),
-    'exam-review': dict(focus='single-phase', voltage_rms=180, current_rms=12, v_phase_deg=-20,
-                        i_phase_deg=10, delta_voltage_ll=208, delta_r=8, delta_x=6, s_base_kva=30,
-                        v_base_h_v=1500, turns_ratio=10, z_h_re=1.5, z_h_im=3.4369, peak_mw=160,
-                        prm_percent=15, gt_fixed=75000, gt_variable=85, cc_fixed=195000,
-                        cc_variable=45, hours=2000),
 }
 
 
@@ -258,35 +253,8 @@ def per_unit(p):
                        plot(bases,{'recovered Re(Z)':[p['z_re_ohm']]*len(bases),'recovered Im(Z)':[p['z_im_ohm']]*len(bases)},'Sbase / MVA','ohm')])
 
 
-def exam_review(p):
-    positive(p,'voltage_rms','current_rms','delta_voltage_ll','s_base_kva','v_base_h_v','turns_ratio','peak_mw')
-    nonnegative(p,'delta_r','prm_percent','gt_fixed','gt_variable','cc_fixed','cc_variable','hours')
-    choice(p,'focus',('single-phase','three-phase','planning'))
-    delta = wrap(p['v_phase_deg']-p['i_phase_deg'])
-    power = p['voltage_rms']*p['current_rms']*math.cos(math.radians(delta))
-    reactive = p['voltage_rms']*p['current_rms']*math.sin(math.radians(delta))
-    three = three_phase(dict(DEFAULTS['three-phase'],voltage_ll=p['delta_voltage_ll'],resistance=p['delta_r'],
-                             reactance=p['delta_x'],connection='delta',phase_ref_deg=-30))
-    zb = p['v_base_h_v']**2/(p['s_base_kva']*1000)
-    low_v = p['v_base_h_v']/p['turns_ratio']
-    zbl = low_v**2/(p['s_base_kva']*1000)
-    times = [i/240*4*math.pi/377*1000 for i in range(241)]
-    hours = [8760*i/44 for i in range(45)]
-    single_plot = plot(times,{'v / peak':[math.cos(377*t/1000+math.radians(p['v_phase_deg'])) for t in times],
-                             'i / peak':[math.cos(377*t/1000+math.radians(p['i_phase_deg'])) for t in times]},'ms','normalized')
-    plots = [single_plot] if p['focus']=='single-phase' else three['plots'] if p['focus']=='three-phase' else [
-        plot(hours,dict(GT=[p['gt_fixed']+p['gt_variable']*t for t in hours],
-                        CC=[p['cc_fixed']+p['cc_variable']*t for t in hours]),'h/year','$/MW-year')]
-    return dict(metrics=dict(p_w=power,q_var=reactive,pf=abs(math.cos(math.radians(delta))),delta_line_a=three['metrics']['line_current_a'],
-                             delta_p_w=three['metrics']['p_w'],delta_q_var=three['metrics']['q_var'],z_pu_re=p['z_h_re']/zb,z_pu_im=p['z_h_im']/zb,
-                             ib_h_a=p['s_base_kva']*1000/p['v_base_h_v'],ib_l_a=p['s_base_kva']*1000/low_v,
-                             required_capacity_mw=p['peak_mw']*(1+p['prm_percent']/100),**screening(p)),
-                checks=dict(per_unit_referral=p['z_h_re']/p['turns_ratio']**2/zbl-p['z_h_re']/zb),
-                phasors=three['phasors'],plots=plots)
-
-
 HANDLERS = dict(overview=overview,generation=generation,transformers=transformers)
-HANDLERS.update({'single-phase':single_phase,'three-phase':three_phase,'per-unit':per_unit,'exam-review':exam_review})
+HANDLERS.update({'single-phase':single_phase,'three-phase':three_phase,'per-unit':per_unit})
 
 
 def solve(case):

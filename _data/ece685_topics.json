@@ -43,13 +43,6 @@
       }
     },
     {
-      "id": "exam-one",
-      "title": {
-        "en": "Exam 1 practice & review",
-        "zh": "考试 1 练习与复习"
-      }
-    },
-    {
       "id": "three-phase-transformers",
       "title": {
         "en": "Three-phase transformers",
@@ -71,24 +64,10 @@
       }
     },
     {
-      "id": "exam-two",
-      "title": {
-        "en": "Exam 2 review",
-        "zh": "考试 2 复习"
-      }
-    },
-    {
       "id": "power-flow",
       "title": {
         "en": "Power-flow analysis",
         "zh": "潮流分析"
-      }
-    },
-    {
-      "id": "final-review",
-      "title": {
-        "en": "Comprehensive final review",
-        "zh": "期末综合复习"
       }
     }
   ],
@@ -97,8 +76,8 @@
       "group": "orientation",
       "title_zh": "课程介绍与安排",
       "summary": {
-        "en": "People, course expectations, tools, assessments, and the power-system design workflow.",
-        "zh": "认识课程团队、学习要求、工具与考核，了解电力系统设计流程。"
+        "en": "Meet the course team, explore the knowledge roadmap, and learn the tools and power-system design workflow.",
+        "zh": "认识课程团队、知识框架与学习工具，了解电力系统设计流程。"
       },
       "lab_focus": {
         "en": "Explore the course workflow from system data to a design decision.",
@@ -348,38 +327,6 @@
       "released": true,
       "frozen_source": true
     },
-    "L16": {
-      "group": "exam-one",
-      "title_zh": "考试 1 练习",
-      "summary": {
-        "en": "Practice the first-exam topics with the current lecture's worked problem sequence.",
-        "zh": "按照当前讲义的例题顺序，练习第一次考试涉及的课程内容。"
-      },
-      "lab_focus": {
-        "en": "Organize a guided practice workspace around the lecture's problem sequence.",
-        "zh": "围绕讲义中的题目顺序组织分步练习区域。"
-      },
-      "lesson": "integrated",
-      "interactive_model": "exam-review",
-      "released": true,
-      "frozen_source": false
-    },
-    "L17": {
-      "group": "exam-one",
-      "title_zh": "考试 1 复习",
-      "summary": {
-        "en": "Review the first course block and connect circuit calculations with design checks.",
-        "zh": "复习第一阶段知识，将电路计算与设计核查联系起来。"
-      },
-      "lab_focus": {
-        "en": "Compare intermediate results across the review's calculation workflows.",
-        "zh": "在复习中的计算流程之间比较中间结果。"
-      },
-      "lesson": "integrated",
-      "interactive_model": "exam-review",
-      "released": true,
-      "frozen_source": false
-    },
     "L20": {
       "group": "three-phase-transformers",
       "title_zh": "三相变压器 I",
@@ -506,20 +453,6 @@
       "released": false,
       "frozen_source": false
     },
-    "L30": {
-      "group": "exam-two",
-      "title_zh": "考试 2 复习",
-      "summary": {
-        "en": "Review transformer models, per-unit bases, three-phase banks, and transmission-line topics.",
-        "zh": "复习变压器模型、标幺基准、三相变压器组和输电线路知识。"
-      },
-      "lab_focus": {
-        "en": "Organize the second review around parameter, model, and operating-point checks.",
-        "zh": "围绕参数、模型和运行点核查组织第二阶段复习。"
-      },
-      "released": false,
-      "frozen_source": false
-    },
     "L32": {
       "group": "power-flow",
       "title_zh": "潮流分析 I",
@@ -589,20 +522,12 @@
       },
       "released": false,
       "frozen_source": false
-    },
-    "L41": {
-      "group": "final-review",
-      "title_zh": "期末综合复习",
-      "summary": {
-        "en": "Connect generation planning, AC circuits, transformers, line models, and power flow in a complete review.",
-        "zh": "综合复习发电规划、交流电路、变压器、线路模型和潮流分析。"
-      },
-      "lab_focus": {
-        "en": "Trace a complete system-design workflow through the course's calculation and validation steps.",
-        "zh": "沿课程计算与验证步骤，梳理完整的系统设计流程。"
-      },
-      "released": false,
-      "frozen_source": false
     }
-  }
+  },
+  "excluded_lectures": [
+    "L16",
+    "L17",
+    "L30",
+    "L41"
+  ]
 }

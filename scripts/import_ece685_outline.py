@@ -15,7 +15,6 @@ ROOT = Path(__file__).resolve().parents[1]
 LEGACY_MODELS = {
     "L01": "overview", "L03": "generation", "L06": "single-phase",
     "L08": "three-phase", "L10": "transformers", "L13": "per-unit",
-    "L16": "exam-review",
 }
 
 
@@ -92,6 +91,8 @@ def main():
         if not match:
             raise ValueError(f"Unrecognized lecture folder: {folder.name}")
         lecture_id = match[1]
+        if lecture_id in topics.get("excluded_lectures", []):
+            continue
         if lecture_id not in topics["lectures"]:
             raise ValueError(f"Add a translation and topic for {lecture_id} before importing")
         title, count, outline = extract(deck)
