@@ -1,4 +1,5 @@
 """Physical identities and independent analytic checks for course models."""
+import base64
 import cmath
 import contextlib
 import hashlib
@@ -8,6 +9,7 @@ import io
 import math
 import os
 import unittest
+import xml.etree.ElementTree as ET
 from html.parser import HTMLParser
 from pathlib import Path
 
@@ -169,6 +171,47 @@ class RenderedTest(unittest.TestCase):
                         exec("".join(cell["source"]), namespace)
             self.assertEqual(namespace["result"]["mode"], "compare")
 
+    def test_authored_calculations_against_independent_analytic_results(self):
+        lessons = json.loads((ROOT / "_data/ibr_modeling.json").read_text())["lessons"]
+        expected = [13-3, 2*math.pi*(.001*50), 2*math.pi*50*.0008,
+                    2*.707*(2/50), .6-(50.1/50-1)/.02, 50*.03/4,
+                    (300/2)/10000, math.degrees(cmath.phase(1+(.00625+.1j)*.6)),
+                    (1.01-1)/.0325]
+        for n, value in enumerate(expected, 1):
+            lesson = lessons[f"C1-{n:02}"]
+            self.assertAlmostEqual(lesson["numeric"]["answer"], value, places=12)
+            indices = [i for chapter in lesson["chapters"] for i in chapter["equations"]]
+            self.assertEqual(sorted(indices), list(range(len(lesson["equations"]))))
+
+    def test_figures_are_accessible_current_and_embedded_offline(self):
+        manifest = json.loads((ROOT / "_data/ibr_modeling_figures.json").read_text())
+        self.assertEqual(len(manifest), 18)
+        digest = hashlib.sha256(SOURCE.read_bytes()).hexdigest()
+        ns = {"svg": "http://www.w3.org/2000/svg"}
+        for lang in ("en", "zh"):
+            for name, variants in manifest.items():
+                asset = variants[lang]
+                root = ET.parse(ROOT / asset["path"]).getroot()
+                self.assertEqual(root.attrib["lang"], lang)
+                self.assertEqual(root.attrib["viewBox"], f'0 0 {asset["width"]} {asset["height"]}')
+                self.assertEqual(root.find("svg:title", ns).text, asset["title"])
+                self.assertIsNotNone(root.find("svg:desc", ns).text)
+                metadata = root.find("svg:metadata", ns)
+                if name.endswith("-response"):
+                    self.assertIsNotNone(metadata)
+                    meta = json.loads(metadata.text)
+                    self.assertEqual(meta["solver_sha256"], digest)
+                    self.assertIn(meta["case"]["mode"], ("frame", "lcl", "gfl", "droop", "compare", "parallel", "switch"))
+            nb = json.loads((ROOT / f"assets/code/ibr-dynamic-modeling-{lang}.ipynb").read_text())
+            count = 0
+            for cell in nb["cells"]:
+                for filename, content in cell.get("attachments", {}).items():
+                    count += 1
+                    self.assertIn("attachment:"+filename, "".join(cell["source"]))
+                    self.assertEqual(base64.b64decode(content["image/svg+xml"]),
+                                     (ROOT / "assets/images/ibr-modeling" / filename).read_bytes())
+            self.assertGreaterEqual(count, 18)
+
     def test_bilingual_lessons_and_asset_isolation(self):
         catalog = json.loads((ROOT / "_data/ibr_courses.json").read_text())
         content = json.loads((ROOT / "_data/ibr_modeling.json").read_text())
@@ -176,22 +219,34 @@ class RenderedTest(unittest.TestCase):
         self.assertEqual(len(content["lessons"]), 9)
         for prefix in ("", "zh/"):
             base = SITE / prefix / "teaching/course-development/ibr"
+            overview = (base / "modeling" / "index.html").read_text()
+            self.assertEqual(overview.count('class="ibr-course-card"'), 9)
+            self.assertEqual(overview.count('class="ibr-phase"'), 3)
             for module in modules:
                 text = (base / "modeling" / module["slug"] / "index.html").read_text()
-                for marker in ("data-ibr-lab", "data-experiment-editor", "data-solver-editor", "data-quiz", "data-math", "ibr-modeling-lesson.js"):
+                for marker in ("data-ibr-lab", "data-experiment-editor", "data-solver-editor", "data-quiz", "data-numeric-practice", "data-math", "ibr-modeling-lesson.js"):
                     self.assertIn(marker, text)
                 self.assertNotIn("Experiment direction · Planned", text)
                 parser = HTMLParser()
                 # IDs and all on-page links must resolve without duplicate anchors.
-                ids, anchors = [], []
+                ids, anchors, images, headings = [], [], [], []
                 def start(tag, attrs):
                     attrs = dict(attrs)
+                    if tag == "img" and "/assets/images/ibr-modeling/" in attrs.get("src", ""):
+                        images.append(attrs["src"])
+                        self.assertTrue(attrs.get("alt"))
+                    if tag == "h1":
+                        headings.append(tag)
                     if "id" in attrs:
                         ids.append(attrs["id"])
                     if tag == "a" and attrs.get("href", "").startswith("#"):
                         anchors.append(attrs["href"][1:])
                 parser.handle_starttag = start
                 parser.feed(text)
+                self.assertEqual(len(headings), 1)
+                self.assertGreaterEqual(len(images), 2)
+                for image in images:
+                    self.assertTrue((SITE / image.lstrip("/")).is_file())
                 self.assertEqual(len(ids), len(set(ids)))
                 self.assertTrue(set(anchors).issubset(ids))
             other = (base / "stability-reduction" / "index.html").read_text()

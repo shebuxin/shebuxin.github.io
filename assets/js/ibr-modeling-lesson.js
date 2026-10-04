@@ -1,5 +1,16 @@
 (function () {
   "use strict";
+  // Use native section navigation before the site's legacy smooth-scroll handler.
+  const course = document.querySelector('.ibr-modeling');
+  if (course) course.addEventListener('click', event => {
+    const link = event.target.closest('a[href^="#"]');
+    if (!link || !course.contains(link) || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+    const hash = link.getAttribute('href'), target = document.getElementById(hash.slice(1));
+    if (!target) return;
+    event.preventDefault(); event.stopImmediatePropagation();
+    if (location.hash !== hash) history.pushState(null, '', hash);
+    target.scrollIntoView({block:'start', behavior:'auto'});
+  }, true);
   const lab = document.querySelector('[data-ibr-lab]');
   if (!lab) return;
   const zh = lab.dataset.lang === 'zh', find = s => lab.querySelector(s);
@@ -56,6 +67,15 @@
     const data=draw(find('[data-lab-chart]'),r);
     const legend=find('[data-lab-legend]');legend.replaceChildren();
     data.forEach((d,i)=>{const e=document.createElement('span');e.textContent=labelMap[d.key]||d.key;e.style.setProperty('--trace-color',colors[i]);legend.append(e);});
+    const metrics=find('[data-result-metrics]');
+    if(metrics&&data.length){
+      const first=data[0],unit=plot.value==='frequency'?'Hz':'pu';metrics.replaceChildren();
+      const name=labelMap[first.key]||first.key;
+      [[zh?'初始':'Initial',first.values[0]],[zh?'末次采样':'Last sample',first.values.at(-1)],[zh?'最大采样':'Maximum sample',Math.max(...first.values)]].forEach(([label,value])=>{
+        const card=document.createElement('div'),title=document.createElement('span'),number=document.createElement('strong');
+        title.textContent=name+' · '+label;number.textContent=fmt(value)+' '+unit;card.append(title,number);metrics.append(card);
+      });
+    }
     const c=r.case;find('[data-chart-caption]').textContent=r.mode==='frame'?(zh?'坐标偏差：':'Frame offset: ')+c.angle+'°':(zh?'当前曲线参数：':'Parameters used in this plot: ')+'SCR '+c.scr+', '+c.event+' '+c.step+(c.event==='f'?' Hz':' pu')+', mₚ '+c.mp+', M '+c.inertia+' s';
     const auditName=r.mode==='lcl'?(zh?'能量变化率':'Energy-rate identity'):(zh?'网络残差':'Network residual');
     find('[data-audit-summary]').textContent=(zh?'状态数：':'State count: ')+(r.mode==='compare'?'4 / 3 / 4 / 7':r.state_count)+'. '+(zh?'初始残差：':'Initial residual: ')+fmt(r.initial_residual)+'. '+auditName+': '+fmt(r.network_residual)+(r.reset_error!==null?'. '+(zh?'切换连续性残差：':'Switch continuity residual: ')+fmt(r.reset_error):'');
@@ -94,5 +114,13 @@
   document.querySelectorAll('[data-math]').forEach(e=>{if(window.katex)try{window.katex.render(e.dataset.math,e,{displayMode:true,throwOnError:true});}catch(error){e.dataset.mathError=error.message;}});
   const quiz=document.querySelector('[data-quiz]');
   if(quiz)quiz.addEventListener('submit',e=>{e.preventDefault();const selected=quiz.querySelector('input:checked'),feedback=quiz.querySelector('[data-quiz-feedback]');if(!selected){feedback.textContent=zh?'请先选择一个答案。':'Choose an answer first.';return;}const correct=selected.value===quiz.dataset.answer;feedback.textContent=correct?(zh?'正确。展开解释，核对推理。':'Correct. Open the explanation to check your reasoning.'):(zh?'再想一想。展开解释后可以重新作答。':'Try again. You can open the explanation and revise your answer.');feedback.dataset.correct=correct;quiz.querySelector('[data-worked-answer]').hidden=false;});
+  const numeric=document.querySelector('[data-numeric-practice]');
+  if(numeric)numeric.addEventListener('submit',e=>{
+    e.preventDefault();const input=numeric.querySelector('input'),feedback=numeric.querySelector('[data-numeric-feedback]');
+    if(!input.checkValidity()||!Number.isFinite(input.valueAsNumber)){input.reportValidity();return;}
+    const correct=Math.abs(input.valueAsNumber-Number(numeric.dataset.answer))<=Number(numeric.dataset.tolerance)+1e-12;
+    feedback.textContent=correct?(zh?'计算正确。再核对单位与适用条件。':'Correct. Check the units and assumptions too.'):(zh?'结果还不一致。核对基值、符号与单位，再试一次。':'Not yet. Check bases, signs and units, then try again.');
+    feedback.dataset.correct=correct;numeric.querySelector('[data-numeric-solution]').hidden=false;
+  });
   window.addEventListener('pagehide',()=>{if(worker)worker.terminate();clearTimeout(timer);});
 })();

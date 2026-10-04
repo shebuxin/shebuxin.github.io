@@ -1,18 +1,88 @@
 {% include ibr-context.html %}
 {% assign ibr_lesson = site.data.ibr_modeling.lessons[page.module_id] %}
-<div class="ibr-framework ibr-modeling">
-  <p class="ibr-kicker">{{ ibr_module.id }} · {% if ibr_lang == 'zh' %}讲解 + 仿真 + 练习 · 建议 {{ ibr_lesson.minutes }} 分钟{% else %}Lesson + simulation + practice · Allow {{ ibr_lesson.minutes }} minutes{% endif %}</p>
-  <p class="ibr-lead">{{ ibr_module.summary[ibr_lang] }}</p>
-  <nav class="ibr-section-nav" aria-label="{% if ibr_lang == 'zh' %}模块内容{% else %}Module contents{% endif %}"><a href="#objectives">{% if ibr_lang == 'zh' %}目标{% else %}Objectives{% endif %}</a><a href="#lesson">{% if ibr_lang == 'zh' %}讲解{% else %}Lesson{% endif %}</a><a href="#equations">{% if ibr_lang == 'zh' %}方程{% else %}Equations{% endif %}</a><a href="#experiment">{% if ibr_lang == 'zh' %}实验{% else %}Lab{% endif %}</a><a href="#python">Python</a><a href="#practice">{% if ibr_lang == 'zh' %}练习{% else %}Practice{% endif %}</a></nav>
-  <section id="objectives"><h2>{% if ibr_lang == 'zh' %}学习目标{% else %}Learning objectives{% endif %}</h2><ul>{% for item in ibr_module.objectives %}<li>{{ item[ibr_lang] }}</li>{% endfor %}</ul></section>
-  <section id="lesson"><h2>{% if ibr_lang == 'zh' %}从结构到模型{% else %}From structure to model{% endif %}</h2>{{ ibr_lesson.body[ibr_lang] }}</section>
-  <section id="equations"><h2>{% if ibr_lang == 'zh' %}核心方程{% else %}Core equations{% endif %}</h2>{% for equation in ibr_lesson.equations %}<div class="ibr-equation" data-math="{{ equation | escape }}"><code>{{ equation | escape }}</code></div>{% endfor %}</section>
-  <section id="experiment"><h2>{% if ibr_lang == 'zh' %}仿真实验{% else %}Simulation experiment{% endif %}</h2><ol class="ibr-experiment-steps">{% for item in ibr_lesson.steps %}<li>{{ item[ibr_lang] }}</li>{% endfor %}</ol>{% include ibr-modeling-lab.html %}</section>
-  <section id="python"><h2>{% if ibr_lang == 'zh' %}修改模型与复现实验{% else %}Edit the model and reproduce the experiment{% endif %}</h2><p>{% if ibr_lang == 'zh' %}下方代码读取上方参数，但结果独立绘制。修改实验或展开模型源码，可检验自己的预测。下载实验可获得含参数、完整求解器和实验代码的单个 .py 文件；本地只需 Python 3。{% else %}The code reads the controls above and plots its own result. Edit the experiment or expand the solver source to test your prediction. Download experiment produces one .py file containing the parameters, full solver and experiment code; local execution needs only Python 3.{% endif %}</p>
-  {% if ibr_lang == 'zh' %}{% assign ibr_result_title = 'Python 计算结果' %}{% assign ibr_model_description = '源代码包含坐标变换、LCL、PLL、droop、VSM、共享 PCC 与显式模式重置。修改源码只影响下次 Python 实验；上方仿真实验继续使用原始教学方程。' %}{% else %}{% assign ibr_result_title = 'Python result' %}{% assign ibr_model_description = 'The source contains the transforms, LCL, PLL, droop, VSM, shared PCC and explicit reset. Source edits affect the next Python experiment; the laboratory above retains the original teaching equations.' %}{% endif %}
-  {% include course-code.html root_id="ibr-python" prefix="ibr-python" source="/assets/code/ibr-modeling.py" result_title=ibr_result_title result_aria=ibr_result_title model_description=ibr_model_description %}
-  </section>
-  <section id="practice"><h2>{% if ibr_lang == 'zh' %}检查理解{% else %}Check your understanding{% endif %}</h2><form class="ibr-quiz" data-quiz data-answer="{{ ibr_lesson.quiz.correct }}"><fieldset><legend>{{ ibr_lesson.quiz.question[ibr_lang] }}</legend>{% for option in ibr_lesson.quiz.options %}<label><input type="radio" name="ibr-answer" value="{{ forloop.index0 }}"> <span>{{ option[ibr_lang] }}</span></label>{% endfor %}</fieldset><button type="submit" class="btn">{% if ibr_lang == 'zh' %}检查答案{% else %}Check answer{% endif %}</button><p data-quiz-feedback role="status" aria-live="polite"></p><details data-worked-answer hidden><summary>{% if ibr_lang == 'zh' %}查看解释{% else %}Read the explanation{% endif %}</summary><p>{{ ibr_lesson.quiz.answer[ibr_lang] }}</p></details></form><p>{{ ibr_module.practice[ibr_lang] }}</p></section>
-  <section id="sources" class="ibr-material-note"><h2>{% if ibr_lang == 'zh' %}继续学习：源仓库{% else %}Continue in the source repository{% endif %}</h2><p>{% if ibr_lang == 'zh' %}本单元根据 PINN-IBR 本地材料整理（审阅日期 2026-10-03）。网页代码为单独编写的教学实现；以下路径对应完整模型、配置和研究案例。{% else %}Adapted from local PINN-IBR materials reviewed on 2026-10-03. The web code is a separately authored teaching realization. These repository paths contain the detailed models, configurations and research cases.{% endif %}</p><ul>{% for source in ibr_lesson.sources %}<li><code>{{ source }}</code></li>{% endfor %}</ul><p><a href="https://github.com/shebuxin/PINN-IBR">PINN-IBR {% if ibr_lang == 'zh' %}仓库{% else %}repository{% endif %}</a></p></section>
-  {% include ibr-modeling-navigation.html %}
+{% assign ibr_number = page.module_id | remove: 'C1-' %}
+<div class="ibr-framework ibr-modeling ibr-lesson">
+  <header class="ibr-lesson-hero">
+    <div class="ibr-hero-copy">
+      <p class="ibr-eyebrow">{% if ibr_lang == 'zh' %}第 {{ ibr_number }} 讲 / 共 09 讲 · 建模与仿真{% else %}LESSON {{ ibr_number }} / 09 · MODELING & SIMULATION{% endif %}</p>
+      <h1>{{ page.title }}</h1>
+      <p class="ibr-hero-question">{{ ibr_lesson.question[ibr_lang] }}</p>
+      <div class="ibr-meta"><span>{{ ibr_lesson.minutes }} {% if ibr_lang == 'zh' %}分钟{% else %}min{% endif %}</span><span>{% if ibr_lang == 'zh' %}案例 · 图解 · 推导 · 实验{% else %}Case · diagrams · derivation · lab{% endif %}</span><a href="#practice">{% if ibr_lang == 'zh' %}本讲练习{% else %}Practice{% endif %} ↗</a></div>
+    </div>
+    <div class="ibr-hero-index" aria-hidden="true">{{ ibr_number }}<span>IBR DYNAMICS</span></div>
+  </header>
+  <div class="ibr-reading-grid">
+    <aside class="ibr-reading-rail"><div class="ibr-rail-inner">
+      <nav aria-label="{% if ibr_lang == 'zh' %}本讲内容{% else %}Lesson contents{% endif %}">
+        <p class="ibr-eyebrow">{% if ibr_lang == 'zh' %}本讲路径{% else %}IN THIS LESSON{% endif %}</p>
+        <a href="#objectives">01 <span>{% if ibr_lang == 'zh' %}案例与目标{% else %}Case & objectives{% endif %}</span></a>
+        <a href="#lesson">02 <span>{% if ibr_lang == 'zh' %}机理与推导{% else %}Mechanism{% endif %}</span></a>
+        <a href="#worked-case">03 <span>{% if ibr_lang == 'zh' %}算例{% else %}Worked case{% endif %}</span></a>
+        <a href="#experiment">04 <span>{% if ibr_lang == 'zh' %}响应与实验{% else %}Response & lab{% endif %}</span></a>
+        <a href="#practice">05 <span>{% if ibr_lang == 'zh' %}练习与判断{% else %}Practice & decision{% endif %}</span></a>
+        <a href="#python">06 <span>{% if ibr_lang == 'zh' %}复现与拓展{% else %}Reproduce{% endif %}</span></a>
+      </nav>
+      <div class="ibr-rail-note"><span>→</span><p>{% if ibr_lang == 'zh' %}先预测，再运行。<br>用机理解释曲线。{% else %}Predict before running.<br>Explain the curve through its mechanism.{% endif %}</p></div>
+    </div></aside>
+    <div class="ibr-reading-content">
+      <section id="objectives" class="ibr-opening">
+        <p class="ibr-eyebrow">{% if ibr_lang == 'zh' %}从一个实际问题出发{% else %}THE CASE{% endif %}</p>
+        <h2>{{ ibr_lesson.question[ibr_lang] }}</h2>
+        <p class="ibr-case-prose">{{ ibr_lesson.opening[ibr_lang] }}</p>
+        <details class="ibr-objectives"><summary>{% if ibr_lang == 'zh' %}学完本讲，你应该能够…{% else %}By the end of this lesson, you should be able to…{% endif %}</summary><ul>{% for item in ibr_module.objectives %}<li>{{ item[ibr_lang] }}</li>{% endfor %}</ul></details>
+      </section>
+      <section id="lesson" class="ibr-chapters">
+        {% for chapter in ibr_lesson.chapters %}
+        <section class="ibr-chapter" id="mechanism-{{ forloop.index }}">
+          <p class="ibr-chapter-number">{{ ibr_number }}.{{ forloop.index | prepend: '0' | slice: -2, 2 }} <span>{% if ibr_lang == 'zh' %}机理与推导{% else %}MECHANISM & DERIVATION{% endif %}</span></p>
+          <h2>{{ chapter.title[ibr_lang] }}</h2>
+          {{ chapter.body[ibr_lang] }}
+          {% if chapter.figure %}{% include ibr-modeling-figure.html name=chapter.figure %}{% endif %}
+          {% for index in chapter.equations %}<div class="ibr-equation" data-math="{{ ibr_lesson.equations[index] | escape }}"><code>{{ ibr_lesson.equations[index] | escape }}</code></div>{% endfor %}
+        </section>
+        {% endfor %}
+      </section>
+      <section id="worked-case" class="ibr-worked-case">
+        <div class="ibr-worked-heading"><p class="ibr-eyebrow">{% if ibr_lang == 'zh' %}把推导变成数量判断{% else %}FROM EQUATION TO JUDGMENT{% endif %}</p><h2>{{ ibr_lesson.worked.title[ibr_lang] }}</h2></div>
+        <p>{{ ibr_lesson.worked.given[ibr_lang] }}</p>
+        <ol>{% for step in ibr_lesson.worked.steps %}<li>{{ step[ibr_lang] }}</li>{% endfor %}</ol>
+        <p class="ibr-case-conclusion">{{ ibr_lesson.worked.conclusion[ibr_lang] }}</p>
+      </section>
+      <section id="experiment" class="ibr-experiment">
+        <p class="ibr-eyebrow">{% if ibr_lang == 'zh' %}从预测走向证据{% else %}FROM PREDICTION TO EVIDENCE{% endif %}</p>
+        <h2>{{ ibr_lesson.response.title[ibr_lang] }}</h2>
+        <p>{{ ibr_lesson.response.body[ibr_lang] }}</p>
+        {% include ibr-modeling-figure.html name=ibr_lesson.response.figure response=true %}
+        <ol class="ibr-observations">{% for item in ibr_lesson.observations %}<li>{{ item[ibr_lang] }}</li>{% endfor %}</ol>
+        <h3>{% if ibr_lang == 'zh' %}你的实验任务{% else %}Your experiment{% endif %}</h3>
+        <ol class="ibr-experiment-steps">{% for item in ibr_lesson.steps %}<li>{{ item[ibr_lang] }}</li>{% endfor %}</ol>
+        {% include ibr-modeling-lab.html %}
+      </section>
+      <section id="practice" class="ibr-practice">
+        <p class="ibr-eyebrow">{% if ibr_lang == 'zh' %}检查推理，再形成判断{% else %}CHECK YOUR REASONING{% endif %}</p>
+        <h2>{% if ibr_lang == 'zh' %}你能解释，也能算对吗？{% else %}Can you explain it—and calculate it?{% endif %}</h2>
+        <form class="ibr-numeric-practice" data-numeric-practice data-answer="{{ ibr_lesson.numeric.answer }}" data-tolerance="{{ ibr_lesson.numeric.tolerance }}">
+          <p class="ibr-eyebrow">{% if ibr_lang == 'zh' %}计算练习 · 使用题目给定值{% else %}CALCULATION · USE THE STATED VALUES{% endif %}</p>
+          <label for="ibr-numeric-answer">{{ ibr_lesson.numeric.question[ibr_lang] }}</label>
+          <div class="ibr-numeric-controls"><input id="ibr-numeric-answer" name="numeric-answer" type="number" step="any" required autocomplete="off"><span>{{ ibr_lesson.numeric.unit }}</span><button type="submit" class="btn">{% if ibr_lang == 'zh' %}核对计算{% else %}Check calculation{% endif %}</button></div>
+          <p data-numeric-feedback role="status" aria-live="polite"></p><details data-numeric-solution hidden><summary>{% if ibr_lang == 'zh' %}查看推理{% else %}Read the reasoning{% endif %}</summary><p>{{ ibr_lesson.numeric.solution[ibr_lang] }}</p></details>
+        </form>
+        <form class="ibr-quiz" data-quiz data-answer="{{ ibr_lesson.quiz.correct }}"><p class="ibr-eyebrow">{% if ibr_lang == 'zh' %}概念判断{% else %}CONCEPT CHECK{% endif %}</p><fieldset><legend>{{ ibr_lesson.quiz.question[ibr_lang] }}</legend>{% for option in ibr_lesson.quiz.options %}<label><input type="radio" name="ibr-answer" value="{{ forloop.index0 }}"> <span>{{ option[ibr_lang] }}</span></label>{% endfor %}</fieldset><button type="submit" class="btn">{% if ibr_lang == 'zh' %}检查答案{% else %}Check answer{% endif %}</button><p data-quiz-feedback role="status" aria-live="polite"></p><details data-worked-answer hidden><summary>{% if ibr_lang == 'zh' %}查看解释{% else %}Read the explanation{% endif %}</summary><p>{{ ibr_lesson.quiz.answer[ibr_lang] }}</p></details></form>
+        <div class="ibr-decision"><span aria-hidden="true">↗</span><div><h3>{% if ibr_lang == 'zh' %}本讲的工程判断{% else %}Your engineering decision{% endif %}</h3><p>{{ ibr_lesson.decision[ibr_lang] }}</p></div></div>
+      </section>
+      <section id="python" class="ibr-extension">
+        <p class="ibr-eyebrow">{% if ibr_lang == 'zh' %}复现与拓展{% else %}REPRODUCE & EXTEND{% endif %}</p>
+        <h2>{% if ibr_lang == 'zh' %}把证据带回你的模型{% else %}Take the evidence into your model{% endif %}</h2>
+        <details class="ibr-model-card" id="equations"><summary>{% if ibr_lang == 'zh' %}核心方程速查{% else %}Core equation reference{% endif %}</summary>{% for equation in ibr_lesson.equations %}<div class="ibr-equation" data-math="{{ equation | escape }}"><code>{{ equation | escape }}</code></div>{% endfor %}</details>
+        <details class="ibr-python-panel"><summary>{% if ibr_lang == 'zh' %}打开 Python 实验与模型源码{% else %}Open the Python experiment and model source{% endif %}</summary>
+          <p>{% if ibr_lang == 'zh' %}代码读取上方实验参数，结果独立绘制。修改实验或展开模型源码，检验自己的预测。下载实验可得到含参数、完整求解器与实验的单个 .py 文件，本地只需 Python 3。{% else %}The code reads the lab parameters and draws its own result. Edit the experiment or source to test your prediction. Download a single .py file with parameters, solver and experiment; local execution requires Python 3.{% endif %}</p>
+          {% if ibr_lang == 'zh' %}{% assign ibr_result_title = 'Python 计算结果' %}{% assign ibr_model_description = '修改源码影响下次 Python 实验；上方实验继续使用原始教学方程。' %}{% else %}{% assign ibr_result_title = 'Python result' %}{% assign ibr_model_description = 'Source edits affect the next Python experiment; the lab above retains the original teaching equations.' %}{% endif %}
+          {% include course-code.html root_id="ibr-python" prefix="ibr-python" source="/assets/code/ibr-modeling.py" result_title=ibr_result_title result_aria=ibr_result_title model_description=ibr_model_description %}
+        </details>
+        <details id="sources" class="ibr-source-panel"><summary>{% if ibr_lang == 'zh' %}对应的源仓库材料与模型范围{% else %}Source materials and model scope{% endif %}</summary><p>{% if ibr_lang == 'zh' %}基于 PINN-IBR 本地材料整理，审阅日期 2026-10-03。网页采用独立教学实现；低频模型保留额定频率代数网络与理想执行器。下列材料用于继续研究完整模型。{% else %}Based on local PINN-IBR materials reviewed on 2026-10-03. The website uses independent teaching realizations; low-frequency models retain nominal-frequency algebraic networks and ideal actuators. Continue into the detailed models below.{% endif %}</p><ul>{% for source in ibr_lesson.sources %}<li><code>{{ source }}</code></li>{% endfor %}</ul><a href="https://github.com/shebuxin/PINN-IBR">PINN-IBR ↗</a></details>
+      </section>
+      <div class="ibr-lesson-bridge"><p class="ibr-eyebrow">{% if ibr_lang == 'zh' %}下一步{% else %}WHAT FOLLOWS{% endif %}</p><p>{{ ibr_lesson.bridge[ibr_lang] }}</p></div>
+      {% include ibr-modeling-navigation.html %}
+    </div>
+  </div>
 </div>

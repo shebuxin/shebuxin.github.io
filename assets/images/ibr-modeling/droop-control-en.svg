@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1040 485" role="img" aria-labelledby="title desc" lang="en">
+<title id="title">Power mismatch changes frequency, angle and electrical power</title><desc id="desc">Power mismatch changes frequency, angle and electrical power. Course-authored schematic or calculated response.</desc>
+<defs><marker id="arrow0" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#17374b"/></marker><marker id="arrow1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#2f7095"/></marker><marker id="arrow2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#bd733d"/></marker><marker id="arrow3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#377e70"/></marker><marker id="arrow4" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#667c87"/></marker></defs>
+<style>text{font-family:Arial,"PingFang SC","Microsoft YaHei",sans-serif} .small{font-size:17px} .label{font-size:20px;font-weight:600} .note{font-size:18px} .title{font-size:26px;font-weight:600}</style>
+<rect width="1040" height="485" rx="18" fill="#fbfcfc"/>
+<rect x="35" y="104" width="205" height="96" rx="10" fill="#fff" stroke="#2f7095"/>
+<text x="137.5" y="134" font-size="18.46938775510204" fill="#2f7095" text-anchor="middle" font-weight="600">P–frequency droop</text>
+<text x="137.5" y="184" font-size="14.859437751004013" fill="#667c87" text-anchor="middle" font-weight="400">ω = 1 + m_p(P* − P_f)</text>
+<rect x="290" y="104" width="205" height="96" rx="10" fill="#fff" stroke="#2f7095"/>
+<text x="392.5" y="134" font-size="19.358288770053477" fill="#2f7095" text-anchor="middle" font-weight="600">Angle integration</text>
+<text x="392.5" y="184" font-size="15.352697095435683" fill="#667c87" text-anchor="middle" font-weight="400">δ̇ = ω_b(ω − ω_g)</text>
+<rect x="545" y="104" width="205" height="96" rx="10" fill="#fff" stroke="#2f7095"/>
+<text x="647.5" y="134" font-size="20" fill="#2f7095" text-anchor="middle" font-weight="600">Voltage source</text>
+<text x="647.5" y="184" font-size="16" fill="#667c87" text-anchor="middle" font-weight="400">U = E exp(jδ)</text>
+<rect x="800" y="104" width="205" height="96" rx="10" fill="#fff" stroke="#2f7095"/>
+<text x="902.5" y="134" font-size="20" fill="#2f7095" text-anchor="middle" font-weight="600">Shared network</text>
+<text x="902.5" y="184" font-size="16" fill="#667c87" text-anchor="middle" font-weight="400">P + jQ = V I*</text>
+<path d="M240 151L283 151" fill="none" stroke="#2f7095" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow1)"/>
+<path d="M495 151L538 151" fill="none" stroke="#2f7095" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow1)"/>
+<path d="M750 151L793 151" fill="none" stroke="#2f7095" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow1)"/>
+<rect x="291" y="305" width="253" height="94" rx="10" fill="#fff" stroke="#377e70"/>
+<text x="417.5" y="335" font-size="17.348484848484844" fill="#377e70" text-anchor="middle" font-weight="600">Power measurement filter</text>
+<text x="417.5" y="383" font-size="16" fill="#667c87" text-anchor="middle" font-weight="400">τ_p Ṗ_f = P − P_f</text>
+<path d="M903 207 V352 H551" fill="none" stroke="#377e70" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow3)"/>
+<path d="M291 352 H140 V207" fill="none" stroke="#377e70" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow3)"/>
+<text x="670" y="340" font-size="18" fill="#377e70" text-anchor="middle" font-weight="400">PCC power feedback</text>
+<text x="615" y="273" font-size="19" fill="#bd733d" text-anchor="start" font-weight="400">Q_f → E = E₀ − n_q(Q_f − Q*)</text>
+<path d="M666 280 V207" fill="none" stroke="#bd733d" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow2)"/>
+<text x="32" y="461" font-size="17" fill="#667c87" text-anchor="start" font-weight="400">Teaching source is algebraic. A physical realization adds voltage PI → current PI → LCL.</text>
+</svg>

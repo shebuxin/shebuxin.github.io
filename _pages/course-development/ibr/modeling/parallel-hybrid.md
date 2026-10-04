@@ -1,5 +1,5 @@
 ---
-layout: course
+layout: ibr-modeling
 ibr_courses: true
 ibr_modeling: true
 lang: "en"

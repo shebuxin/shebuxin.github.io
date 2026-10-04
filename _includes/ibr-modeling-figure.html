@@ -1,0 +1,5 @@
+{% assign ibr_figure = site.data.ibr_modeling_figures[include.name][ibr_lang] %}
+<figure class="ibr-figure{% if include.response %} ibr-response-figure{% endif %}">
+  <div class="ibr-figure-canvas"><img src="{{ ibr_figure.path | prepend: '/' | relative_url }}" alt="{{ ibr_figure.title | escape }}" width="{{ ibr_figure.width }}" height="{{ ibr_figure.height }}" loading="lazy"></div>
+  <figcaption><span>{% if include.response %}{% if ibr_lang == 'zh' %}求解器计算{% else %}Solver output{% endif %}{% else %}{% if ibr_lang == 'zh' %}机理图解{% else %}Mechanism{% endif %}{% endif %}</span> {{ include.caption | default: ibr_figure.title }} <span class="ibr-mobile-figure-hint">{% if ibr_lang == 'zh' %}左右滑动查看全图{% else %}Scroll horizontally to read the figure{% endif %}</span> <a class="ibr-figure-zoom" href="{{ ibr_figure.path | prepend: "/" | relative_url }}" target="_blank" rel="noopener">{% if ibr_lang == 'zh' %}放大图示{% else %}Enlarge figure{% endif %} ↗</a></figcaption>
+</figure>

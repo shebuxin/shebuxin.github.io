@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1040 450" role="img" aria-labelledby="title desc" lang="en">
+<title id="title">A comparison requires a common operating point and protocol</title><desc id="desc">A comparison requires a common operating point and protocol. Course-authored schematic or calculated response.</desc>
+<defs><marker id="arrow0" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#17374b"/></marker><marker id="arrow1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#2f7095"/></marker><marker id="arrow2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#bd733d"/></marker><marker id="arrow3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#377e70"/></marker><marker id="arrow4" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#667c87"/></marker></defs>
+<style>text{font-family:Arial,"PingFang SC","Microsoft YaHei",sans-serif} .small{font-size:17px} .label{font-size:20px;font-weight:600} .note{font-size:18px} .title{font-size:26px;font-weight:600}</style>
+<rect width="1040" height="450" rx="18" fill="#fbfcfc"/>
+<text x="35" y="65" font-size="18" fill="#2f7095" text-anchor="start" font-weight="600">01</text>
+<rect x="35" y="100" width="200" height="112" rx="10" fill="#fff" stroke="#2f7095"/>
+<text x="135.0" y="130" font-size="17.77777777777778" fill="#2f7095" text-anchor="middle" font-weight="600">Match the terminal</text>
+<text x="135.0" y="196" font-size="16" fill="#667c87" text-anchor="middle" font-weight="400">P = 0.6, Q = 0</text>
+<path d="M235 156L285 156" fill="none" stroke="#667c87" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow4)"/>
+<text x="292" y="65" font-size="18" fill="#377e70" text-anchor="start" font-weight="600">02</text>
+<rect x="292" y="100" width="200" height="112" rx="10" fill="#fff" stroke="#377e70"/>
+<text x="392.0" y="130" font-size="17.77777777777778" fill="#377e70" text-anchor="middle" font-weight="600">Verify equilibrium</text>
+<text x="392.0" y="196" font-size="15.999999999999998" fill="#667c87" text-anchor="middle" font-weight="400">max |f(x₀,u₀)| ≈ 0</text>
+<path d="M492 156L542 156" fill="none" stroke="#667c87" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow4)"/>
+<text x="549" y="65" font-size="18" fill="#bd733d" text-anchor="start" font-weight="600">03</text>
+<rect x="549" y="100" width="200" height="112" rx="10" fill="#fff" stroke="#bd733d"/>
+<text x="649.0" y="130" font-size="20" fill="#bd733d" text-anchor="middle" font-weight="600">Apply one event</text>
+<text x="649.0" y="196" font-size="16" fill="#667c87" text-anchor="middle" font-weight="400">ΔP* = +0.03 @ 1 s</text>
+<path d="M749 156L799 156" fill="none" stroke="#667c87" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow4)"/>
+<text x="806" y="65" font-size="18" fill="#2f7095" text-anchor="start" font-weight="600">04</text>
+<rect x="806" y="100" width="200" height="112" rx="10" fill="#fff" stroke="#2f7095"/>
+<text x="906.0" y="130" font-size="20" fill="#2f7095" text-anchor="middle" font-weight="600">Compare outputs</text>
+<text x="906.0" y="196" font-size="16" fill="#667c87" text-anchor="middle" font-weight="400">P, Q, |V|, frequency</text>
+<rect x="35" y="272" width="970" height="103" rx="10" fill="#f5f8f8" stroke="#d7e1e5"/>
+<text x="520" y="313" font-size="25" fill="#17374b" text-anchor="middle" font-weight="600">Same terminal target ≠ same controller command</text>
+<text x="520" y="349" font-size="20" fill="#667c87" text-anchor="middle" font-weight="400">Record model order, ports, gains, event and numerical accuracy.</text>
+<text x="32" y="426" font-size="17" fill="#667c87" text-anchor="start" font-weight="400">Equation consistency → approximation validity → external validation are distinct evidence levels.</text>
+</svg>

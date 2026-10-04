@@ -324,7 +324,7 @@
           "slug": "vsm-and-virtual-inertia",
           "title": {
             "en": "VSM and Virtual Inertia",
-            "zh": "VSM 与虚拟惯性"
+            "zh": "VSM 与虚拟惯量"
           },
           "summary": {
             "en": "Distinguish a virtual rotor from a PLL-based inertia power request.",
@@ -360,7 +360,7 @@
           },
           "practice": {
             "en": "Explain why more virtual inertia need not improve stability.",
-            "zh": "解释为什么增大虚拟惯性不一定改善稳定性。"
+            "zh": "解释为什么增大虚拟惯量不一定改善稳定性。"
           },
           "sources": [
             "vsm",

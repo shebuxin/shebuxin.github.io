@@ -6,8 +6,8 @@
       "lab": "compare",
       "minutes": 60,
       "body": {
-        "en": "<h3>Start with the question and the terminal</h3>\n<p>An inverter-based resource connects a controlled converter to a network. A model must tell us where its boundary is: the average converter voltage, the filter capacitor, the point of connection (PoC), or a plant-level bus. A power measurement at the capacitor differs from a PoC measurement because the intervening branch stores energy and dissipates power.</p>\n<p>For this course, draw <strong>converter → L₁ → capacitor C → L₂ → PoC → grid impedance → infinite bus</strong>. The infinite bus fixes voltage magnitude and frequency. The DC supply is ideal. Positive P and Q denote injection into the network at the declared measurement port. Controls receive reference commands and measurements; they do not directly prescribe every electrical state.</p>\n<h3>Three representations of the same equipment</h3>\n<div class=\"ibr-table\"><table><thead><tr><th>Representation</th><th>Retains</th><th>Useful question</th></tr></thead><tbody><tr><td>Switching model</td><td>Individual switching actions and their electrical consequences</td><td>What ripple does a switching pattern produce?</td></tr><tr><td>Averaged dq model</td><td>Average voltage command, plant and controller dynamics</td><td>How do current control and LCL dynamics interact?</td></tr><tr><td>Positive-sequence / low-frequency model</td><td>Selected envelope, synchronization and power dynamics</td><td>How does a small command change affect synchronization?</td></tr></tbody></table></div>\n<p>Representation and controller family are separate choices. A GFL controller can be represented with either an explicit LCL plant or an ideal current actuator. A low-order GFM voltage source can hide inner voltage and current loops. Removing those loops changes the questions the model can answer.</p>\n<h3>Write an interface before an equation</h3>\n<p>Use x for differential states, z for algebraic network variables, u for commands and grid conditions, and y for measured outputs. The network constraint must be solved consistently with the controller. A state is a stored quantity with an evolution law; a current obtained by solving an impedance relation is an algebraic variable.</p>\n<p><strong>Worked classification:</strong> in the course droop experiment, x = [δ, P_f, Q_f]. The PCC voltage and branch current belong to z, while P*, Q*, V_g and ω_g are inputs. The capacitor voltage is absent from x: this experiment cannot display capacitor resonance. Module 3 adds it explicitly.</p>\n<h3>What the first experiment establishes</h3>\n<p>All four traces below start at total PoC P = 0.6 pu and Q = 0. An increase of 0.03 pu at 1 s produces different trajectories because the retained control dynamics differ. Similar endpoints do not prove that two models are interchangeable. Keep the state list, measurement port, parameter set and disturbance with every result.</p>",
-        "zh": "<h3>先确定问题和端口</h3>\n<p>逆变器型资源通过受控变流器连接电网。模型边界可以设在变流器平均电压端、滤波电容端、连接点（PoC），或整个场站母线。电容端测得的功率与 PoC 功率不同，因为两者之间的支路会储能和消耗功率。</p>\n<p>本课程从这条链路开始：<strong>变流器 → L₁ → 电容 C → L₂ → PoC → 电网阻抗 → 无穷大母线</strong>。无穷大母线给定电压幅值和频率；直流供电理想化。正 P、Q 表示从声明的测量端口向网络注入。控制器接收指令和测量，并不能直接指定所有电气状态。</p>\n<h3>同一设备的三种表示</h3>\n<div class=\"ibr-table\"><table><thead><tr><th>表示</th><th>保留内容</th><th>可研究的问题</th></tr></thead><tbody><tr><td>开关模型</td><td>具体开关动作与对应的电气变化</td><td>某个开关策略产生多大的纹波？</td></tr><tr><td>平均 dq 模型</td><td>平均电压指令、物理电路和控制器动态</td><td>电流环如何与 LCL 动态相互作用？</td></tr><tr><td>正序 / 低频模型</td><td>选定的包络、同步和功率动态</td><td>小幅功率指令如何影响同步？</td></tr></tbody></table></div>\n<p>模型表示与控制类别是两个独立选择。GFL 可以连接显式 LCL 电路，也可以用理想电流执行环节表示。低阶 GFM 电压源可以省略内部电压环和电流环；省略之后，模型能够回答的问题也改变了。</p>\n<h3>先写接口，再写方程</h3>\n<p>x 表示微分状态，z 表示代数网络变量，u 表示指令和电网条件，y 表示输出。网络约束必须与控制器一致求解。有储能或积分演化规律的量是状态；通过阻抗关系计算出的电流则是代数量。</p>\n<p><strong>分类示例：</strong>本课程 droop 实验中，x = [δ, P_f, Q_f]。PCC 电压与支路电流属于 z；P*、Q*、V_g、ω_g 属于输入。电容电压不在状态中，因此这个实验不能展示电容谐振。模块 3 会单独保留它。</p>\n<h3>第一个实验说明什么</h3>\n<p>下方四条曲线都从 PoC 总 P = 0.6 pu、Q = 0 出发，在 1 s 增加 0.03 pu 指令。保留的控制动态不同，轨迹也不同。终点接近不能证明模型可互换。每次展示结果，都应同时保留状态清单、测量端口、参数和扰动。</p>"
+        "en": "<h3>Start with the consequence you need to explain</h3><p>A converter can be studied over switching cycles, electrical transients or slower synchronization dynamics. These are different questions about the same equipment. If the concern is switching ripple, the switching events matter. If it is an LCL oscillation, stored electrical energy matters. If it is a small power-command response over seconds, a reduced synchronization model may be enough.</p><p>The modeling decision is therefore a tradeoff between retained mechanisms and the evidence needed for a decision. State the output, disturbance and time horizon before selecting a controller family. “GFM” identifies a control concept; it does not specify model order.</p><h3>Draw the terminal before counting states</h3><p>Trace the physical chain from average converter voltage through L₁, the capacitor, L₂ and the point of connection to the grid impedance and infinite bus. The capacitor port and PoC are separated by a branch that stores energy and dissipates power. A power value without a measurement port is incomplete.</p><p>In this course, injected current points toward the grid; positive P and Q denote injection at the declared port. The infinite bus sets voltage and frequency and the DC source is ideal. These assumptions define what the experiment can tell us about an interconnection.</p><h3>Turn the boundary into a model contract</h3><p>Partition the model into differential states x, algebraic network variables z, inputs u and outputs y. A quantity is a state because it has an evolution law, not because it appears on a plot. The network constraint must agree with the controller at every time sample.</p><p>For the three-state droop experiment, x = [δ, P_f, Q_f]. PCC voltage and branch current are algebraic; power references and grid conditions are inputs. Capacitor voltage is absent. This immediately explains why that model cannot reproduce the six-state LCL resonance studied in Lesson 3.</p>",
+        "zh": "<h3>先明确要解释的现象</h3><p>同一台变流器可以在开关周期、电气暂态或较慢的同步动态上被研究。若关心开关纹波，就要保留开关动作；若关心 LCL 振荡，就要保留电感和电容的储能；若关心数秒内的小功率指令响应，低阶同步模型可能已足够。</p><p>建模的取舍发生在“需要保留的机理”与“决策需要的证据”之间。因此，先写清观察量、扰动和时间尺度，再选择控制家族。GFM 是控制概念，并不能单独确定模型阶次。</p><h3>先画端口，再数状态</h3><p>沿平均变流器电压，依次经过 L₁、电容、L₂、并网点 PoC、电网阻抗，最后到达无穷大母线。电容端口与 PoC 之间的支路会储能和耗能，因此，未说明测量端口的功率数值并不完整。</p><p>本课程规定电流流向电网，正 P、Q 表示在声明端口向电网注入。无穷大母线设定电压和频率，直流侧采用理想电源。这些假设共同界定了实验能够支持的并网结论。</p><h3>把边界写成模型契约</h3><p>把模型分成微分状态 x、代数网络变量 z、输入 u 和输出 y。某个量之所以是状态，是因为它有自己的演化方程，而不是因为它出现在曲线上。网络约束必须在每个时刻与控制器一致。</p><p>三状态 droop 实验采用 x = [δ, P_f, Q_f]。PCC 电压和支路电流是代数量，功率指令和电网条件是输入。电容电压没有被保留。这也直接解释了：该模型无法复现第 3 讲的六状态 LCL 谐振。</p>"
       },
       "equations": [
         "\\dot{x}=f(x,z,u),\\qquad 0=g(x,z,u),\\qquad y=h(x,z,u)"
@@ -54,14 +54,138 @@
       "sources": [
         "Teaching/Tutorial-IBR/src/tutorial_en.tex",
         "Coding/Modeling/Single-IBR-Infinite-Bus/README.md"
+      ],
+      "question": {
+        "en": "Which model is sufficient for the decision?",
+        "zh": "这个问题，究竟需要多复杂的模型？"
+      },
+      "opening": {
+        "en": "A project team has four plausible inverter models and four different step responses. Before choosing a controller, the team must decide what each response can legitimately explain. Begin with the decision, then define the model boundary.",
+        "zh": "一个并网项目拿到了四套逆变器模型，也得到了四条不同的阶跃曲线。团队准备据此选择控制方案。但在比较优劣之前，必须先回答：每条曲线究竟能解释什么？本讲先界定研究问题，再决定模型边界。"
+      },
+      "chapters": [
+        {
+          "title": {
+            "en": "Start with the consequence you need to explain",
+            "zh": "先明确要解释的现象"
+          },
+          "body": {
+            "en": "<p>A converter can be studied over switching cycles, electrical transients or slower synchronization dynamics. These are different questions about the same equipment. If the concern is switching ripple, the switching events matter. If it is an LCL oscillation, stored electrical energy matters. If it is a small power-command response over seconds, a reduced synchronization model may be enough.</p><p>The modeling decision is therefore a tradeoff between retained mechanisms and the evidence needed for a decision. State the output, disturbance and time horizon before selecting a controller family. “GFM” identifies a control concept; it does not specify model order.</p>",
+            "zh": "<p>同一台变流器可以在开关周期、电气暂态或较慢的同步动态上被研究。若关心开关纹波，就要保留开关动作；若关心 LCL 振荡，就要保留电感和电容的储能；若关心数秒内的小功率指令响应，低阶同步模型可能已足够。</p><p>建模的取舍发生在“需要保留的机理”与“决策需要的证据”之间。因此，先写清观察量、扰动和时间尺度，再选择控制家族。GFM 是控制概念，并不能单独确定模型阶次。</p>"
+          },
+          "figure": "model-boundaries",
+          "equations": []
+        },
+        {
+          "title": {
+            "en": "Draw the terminal before counting states",
+            "zh": "先画端口，再数状态"
+          },
+          "body": {
+            "en": "<p>Trace the physical chain from average converter voltage through L₁, the capacitor, L₂ and the point of connection to the grid impedance and infinite bus. The capacitor port and PoC are separated by a branch that stores energy and dissipates power. A power value without a measurement port is incomplete.</p><p>In this course, injected current points toward the grid; positive P and Q denote injection at the declared port. The infinite bus sets voltage and frequency and the DC source is ideal. These assumptions define what the experiment can tell us about an interconnection.</p>",
+            "zh": "<p>沿平均变流器电压，依次经过 L₁、电容、L₂、并网点 PoC、电网阻抗，最后到达无穷大母线。电容端口与 PoC 之间的支路会储能和耗能，因此，未说明测量端口的功率数值并不完整。</p><p>本课程规定电流流向电网，正 P、Q 表示在声明端口向电网注入。无穷大母线设定电压和频率，直流侧采用理想电源。这些假设共同界定了实验能够支持的并网结论。</p>"
+          },
+          "figure": "lcl-circuit",
+          "equations": []
+        },
+        {
+          "title": {
+            "en": "Turn the boundary into a model contract",
+            "zh": "把边界写成模型契约"
+          },
+          "body": {
+            "en": "<p>Partition the model into differential states x, algebraic network variables z, inputs u and outputs y. A quantity is a state because it has an evolution law, not because it appears on a plot. The network constraint must agree with the controller at every time sample.</p><p>For the three-state droop experiment, x = [δ, P_f, Q_f]. PCC voltage and branch current are algebraic; power references and grid conditions are inputs. Capacitor voltage is absent. This immediately explains why that model cannot reproduce the six-state LCL resonance studied in Lesson 3.</p>",
+            "zh": "<p>把模型分成微分状态 x、代数网络变量 z、输入 u 和输出 y。某个量之所以是状态，是因为它有自己的演化方程，而不是因为它出现在曲线上。网络约束必须在每个时刻与控制器一致。</p><p>三状态 droop 实验采用 x = [δ, P_f, Q_f]。PCC 电压和支路电流是代数量，功率指令和电网条件是输入。电容电压没有被保留。这也直接解释了：该模型无法复现第 3 讲的六状态 LCL 谐振。</p>"
+          },
+          "figure": null,
+          "equations": [
+            0
+          ]
+        }
+      ],
+      "worked": {
+        "title": {
+          "en": "Work the case",
+          "zh": "把案例算清楚"
+        },
+        "given": {
+          "en": "A detailed droop realization retains 13 states. The browser droop realization retains 3. What did the reduction remove?",
+          "zh": "完整 droop 实现有 13 个状态，浏览器中的 droop 实现有 3 个。减少的状态来自哪里？"
+        },
+        "steps": [
+          {
+            "en": "Count the six electrical states: two components each for i₁, v_c and i₂.",
+            "zh": "电气状态有 6 个：i₁、v_c、i₂ 各有 d、q 两个分量。"
+          },
+          {
+            "en": "Count four PI integrators: two voltage-loop and two current-loop integrators.",
+            "zh": "PI 积分状态有 4 个：电压环两个、电流环两个。"
+          },
+          {
+            "en": "The remaining angle and two power filters are the three reduced states.",
+            "zh": "留下角度与两个功率滤波状态，构成三状态模型。"
+          }
+        ],
+        "conclusion": {
+          "en": "13 − 3 = 10 states were removed. The reduction removes electrical storage and inner-control dynamics; it does not merely shorten a vector.",
+          "zh": "13 − 3 = 10 个状态被移除。减少的是电气储能与内环控制的动态及其耦合，并非只把状态向量缩短。"
+        }
+      },
+      "numeric": {
+        "question": {
+          "en": "How many states are removed when this 13-state droop model is reduced to 3 states?",
+          "zh": "上述 13 状态 droop 模型简化为 3 状态时，移除了多少个状态？"
+        },
+        "answer": 10,
+        "unit": "states",
+        "tolerance": 0,
+        "solution": {
+          "en": "13 − 3 = 10 states were removed. The reduction removes electrical storage and inner-control dynamics; it does not merely shorten a vector.",
+          "zh": "13 − 3 = 10 个状态被移除。减少的是电气储能与内环控制的动态及其耦合，并非只把状态向量缩短。"
+        }
+      },
+      "decision": {
+        "en": "Write a four-line model contract: question, port, retained states and excluded mechanisms. Use it to qualify any conclusion drawn from the four-family plot.",
+        "zh": "本讲交付一份四行模型契约：研究问题、测量端口、保留状态、排除机理。用它限定四模型曲线可以支持的结论。"
+      },
+      "bridge": {
+        "en": "With the boundary fixed, the next risk is convention: two correct-looking equations can describe different quantities if coordinates and bases differ.",
+        "zh": "模型边界确定以后，下一个风险来自约定：坐标与基值不同，两条看似正确的方程可能描述不同的量。"
+      },
+      "diagram": "model-boundaries",
+      "phase": 1,
+      "response": {
+        "figure": "comparison-response",
+        "title": {
+          "en": "Same terminal, different trajectories",
+          "zh": "同一端口，不同轨迹"
+        },
+        "body": {
+          "en": "All four families start at P = 0.6 pu and Q = 0. A +0.03 pu command at 1 s exposes their retained dynamics.",
+          "zh": "四种模型从 P = 0.6 pu、Q = 0 出发，1 s 的 +0.03 pu 指令揭示各自保留的动态。"
+        }
+      },
+      "observations": [
+        {
+          "en": "Before the event, all four traces agree at 0.6 pu: the terminal target has been matched.",
+          "zh": "事件前四条曲线都为 0.6 pu，说明匹配的是端口工作点。"
+        },
+        {
+          "en": "After the event, their paths diverge because their retained synchronization and actuator dynamics differ.",
+          "zh": "事件后轨迹分开，差异来自保留的同步规律与执行器动态。"
+        },
+        {
+          "en": "The absence of LCL states means none of these four curves can explain the plant resonance.",
+          "zh": "这些低阶模型都未保留 LCL 状态，因此不能用它们解释电气谐振。"
+        }
       ]
     },
     "C1-02": {
       "lab": "frame",
       "minutes": 60,
       "body": {
-        "en": "<h3>Rotate coordinates without changing physical power</h3>\n<p>For a balanced three-phase signal with no zero sequence, the power-invariant Park matrix maps abc into two rotating axes. Its rows use cos(θ + φₖ) and −sin(θ + φₖ), with φₖ = [0, −2π/3, 2π/3]. The √(2/3) scaling preserves the three-phase inner product. Do not combine this transform with the 3/2 power coefficient from an amplitude-invariant convention.</p>\n<p>The inverse on the balanced subspace is the transpose of the Park matrix. A zero-sequence component requires an additional axis; the two-axis inverse cannot recover it.</p>\n<h3>Power and current references</h3>\n<p>With current positive toward the network, P = v_d i_d + v_q i_q and Q = v_q i_d − v_d i_q. When the local d axis aligns with voltage, v_q = 0: positive Q requires negative i_q. The current-reference matrix below is the exact inverse of this P–Q map for nonzero voltage.</p>\n<h3>Per unit still has units behind it</h3>\n<p>For S_b = 10 kVA, V_b = 400 V line-to-line RMS and f_b = 50 Hz, Z_b = 16 Ω and ω_b = 314.159 rad/s. The power-invariant dq voltage base is 400 V and dq current base is 25 A. The physical line RMS current base is 14.434 A; it is a different quantity.</p>\n<p>Define r = R/Z_b, ℓ = L/Z_b in seconds, and c = C Z_b in seconds. Thus inductive reactance at nominal frequency is x = ω_b ℓ. A per-unit inductance written as reactance x cannot be substituted for ℓ in a time-domain derivative.</p>\n<h3>A numerical check</h3>\n<p>The experiment uses voltage magnitude 1, current magnitude 0.6 and a 30° current lag. At zero frame offset, v_d = 1, v_q = 0, P = 0.6 cos(30°) = 0.519615 and Q = 0.3. At +20° offset, v_d = cos(20°), v_q = −sin(20°). P and Q stay unchanged because voltage and current rotate together.</p>\n<p>An angle relative to the grid obeys δ̇ = ω_b(ω_pu − ω_g,pu). A difference of 0.001 pu at 50 Hz gives 0.314159 rad/s, not 0.001 rad/s.</p>",
-        "zh": "<h3>坐标旋转不改变物理功率</h3>\n<p>对无零序的平衡三相信号，功率不变 Park 矩阵将 abc 映射到两个旋转轴。两行分别使用 cos(θ + φₖ) 和 −sin(θ + φₖ)，φₖ = [0, −2π/3, 2π/3]。√(2/3) 的缩放保持三相内积不变。不要将这个变换与幅值不变约定中的 3/2 功率系数混用。</p>\n<p>在平衡子空间上，逆变换就是 Park 矩阵的转置。有零序时需要增加一个轴；两轴逆变换无法恢复零序分量。</p>\n<h3>功率与电流指令</h3>\n<p>电流以流向网络为正：P = v_d i_d + v_q i_q，Q = v_q i_d − v_d i_q。d 轴与电压对齐时 v_q = 0，正 Q 对应负 i_q。下面的电流指令矩阵是这个 P–Q 映射在非零电压下的精确逆映射。</p>\n<h3>标幺量背后仍有单位</h3>\n<p>选 S_b = 10 kVA、V_b = 400 V 线电压 RMS、f_b = 50 Hz，可得 Z_b = 16 Ω、ω_b = 314.159 rad/s。功率不变 dq 电压基值为 400 V，dq 电流基值为 25 A。物理线电流 RMS 基值为 14.434 A，两者是不同的量。</p>\n<p>定义 r = R/Z_b，ℓ = L/Z_b（秒），c = C Z_b（秒），于是额定频率下的电抗 x = ω_b ℓ。若“标幺电感”实际指电抗 x，就不能把它直接代入含时间导数的 ℓ 位置。</p>\n<h3>数值检查</h3>\n<p>实验电压幅值为 1、电流幅值为 0.6，电流滞后 30°。坐标偏差为零时，v_d = 1、v_q = 0、P = 0.6 cos(30°) = 0.519615、Q = 0.3。坐标偏差 +20° 时，v_d = cos(20°)、v_q = −sin(20°)。电压和电流一起旋转，所以 P、Q 不变。</p>\n<p>相对于电网的角度满足 δ̇ = ω_b(ω_pu − ω_g,pu)。在 50 Hz 下，0.001 pu 频差对应 0.314159 rad/s，而不是 0.001 rad/s。</p>"
+        "en": "<h3>Rotate the description, preserve the power</h3><p>A balanced waveform becomes almost constant in a frame rotating with it. This makes electrical and control dynamics easier to interpret. The course uses a power-invariant Park transform with √(2/3) scaling, cosine d row and negative-sine q row.</p><p>On the balanced subspace, the transpose gives the inverse. Because this transform preserves the inner product, P has no additional 3/2 factor. A zero-sequence component requires another axis. Mixing transform conventions creates an error even if each borrowed equation was correct in its original setting.</p><h3>Derive the current request from the measured voltage</h3><p>With injection-positive current, P = v_d i_d + v_q i_q and Q = v_q i_d − v_d i_q. If the d axis aligns with voltage, positive Q requires negative i_q. This sign is a direct consequence of the chosen q axis.</p><p>Invert both equations together to obtain the current reference. The full inverse remains valid while the PLL is misaligned, provided voltage magnitude is nonzero. Replacing it with i_d = P/v_d and i_q = −Q/v_d assumes v_q = 0 throughout the transient—a stronger assumption than the controller actually guarantees.</p><h3>Keep the dimensions underneath per unit</h3><p>Use 10 kVA, 400 V line-to-line RMS and 50 Hz. Then Z_b = 16 Ω, the power-invariant dq voltage base is 400 V, and the dq current base is 25 A. The line RMS current base is 14.434 A; these two current quantities must not be substituted for one another.</p><p>The dynamic coefficients ℓ = L/Z_b and c = CZ_b have units of seconds. Nominal reactance x = ω_bℓ is a different quantity. Likewise, a per-unit frequency difference needs multiplication by ω_b before it becomes an angle rate. Units are a practical way to catch plausible-looking modeling errors.</p>",
+        "zh": "<h3>改变描述，保留物理功率</h3><p>在同步旋转坐标中，平衡三相量可以变成近似常量，从而更容易识别电气与控制动态。本课采用功率不变 Park 变换：系数为 √(2/3)，d 行使用 cos，q 行使用 −sin。</p><p>在平衡子空间内，转置矩阵就是逆变换。该变换保留内积，因此 P 的表达式不再乘 3/2；零序则需要额外坐标轴。混用不同来源的约定，即使每条原始公式都正确，组合起来也会出错。</p><h3>从测量电压反求电流指令</h3><p>当电流方向定义为向电网注入时，P = v_d i_d + v_q i_q，Q = v_q i_d − v_d i_q。若 d 轴与电压对齐，正 Q 对应负 i_q。这一符号直接来自 q 轴的选择。</p><p>同时求逆两条方程，才能得到电流指令。在 PLL 尚未对齐时，只要电压幅值非零，完整逆映射仍然成立。直接使用 i_d = P/v_d、i_q = −Q/v_d，相当于额外假设整个暂态中 v_q 始终为零。</p><h3>标幺化之后，量纲仍然存在</h3><p>采用 10 kVA、400 V 线电压 RMS 和 50 Hz，得到 Z_b = 16 Ω。功率不变 dq 电压基值为 400 V，dq 电流基值为 25 A；实际线电流 RMS 基值为 14.434 A。两种电流量不能互换。</p><p>动态系数 ℓ = L/Z_b 与 c = CZ_b 的单位都是秒，额定电抗 x = ω_bℓ 则是另一种量。同样，标幺频率差必须乘 ω_b，才成为角速度差。检查量纲，是识别“看起来很合理”的建模错误的有效方法。</p>"
       },
       "equations": [
         "T(\\theta)=\\sqrt{\\frac{2}{3}}\\begin{bmatrix}\\cos\\theta&\\cos(\\theta-2\\pi/3)&\\cos(\\theta+2\\pi/3)\\\\-\\sin\\theta&-\\sin(\\theta-2\\pi/3)&-\\sin(\\theta+2\\pi/3)\\end{bmatrix}",
@@ -111,14 +235,143 @@
       "sources": [
         "Coding/Modeling/src/ibrsim/conventions.py",
         "Coding/Modeling/src/ibrsim/schema.py"
+      ],
+      "question": {
+        "en": "How can rotating coordinates preserve the same physics?",
+        "zh": "坐标变了，为什么功率不能变？"
+      },
+      "opening": {
+        "en": "Two engineers report different dq currents for the same three-phase waveform. One reports positive reactive injection with positive i_q; the other uses negative i_q. Resolve the convention before blaming either controller.",
+        "zh": "两位工程师处理同一组三相波形，得到不同的 dq 电流；其中一位用正 i_q 表示正无功注入，另一位用负 i_q。若不先核对变换约定，团队很容易把坐标差异误判为控制问题。"
+      },
+      "chapters": [
+        {
+          "title": {
+            "en": "Rotate the description, preserve the power",
+            "zh": "改变描述，保留物理功率"
+          },
+          "body": {
+            "en": "<p>A balanced waveform becomes almost constant in a frame rotating with it. This makes electrical and control dynamics easier to interpret. The course uses a power-invariant Park transform with √(2/3) scaling, cosine d row and negative-sine q row.</p><p>On the balanced subspace, the transpose gives the inverse. Because this transform preserves the inner product, P has no additional 3/2 factor. A zero-sequence component requires another axis. Mixing transform conventions creates an error even if each borrowed equation was correct in its original setting.</p>",
+            "zh": "<p>在同步旋转坐标中，平衡三相量可以变成近似常量，从而更容易识别电气与控制动态。本课采用功率不变 Park 变换：系数为 √(2/3)，d 行使用 cos，q 行使用 −sin。</p><p>在平衡子空间内，转置矩阵就是逆变换。该变换保留内积，因此 P 的表达式不再乘 3/2；零序则需要额外坐标轴。混用不同来源的约定，即使每条原始公式都正确，组合起来也会出错。</p>"
+          },
+          "figure": "reference-frames",
+          "equations": [
+            0
+          ]
+        },
+        {
+          "title": {
+            "en": "Derive the current request from the measured voltage",
+            "zh": "从测量电压反求电流指令"
+          },
+          "body": {
+            "en": "<p>With injection-positive current, P = v_d i_d + v_q i_q and Q = v_q i_d − v_d i_q. If the d axis aligns with voltage, positive Q requires negative i_q. This sign is a direct consequence of the chosen q axis.</p><p>Invert both equations together to obtain the current reference. The full inverse remains valid while the PLL is misaligned, provided voltage magnitude is nonzero. Replacing it with i_d = P/v_d and i_q = −Q/v_d assumes v_q = 0 throughout the transient—a stronger assumption than the controller actually guarantees.</p>",
+            "zh": "<p>当电流方向定义为向电网注入时，P = v_d i_d + v_q i_q，Q = v_q i_d − v_d i_q。若 d 轴与电压对齐，正 Q 对应负 i_q。这一符号直接来自 q 轴的选择。</p><p>同时求逆两条方程，才能得到电流指令。在 PLL 尚未对齐时，只要电压幅值非零，完整逆映射仍然成立。直接使用 i_d = P/v_d、i_q = −Q/v_d，相当于额外假设整个暂态中 v_q 始终为零。</p>"
+          },
+          "figure": null,
+          "equations": [
+            1,
+            2
+          ]
+        },
+        {
+          "title": {
+            "en": "Keep the dimensions underneath per unit",
+            "zh": "标幺化之后，量纲仍然存在"
+          },
+          "body": {
+            "en": "<p>Use 10 kVA, 400 V line-to-line RMS and 50 Hz. Then Z_b = 16 Ω, the power-invariant dq voltage base is 400 V, and the dq current base is 25 A. The line RMS current base is 14.434 A; these two current quantities must not be substituted for one another.</p><p>The dynamic coefficients ℓ = L/Z_b and c = CZ_b have units of seconds. Nominal reactance x = ω_bℓ is a different quantity. Likewise, a per-unit frequency difference needs multiplication by ω_b before it becomes an angle rate. Units are a practical way to catch plausible-looking modeling errors.</p>",
+            "zh": "<p>采用 10 kVA、400 V 线电压 RMS 和 50 Hz，得到 Z_b = 16 Ω。功率不变 dq 电压基值为 400 V，dq 电流基值为 25 A；实际线电流 RMS 基值为 14.434 A。两种电流量不能互换。</p><p>动态系数 ℓ = L/Z_b 与 c = CZ_b 的单位都是秒，额定电抗 x = ω_bℓ 则是另一种量。同样，标幺频率差必须乘 ω_b，才成为角速度差。检查量纲，是识别“看起来很合理”的建模错误的有效方法。</p>"
+          },
+          "figure": null,
+          "equations": [
+            3
+          ]
+        }
+      ],
+      "worked": {
+        "title": {
+          "en": "Work the case",
+          "zh": "把案例算清楚"
+        },
+        "given": {
+          "en": "The base frequency is 50 Hz and the relative frequency difference is 0.001 pu. Determine the angle drift rate.",
+          "zh": "基频为 50 Hz，相对频率差为 0.001 pu。求相对角度的变化率。"
+        },
+        "steps": [
+          {
+            "en": "Convert the frequency difference: 50 × 0.001 = 0.05 Hz.",
+            "zh": "先还原频率差：50 × 0.001 = 0.05 Hz。"
+          },
+          {
+            "en": "Convert cycles to radians: 2π × 0.05.",
+            "zh": "每周为 2π 弧度，角速度差为 2π × 0.05。"
+          },
+          {
+            "en": "Use this rate in the relative-angle differential equation.",
+            "zh": "把这个角速度差代入相对角度微分方程。"
+          }
+        ],
+        "conclusion": {
+          "en": "The angle rate is 0.314159 rad/s. Over one second the relative angle advances about 18°, which is large enough to matter to a synchronizing controller.",
+          "zh": "角度变化率为 0.314159 rad/s。一秒钟约偏移 18°，足以显著影响同步控制器。"
+        }
+      },
+      "numeric": {
+        "question": {
+          "en": "At 50 Hz, what angle rate corresponds to a +0.001 pu frequency difference? Enter rad/s.",
+          "zh": "在 50 Hz 基频下，+0.001 pu 频率差对应多大的角度变化率？输入 rad/s。"
+        },
+        "answer": 0.3141592653589793,
+        "unit": "rad/s",
+        "tolerance": 0.0005,
+        "solution": {
+          "en": "The angle rate is 0.314159 rad/s. Over one second the relative angle advances about 18°, which is large enough to matter to a synchronizing controller.",
+          "zh": "角度变化率为 0.314159 rad/s。一秒钟约偏移 18°，足以显著影响同步控制器。"
+        }
+      },
+      "decision": {
+        "en": "Rotate both voltage and current by 20°. Explain why v_d and v_q change while P and Q remain fixed. Record the Park normalization and current direction beside every dq plot.",
+        "zh": "将电压和电流共同旋转 20°，解释为什么 v_d、v_q 改变，而 P、Q 保持不变。每张 dq 曲线都应附上 Park 归一化与电流方向。"
+      },
+      "bridge": {
+        "en": "Once coordinates and units are fixed, we can derive the storage equations without ambiguity. The next lesson turns the physical circuit into six electrical states.",
+        "zh": "坐标与量纲统一后，才能无歧义地推导储能方程。下一讲把物理电路转化为六个电气状态。"
+      },
+      "diagram": "reference-frames",
+      "phase": 1,
+      "response": {
+        "figure": "frame-response",
+        "title": {
+          "en": "Components change; power does not",
+          "zh": "分量改变，功率不变"
+        },
+        "body": {
+          "en": "The fixed 20° offset rotates both vectors. Read constant P and Q as the invariant, not constant voltage components across frames.",
+          "zh": "固定 20° 偏移共同旋转电压与电流；不变量是 P、Q，而非不同坐标下的电压分量。"
+        }
+      },
+      "observations": [
+        {
+          "en": "At +20°, voltage has a nonzero q component even though the physical voltage is unchanged.",
+          "zh": "在 +20° 坐标偏差下，电压出现非零 q 分量，但物理电压并未改变。"
+        },
+        {
+          "en": "Voltage and current rotate together, so their power inner product remains invariant.",
+          "zh": "电压与电流共同旋转，因此功率内积保持不变。"
+        },
+        {
+          "en": "Change the angle in the lab and check both P and Q, rather than only one coordinate component.",
+          "zh": "改变实验坐标角度，同时检查 P、Q，不能只看某个坐标分量。"
+        }
       ]
     },
     "C1-03": {
       "lab": "lcl",
       "minutes": 60,
       "body": {
-        "en": "<h3>Retain the six electrical states</h3>\n<p>An averaged converter imposes a continuous voltage command u rather than individual switching events. The LCL plant retains converter-side current i₁, capacitor voltage v_c and output current i₂, each with d and q components. The grid-side filter and grid inductance carry the same current, so combine their series r and ℓ for the differential equation; reconstruct the PoC voltage when a separate terminal measurement is needed.</p>\n<p>Use J = [[0, 1], [−1, 0]]. In a frame rotating at ω_b ω, a complex dq vector acquires the term −jω_bω times itself. The real form is +ω_bωJ times the vector. These signs follow directly from differentiating a rotating coordinate transform.</p>\n<h3>Commands and closed-loop states are different</h3>\n<p>The experiment holds the converter voltage at its equilibrium value, then adds 0.005 pu to its d component at 10 ms. It is an <strong>open-loop plant experiment</strong>. A closed-loop droop GFM also needs angle, P–Q filters, voltage PI and current PI states. Six electrical states plus one angle, two power filters and four PI integrators give the repository’s 13-state droop realization.</p>\n<h3>Initialize all components consistently</h3>\n<p>Take i₂ = 0.6 − j0 at the infinite-bus port. Compute v_c = 1 + (r₂ + jω_bℓ₂)i₂, i₁ = i₂ + jω_b c v_c and u = v_c + (r₁ + jω_bℓ₁)i₁. Starting the capacitor at 1 and both currents at zero would introduce an unintended energization transient.</p>\n<p>The default coefficients are r₁ = 0.00625, ℓ₁ = 84.375 μs, c = 0.0008 s, r₂ = 0.00625 + r_g and ω_bℓ₂ = 0.1 + x_g. The open-loop case uses a 2 μs integration step over 30 ms. These are declared teaching parameters, not a reproduction of every source notebook parameter profile.</p>\n<h3>Audit energy, not only the plotted curve</h3>\n<p>Define W = (ℓ₁|i₁|² + c|v_c|² + ℓ₂|i₂|²)/2. Cross-axis terms cancel in Ẇ. The energy-rate identity below checks voltage signs, branch directions and loss terms together. Its residual is an equation-consistency check, not an external validation of the converter.</p>",
-        "zh": "<h3>保留六个电气状态</h3>\n<p>平均变流器施加连续电压指令 u，不描述逐次开关动作。LCL 电路保留变流器侧电流 i₁、电容电压 v_c、输出电流 i₂，每个量都有 d、q 两个分量。网侧滤波电感与电网电感流过同一电流，所以微分方程可以合并串联 r、ℓ；需要独立端口测量时，再重构 PoC 电压。</p>\n<p>取 J = [[0, 1], [−1, 0]]。在以 ω_b ω 旋转的坐标中，复数 dq 向量产生 −jω_bω 倍自身的项；实数向量写法则是 +ω_bωJ 倍自身。这些符号来自旋转坐标变换的求导。</p>\n<h3>控制指令不等于闭环状态</h3>\n<p>实验先保持平衡点变流器电压，在 10 ms 给 d 分量增加 0.005 pu。这是<strong>开环电路实验</strong>。闭环 droop GFM 还需要角度、P–Q 滤波、电压 PI 和电流 PI 状态。六个电气状态，加一个角度、两个功率滤波状态、四个 PI 积分状态，组成仓库中的 13 状态 droop 实现。</p>\n<h3>一致地初始化每个元件</h3>\n<p>令无穷大母线端 i₂ = 0.6 − j0，依次计算 v_c = 1 + (r₂ + jω_bℓ₂)i₂、i₁ = i₂ + jω_b c v_c、u = v_c + (r₁ + jω_bℓ₁)i₁。若简单地将电容设为 1、所有电流设为零，会引入并未要求的上电暂态。</p>\n<p>默认系数：r₁ = 0.00625、ℓ₁ = 84.375 μs、c = 0.0008 s、r₂ = 0.00625 + r_g、ω_bℓ₂ = 0.1 + x_g。仿真覆盖 30 ms，积分步长为 2 μs。这是明确声明的教学参数，并非对源 Notebook 各参数配置的逐一复现。</p>\n<h3>同时检查能量关系</h3>\n<p>定义 W = (ℓ₁|i₁|² + c|v_c|² + ℓ₂|i₂|²)/2。dq 交叉项在 Ẇ 中抵消。下方能量变化率恒等式同时检查电压符号、支路方向和损耗项。残差反映方程一致性，不能替代变流器的外部验证。</p>"
+        "en": "<h3>Storage determines the electrical states</h3><p>Each inductor current and capacitor voltage needs an evolution law. In dq coordinates, i₁, v_c and i₂ each contribute two components, giving six electrical states. The grid-side filter and grid inductance share i₂ and can be combined in series for the differential equation.</p><p>That simplification does not erase the PoC. Reconstruct its voltage across the filter branch when terminal measurements are needed. The open-loop lab steps average converter d-voltage by 0.005 pu at 10 ms; the 30 ms window and 2 μs integration step resolve the fast plant response.</p><h3>Add the rotation terms with the right sign</h3><p>Write KVL across each inductor and KCL at the capacitor, then differentiate in the rotating frame. With J = [[0, 1], [−1, 0]], every vector gains +ω_bωJ times itself. These cross-axis terms are coordinate effects; they do not create or consume energy.</p><p>Here ℓ = L/Z_b and c = CZ_b are time coefficients. Using nominal reactance in place of ℓ would change the derivative by a factor of ω_b. Keep the plant voltage u distinct from a controller power command: control must first generate u before these equations determine current.</p><h3>Initialize storage before evaluating the response</h3><p>For this plant experiment, set i₂ = 0.6 + j0 at the infinite-bus port. Compute v_c = 1 + (r₂ + jω_bℓ₂)i₂, then i₁ = i₂ + jω_bcv_c and u = v_c + (r₁ + jω_bℓ₁)i₁. These values satisfy the steady circuit together.</p><p>Setting all currents to zero would instead simulate energization. Setting i₁ = i₂ would omit capacitor current. The distinction matters: this LCL case is initialized at the infinite-bus port, whereas the later reduced-model comparison matches power at PoC.</p><h3>Use energy to audit the derivation</h3><p>Define W = (ℓ₁|i₁|² + c|v_c|² + ℓ₂|i₂|²)/2. Differentiate it using the plant equations. Rotation terms cancel because a vector is orthogonal to its J rotation. What remains is input power minus bus export and resistive losses.</p><p>This identity checks several signs at once. A small energy-rate residual supports equation consistency; it does not validate neglected PWM or device limits. Closing the model with two power filters, one angle and four PI integrators produces the source 13-state droop realization.</p>",
+        "zh": "<h3>储能元件决定电气状态</h3><p>每个电感电流与电容电压都需要演化方程。在 dq 坐标下，i₁、v_c、i₂ 各有两个分量，共六个电气状态。网侧滤波电感与电网电感流过相同 i₂，因此可以串联合并后写微分方程。</p><p>这一合并并不意味着 PoC 消失：若要测量端口电压，应通过滤波支路重建。开环实验在 10 ms 给平均变流器 d 轴电压施加 0.005 pu 阶跃，采用 30 ms 窗口和 2 μs 积分步长观察快速响应。</p><h3>正确加入旋转坐标耦合项</h3><p>先对电感写 KVL、对电容节点写 KCL，再转换到旋转坐标。采用 J = [[0, 1], [−1, 0]] 时，每个向量都增加 +ω_bωJ 乘自身的项。这些跨轴项来自坐标旋转，并不产生或消耗能量。</p><p>此处 ℓ = L/Z_b、c = CZ_b 是时间系数。若把额定电抗误作 ℓ，导数会相差 ω_b 倍。还要区分电气输入电压 u 与控制层功率指令：控制器先生成 u，电路方程再决定实际电流。</p><h3>先正确初始化，再判断响应</h3><p>本电气实验在无穷大母线端口设 i₂ = 0.6 + j0。依次计算 v_c = 1 + (r₂ + jω_bℓ₂)i₂、i₁ = i₂ + jω_bcv_c，以及 u = v_c + (r₁ + jω_bℓ₁)i₁。它们一起满足稳态电路。</p><p>把所有电流设为零，实际上是在仿真上电过程；把 i₁ 设为 i₂，则遗漏了电容电流。这个差别也说明：本讲 LCL 案例在无穷大母线端口初始化，后续低阶模型比较则在 PoC 匹配功率。</p><h3>用能量关系检查推导</h3><p>定义 W = (ℓ₁|i₁|² + c|v_c|² + ℓ₂|i₂|²)/2，再用电路方程求导。向量与其 J 旋转结果正交，因此旋转项相消，剩下输入功率减去母线输出功率与电阻损耗。</p><p>这条关系能同时核对多个符号。小能量变化率残差说明方程自洽，不能验证已忽略的 PWM 或器件限制。在电气状态上加入两个功率滤波、一个角度、四个 PI 积分状态，就得到源仓库中的 13 状态 droop 实现。</p>"
       },
       "equations": [
         "\\dot i_1=\\frac{u-v_c-r_1i_1}{\\ell_1}+\\omega_b\\omega Ji_1",
@@ -168,14 +421,154 @@
       "sources": [
         "Coding/Modeling/src/ibrsim/models/droop_gfm.py",
         "Coding/Modeling/src/ibrsim/conventions.py"
+      ],
+      "question": {
+        "en": "Where does an electrical oscillation come from?",
+        "zh": "电气振荡究竟从哪里来？"
+      },
+      "opening": {
+        "en": "A small converter-voltage step creates a fast current oscillation before slower power control can react. An ideal current source cannot explain it. Retain the LCL plant and ask how energy moves through the circuit.",
+        "zh": "一个很小的变流器电压阶跃，引起了快速电流振荡，而较慢的功率控制尚未来得及响应。理想电流源无法解释这一现象。本讲保留 LCL 电路，沿能量流向建立动态。"
+      },
+      "chapters": [
+        {
+          "title": {
+            "en": "Storage determines the electrical states",
+            "zh": "储能元件决定电气状态"
+          },
+          "body": {
+            "en": "<p>Each inductor current and capacitor voltage needs an evolution law. In dq coordinates, i₁, v_c and i₂ each contribute two components, giving six electrical states. The grid-side filter and grid inductance share i₂ and can be combined in series for the differential equation.</p><p>That simplification does not erase the PoC. Reconstruct its voltage across the filter branch when terminal measurements are needed. The open-loop lab steps average converter d-voltage by 0.005 pu at 10 ms; the 30 ms window and 2 μs integration step resolve the fast plant response.</p>",
+            "zh": "<p>每个电感电流与电容电压都需要演化方程。在 dq 坐标下，i₁、v_c、i₂ 各有两个分量，共六个电气状态。网侧滤波电感与电网电感流过相同 i₂，因此可以串联合并后写微分方程。</p><p>这一合并并不意味着 PoC 消失：若要测量端口电压，应通过滤波支路重建。开环实验在 10 ms 给平均变流器 d 轴电压施加 0.005 pu 阶跃，采用 30 ms 窗口和 2 μs 积分步长观察快速响应。</p>"
+          },
+          "figure": "lcl-circuit",
+          "equations": []
+        },
+        {
+          "title": {
+            "en": "Add the rotation terms with the right sign",
+            "zh": "正确加入旋转坐标耦合项"
+          },
+          "body": {
+            "en": "<p>Write KVL across each inductor and KCL at the capacitor, then differentiate in the rotating frame. With J = [[0, 1], [−1, 0]], every vector gains +ω_bωJ times itself. These cross-axis terms are coordinate effects; they do not create or consume energy.</p><p>Here ℓ = L/Z_b and c = CZ_b are time coefficients. Using nominal reactance in place of ℓ would change the derivative by a factor of ω_b. Keep the plant voltage u distinct from a controller power command: control must first generate u before these equations determine current.</p>",
+            "zh": "<p>先对电感写 KVL、对电容节点写 KCL，再转换到旋转坐标。采用 J = [[0, 1], [−1, 0]] 时，每个向量都增加 +ω_bωJ 乘自身的项。这些跨轴项来自坐标旋转，并不产生或消耗能量。</p><p>此处 ℓ = L/Z_b、c = CZ_b 是时间系数。若把额定电抗误作 ℓ，导数会相差 ω_b 倍。还要区分电气输入电压 u 与控制层功率指令：控制器先生成 u，电路方程再决定实际电流。</p>"
+          },
+          "figure": null,
+          "equations": [
+            0,
+            1,
+            2
+          ]
+        },
+        {
+          "title": {
+            "en": "Initialize storage before evaluating the response",
+            "zh": "先正确初始化，再判断响应"
+          },
+          "body": {
+            "en": "<p>For this plant experiment, set i₂ = 0.6 + j0 at the infinite-bus port. Compute v_c = 1 + (r₂ + jω_bℓ₂)i₂, then i₁ = i₂ + jω_bcv_c and u = v_c + (r₁ + jω_bℓ₁)i₁. These values satisfy the steady circuit together.</p><p>Setting all currents to zero would instead simulate energization. Setting i₁ = i₂ would omit capacitor current. The distinction matters: this LCL case is initialized at the infinite-bus port, whereas the later reduced-model comparison matches power at PoC.</p>",
+            "zh": "<p>本电气实验在无穷大母线端口设 i₂ = 0.6 + j0。依次计算 v_c = 1 + (r₂ + jω_bℓ₂)i₂、i₁ = i₂ + jω_bcv_c，以及 u = v_c + (r₁ + jω_bℓ₁)i₁。它们一起满足稳态电路。</p><p>把所有电流设为零，实际上是在仿真上电过程；把 i₁ 设为 i₂，则遗漏了电容电流。这个差别也说明：本讲 LCL 案例在无穷大母线端口初始化，后续低阶模型比较则在 PoC 匹配功率。</p>"
+          },
+          "figure": null,
+          "equations": []
+        },
+        {
+          "title": {
+            "en": "Use energy to audit the derivation",
+            "zh": "用能量关系检查推导"
+          },
+          "body": {
+            "en": "<p>Define W = (ℓ₁|i₁|² + c|v_c|² + ℓ₂|i₂|²)/2. Differentiate it using the plant equations. Rotation terms cancel because a vector is orthogonal to its J rotation. What remains is input power minus bus export and resistive losses.</p><p>This identity checks several signs at once. A small energy-rate residual supports equation consistency; it does not validate neglected PWM or device limits. Closing the model with two power filters, one angle and four PI integrators produces the source 13-state droop realization.</p>",
+            "zh": "<p>定义 W = (ℓ₁|i₁|² + c|v_c|² + ℓ₂|i₂|²)/2，再用电路方程求导。向量与其 J 旋转结果正交，因此旋转项相消，剩下输入功率减去母线输出功率与电阻损耗。</p><p>这条关系能同时核对多个符号。小能量变化率残差说明方程自洽，不能验证已忽略的 PWM 或器件限制。在电气状态上加入两个功率滤波、一个角度、四个 PI 积分状态，就得到源仓库中的 13 状态 droop 实现。</p>"
+          },
+          "figure": null,
+          "equations": [
+            3
+          ]
+        }
+      ],
+      "worked": {
+        "title": {
+          "en": "Work the case",
+          "zh": "把案例算清楚"
+        },
+        "given": {
+          "en": "At nominal speed, let v_c = [1, 0] and c = 0.0008 s. Find the steady capacitor contribution to i₁q − i₂q.",
+          "zh": "额定转速下，设 v_c = [1, 0]、c = 0.0008 s，求稳态电容电流导致的 i₁q − i₂q。"
+        },
+        "steps": [
+          {
+            "en": "Set v̇_c = 0 in the capacitor equation.",
+            "zh": "令电容方程中的 v̇_c = 0。"
+          },
+          {
+            "en": "Since J[1,0] = [0,−1], the difference i₁ − i₂ is −ω_bcJv_c.",
+            "zh": "J[1,0] = [0,−1]，所以 i₁ − i₂ = −ω_bcJv_c。"
+          },
+          {
+            "en": "The q component is +2π × 50 × 0.0008.",
+            "zh": "q 分量为 +2π × 50 × 0.0008。"
+          }
+        ],
+        "conclusion": {
+          "en": "The contribution is +0.251327 pu. This fixed-voltage example illustrates why converter-side and grid-side current references differ.",
+          "zh": "结果为 +0.251327 pu。这个给定电压的算例解释了为什么变流器侧与网侧电流指令不能直接相等。"
+        }
+      },
+      "numeric": {
+        "question": {
+          "en": "For the stated v_c and c, enter i₁q − i₂q in pu.",
+          "zh": "按上述给定 v_c、c，输入 i₁q − i₂q，单位 pu。"
+        },
+        "answer": 0.25132741228718347,
+        "unit": "pu",
+        "tolerance": 0.0005,
+        "solution": {
+          "en": "The contribution is +0.251327 pu. This fixed-voltage example illustrates why converter-side and grid-side current references differ.",
+          "zh": "结果为 +0.251327 pu。这个给定电压的算例解释了为什么变流器侧与网侧电流指令不能直接相等。"
+        }
+      },
+      "decision": {
+        "en": "Explain an observed oscillation through stored energy and coupling. Report the energy-rate residual alongside the current curve, then identify the inner loops needed to study damping under control.",
+        "zh": "通过储能与耦合解释振荡。将能量变化率残差与电流曲线一起报告，并指出若要研究闭环阻尼，还必须加入哪些内环。"
+      },
+      "bridge": {
+        "en": "We now know what receives the converter voltage. The next question is how a GFL controller acquires its reference angle and generates the current request.",
+        "zh": "电路如何响应电压已经明确。下一步要回答：GFL 如何获得参考角度，并生成电流指令？"
+      },
+      "diagram": "lcl-circuit",
+      "phase": 1,
+      "response": {
+        "figure": "lcl-response",
+        "title": {
+          "en": "Watch the electrical time scale",
+          "zh": "观察电气时间尺度"
+        },
+        "body": {
+          "en": "A 0.005 pu d-voltage step at 10 ms excites the open-loop plant. Read i₂d and capacitor voltage together.",
+          "zh": "10 ms 的 0.005 pu d 轴电压阶跃激发开环电路，联合读取 i₂d 与电容电压。"
+        }
+      },
+      "observations": [
+        {
+          "en": "The 10 ms converter-voltage step is the input; the inductor current follows through an evolution law.",
+          "zh": "10 ms 变流器电压阶跃是输入，电感电流随后按演化方程响应。"
+        },
+        {
+          "en": "Capacitor voltage and output current respond together as energy moves between the stores.",
+          "zh": "能量在储能元件间交换，电容电压与输出电流共同响应。"
+        },
+        {
+          "en": "Use the energy-rate identity to check signs; the plotted oscillation alone cannot audit the equations.",
+          "zh": "用能量变化率关系核对符号，振荡曲线本身无法检查方程。"
+        }
       ]
     },
     "C1-04": {
       "lab": "gfl",
       "minutes": 90,
       "body": {
-        "en": "<h3>Follow the voltage angle, then control current</h3>\n<p>A grid-following controller estimates the network angle with a phase-locked loop and expresses voltage and current in that estimated frame. The SRF PLL drives local v_q toward zero. Positive v_q means the voltage vector leads the estimated d axis; the stated PLL sign increases the estimated angle.</p>\n<p>Our four-state realization uses δ, the PLL integral ξ, and two ideal current-actuator states i_d and i_q. A 20 ms current-actuator time constant replaces the detailed current controller and LCL plant. It is useful for studying synchronization and command tracking, but cannot evaluate inner-loop resonance or current-limit behavior.</p>\n<h3>Normalize the PLL and preserve the time scale</h3>\n<p>The phase detector is e = v_q/|V|. Its PI output is a per-unit frequency offset: ω̂ = 1 + k_p e + k_i ξ, with ξ̇ = e. The relative angle obeys δ̇ = ω_b(ω̂ − ω_g). Near alignment with a stiff voltage, the characteristic polynomial is s² + ω_b k_p s + ω_b k_i.</p>\n<p>Set k_p = 2ζω_n/ω_b and k_i = ω_n²/ω_b, where ζ = 0.707 and ω_n = 2πb. The lab’s “PLL bandwidth” b is a natural-frequency design parameter in Hz; it is not a measured closed-loop −3 dB bandwidth in every network.</p>\n<h3>Map power to current at the measured port</h3>\n<p>Use the full inverse P–Q map from Module 2, rather than dividing both commands by v_d while assuming v_q = 0 throughout a transient. The local current rotates into the grid frame, then the network gives V = V_g + Z_g I. This feedback makes voltage angle and PLL response depend on grid impedance.</p>\n<p>The baseline holds total PoC P = 0.6 and Q = 0. A P-command step changes current demand; a grid-frequency step makes the PLL track the new frequency. This teaching GFL has no frequency–watt law, volt–var law or RoCoF injection. Those are separate controls in the source’s higher-order GFL models.</p>\n<h3>Interpret a weak-grid experiment carefully</h3>\n<p>Decrease SCR while holding the commands and gains fixed. Compare P, Q, PCC magnitude and estimated frequency. A smooth response in this model establishes only that this ideal-actuator realization remained bounded for the declared test. The repository’s full 15-state GFL also retains measurement filters and physical plant states.</p><h3>Reconnect the detailed current-control plant</h3><p>For the source LCL GFL, a PoC P–Q command first produces grid-side current reference i₂*. With capacitor-current compensation enabled, i₁* = i₂* − ω_b ω̂ c Jv_c. Define e_i = i₁* − i₁ and integrate ξ̇_i = e_i. The current PI, voltage feedforward and inductive decoupling generate the average converter voltage u; then the six LCL equations determine actual current. The full 15-state realization retains one relative angle, one PLL integral, two voltage-measurement states, one frequency-measurement state, two power-command filter states, two current PI integrals and six electrical states. The four-state browser model is a distinct ideal-actuator realization.</p>",
-        "zh": "<h3>先跟踪电压角度，再控制电流</h3>\n<p>跟网型控制器用锁相环估计网络角度，再将电压、电流表达在估计坐标中。SRF PLL 驱动局部 v_q 趋近零。v_q 为正，表示电压向量领先估计的 d 轴；按这里的符号约定，PLL 应增大估计角度。</p>\n<p>四状态教学实现保留 δ、PLL 积分 ξ，以及两个理想电流执行状态 i_d、i_q。20 ms 的电流执行时间常数代替详细电流控制器和 LCL 电路。它适合学习同步与指令跟踪，不能检验内部控制谐振或限流行为。</p>\n<h3>归一化 PLL，并保持正确时间尺度</h3>\n<p>相位检测误差 e = v_q/|V|。PI 输出为标幺频率偏差：ω̂ = 1 + k_p e + k_i ξ，ξ̇ = e；相对角度满足 δ̇ = ω_b(ω̂ − ω_g)。在刚性电压、接近对齐的条件下，特征多项式为 s² + ω_b k_p s + ω_b k_i。</p>\n<p>令 k_p = 2ζω_n/ω_b、k_i = ω_n²/ω_b，其中 ζ = 0.707、ω_n = 2πb。实验的“PLL 带宽” b 是以 Hz 表示的自然频率设计参数，不等于任意网络下实测的闭环 −3 dB 带宽。</p>\n<h3>在测量端口将功率映射为电流</h3>\n<p>使用模块 2 的完整 P–Q 逆映射，不要在整个暂态中都假设 v_q = 0、仅用 v_d 除指令。局部电流旋转到电网坐标后，网络给出 V = V_g + Z_g I。这个反馈使电压角度与 PLL 动态受到电网阻抗影响。</p>\n<p>基准运行点为 PoC 总 P = 0.6、Q = 0。有功指令阶跃改变电流需求，电网频率阶跃使 PLL 跟踪新频率。教学 GFL 未加入 frequency–watt、volt–var 或 RoCoF 注入；它们在仓库高阶 GFL 模型中属于另外的控制环节。</p>\n<h3>如何解读弱网实验</h3>\n<p>保持指令和增益，降低 SCR，同时比较 P、Q、PCC 幅值和估计频率。曲线平滑只说明这个理想执行模型在声明的测试中有界。仓库中的完整 15 状态 GFL 还保留测量滤波和物理电路状态。</p><h3>接回详细电流控制与物理电路</h3><p>仓库 LCL GFL 先由 PoC 的 P–Q 指令产生网侧电流参考 i₂*。启用电容电流补偿时，i₁* = i₂* − ω_b ω̂ c Jv_c。定义 e_i = i₁* − i₁，并积分 ξ̇_i = e_i；电流 PI、电压前馈和电感解耦生成平均变流器电压 u，再由六个 LCL 方程决定真实电流。完整 15 状态实现保留一个相对角度、一个 PLL 积分、两个电压测量状态、一个频率测量状态、两个功率指令滤波状态、两个电流 PI 积分和六个电气状态。网页四状态模型则是另一种理想执行表示。</p>"
+        "en": "<h3>Acquire an angle before requesting current</h3><p>The SRF PLL expresses terminal voltage in its estimated frame and drives local v_q toward zero. Positive v_q means the voltage vector leads the estimated d axis; increasing the estimated angle closes that error. The power request is then converted into local current and rotated into the network frame.</p><p>The four-state teaching model retains relative PLL angle δ, integral ξ and two current-actuator components. A 20 ms ideal actuator replaces the current PI and LCL plant. This isolates synchronization and power tracking while removing the fast electrical dynamics from Lesson 3.</p><h3>Translate a design frequency into PLL gains</h3><p>Normalize the detector as e = v_q/|V| and define the PI output as per-unit frequency. Multiplication by ω_b occurs in the relative-angle equation. Near alignment with a stiff voltage, the characteristic polynomial is s² + ω_bk_p s + ω_bk_i.</p><p>Matching it to s² + 2ζω_n s + ω_n² gives the gains below. The lab uses ζ = 0.707 and ω_n = 2πb. Thus b is a natural-frequency design parameter in Hz; network feedback means it need not equal the measured closed-loop −3 dB bandwidth.</p><h3>Close the feedback through the grid impedance</h3><p>The exact inverse P–Q map uses both measured voltage components. The network then returns V = V_g + Z_gI. Because the same voltage feeds the PLL, current injection affects the controller’s own angle measurement. Reducing SCR strengthens this interaction.</p><p>For the stated +0.1 Hz event, the PLL should track the new frequency. This teaching controller contains no frequency–watt or RoCoF power law, so frequency tracking alone does not imply a changed steady P request. Compare estimated frequency, P and PCC voltage together before drawing a conclusion.</p><h3>Reconnect the physical current controller</h3><p>The detailed LCL realization first maps PoC power to i₂*. Capacitor-current compensation creates i₁*, and current PI with voltage feedforward and inductive decoupling generates converter voltage u. The plant equations then determine the actual current.</p><p>The full 15-state GFL has one angle, one PLL integral, two voltage measurements, one frequency measurement, two power-command filters, two current PI integrators and six electrical states. A bounded four-state response therefore cannot establish the detailed model’s inner-loop stability.</p>",
+        "zh": "<h3>先获取角度，再请求电流</h3><p>SRF PLL 把端口电压表达在估计坐标中，并将局部 v_q 调到零。正 v_q 表示电压矢量领先估计 d 轴，因此应提高估计角度以减小误差。随后，功率指令映射为局部电流，并旋转到网络坐标。</p><p>四状态教学模型保留相对 PLL 角度 δ、积分 ξ、两个电流执行器分量；20 ms 的理想执行器替代电流 PI 与 LCL。这能单独观察同步与功率跟踪，同时移除了第 3 讲的快速电气动态。</p><h3>把设计频率转成 PLL 参数</h3><p>把相位检测器归一化为 e = v_q/|V|，并把 PI 输出定义为标幺频率。相对角度方程中再乘 ω_b。在刚性电压、接近对齐时，特征多项式为 s² + ω_bk_p s + ω_bk_i。</p><p>与 s² + 2ζω_n s + ω_n² 对应，得到下面的参数。本实验取 ζ = 0.707、ω_n = 2πb。因此 b 是以 Hz 表示的自然频率设计参数；考虑网络反馈后，它不一定等于实测闭环 −3 dB 带宽。</p><h3>通过电网阻抗闭合反馈</h3><p>完整 P–Q 逆映射使用两个测量电压分量。网络随后给出 V = V_g + Z_gI，而同一电压又送回 PLL，因此注入电流会影响控制器自己的角度测量。降低 SCR 会加强这种交互。</p><p>对于 +0.1 Hz 扰动，PLL 应跟踪新的频率。本教学控制器没有 frequency–watt 或 RoCoF 功率规律，因此频率跟踪本身不意味着稳态 P 指令发生变化。需要联合观察估计频率、P 与 PCC 电压。</p><h3>接回物理电流控制器</h3><p>完整 LCL 实现先将 PoC 功率映射为 i₂*，通过电容电流补偿形成 i₁*，再由电流 PI、电压前馈和电感解耦生成变流器电压 u。实际电流由电气方程决定。</p><p>完整 15 状态 GFL 包含：一个角度、一个 PLL 积分、两个电压测量、一个频率测量、两个功率指令滤波、两个电流 PI 积分和六个电气状态。因此，四状态响应有界，并不能证明完整模型的内环稳定。</p>"
       },
       "equations": [
         "e=\\frac{v_q}{\\lVert v\\rVert},\\quad\\dot\\xi=e,\\quad\\hat\\omega=1+k_pe+k_i\\xi,\\quad\\dot\\delta=\\omega_b(\\hat\\omega-\\omega_g)",
@@ -226,21 +619,164 @@
       "sources": [
         "Coding/Modeling/src/ibrsim/models/gfl_pll_pq_droop.py",
         "Coding/Modeling/Single-IBR-Infinite-Bus/02_GFL_PLL_PQDroop_Infinite_Bus.ipynb"
+      ],
+      "question": {
+        "en": "When the grid angle moves, what does GFL follow?",
+        "zh": "电网角度改变时，GFL 跟随的是什么？"
+      },
+      "opening": {
+        "en": "The grid frequency rises by 0.1 Hz. The current controller still receives the same power request. Trace the causal chain from measured voltage, through PLL angle, to current injection before predicting the response.",
+        "zh": "电网频率上升 0.1 Hz，但功率指令保持不变。要预测响应，需要沿测量电压、PLL 角度、电流注入这条链路逐步推理，而不是直接套用“频率变了，功率就应变化”的直觉。"
+      },
+      "chapters": [
+        {
+          "title": {
+            "en": "Acquire an angle before requesting current",
+            "zh": "先获取角度，再请求电流"
+          },
+          "body": {
+            "en": "<p>The SRF PLL expresses terminal voltage in its estimated frame and drives local v_q toward zero. Positive v_q means the voltage vector leads the estimated d axis; increasing the estimated angle closes that error. The power request is then converted into local current and rotated into the network frame.</p><p>The four-state teaching model retains relative PLL angle δ, integral ξ and two current-actuator components. A 20 ms ideal actuator replaces the current PI and LCL plant. This isolates synchronization and power tracking while removing the fast electrical dynamics from Lesson 3.</p>",
+            "zh": "<p>SRF PLL 把端口电压表达在估计坐标中，并将局部 v_q 调到零。正 v_q 表示电压矢量领先估计 d 轴，因此应提高估计角度以减小误差。随后，功率指令映射为局部电流，并旋转到网络坐标。</p><p>四状态教学模型保留相对 PLL 角度 δ、积分 ξ、两个电流执行器分量；20 ms 的理想执行器替代电流 PI 与 LCL。这能单独观察同步与功率跟踪，同时移除了第 3 讲的快速电气动态。</p>"
+          },
+          "figure": "gfl-control",
+          "equations": []
+        },
+        {
+          "title": {
+            "en": "Translate a design frequency into PLL gains",
+            "zh": "把设计频率转成 PLL 参数"
+          },
+          "body": {
+            "en": "<p>Normalize the detector as e = v_q/|V| and define the PI output as per-unit frequency. Multiplication by ω_b occurs in the relative-angle equation. Near alignment with a stiff voltage, the characteristic polynomial is s² + ω_bk_p s + ω_bk_i.</p><p>Matching it to s² + 2ζω_n s + ω_n² gives the gains below. The lab uses ζ = 0.707 and ω_n = 2πb. Thus b is a natural-frequency design parameter in Hz; network feedback means it need not equal the measured closed-loop −3 dB bandwidth.</p>",
+            "zh": "<p>把相位检测器归一化为 e = v_q/|V|，并把 PI 输出定义为标幺频率。相对角度方程中再乘 ω_b。在刚性电压、接近对齐时，特征多项式为 s² + ω_bk_p s + ω_bk_i。</p><p>与 s² + 2ζω_n s + ω_n² 对应，得到下面的参数。本实验取 ζ = 0.707、ω_n = 2πb。因此 b 是以 Hz 表示的自然频率设计参数；考虑网络反馈后，它不一定等于实测闭环 −3 dB 带宽。</p>"
+          },
+          "figure": null,
+          "equations": [
+            0,
+            1
+          ]
+        },
+        {
+          "title": {
+            "en": "Close the feedback through the grid impedance",
+            "zh": "通过电网阻抗闭合反馈"
+          },
+          "body": {
+            "en": "<p>The exact inverse P–Q map uses both measured voltage components. The network then returns V = V_g + Z_gI. Because the same voltage feeds the PLL, current injection affects the controller’s own angle measurement. Reducing SCR strengthens this interaction.</p><p>For the stated +0.1 Hz event, the PLL should track the new frequency. This teaching controller contains no frequency–watt or RoCoF power law, so frequency tracking alone does not imply a changed steady P request. Compare estimated frequency, P and PCC voltage together before drawing a conclusion.</p>",
+            "zh": "<p>完整 P–Q 逆映射使用两个测量电压分量。网络随后给出 V = V_g + Z_gI，而同一电压又送回 PLL，因此注入电流会影响控制器自己的角度测量。降低 SCR 会加强这种交互。</p><p>对于 +0.1 Hz 扰动，PLL 应跟踪新的频率。本教学控制器没有 frequency–watt 或 RoCoF 功率规律，因此频率跟踪本身不意味着稳态 P 指令发生变化。需要联合观察估计频率、P 与 PCC 电压。</p>"
+          },
+          "figure": null,
+          "equations": [
+            2
+          ]
+        },
+        {
+          "title": {
+            "en": "Reconnect the physical current controller",
+            "zh": "接回物理电流控制器"
+          },
+          "body": {
+            "en": "<p>The detailed LCL realization first maps PoC power to i₂*. Capacitor-current compensation creates i₁*, and current PI with voltage feedforward and inductive decoupling generates converter voltage u. The plant equations then determine the actual current.</p><p>The full 15-state GFL has one angle, one PLL integral, two voltage measurements, one frequency measurement, two power-command filters, two current PI integrators and six electrical states. A bounded four-state response therefore cannot establish the detailed model’s inner-loop stability.</p>",
+            "zh": "<p>完整 LCL 实现先将 PoC 功率映射为 i₂*，通过电容电流补偿形成 i₁*，再由电流 PI、电压前馈和电感解耦生成变流器电压 u。实际电流由电气方程决定。</p><p>完整 15 状态 GFL 包含：一个角度、一个 PLL 积分、两个电压测量、一个频率测量、两个功率指令滤波、两个电流 PI 积分和六个电气状态。因此，四状态响应有界，并不能证明完整模型的内环稳定。</p>"
+          },
+          "figure": null,
+          "equations": [
+            3,
+            4
+          ]
+        }
+      ],
+      "worked": {
+        "title": {
+          "en": "Work the case",
+          "zh": "把案例算清楚"
+        },
+        "given": {
+          "en": "Use b = 2 Hz, ζ = 0.707 and f_b = 50 Hz. Calculate the proportional gain for the normalized PLL.",
+          "zh": "取 b = 2 Hz、ζ = 0.707、f_b = 50 Hz，计算归一化 PLL 的比例增益。"
+        },
+        "steps": [
+          {
+            "en": "The natural angular frequency is ω_n = 2π × 2.",
+            "zh": "自然角频率 ω_n = 2π × 2。"
+          },
+          {
+            "en": "The base angular frequency is ω_b = 2π × 50.",
+            "zh": "基准角频率 ω_b = 2π × 50。"
+          },
+          {
+            "en": "Substitute into k_p = 2ζω_n/ω_b; the factors 2π cancel.",
+            "zh": "代入 k_p = 2ζω_n/ω_b，2π 相消。"
+          }
+        ],
+        "conclusion": {
+          "en": "k_p = 0.05656. Changing the detector normalization or PI output units would require changing this gain.",
+          "zh": "k_p = 0.05656。若相位检测器归一化或 PI 输出单位改变，这个增益也必须相应调整。"
+        }
+      },
+      "numeric": {
+        "question": {
+          "en": "For this normalized PLL, enter k_p at b = 2 Hz and ζ = 0.707.",
+          "zh": "按本讲归一化 PLL，输入 b = 2 Hz、ζ = 0.707 时的 k_p。"
+        },
+        "answer": 0.05656,
+        "unit": "",
+        "tolerance": 0.0001,
+        "solution": {
+          "en": "k_p = 0.05656. Changing the detector normalization or PI output units would require changing this gain.",
+          "zh": "k_p = 0.05656。若相位检测器归一化或 PI 输出单位改变，这个增益也必须相应调整。"
+        }
+      },
+      "decision": {
+        "en": "At SCR = 5, predict a +0.1 Hz event before running it. Then reduce SCR to 2 and explain changes through voltage–current–PLL feedback, rather than through the GFL label alone.",
+        "zh": "先预测 SCR = 5、+0.1 Hz 扰动的响应，再运行。随后将 SCR 降至 2，通过电压—电流—PLL 反馈解释变化，而不只用 GFL 标签概括。"
+      },
+      "bridge": {
+        "en": "GFL acquires its angle from voltage. The next controller creates its own angle from a power mismatch and closes synchronization through the network.",
+        "zh": "GFL 从电压获取角度；下一讲的控制器则从功率偏差生成角度，再通过网络实现同步。"
+      },
+      "diagram": "gfl-control",
+      "phase": 2,
+      "response": {
+        "figure": "gfl-response",
+        "title": {
+          "en": "Frequency tracking is an angle-estimation task",
+          "zh": "频率跟踪首先是角度估计任务"
+        },
+        "body": {
+          "en": "For this figure, grid frequency rises 0.1 Hz at 1 s. The PLL estimate converges; the live lab below starts with a P-command baseline.",
+          "zh": "本图在 1 s 将电网频率提高 0.1 Hz，PLL 估计随之收敛；下方交互实验初始采用 P 指令基准。"
+        }
+      },
+      "observations": [
+        {
+          "en": "At 1 s, the grid frequency rises; angle error drives the PLL correction.",
+          "zh": "1 s 电网频率提高，角度误差驱动 PLL 修正。"
+        },
+        {
+          "en": "The temporary frequency overshoot belongs to the angle-estimation feedback.",
+          "zh": "暂时的频率超调属于角度估计反馈的动态。"
+        },
+        {
+          "en": "The estimate converges to 50.1 Hz; unchanged P* supplies no frequency–watt response in this model.",
+          "zh": "估计频率收敛至 50.1 Hz；本模型保持 P*，没有额外 frequency–watt 响应。"
+        }
       ]
     },
     "C1-05": {
       "lab": "droop",
       "minutes": 90,
       "body": {
-        "en": "<h3>Create an angle from a power–frequency law</h3>\n<p>A droop GFM creates an internal voltage angle by integrating its frequency command. It does not need a PLL for this synchronization law. A filtered active-power mismatch changes frequency; a filtered reactive-power mismatch changes voltage magnitude. The network then determines actual injected power.</p>\n<p>Our three states are δ, P_f and Q_f. The voltage realization is E exp(jδ) behind Z_f = 0.00625 + j0.1 pu. The branch current is (E exp(jδ) − V)/Z_f. The physical LCL and PI loops are replaced by this algebraic relation. Z_f is a declared source impedance in the teaching model.</p>\n<h3>The loop closes through the network</h3>\n<p>For a small positive P* step, the frequency initially rises because P_f cannot jump. δ advances, electrical power increases, and P_f catches up. At the restored equilibrium against a nominal-frequency infinite bus, ω = 1 and P_f = P*. The reference is a control input, not a direct assignment to the measured power trajectory.</p>\n<p>Increasing m_p changes both the steady frequency–power slope and the transient loop gain. The fixed measurement filters are τ_p = 0.1 s and τ_q = 0.05 s. Do not attribute every response change solely to “more droop” without also considering the network and filter time scales.</p>\n<h3>Match a terminal operating point</h3>\n<p>The experiment initializes all families at PoC P = 0.6 and Q = 0. Its internal source amplitude generally exceeds 1 because the source impedance carries current. With E₀ fixed at 1, Q* must be chosen so that E = E₀ − n_q(Q_f − Q*) equals that required amplitude. Therefore the droop Q* is not zero even when terminal Q is zero.</p>\n<p>At SCR = 5, the baseline Q* is approximately 0.316795 pu. That is an equilibrium-matching control offset, not a claim that the PCC exports that reactive power. The lab exposes the actual commands so this distinction can be inspected.</p>\n<h3>A frequency step tests the slope</h3>\n<p>Apply +0.1 Hz to the grid. At a locked steady state, ω = ω_g and P ≈ P* − (ω_g − 1)/m_p. For m_p = 0.02, the predicted active-power change is −0.1/(50 × 0.02) = −0.1 pu. This is a within-model steady-state prediction; the algebraic impedances remain evaluated at nominal frequency.</p><h3>Build the full cascaded-control realization</h3><p>To retain inner loops, use x = [δ, P_f, Q_f, ξ_vd, ξ_vq, ξ_id, ξ_iq, i₁d, i₁q, v_cd, v_cq, i₂d, i₂q]. Set v* = [E, 0], voltage error e_v = v* − v_c and ξ̇_v = e_v. With output-current feedforward and capacitor decoupling enabled, the voltage PI produces i₁* using the first added equation below. Current error is e_i = i₁* − i₁ and ξ̇_i = e_i; the current PI produces converter voltage u using the second equation. Insert u into the LCL equations from Module 3 to close the model.</p><p>The canonical source droop realization feeds its power filters from v_c and i₂; its benchmark outputs are reconstructed at PoC. Those two ports must remain distinct. To initialize a no-limit equilibrium, first determine the electrical state, then set ξ_v = (i₁ − F i₂ + ω_b ω c Jv_c)/K_iv and ξ_i = (u − v_c + ω_b ω ℓ₁ Ji₁)/K_ii. Zero controller error does not imply zero PI integrals. The browser droop lab deliberately removes these four integrators and six electrical states.</p>",
-        "zh": "<h3>由功率–频率规律生成角度</h3>\n<p>Droop GFM 通过积分频率指令生成内部电压角度，这个同步规律不需要 PLL。滤波有功偏差改变频率，滤波无功偏差改变电压幅值，再由网络决定实际注入功率。</p>\n<p>教学模型的三个状态为 δ、P_f、Q_f。内部电压 E exp(jδ) 通过 Z_f = 0.00625 + j0.1 pu 接入网络，支路电流为 (E exp(jδ) − V)/Z_f。物理 LCL 与 PI 环节被这条代数关系替代；Z_f 是教学模型中声明的源阻抗。</p>\n<h3>通过网络闭合反馈环</h3>\n<p>P* 小幅增加时，P_f 不能瞬间跳变，因此频率首先提高；δ 前移，电气功率增加，随后 P_f 跟上。在额定频率无穷大母线约束下重新达到平衡时，ω = 1、P_f = P*。功率参考是控制输入，不是对测量功率轨迹的直接赋值。</p>\n<p>增大 m_p 同时改变稳态频率–功率斜率和暂态环路增益。测量滤波固定为 τ_p = 0.1 s、τ_q = 0.05 s。解释响应时，还要考虑网络和滤波时间尺度。</p>\n<h3>匹配端口运行点</h3>\n<p>所有控制类别都初始化到 PoC P = 0.6、Q = 0。由于源阻抗中有电流，所需内部电压幅值通常大于 1。E₀ 固定为 1 时，必须选择适当 Q*，使 E = E₀ − n_q(Q_f − Q*) 满足所需幅值。因此端口 Q 为零，并不要求 droop 的 Q* 为零。</p>\n<p>SCR = 5 时，基准 Q* 约为 0.316795 pu。它是匹配平衡点的控制偏置，不表示 PCC 注入了同样大小的无功。实验会展示实际指令，便于检查这个区别。</p>\n<h3>用频率阶跃检验稳态斜率</h3>\n<p>电网频率增加 +0.1 Hz。稳态锁定时 ω = ω_g，P ≈ P* − (ω_g − 1)/m_p。m_p = 0.02 时，预测有功变化为 −0.1/(50 × 0.02) = −0.1 pu。这是模型内部的稳态预测；代数阻抗仍在额定频率下计算。</p><h3>建立完整串级控制实现</h3><p>保留内部环节时，使用 x = [δ, P_f, Q_f, ξ_vd, ξ_vq, ξ_id, ξ_iq, i₁d, i₁q, v_cd, v_cq, i₂d, i₂q]。设 v* = [E, 0]、电压误差 e_v = v* − v_c、ξ̇_v = e_v。启用输出电流前馈和电容解耦时，电压 PI 按下方新增的第一个方程产生 i₁*。电流误差为 e_i = i₁* − i₁、ξ̇_i = e_i；电流 PI 按第二个方程产生变流器电压 u，再代入模块 3 的 LCL 方程，闭合整个模型。</p><p>源仓库经典 droop 实现用 v_c、i₂ 的功率驱动滤波器，基准输出则在 PoC 重构，这两个端口需要区分。初始化无限幅平衡点时，先求电气状态，再令 ξ_v = (i₁ − F i₂ + ω_b ω c Jv_c)/K_iv、ξ_i = (u − v_c + ω_b ω ℓ₁ Ji₁)/K_ii。控制误差为零，不代表 PI 积分状态为零。网页 droop 实验明确省略了这四个积分状态与六个电气状态。</p>"
+        "en": "<h3>The network completes the power-control loop</h3><p>The three-state realization retains δ, P_f and Q_f. Filtered active-power mismatch sets frequency; filtered reactive-power mismatch sets voltage magnitude. Integrating frequency creates the internal source angle. The source U = Ee^{jδ} sits behind Z_f = 0.00625 + j0.1 pu.</p><p>After a positive P* step, P_f cannot jump. Frequency initially rises, angle advances, network power increases and the filter catches up. A reference is therefore a cause of power change, not an assignment to the measured trajectory.</p><h3>Distinguish the terminal target from the raw command</h3><p>At a nominal-frequency locked equilibrium, P_f = P*. Reactive matching is subtler. The internal source amplitude must support the voltage drop across Z_f. With E₀ fixed at 1, Q* must compensate that required amplitude even when terminal Q is zero.</p><p>At SCR = 5, the default matched Q* is approximately 0.316795 pu while PoC Q = 0. This is a controller offset. Forcing every controller to use the same raw Q* would silently change the operating point and compromise the comparison.</p><h3>A frequency event reveals the steady slope</h3><p>At a new locked equilibrium, internal frequency equals grid frequency. Rearranging the droop law predicts P = P* − (ω_g − 1)/m_p. A +0.1 Hz event at 50 Hz is +0.002 pu, so m_p = 0.02 predicts a −0.1 pu power change.</p><p>The same m_p also affects transient loop gain. With fixed τ_p = 0.1 s and τ_q = 0.05 s, changes in peak or damping reflect network, filter and control interactions. A steady slope alone does not determine the transient.</p><h3>Restore the cascaded loops when the question requires them</h3><p>A detailed implementation sets v* = [E,0]. Voltage PI, output-current feedforward and capacitor decoupling create i₁*. Current PI then creates u for the LCL plant. F is the output-current feedforward gain; K_p and K_i denote the corresponding PI gains. Six electrical states, four integrators, two power filters and one angle give 13 states.</p><p>The canonical source filters power measured using v_c and i₂, whereas benchmark outputs are reconstructed at PoC. The browser lab deliberately uses PoC feedback. When reproducing the detailed source, preserve its measurement port and initialize PI integrals to support the equilibrium voltage and current; zero tracking error does not imply zero integrator state.</p><p>At a no-limit equilibrium with zero voltage and current errors, solve the two PI equations for their integrals. The nonzero offsets below support the required capacitor current and converter voltage. Setting the integrators to zero would turn an equilibrium comparison into an unintended startup transient.</p>",
+        "zh": "<h3>功率闭环由网络完成</h3><p>三状态实现保留 δ、P_f、Q_f。有功滤波偏差设定频率，无功滤波偏差设定电压幅值，再通过积分频率形成内部源角度。内部电压 U = Ee^{jδ} 位于 Z_f = 0.00625 + j0.1 pu 后方。</p><p>正 P* 阶跃发生后，P_f 不能突变，因此频率先升高，角度向前移动，网络传输功率增加，滤波量随后跟上。指令是功率改变的原因，并不直接赋值给实际功率轨迹。</p><h3>区分端口目标与控制指令</h3><p>在额定频率锁定的稳态，P_f = P*。无功匹配则更容易被忽视：内部源幅值必须支撑 Z_f 上的电压降。如果 E₀ 固定为 1，即使端口 Q 为零，也需要用 Q* 补偿所需幅值。</p><p>SCR = 5 时，默认匹配得到 Q* 约为 0.316795 pu，而 PoC Q = 0。这是控制器偏置。强行让所有控制器使用相同原始 Q*，会悄悄改变工作点，使比较失去基础。</p><h3>频率扰动揭示稳态斜率</h3><p>新的锁定稳态中，内部频率等于电网频率。整理 droop 规律得到 P = P* − (ω_g − 1)/m_p。在 50 Hz 下，+0.1 Hz 等于 +0.002 pu；m_p = 0.02 时，预期功率变化为 −0.1 pu。</p><p>同一 m_p 也改变暂态环路增益。当 τ_p = 0.1 s、τ_q = 0.05 s 固定时，峰值与阻尼的变化还反映了网络、滤波和控制的交互。只知道稳态斜率，无法确定暂态形状。</p><h3>问题需要时，再恢复级联内环</h3><p>完整实现设置 v* = [E,0]，由电压 PI、输出电流前馈和电容解耦生成 i₁*，再由电流 PI 生成 LCL 的输入 u。F 为输出电流前馈增益，K_p、K_i 表示相应 PI 参数。六个电气状态、四个积分、两个功率滤波与一个角度，共 13 个状态。</p><p>源仓库的 canonical 模型用 v_c 与 i₂ 计算滤波功率，而 benchmark 输出在 PoC 重建；浏览器教学实验则特意采用 PoC 反馈。复现完整模型时，应保留原测量端口，并将 PI 积分初始化为支撑稳态电压、电流所需的数值。零跟踪误差并不意味着积分状态为零。</p><p>在未触发限幅、且电压和电流误差为零的稳态，将两条 PI 方程反解为积分状态，得到下式。这些非零偏置用于支撑所需电容电流与变流器电压。若将积分设为零，原本的稳态比较就会混入不必要的启动暂态。</p>"
       },
       "equations": [
         "\\tau_p\\dot P_f=P_{PoC}-P_f,\\qquad\\tau_q\\dot Q_f=Q_{PoC}-Q_f",
         "\\omega=1-m_p(P_f-P^*),\\quad E=E_0-n_q(Q_f-Q^*),\\quad\\dot\\delta=\\omega_b(\\omega-\\omega_g)",
         "I=\\frac{Ee^{j\\delta}-V}{Z_f},\\qquad P+jQ=VI^*",
         "e_v=v^*-v_c,\\quad\\dot\\xi_v=e_v,\\quad i_1^*=F i_2-\\omega_b\\omega cJv_c+K_{pv}e_v+K_{iv}\\xi_v",
-        "e_i=i_1^*-i_1,\\quad\\dot\\xi_i=e_i,\\quad u=v_c-\\omega_b\\omega\\ell_1Ji_1+K_{pi}e_i+K_{ii}\\xi_i"
+        "e_i=i_1^*-i_1,\\quad\\dot\\xi_i=e_i,\\quad u=v_c-\\omega_b\\omega\\ell_1Ji_1+K_{pi}e_i+K_{ii}\\xi_i",
+        "\\xi_v=\\frac{i_1-Fi_2+\\omega_b\\omega cJv_c}{K_{iv}},\\qquad\\xi_i=\\frac{u-v_c+\\omega_b\\omega\\ell_1Ji_1}{K_{ii}}"
       ],
       "steps": [
         {
@@ -284,14 +820,156 @@
       "sources": [
         "Coding/Modeling/src/ibrsim/models/droop_gfm.py",
         "Coding/Modeling/Single-IBR-Infinite-Bus/00_Droop_GFM_Infinite_Bus_Model_Library.ipynb"
+      ],
+      "question": {
+        "en": "How does a power mismatch create a voltage angle?",
+        "zh": "功率偏差如何形成电压角度？"
+      },
+      "opening": {
+        "en": "The operator raises P* by 0.03 pu. A GFM source cannot assign terminal power directly: it must change frequency, move its angle and let the network transfer more power. Follow that loop.",
+        "zh": "调度将 P* 提高 0.03 pu。GFM 电压源无法直接指定端口功率：它必须先改变频率，再推进角度，由网络传输更多功率。本讲沿着这条闭环解释 droop。"
+      },
+      "chapters": [
+        {
+          "title": {
+            "en": "The network completes the power-control loop",
+            "zh": "功率闭环由网络完成"
+          },
+          "body": {
+            "en": "<p>The three-state realization retains δ, P_f and Q_f. Filtered active-power mismatch sets frequency; filtered reactive-power mismatch sets voltage magnitude. Integrating frequency creates the internal source angle. The source U = Ee^{jδ} sits behind Z_f = 0.00625 + j0.1 pu.</p><p>After a positive P* step, P_f cannot jump. Frequency initially rises, angle advances, network power increases and the filter catches up. A reference is therefore a cause of power change, not an assignment to the measured trajectory.</p>",
+            "zh": "<p>三状态实现保留 δ、P_f、Q_f。有功滤波偏差设定频率，无功滤波偏差设定电压幅值，再通过积分频率形成内部源角度。内部电压 U = Ee^{jδ} 位于 Z_f = 0.00625 + j0.1 pu 后方。</p><p>正 P* 阶跃发生后，P_f 不能突变，因此频率先升高，角度向前移动，网络传输功率增加，滤波量随后跟上。指令是功率改变的原因，并不直接赋值给实际功率轨迹。</p>"
+          },
+          "figure": "droop-control",
+          "equations": [
+            0,
+            1,
+            2
+          ]
+        },
+        {
+          "title": {
+            "en": "Distinguish the terminal target from the raw command",
+            "zh": "区分端口目标与控制指令"
+          },
+          "body": {
+            "en": "<p>At a nominal-frequency locked equilibrium, P_f = P*. Reactive matching is subtler. The internal source amplitude must support the voltage drop across Z_f. With E₀ fixed at 1, Q* must compensate that required amplitude even when terminal Q is zero.</p><p>At SCR = 5, the default matched Q* is approximately 0.316795 pu while PoC Q = 0. This is a controller offset. Forcing every controller to use the same raw Q* would silently change the operating point and compromise the comparison.</p>",
+            "zh": "<p>在额定频率锁定的稳态，P_f = P*。无功匹配则更容易被忽视：内部源幅值必须支撑 Z_f 上的电压降。如果 E₀ 固定为 1，即使端口 Q 为零，也需要用 Q* 补偿所需幅值。</p><p>SCR = 5 时，默认匹配得到 Q* 约为 0.316795 pu，而 PoC Q = 0。这是控制器偏置。强行让所有控制器使用相同原始 Q*，会悄悄改变工作点，使比较失去基础。</p>"
+          },
+          "figure": null,
+          "equations": []
+        },
+        {
+          "title": {
+            "en": "A frequency event reveals the steady slope",
+            "zh": "频率扰动揭示稳态斜率"
+          },
+          "body": {
+            "en": "<p>At a new locked equilibrium, internal frequency equals grid frequency. Rearranging the droop law predicts P = P* − (ω_g − 1)/m_p. A +0.1 Hz event at 50 Hz is +0.002 pu, so m_p = 0.02 predicts a −0.1 pu power change.</p><p>The same m_p also affects transient loop gain. With fixed τ_p = 0.1 s and τ_q = 0.05 s, changes in peak or damping reflect network, filter and control interactions. A steady slope alone does not determine the transient.</p>",
+            "zh": "<p>新的锁定稳态中，内部频率等于电网频率。整理 droop 规律得到 P = P* − (ω_g − 1)/m_p。在 50 Hz 下，+0.1 Hz 等于 +0.002 pu；m_p = 0.02 时，预期功率变化为 −0.1 pu。</p><p>同一 m_p 也改变暂态环路增益。当 τ_p = 0.1 s、τ_q = 0.05 s 固定时，峰值与阻尼的变化还反映了网络、滤波和控制的交互。只知道稳态斜率，无法确定暂态形状。</p>"
+          },
+          "figure": null,
+          "equations": []
+        },
+        {
+          "title": {
+            "en": "Restore the cascaded loops when the question requires them",
+            "zh": "问题需要时，再恢复级联内环"
+          },
+          "body": {
+            "en": "<p>A detailed implementation sets v* = [E,0]. Voltage PI, output-current feedforward and capacitor decoupling create i₁*. Current PI then creates u for the LCL plant. F is the output-current feedforward gain; K_p and K_i denote the corresponding PI gains. Six electrical states, four integrators, two power filters and one angle give 13 states.</p><p>The canonical source filters power measured using v_c and i₂, whereas benchmark outputs are reconstructed at PoC. The browser lab deliberately uses PoC feedback. When reproducing the detailed source, preserve its measurement port and initialize PI integrals to support the equilibrium voltage and current; zero tracking error does not imply zero integrator state.</p><p>At a no-limit equilibrium with zero voltage and current errors, solve the two PI equations for their integrals. The nonzero offsets below support the required capacitor current and converter voltage. Setting the integrators to zero would turn an equilibrium comparison into an unintended startup transient.</p>",
+            "zh": "<p>完整实现设置 v* = [E,0]，由电压 PI、输出电流前馈和电容解耦生成 i₁*，再由电流 PI 生成 LCL 的输入 u。F 为输出电流前馈增益，K_p、K_i 表示相应 PI 参数。六个电气状态、四个积分、两个功率滤波与一个角度，共 13 个状态。</p><p>源仓库的 canonical 模型用 v_c 与 i₂ 计算滤波功率，而 benchmark 输出在 PoC 重建；浏览器教学实验则特意采用 PoC 反馈。复现完整模型时，应保留原测量端口，并将 PI 积分初始化为支撑稳态电压、电流所需的数值。零跟踪误差并不意味着积分状态为零。</p><p>在未触发限幅、且电压和电流误差为零的稳态，将两条 PI 方程反解为积分状态，得到下式。这些非零偏置用于支撑所需电容电流与变流器电压。若将积分设为零，原本的稳态比较就会混入不必要的启动暂态。</p>"
+          },
+          "figure": null,
+          "equations": [
+            3,
+            4,
+            5
+          ]
+        }
+      ],
+      "worked": {
+        "title": {
+          "en": "Work the case",
+          "zh": "把案例算清楚"
+        },
+        "given": {
+          "en": "Let P* = 0.6 pu and m_p = 0.02. The grid rises from 50 to 50.1 Hz. Predict the locked steady power.",
+          "zh": "设 P* = 0.6 pu、m_p = 0.02，电网从 50 升至 50.1 Hz。预测锁定后的稳态功率。"
+        },
+        "steps": [
+          {
+            "en": "The per-unit frequency increase is 0.1/50 = 0.002.",
+            "zh": "标幺频率升幅为 0.1/50 = 0.002。"
+          },
+          {
+            "en": "The droop power reduction is 0.002/0.02 = 0.1 pu.",
+            "zh": "droop 导致的功率降幅为 0.002/0.02 = 0.1 pu。"
+          },
+          {
+            "en": "Subtract that reduction from the reference 0.6 pu.",
+            "zh": "从指令 0.6 pu 中减去这一降幅。"
+          }
+        ],
+        "conclusion": {
+          "en": "The predicted locked power is 0.5 pu. The calculation assumes the stated model reaches the new equilibrium.",
+          "zh": "预测锁定功率为 0.5 pu。这个计算以本模型能够到达新稳态为前提。"
+        }
+      },
+      "numeric": {
+        "question": {
+          "en": "For this +0.1 Hz event, enter the predicted steady P in pu.",
+          "zh": "对于上述 +0.1 Hz 扰动，输入预测稳态 P，单位 pu。"
+        },
+        "answer": 0.5,
+        "unit": "pu",
+        "tolerance": 0.001,
+        "solution": {
+          "en": "The predicted locked power is 0.5 pu. The calculation assumes the stated model reaches the new equilibrium.",
+          "zh": "预测锁定功率为 0.5 pu。这个计算以本模型能够到达新稳态为前提。"
+        }
+      },
+      "decision": {
+        "en": "Use one command step and one frequency step to separate transient mechanism from steady slope. Explain why this droop source needs no PLL in its synchronization law.",
+        "zh": "用一次功率指令阶跃和一次频率阶跃，区分暂态机理与稳态斜率；解释为什么该 droop 同步规律不需要 PLL。"
+      },
+      "bridge": {
+        "en": "Droop sets frequency algebraically. The next lesson adds a speed state and asks what virtual inertia changes—and what evidence it leaves unresolved.",
+        "zh": "droop 以代数方式设定频率。下一讲增加速度状态，研究虚拟惯量改变了什么，以及还有哪些问题需要额外证据。"
+      },
+      "diagram": "droop-control",
+      "phase": 2,
+      "response": {
+        "figure": "droop-response",
+        "title": {
+          "en": "Power changes through angle motion",
+          "zh": "功率通过角度运动改变"
+        },
+        "body": {
+          "en": "The +0.03 pu P* step first creates a frequency mismatch, then increases transferred power. The transient reveals filter and network feedback.",
+          "zh": "+0.03 pu 的 P* 阶跃先产生频率偏差，再提高传输功率；暂态体现滤波与网络反馈。"
+        }
+      },
+      "observations": [
+        {
+          "en": "At the command step, the filtered power cannot jump, so frequency changes first.",
+          "zh": "指令阶跃时，滤波功率不能突变，因此频率先改变。"
+        },
+        {
+          "en": "Advancing source angle increases power through the network; measured power feeds back.",
+          "zh": "源角度前移，通过网络提高功率，测量功率随后反馈。"
+        },
+        {
+          "en": "The nominal-frequency equilibrium requires P = P*; inspect the window before calling it settled.",
+          "zh": "额定频率稳态要求 P = P*，但需要核对观察窗口是否已足够长。"
+        }
       ]
     },
     "C1-06": {
       "lab": "vsm",
       "minutes": 90,
       "body": {
-        "en": "<h3>Add a frequency state, rather than a name</h3>\n<p>A virtual synchronous machine replaces algebraic P–frequency droop with an evolving internal speed. The four-state teaching realization contains δ, ω, P_f and Q_f. Its electrical source and reactive-power law are the same as Module 5. This isolates the effect of the synchronization law.</p>\n<p>Use Mω̇ = P* − P_f − D(ω − 1), with M in seconds and D = 1/m_p. If M = 2H under this per-unit swing convention, the default M = 4 s corresponds to H = 2 s. The angle equation still multiplies per-unit frequency difference by ω_b.</p>\n<h3>Keep steady slope separate from inertia</h3>\n<p>At steady state, P_f = P* − D(ω_g − 1), the same slope as the droop controller when D = 1/m_p. M affects the transient speed derivative, not this steady slope. The source repository separates governor and explicit damping coefficients, constraining their sum to 1/m_p; our lab uses the aggregate coefficient.</p>\n<p>Immediately after a +0.03 pu P* step, at the old equilibrium, ω̇ = 0.03/4 = 0.0075 pu/s. Expressed in Hz/s that is 0.375. Doubling M halves this initial derivative when all other initial conditions and coefficients are held fixed.</p>\n<h3>What supports the electrical power?</h3>\n<p>“Virtual inertia” describes a control law. The lab assumes an ideal DC source and unlimited voltage/current realization. It cannot establish DC energy availability or converter overload capability. To study those questions, add DC storage dynamics, device limits and their control interactions.</p>\n<h3>Do not merge GFL virtual inertia with VSM</h3>\n<p>A GFL virtual-inertia controller can add a causal filtered RoCoF-dependent power request while retaining PLL-based synchronization. That is a different model structure from an internal VSM speed state. The repository’s GFL-VI notebook includes an unstable frozen-parameter example; adding an inertia-labelled term is not a stability guarantee.</p>\n<p>Compare M = 1, 4 and 8 s with the same SCR, droop slope and measurement filters. Report initial RoCoF, peak power and settling behavior. A reduced VSM response cannot certify the stability of the repository’s higher-order electrical and inner-control realizations.</p><p>The default 4 s window may end before VSM settles, especially with the retained 0.1 s power filter. Extend the duration to 20 s before discussing a steady value. Some parameter choices can produce growing oscillations; preserve that result and check the model domain.</p>",
-        "zh": "<h3>增加一个频率状态</h3>\n<p>虚拟同步机用内部转速状态代替代数式 P–频率下垂。四状态教学模型包含 δ、ω、P_f、Q_f，电气源和无功规律与模块 5 相同，因此能够单独观察同步规律的影响。</p>\n<p>使用 Mω̇ = P* − P_f − D(ω − 1)，M 的单位为秒，D = 1/m_p。在这套标幺 swing 约定下，若 M = 2H，则默认 M = 4 s 对应 H = 2 s。角度方程仍需用 ω_b 乘标幺频差。</p>\n<h3>区分稳态斜率与惯性</h3>\n<p>稳态满足 P_f = P* − D(ω_g − 1)。D = 1/m_p 时，它与 droop 控制器具有相同稳态斜率。M 改变暂态速度导数，不改变该稳态斜率。源仓库将调速器系数与显式阻尼分开，并约束两者之和为 1/m_p；本实验使用合并系数。</p>\n<p>从原平衡点施加 +0.03 pu P* 后，初始 ω̇ = 0.03/4 = 0.0075 pu/s，即 0.375 Hz/s。保持其他初始条件和系数不变，M 加倍会使初始导数减半。</p>\n<h3>电气功率由什么支撑？</h3>\n<p>“虚拟惯性”描述一种控制规律。本实验假设理想直流源，以及不受限制的电压、电流实现，因此不能判定直流能量是否足够，也不能判定变流器过载能力。研究这些问题，需要加入直流储能动态、设备限制及其控制相互作用。</p>\n<h3>不要将 GFL 虚拟惯性与 VSM 混为一谈</h3>\n<p>GFL 虚拟惯性可以在保留 PLL 同步的基础上，增加因果滤波后的 RoCoF 功率请求。它与内部 VSM 转速状态具有不同结构。仓库 GFL-VI Notebook 保留了冻结参数下不稳定的案例；加入名称带“惯性”的项并不能保证稳定。</p>\n<p>固定 SCR、下垂斜率和测量滤波，比较 M = 1、4、8 s，记录初始 RoCoF、功率峰值和收敛过程。低阶 VSM 的响应不能证明仓库高阶电气与内部控制实现稳定。</p><p>默认 4 s 窗口可能在 VSM 收敛前结束，尤其这里保留了 0.1 s 功率滤波。讨论稳态值前，可将时长延长至 20 s。某些参数组合可能出现增长的振荡；应保留该结果，并检查模型适用域。</p>"
+        "en": "<h3>Add a speed state with an explicit evolution law</h3><p>The VSM replaces algebraic frequency droop with Mω̇ = P* − P_f − D(ω − 1). It retains δ, ω, P_f and Q_f. The electrical source and reactive law are the same as in the droop lab, so the comparison isolates the synchronization law.</p><p>Use M in seconds and D = 1/m_p. Under this swing convention M = 2H; the default M = 4 s corresponds to H = 2 s. The source repository separates governor and explicit damping contributions, while the teaching model uses their aggregate coefficient.</p><h3>Separate initial rate from steady sharing</h3><p>Immediately after a P* step, speed and filtered power still equal their old equilibrium values. The accelerating mismatch is therefore ΔP*, so ḟ = f_bΔP*/M. Doubling M halves this initial rate under the same conditions.</p><p>At equilibrium ω̇ = 0 and ω = ω_g. The power–frequency slope then equals droop when D = 1/m_p, independent of M. Larger inertia can change oscillation and settling through its interaction with the 0.1 s power filter; it is not a general guarantee of a better trajectory.</p><h3>Translate the control law into evidence requirements</h3><p>Virtual inertia describes a controller. Delivering its requested power requires a DC energy source, available current and a feasible converter voltage. The lab assumes an ideal DC supply and unlimited realization; it cannot establish those hardware capabilities.</p><p>A PLL-based GFL can also add filtered RoCoF power support while remaining grid-following. That structure differs from a VSM internal speed state. The source GFL-VI notebook includes an unstable frozen-parameter case, illustrating why an inertia-labelled term alone does not establish stability.</p>",
+        "zh": "<h3>给速度增加明确的演化方程</h3><p>VSM 用 Mω̇ = P* − P_f − D(ω − 1) 替代代数频率 droop，保留 δ、ω、P_f、Q_f。电气电压源与无功规律沿用 droop 实验，因此能单独比较同步规律。</p><p>M 的单位为秒，取 D = 1/m_p。在本摆动方程约定下 M = 2H，默认 M = 4 s 对应 H = 2 s。源仓库区分调速器与显式阻尼贡献，教学模型使用两者合计系数。</p><h3>把初始变化率与稳态分配分开</h3><p>P* 刚发生阶跃时，速度与滤波功率仍为旧稳态值，因此加速功率为 ΔP*，得到 ḟ = f_bΔP*/M。在同一初始条件下，M 加倍会使初始变化率减半。</p><p>稳态满足 ω̇ = 0、ω = ω_g。当 D = 1/m_p 时，功率—频率斜率与 droop 相同，并不依赖 M。更大惯量会通过与 0.1 s 功率滤波的交互改变振荡与收敛，但不能普遍保证轨迹更好。</p><h3>把控制规律转成证据要求</h3><p>虚拟惯量描述的是控制规律。要真正提供所请求的功率，还需要直流能量来源、可用电流与可实现的变流器电压。实验假设理想直流电源和无限制实现，因此无法证明这些硬件能力。</p><p>基于 PLL 的 GFL 也可以加入滤波 RoCoF 功率支撑，同时保持跟网同步；其结构与 VSM 内部速度状态不同。源仓库 GFL-VI notebook 保留了一个固定参数下不稳定的案例，说明名称中有“惯量”并不能建立稳定性。</p>"
       },
       "equations": [
         "M\\dot\\omega=P^*-P_f-D(\\omega-1),\\qquad D=\\frac1{m_p},\\qquad M=2H",
@@ -341,14 +1019,141 @@
         "Coding/Modeling/src/ibrsim/models/vsm_gfm.py",
         "Coding/Modeling/Single-IBR-Infinite-Bus/06_VSM_GFM_Infinite_Bus.ipynb",
         "Coding/Modeling/Single-IBR-Infinite-Bus/04_GFL_PLL_Virtual_Inertia_Infinite_Bus.ipynb"
+      ],
+      "question": {
+        "en": "What does virtual inertia actually change?",
+        "zh": "虚拟惯量究竟改变了什么？"
+      },
+      "opening": {
+        "en": "A design review proposes doubling virtual inertia to improve the response. Before accepting the claim, distinguish initial rate, oscillatory behavior, steady power and physical energy capability.",
+        "zh": "设计评审提出“把虚拟惯量加倍，可以改善响应”。要判断这一建议，必须先区分初始变化率、振荡表现、稳态功率，以及设备真实的能量供给能力。"
+      },
+      "chapters": [
+        {
+          "title": {
+            "en": "Add a speed state with an explicit evolution law",
+            "zh": "给速度增加明确的演化方程"
+          },
+          "body": {
+            "en": "<p>The VSM replaces algebraic frequency droop with Mω̇ = P* − P_f − D(ω − 1). It retains δ, ω, P_f and Q_f. The electrical source and reactive law are the same as in the droop lab, so the comparison isolates the synchronization law.</p><p>Use M in seconds and D = 1/m_p. Under this swing convention M = 2H; the default M = 4 s corresponds to H = 2 s. The source repository separates governor and explicit damping contributions, while the teaching model uses their aggregate coefficient.</p>",
+            "zh": "<p>VSM 用 Mω̇ = P* − P_f − D(ω − 1) 替代代数频率 droop，保留 δ、ω、P_f、Q_f。电气电压源与无功规律沿用 droop 实验，因此能单独比较同步规律。</p><p>M 的单位为秒，取 D = 1/m_p。在本摆动方程约定下 M = 2H，默认 M = 4 s 对应 H = 2 s。源仓库区分调速器与显式阻尼贡献，教学模型使用两者合计系数。</p>"
+          },
+          "figure": "vsm-mechanism",
+          "equations": [
+            0
+          ]
+        },
+        {
+          "title": {
+            "en": "Separate initial rate from steady sharing",
+            "zh": "把初始变化率与稳态分配分开"
+          },
+          "body": {
+            "en": "<p>Immediately after a P* step, speed and filtered power still equal their old equilibrium values. The accelerating mismatch is therefore ΔP*, so ḟ = f_bΔP*/M. Doubling M halves this initial rate under the same conditions.</p><p>At equilibrium ω̇ = 0 and ω = ω_g. The power–frequency slope then equals droop when D = 1/m_p, independent of M. Larger inertia can change oscillation and settling through its interaction with the 0.1 s power filter; it is not a general guarantee of a better trajectory.</p>",
+            "zh": "<p>P* 刚发生阶跃时，速度与滤波功率仍为旧稳态值，因此加速功率为 ΔP*，得到 ḟ = f_bΔP*/M。在同一初始条件下，M 加倍会使初始变化率减半。</p><p>稳态满足 ω̇ = 0、ω = ω_g。当 D = 1/m_p 时，功率—频率斜率与 droop 相同，并不依赖 M。更大惯量会通过与 0.1 s 功率滤波的交互改变振荡与收敛，但不能普遍保证轨迹更好。</p>"
+          },
+          "figure": null,
+          "equations": [
+            1,
+            2
+          ]
+        },
+        {
+          "title": {
+            "en": "Translate the control law into evidence requirements",
+            "zh": "把控制规律转成证据要求"
+          },
+          "body": {
+            "en": "<p>Virtual inertia describes a controller. Delivering its requested power requires a DC energy source, available current and a feasible converter voltage. The lab assumes an ideal DC supply and unlimited realization; it cannot establish those hardware capabilities.</p><p>A PLL-based GFL can also add filtered RoCoF power support while remaining grid-following. That structure differs from a VSM internal speed state. The source GFL-VI notebook includes an unstable frozen-parameter case, illustrating why an inertia-labelled term alone does not establish stability.</p>",
+            "zh": "<p>虚拟惯量描述的是控制规律。要真正提供所请求的功率，还需要直流能量来源、可用电流与可实现的变流器电压。实验假设理想直流电源和无限制实现，因此无法证明这些硬件能力。</p><p>基于 PLL 的 GFL 也可以加入滤波 RoCoF 功率支撑，同时保持跟网同步；其结构与 VSM 内部速度状态不同。源仓库 GFL-VI notebook 保留了一个固定参数下不稳定的案例，说明名称中有“惯量”并不能建立稳定性。</p>"
+          },
+          "figure": null,
+          "equations": []
+        }
+      ],
+      "worked": {
+        "title": {
+          "en": "Work the case",
+          "zh": "把案例算清楚"
+        },
+        "given": {
+          "en": "A +0.03 pu power-reference step occurs at equilibrium. Use M = 4 s and a 50 Hz base to calculate initial RoCoF.",
+          "zh": "在稳态施加 +0.03 pu 功率指令阶跃，取 M = 4 s、基频 50 Hz，计算初始 RoCoF。"
+        },
+        "steps": [
+          {
+            "en": "The speed derivative is 0.03/4 = 0.0075 pu/s.",
+            "zh": "速度导数为 0.03/4 = 0.0075 pu/s。"
+          },
+          {
+            "en": "Multiply by 50 Hz to convert to physical frequency rate.",
+            "zh": "乘 50 Hz，转换为实际频率变化率。"
+          },
+          {
+            "en": "Repeating with M = 8 s gives half the initial rate.",
+            "zh": "若 M = 8 s，初始变化率减半。"
+          }
+        ],
+        "conclusion": {
+          "en": "Initial RoCoF is 0.375 Hz/s. This local prediction says nothing by itself about settling time or energy availability.",
+          "zh": "初始 RoCoF 为 0.375 Hz/s。这一局部预测本身不能确定收敛时间或真实能量供给能力。"
+        }
+      },
+      "numeric": {
+        "question": {
+          "en": "Enter initial RoCoF for ΔP* = 0.03 pu and M = 4 s.",
+          "zh": "输入 ΔP* = 0.03 pu、M = 4 s 时的初始 RoCoF。"
+        },
+        "answer": 0.375,
+        "unit": "Hz/s",
+        "tolerance": 0.001,
+        "solution": {
+          "en": "Initial RoCoF is 0.375 Hz/s. This local prediction says nothing by itself about settling time or energy availability.",
+          "zh": "初始 RoCoF 为 0.375 Hz/s。这一局部预测本身不能确定收敛时间或真实能量供给能力。"
+        }
+      },
+      "decision": {
+        "en": "Compare M = 1, 4 and 8 s with the same slope and filters. Report initial rate, peak and whether settling is visible. Extend the window to 20 s before claiming a steady value; keep growing oscillations in the report.",
+        "zh": "在斜率与滤波参数相同的条件下，比较 M = 1、4、8 s，报告初始变化率、峰值，以及是否观察到收敛。判断稳态前将窗口延长至 20 s；若振荡增长，也应保留结果。"
+      },
+      "bridge": {
+        "en": "We have two distinct synchronization mechanisms. The next lesson couples them simultaneously at one PCC, where their interactions become part of the model.",
+        "zh": "现在已有两种同步机制。下一讲把它们同时接入同一个 PCC，控制器之间的交互也随之进入模型。"
+      },
+      "diagram": "vsm-mechanism",
+      "phase": 2,
+      "response": {
+        "figure": "vsm-response",
+        "title": {
+          "en": "The same slope does not imply the same transient",
+          "zh": "相同斜率不等于相同暂态"
+        },
+        "body": {
+          "en": "Droop and VSM share source, filters and slope. Only the frequency law differs here; the 4 s window need not capture settling.",
+          "zh": "droop 与 VSM 使用相同源、滤波与斜率，本图仅频率规律不同；4 s 窗口未必足以观察收敛。"
+        }
+      },
+      "observations": [
+        {
+          "en": "Both cases receive the same power command and share source, filters and steady slope.",
+          "zh": "两种模型收到相同功率指令，源、滤波与稳态斜率也相同。"
+        },
+        {
+          "en": "VSM speed cannot jump: the added state changes the early trajectory and oscillatory response.",
+          "zh": "VSM 速度不能突变，新增状态改变了早期轨迹与振荡响应。"
+        },
+        {
+          "en": "The end of a 4 s plot is a last sample, not automatically a settled value.",
+          "zh": "4 s 曲线终点只是末次采样，不自动等于稳态值。"
+        }
       ]
     },
     "C1-07": {
       "lab": "parallel",
       "minutes": 90,
       "body": {
-        "en": "<h3>Couple branches through a shared terminal</h3>\n<p>The lab connects one GFL current-actuator branch and one droop-GFM voltage-source branch to a single PCC. They are simultaneously active. Each receives half of the total P-command increment. Their outputs are coupled through the same grid impedance; combining two separately simulated single-inverter traces would miss this interaction.</p>\n<p>The total system base remains 10 kVA. Both branches use that common base, each starts at P = 0.3 pu and Q = 0, and the total starts at 0.6 pu. When using different individual device bases, convert currents, powers and impedances before applying the shared network equations.</p>\n<h3>Solve the network once</h3>\n<p>For grid impedance Z_g, GFL current I_c and GFM source U = E exp(jδ) behind Z_f, KCL gives I_grid = I_c + (U − V)/Z_f. Combined with V = V_g + Z_g I_grid, this produces the explicit PCC expression below. This equation must be solved before evaluating either branch’s power feedback.</p>\n<p>The state count is 4 + 3 = 7. State concatenation alone is insufficient: both controllers must see the same physical PCC voltage, expressed in their own local frames. Compute each branch power as V Iₖ* and total power as V(I_c + I_v)*.</p>\n<h3>Branch power is not a weighted output guess</h3>\n<p>The default command step is split equally, but the two branch transients need not be equal because their controller dynamics differ. The “branch power” plot shows the GFL and GFM contributions together with the total. Their instantaneous sum must equal total PCC power.</p>\n<h3>Relation to REGFM_C1</h3>\n<p>This is a <strong>shared-PCC parallel teaching model</strong>, not the official REGFM_C1 implementation. The source notebook distinguishes its positive-sequence A11 formulation from a detailed-average F21 research lift. A virtual R + jX relation and a physical LCL circuit have different retained dynamics. Use the source notebook when reproducing those exact controller equations and parameter definitions.</p>\n<p>Decrease SCR and inspect both branch powers and total power. Any observed interaction is specific to this current-source/voltage-source realization, common-base convention and power-sharing policy. It is not a general ranking of hybrid controller architectures.</p>",
-        "zh": "<h3>用共享端口耦合两个支路</h3>\n<p>实验将一个 GFL 电流执行支路和一个 droop-GFM 电压源支路连接到同一 PCC，两者同时工作，各分配总有功增量的一半。它们通过同一电网阻抗耦合；把两个分别仿真的单机曲线直接相加，会遗漏这种相互作用。</p>\n<p>系统总基值保持为 10 kVA。两个支路都使用这个共同基值，各从 P = 0.3 pu、Q = 0 出发，总功率为 0.6 pu。若采用各自设备基值，应用共享网络方程前，必须换算电流、功率和阻抗。</p>\n<h3>网络只求解一次</h3>\n<p>电网阻抗为 Z_g，GFL 电流为 I_c，GFM 源 U = E exp(jδ) 通过 Z_f 接入。KCL 给出 I_grid = I_c + (U − V)/Z_f，再结合 V = V_g + Z_g I_grid，可得到下方显式 PCC 表达式。必须先求解它，再计算两个支路各自的功率反馈。</p>\n<p>状态数为 4 + 3 = 7，但拼接状态还不够：两个控制器必须使用同一物理 PCC 电压，再分别转换到各自局部坐标。每个支路功率为 V Iₖ*，总功率为 V(I_c + I_v)*。</p>\n<h3>支路功率不是任意加权的输出</h3>\n<p>默认指令阶跃平均分配，但支路暂态不一定相同，因为控制动态不同。“支路功率”图展示 GFL、GFM 贡献和总量；任一时刻的支路功率之和，都必须等于 PCC 总功率。</p>\n<h3>与 REGFM_C1 的关系</h3>\n<p>这是<strong>共享 PCC 的并联教学模型</strong>，并非官方 REGFM_C1 实现。源 Notebook 明确区分正序 A11 表示与详细平均 F21 研究扩展。虚拟 R + jX 关系和物理 LCL 电路保留的动态不同。需要复现精确控制方程与参数时，应使用源 Notebook。</p>\n<p>降低 SCR，同时检查支路功率与总功率。观察到的相互作用只对应这里的电流源/电压源表示、共同基值和功率分配策略，不能推导为对所有 hybrid 架构的排名。</p>"
+        "en": "<h3>Agree on a common base before sharing power</h3><p>Both branches use the common 10 kVA system base. Each begins at P = 0.3 pu and Q = 0, producing total PoC P = 0.6 pu. A total +0.03 pu command step becomes +0.015 pu for each branch on that same base.</p><p>If physical devices have different ratings, convert their powers, currents and impedances to the common base before connecting them. Equal numerical per-unit values on different bases do not imply equal physical injections.</p><h3>Solve one network seen by both controllers</h3><p>The GFL branch supplies I_c; the GFM branch supplies U behind Z_f. KCL gives I_g = I_c + (U − V)/Z_f. Combining it with V = V_g + Z_gI_g yields one explicit PCC voltage.</p><p>Evaluate this voltage first, then express it in each controller’s local frame and compute feedback. The seven states are the four GFL states plus three droop states, but concatenating state vectors alone does not connect the models. The common network does.</p><h3>Distinguish the sharing policy from actual sharing</h3><p>Compute S_c = VI_c* and S_v = VI_v* at the same PCC. Their instantaneous sum must equal total complex power. Equal command increments do not require equal transient outputs because angle and current dynamics differ.</p><p>Inspect branch and total power as SCR decreases. This is a shared-PCC current-source/voltage-source teaching model. The source REGFM_C1 notebook distinguishes an A11 positive-sequence formulation from an F21 detailed research lift; reproducing either requires its own equations and parameters.</p>",
+        "zh": "<h3>先统一基值，再谈功率分配</h3><p>两条支路均采用共同的 10 kVA 系统基值，各自从 P = 0.3 pu、Q = 0 出发，PoC 总 P = 0.6 pu。总指令增加 +0.03 pu 时，两条支路各增加 +0.015 pu，仍使用同一基值。</p><p>若实际设备额定容量不同，连接之前应统一功率、电流、阻抗的基值。不同基值下相等的标幺数，并不意味着实际注入相等。</p><h3>求解两个控制器共同看到的网络</h3><p>GFL 支路提供 I_c，GFM 支路提供 Z_f 后方的 U。由 KCL 得 I_g = I_c + (U − V)/Z_f，再结合 V = V_g + Z_gI_g，得到唯一的 PCC 电压表达式。</p><p>先求出这一电压，再分别变换到各控制器的局部坐标，并计算反馈。七个状态确实由四个 GFL 加三个 droop 组成，但只拼接状态向量并不能连接模型；真正实现连接的是共同网络。</p><h3>区分分配策略与实际支路功率</h3><p>在同一个 PCC 计算 S_c = VI_c*、S_v = VI_v*，两者瞬时之和必须等于总复功率。相等的指令增量并不要求暂态输出相等，因为角度动态与电流动态不同。</p><p>降低 SCR 后，联合检查支路与总功率。本讲采用共享 PCC 的电流源／电压源教学实现。源 REGFM_C1 notebook 区分 A11 正序实现与 F21 完整研究扩展；复现其中任一个，都需要对应的方程与参数。</p>"
       },
       "equations": [
         "I_g=I_c+\\frac{U-V}{Z_f},\\qquad V=V_g+Z_gI_g",
@@ -397,14 +1202,141 @@
       "sources": [
         "Coding/Modeling/Single-IBR-Infinite-Bus/08_REGFM_C1_Hybrid_Infinite_Bus.ipynb",
         "Research-Xirui-Zhang/Coding/xirui_low_frequency/model.py"
+      ],
+      "question": {
+        "en": "Why is a shared PCC more than two separate simulations?",
+        "zh": "共享 PCC 为什么不能用两条独立曲线相加？"
+      },
+      "opening": {
+        "en": "A project combines a GFL branch with a droop-GFM branch. Both are active. An equal split of command increments appears simple, but a shared voltage couples their instantaneous responses.",
+        "zh": "项目把一个 GFL 支路与一个 droop-GFM 支路并联，两者同时运行。指令增量各分一半看似简单，但共同端口电压会把两条支路的瞬时响应耦合起来。"
+      },
+      "chapters": [
+        {
+          "title": {
+            "en": "Agree on a common base before sharing power",
+            "zh": "先统一基值，再谈功率分配"
+          },
+          "body": {
+            "en": "<p>Both branches use the common 10 kVA system base. Each begins at P = 0.3 pu and Q = 0, producing total PoC P = 0.6 pu. A total +0.03 pu command step becomes +0.015 pu for each branch on that same base.</p><p>If physical devices have different ratings, convert their powers, currents and impedances to the common base before connecting them. Equal numerical per-unit values on different bases do not imply equal physical injections.</p>",
+            "zh": "<p>两条支路均采用共同的 10 kVA 系统基值，各自从 P = 0.3 pu、Q = 0 出发，PoC 总 P = 0.6 pu。总指令增加 +0.03 pu 时，两条支路各增加 +0.015 pu，仍使用同一基值。</p><p>若实际设备额定容量不同，连接之前应统一功率、电流、阻抗的基值。不同基值下相等的标幺数，并不意味着实际注入相等。</p>"
+          },
+          "figure": "parallel-pcc",
+          "equations": []
+        },
+        {
+          "title": {
+            "en": "Solve one network seen by both controllers",
+            "zh": "求解两个控制器共同看到的网络"
+          },
+          "body": {
+            "en": "<p>The GFL branch supplies I_c; the GFM branch supplies U behind Z_f. KCL gives I_g = I_c + (U − V)/Z_f. Combining it with V = V_g + Z_gI_g yields one explicit PCC voltage.</p><p>Evaluate this voltage first, then express it in each controller’s local frame and compute feedback. The seven states are the four GFL states plus three droop states, but concatenating state vectors alone does not connect the models. The common network does.</p>",
+            "zh": "<p>GFL 支路提供 I_c，GFM 支路提供 Z_f 后方的 U。由 KCL 得 I_g = I_c + (U − V)/Z_f，再结合 V = V_g + Z_gI_g，得到唯一的 PCC 电压表达式。</p><p>先求出这一电压，再分别变换到各控制器的局部坐标，并计算反馈。七个状态确实由四个 GFL 加三个 droop 组成，但只拼接状态向量并不能连接模型；真正实现连接的是共同网络。</p>"
+          },
+          "figure": null,
+          "equations": [
+            0,
+            1
+          ]
+        },
+        {
+          "title": {
+            "en": "Distinguish the sharing policy from actual sharing",
+            "zh": "区分分配策略与实际支路功率"
+          },
+          "body": {
+            "en": "<p>Compute S_c = VI_c* and S_v = VI_v* at the same PCC. Their instantaneous sum must equal total complex power. Equal command increments do not require equal transient outputs because angle and current dynamics differ.</p><p>Inspect branch and total power as SCR decreases. This is a shared-PCC current-source/voltage-source teaching model. The source REGFM_C1 notebook distinguishes an A11 positive-sequence formulation from an F21 detailed research lift; reproducing either requires its own equations and parameters.</p>",
+            "zh": "<p>在同一个 PCC 计算 S_c = VI_c*、S_v = VI_v*，两者瞬时之和必须等于总复功率。相等的指令增量并不要求暂态输出相等，因为角度动态与电流动态不同。</p><p>降低 SCR 后，联合检查支路与总功率。本讲采用共享 PCC 的电流源／电压源教学实现。源 REGFM_C1 notebook 区分 A11 正序实现与 F21 完整研究扩展；复现其中任一个，都需要对应的方程与参数。</p>"
+          },
+          "figure": null,
+          "equations": [
+            2
+          ]
+        }
+      ],
+      "worked": {
+        "title": {
+          "en": "Work the case",
+          "zh": "把案例算清楚"
+        },
+        "given": {
+          "en": "On the common 10 kVA base, split a total +0.03 pu power-command increment equally between two branches.",
+          "zh": "在共同的 10 kVA 基值上，将总 +0.03 pu 功率指令增量平均分给两条支路。"
+        },
+        "steps": [
+          {
+            "en": "Total physical increment is 0.03 × 10 kVA = 300 W.",
+            "zh": "总实际增量为 0.03 × 10 kVA = 300 W。"
+          },
+          {
+            "en": "Each branch receives 150 W.",
+            "zh": "每条支路分配 150 W。"
+          },
+          {
+            "en": "On the common base, 150/10000 = 0.015 pu.",
+            "zh": "换回共同基值，150/10000 = 0.015 pu。"
+          }
+        ],
+        "conclusion": {
+          "en": "Each command increment is 0.015 pu on the common base. That does not assert equal instantaneous branch responses.",
+          "zh": "每条支路指令增量为共同基值下的 0.015 pu。这并不表示两条支路瞬时响应相等。"
+        }
+      },
+      "numeric": {
+        "question": {
+          "en": "Enter the command increment for each branch on the common base.",
+          "zh": "输入每条支路在共同基值下的指令增量。"
+        },
+        "answer": 0.015,
+        "unit": "pu",
+        "tolerance": 0.0001,
+        "solution": {
+          "en": "Each command increment is 0.015 pu on the common base. That does not assert equal instantaneous branch responses.",
+          "zh": "每条支路指令增量为共同基值下的 0.015 pu。这并不表示两条支路瞬时响应相等。"
+        }
+      },
+      "decision": {
+        "en": "Show that branch powers sum to total power at every sample. Then explain one unequal transient interval through the common PCC feedback and the different synchronization mechanisms.",
+        "zh": "验证每个采样点的支路功率和等于总功率，再选取一段支路响应不同的暂态，通过共同 PCC 反馈和不同同步机制解释。"
+      },
+      "bridge": {
+        "en": "Parallel hybrid keeps both mechanisms active. Mode-switching hybrid instead changes the active equations, making state meaning and transition policy decisive.",
+        "zh": "并联 hybrid 让两种机制同时运行；模式切换 hybrid 则改变当前生效的方程，因此状态含义与切换策略成为关键。"
+      },
+      "diagram": "parallel-pcc",
+      "phase": 3,
+      "response": {
+        "figure": "parallel-response",
+        "title": {
+          "en": "The branches interact before their powers add",
+          "zh": "先有支路交互，再有功率相加"
+        },
+        "body": {
+          "en": "An equally split command creates distinct branch trajectories at the common PCC. Their sum follows total power at every sample. The figure shows changes from each initial power to make the small branch transients visible; the lab below displays actual powers.",
+          "zh": "平均分配指令后，共同 PCC 上的支路轨迹仍不同，但每个采样点的和都等于总功率。 图中绘制相对各自初值的功率增量，便于看清小幅支路暂态；下方实验显示实际功率。"
+        }
+      },
+      "observations": [
+        {
+          "en": "Each branch command rises by 0.015 pu on the same system base.",
+          "zh": "两条支路指令都在同一系统基值上提高 0.015 pu。"
+        },
+        {
+          "en": "The branch paths differ because PLL/current and droop/angle dynamics interact through V.",
+          "zh": "PLL／电流与 droop／角度动态通过共同 V 交互，因此支路轨迹不同。"
+        },
+        {
+          "en": "At every sample, the two branch powers sum to the total PCC power.",
+          "zh": "在每个采样点，两条支路功率之和都等于 PCC 总功率。"
+        }
       ]
     },
     "C1-08": {
       "lab": "switch",
       "minutes": 90,
       "body": {
-        "en": "<h3>A mode label changes which equations are active</h3>\n<p>A mode-switching inverter uses one active controller at a time. Let m ∈ {GFL, VSM}, with ẋ = f_m(x,u) between events and x⁺ = R(x⁻,u) at a switching event. An active-state vector and a union of saved checkpoint variables are different objects; the union is not automatically a larger ODE.</p>\n<p>This demonstration starts in the four-state GFL realization, applies a command disturbance at 1 s, and switches to the four-state VSM realization at 2 s. Although both vectors have length four, their meanings differ: [δ_PLL, ξ_PLL, i_d, i_q] cannot be copied into [δ_source, ω, P_f, Q_f].</p>\n<h3>Construct a terminal-compatible reset</h3>\n<p>Before switching, record PCC V, injected I, P, Q and PLL ω. The incoming source must satisfy U⁺ = V⁻ + Z_f I⁻. Set its angle to arg(U⁺), its frequency to ω⁻, and its power filters to P⁻ and Q⁻. These conditions reconstruct the same terminal voltage and current through the incoming source impedance.</p>\n<p>Set E₀⁺ = |U⁺| + n_q(Q⁻ − Q*) and P*⁺ = P⁻ + D(ω⁻ − 1). The voltage offset is matched, and initial VSM acceleration is zero. This is an explicit policy that <strong>recalibrates the incoming command and voltage offset</strong>. It does not promise that the pre-switch P* remains unchanged.</p>\n<h3>Measure what is continuous</h3>\n<p>The reset audit measures the largest jump in complex PCC voltage, P, Q and internal frequency. The default should be close to floating-point roundoff. The source angle can change because the incoming source sits behind an impedance while the outgoing angle belongs to the PLL. Angle equality would be the wrong continuity criterion here.</p>\n<p>Algebraic voltage can still jump at the separate disturbance event at 1 s. The reset conditions apply at 2 s and should not be confused with general continuity under every input change.</p>\n<h3>What remains for a detailed transition model</h3>\n<p>The lab has one scheduled transition and no inactive-controller tracking, limiter, dwell timer or protection guard. The source VSM–PLL transition notebook additionally treats hold/release policies and different active-state dimensions. It also separates a stable controller-specific demonstration profile from an unstable same-gain GFM endpoint. Endpoint tests alone do not validate a same-device mode transition.</p>",
-        "zh": "<h3>模式决定当前哪些方程生效</h3>\n<p>模式切换逆变器每次只有一个控制器处于激活状态。令 m ∈ {GFL, VSM}，事件之间满足 ẋ = f_m(x,u)，切换时满足 x⁺ = R(x⁻,u)。活动状态向量与用于保存变量的联合 checkpoint 是两个概念，联合保存表不能直接视为更大的 ODE。</p>\n<p>这个演示先使用四状态 GFL，在 1 s 施加指令扰动，在 2 s 切换到四状态 VSM。虽然两者长度都是四，但含义不同：[δ_PLL, ξ_PLL, i_d, i_q] 不能原样复制为 [δ_source, ω, P_f, Q_f]。</p>\n<h3>构造满足端口关系的重置</h3>\n<p>切换前记录 PCC 电压 V、注入电流 I、P、Q 和 PLL 频率 ω。接入的新源必须满足 U⁺ = V⁻ + Z_f I⁻，角度设为 arg(U⁺)，频率设为 ω⁻，功率滤波状态设为 P⁻、Q⁻。通过新源阻抗，这些条件重建相同的端口电压和电流。</p>\n<p>再设 E₀⁺ = |U⁺| + n_q(Q⁻ − Q*)，P*⁺ = P⁻ + D(ω⁻ − 1)，使电压偏置匹配、初始 VSM 加速度为零。这是<strong>重新校准接入控制器指令和电压偏置</strong>的显式策略，并不保证切换前 P* 原封不动地保留。</p>\n<h3>检查哪些量连续</h3>\n<p>重置检查取复数 PCC 电压、P、Q、内部频率跳变量的最大值；默认结果应接近浮点舍入误差。源角度允许变化，因为接入源位于阻抗之后，而退出角度属于 PLL。这里不应把角度数值相等作为连续性条件。</p>\n<p>1 s 的独立扰动仍可能引起代数电压跳变。重置条件针对 2 s 的切换事件，不意味着任意输入变化都保持连续。</p>\n<h3>详细切换模型还需要什么</h3>\n<p>实验只包含一次定时切换，未加入非活动控制器跟踪、限幅、驻留时间或保护触发。仓库 VSM–PLL 切换 Notebook 进一步处理 hold/release 策略和不同活动状态维度，也区分了稳定的控制器专用演示参数与相同增益下不稳定的 GFM 端点。仅验证两个端点，不能验证同一设备的模式切换。</p>"
+        "en": "<h3>A mode changes the meaning of the active state</h3><p>Between events, the active mode defines ẋ = f_m(x,u). At transition, a reset map defines x⁺ = R(x⁻,u). GFL uses [δ_PLL, ξ_PLL, i_d, i_q]; VSM uses [δ_source, ω, P_f, Q_f]. Equal dimension does not create compatible meaning.</p><p>A saved union of controller checkpoints is useful for implementation, but it is not automatically a larger ODE. Start the reset design from physical terminal quantities rather than array positions.</p><h3>Reconstruct the incoming source from the terminal</h3><p>Record V⁻, I⁻, P⁻, Q⁻ and PLL frequency just before switching. To preserve terminal current through Z_f, the incoming voltage source must be U⁺ = V⁻ + Z_fI⁻. Its source angle is arg U⁺, not necessarily the outgoing PLL angle.</p><p>Initialize VSM speed to the old estimated speed and its power filters to the measured powers. This aligns the incoming model with the outgoing terminal. The reset audit should then show terminal voltage, current, power and internal frequency jumps near roundoff.</p><h3>Make the transition policy explicit</h3><p>The teaching policy also chooses E₀⁺ to match source magnitude and P*⁺ = P⁻ + D(ω⁻ − 1) to make initial acceleration zero. It recalibrates the incoming command. Keeping the old command would be a different policy and could create an accelerating mismatch.</p><p>This experiment schedules one transition. A deployable design also needs guards, inactive-controller tracking, dwell rules, limits and protection. The source transition notebook treats hold/release policies and different active-state dimensions; a good endpoint response alone cannot establish a good transition.</p>",
+        "zh": "<h3>模式改变的是生效方程与状态含义</h3><p>事件之间，当前模式决定 ẋ = f_m(x,u)；切换时，由重置映射决定 x⁺ = R(x⁻,u)。GFL 使用 [δ_PLL, ξ_PLL, i_d, i_q]，VSM 使用 [δ_source, ω, P_f, Q_f]。维数相等，并不意味着状态含义兼容。</p><p>实现中可以保存多个控制器的 checkpoint 并集，但这个并集不会自动变成更高阶 ODE。设计重置时，应从物理端口量出发，而不是从数组位置出发。</p><h3>从端口重建进入模式的内部源</h3><p>切换前记录 V⁻、I⁻、P⁻、Q⁻ 与 PLL 频率。若要使 Z_f 中的端口电流不变，进入模式的内部源必须满足 U⁺ = V⁻ + Z_fI⁻。因此源角度为 arg U⁺，未必等于旧 PLL 角度。</p><p>将 VSM 速度初始化为旧估计速度，功率滤波初始化为测量功率，就能把新模式对齐到旧端口。重置检查应显示电压、电流、功率与内部频率的跳变接近浮点舍入量级。</p><h3>明确切换策略中的取舍</h3><p>教学策略还选择 E₀⁺ 匹配源幅值，并设置 P*⁺ = P⁻ + D(ω⁻ − 1)，使初始加速度为零。它会重新标定进入模式的指令。若坚持保留旧指令，则属于另一种策略，可能引入加速功率偏差。</p><p>本实验只安排一次切换。可部署设计还需要触发条件、非激活控制器跟踪、驻留规则、限幅与保护。源 transition notebook 进一步研究 hold/release 策略与不同激活状态维数；端点响应良好，本身不能证明切换良好。</p>"
       },
       "equations": [
         "\\dot x=f_m(x,u),\\qquad x^+=R_{m^-\\to m^+}(x^-,u)",
@@ -453,14 +1385,142 @@
       "sources": [
         "Coding/Modeling/Single-IBR-Infinite-Bus/10_VSM_PLL_Transition_Infinite_Bus.ipynb",
         "Coding/Modeling/src/ibrsim/models/vsm_pll_transition.py"
+      ],
+      "question": {
+        "en": "What must remain continuous when the controller changes?",
+        "zh": "控制器切换时，究竟什么应该连续？"
+      },
+      "opening": {
+        "en": "The inverter switches from GFL to VSM at 2 s, after a disturbance at 1 s. Both reduced state vectors have length four. Copying one vector into the other is tempting—and physically incorrect.",
+        "zh": "逆变器在 1 s 扰动后，于 2 s 从 GFL 切换到 VSM。两个简化状态向量恰好都长四维，直接复制似乎很方便，却会把不同物理含义的变量混在一起。"
+      },
+      "chapters": [
+        {
+          "title": {
+            "en": "A mode changes the meaning of the active state",
+            "zh": "模式改变的是生效方程与状态含义"
+          },
+          "body": {
+            "en": "<p>Between events, the active mode defines ẋ = f_m(x,u). At transition, a reset map defines x⁺ = R(x⁻,u). GFL uses [δ_PLL, ξ_PLL, i_d, i_q]; VSM uses [δ_source, ω, P_f, Q_f]. Equal dimension does not create compatible meaning.</p><p>A saved union of controller checkpoints is useful for implementation, but it is not automatically a larger ODE. Start the reset design from physical terminal quantities rather than array positions.</p>",
+            "zh": "<p>事件之间，当前模式决定 ẋ = f_m(x,u)；切换时，由重置映射决定 x⁺ = R(x⁻,u)。GFL 使用 [δ_PLL, ξ_PLL, i_d, i_q]，VSM 使用 [δ_source, ω, P_f, Q_f]。维数相等，并不意味着状态含义兼容。</p><p>实现中可以保存多个控制器的 checkpoint 并集，但这个并集不会自动变成更高阶 ODE。设计重置时，应从物理端口量出发，而不是从数组位置出发。</p>"
+          },
+          "figure": "switching-reset",
+          "equations": [
+            0
+          ]
+        },
+        {
+          "title": {
+            "en": "Reconstruct the incoming source from the terminal",
+            "zh": "从端口重建进入模式的内部源"
+          },
+          "body": {
+            "en": "<p>Record V⁻, I⁻, P⁻, Q⁻ and PLL frequency just before switching. To preserve terminal current through Z_f, the incoming voltage source must be U⁺ = V⁻ + Z_fI⁻. Its source angle is arg U⁺, not necessarily the outgoing PLL angle.</p><p>Initialize VSM speed to the old estimated speed and its power filters to the measured powers. This aligns the incoming model with the outgoing terminal. The reset audit should then show terminal voltage, current, power and internal frequency jumps near roundoff.</p>",
+            "zh": "<p>切换前记录 V⁻、I⁻、P⁻、Q⁻ 与 PLL 频率。若要使 Z_f 中的端口电流不变，进入模式的内部源必须满足 U⁺ = V⁻ + Z_fI⁻。因此源角度为 arg U⁺，未必等于旧 PLL 角度。</p><p>将 VSM 速度初始化为旧估计速度，功率滤波初始化为测量功率，就能把新模式对齐到旧端口。重置检查应显示电压、电流、功率与内部频率的跳变接近浮点舍入量级。</p>"
+          },
+          "figure": null,
+          "equations": [
+            1
+          ]
+        },
+        {
+          "title": {
+            "en": "Make the transition policy explicit",
+            "zh": "明确切换策略中的取舍"
+          },
+          "body": {
+            "en": "<p>The teaching policy also chooses E₀⁺ to match source magnitude and P*⁺ = P⁻ + D(ω⁻ − 1) to make initial acceleration zero. It recalibrates the incoming command. Keeping the old command would be a different policy and could create an accelerating mismatch.</p><p>This experiment schedules one transition. A deployable design also needs guards, inactive-controller tracking, dwell rules, limits and protection. The source transition notebook treats hold/release policies and different active-state dimensions; a good endpoint response alone cannot establish a good transition.</p>",
+            "zh": "<p>教学策略还选择 E₀⁺ 匹配源幅值，并设置 P*⁺ = P⁻ + D(ω⁻ − 1)，使初始加速度为零。它会重新标定进入模式的指令。若坚持保留旧指令，则属于另一种策略，可能引入加速功率偏差。</p><p>本实验只安排一次切换。可部署设计还需要触发条件、非激活控制器跟踪、驻留规则、限幅与保护。源 transition notebook 进一步研究 hold/release 策略与不同激活状态维数；端点响应良好，本身不能证明切换良好。</p>"
+          },
+          "figure": null,
+          "equations": [
+            2
+          ]
+        }
+      ],
+      "worked": {
+        "title": {
+          "en": "Work the case",
+          "zh": "把案例算清楚"
+        },
+        "given": {
+          "en": "For a fixed reset example, take V⁻ = 1 + j0, I⁻ = 0.6 + j0 and Z_f = 0.00625 + j0.1 pu. Find the incoming source angle.",
+          "zh": "在一个给定重置算例中，取 V⁻ = 1 + j0、I⁻ = 0.6 + j0、Z_f = 0.00625 + j0.1 pu，求进入模式的内部源角度。"
+        },
+        "steps": [
+          {
+            "en": "Multiply Z_fI⁻ = 0.00375 + j0.06.",
+            "zh": "计算 Z_fI⁻ = 0.00375 + j0.06。"
+          },
+          {
+            "en": "Add terminal voltage: U⁺ = 1.00375 + j0.06.",
+            "zh": "加上端口电压，U⁺ = 1.00375 + j0.06。"
+          },
+          {
+            "en": "Take atan2(0.06, 1.00375) and convert radians to degrees.",
+            "zh": "用 atan2(0.06, 1.00375)，再从弧度换为角度。"
+          }
+        ],
+        "conclusion": {
+          "en": "The incoming source angle is about 3.421°. The PLL can be voltage-aligned at 0° while the internal source requires a nonzero angle.",
+          "zh": "进入模式的源角度约为 3.421°。PLL 可以在端口电压对齐的 0°，而内部源仍然需要非零角度。"
+        }
+      },
+      "numeric": {
+        "question": {
+          "en": "Enter the source angle for this fixed reset example, in degrees.",
+          "zh": "输入上述固定重置算例的内部源角度，单位 °。"
+        },
+        "answer": 3.420832873815925,
+        "unit": "°",
+        "tolerance": 0.01,
+        "solution": {
+          "en": "The incoming source angle is about 3.421°. The PLL can be voltage-aligned at 0° while the internal source requires a nonzero angle.",
+          "zh": "进入模式的源角度约为 3.421°。PLL 可以在端口电压对齐的 0°，而内部源仍然需要非零角度。"
+        }
+      },
+      "decision": {
+        "en": "Write a continuity checklist and a command policy. Inspect the 2 s reset separately from the 1 s disturbance, then explain why angle equality is the wrong criterion here.",
+        "zh": "写出连续性检查清单与指令策略。将 2 s 的重置与 1 s 的扰动分别检查，再解释为什么本例不应要求两个角度相等。"
+      },
+      "bridge": {
+        "en": "The final lesson puts all these interfaces into a reproducible comparison and turns curves into a defensible engineering recommendation.",
+        "zh": "最后一讲把这些接口组织成可复现的比较，让曲线成为有依据的工程判断。"
+      },
+      "diagram": "switching-reset",
+      "phase": 3,
+      "response": {
+        "figure": "switch-response",
+        "title": {
+          "en": "Separate the disturbance from the reset",
+          "zh": "把扰动与重置分开读"
+        },
+        "body": {
+          "en": "The disturbance is at 1 s; GFL-to-VSM switching is at 2 s. Read the terminal-compatible transition separately from the initial event.",
+          "zh": "扰动位于 1 s，GFL→VSM 切换位于 2 s。端口兼容的切换应与先前扰动分别解读。"
+        }
+      },
+      "observations": [
+        {
+          "en": "The 1 s command disturbance and the 2 s mode transition are distinct events.",
+          "zh": "1 s 的指令扰动与 2 s 的模式切换，是两个不同事件。"
+        },
+        {
+          "en": "At 2 s, the incoming source reconstructs the previous terminal using U⁺ = V⁻ + Z_fI⁻.",
+          "zh": "2 s 时，进入模式通过 U⁺ = V⁻ + Z_fI⁻ 重建原端口。"
+        },
+        {
+          "en": "Power continuity must be paired with voltage, current and frequency checks in the reset audit.",
+          "zh": "功率连续还应结合重置检查中的电压、电流与频率共同核对。"
+        }
       ]
     },
     "C1-09": {
       "lab": "compare",
       "minutes": 90,
       "body": {
-        "en": "<h3>Choose targets at the same physical port</h3>\n<p>A fair comparison starts from common PoC P, Q, voltage, frequency, system base and grid conditions. Controller commands may differ to realize that target. In the lab, total P = 0.6 pu and Q = 0 for GFL, droop, VSM and parallel cases. The parallel case divides the terminal target into two equal branch contributions.</p>\n<p>Use S_b = 10 kVA, V_b = 400 V and f_b = 50 Hz. Grid magnitude is initially 1 pu, X/R = 10 and |Z_g| = 1/SCR. These assumptions define the teaching short-circuit ratio on a common system base. Parallel branch ratings are not used to silently change the grid impedance.</p>\n<h3>Solve equilibrium before applying a disturbance</h3>\n<p>At the terminal, S = VI* and V = 1 + Z_g I. Eliminating I gives V = 1 + Z_g conj(S/V). Select the high-voltage root, initialize each controller in its own coordinates, and verify max|f(x₀,u₀)|. Droop and VSM Q* offsets compensate the source-impedance voltage drop; forcing identical raw Q* would produce different terminal operating points.</p>\n<h3>Keep the event protocol reproducible</h3>\n<p>Integrate 0–1 s with the old input, then 1–4 s with the new input. The solver places events exactly on integration boundaries; adjacent samples at 1 s show the before and after values. This prevents the Runge–Kutta stages from averaging across a discontinuity. Switch experiments additionally end a segment at 2 s and apply an explicit reset.</p>\n<p>The default time step is 0.5 ms. Re-run with half that value in the Python experiment and compare trajectories, rather than treating a smooth plot as evidence of adequate numerical accuracy.</p>\n<h3>Separate three kinds of evidence</h3>\n<div class=\"ibr-table\"><table><thead><tr><th>Evidence</th><th>Check here</th><th>What it establishes</th></tr></thead><tbody><tr><td>Equation consistency</td><td>Equilibrium, KCL, power sums and reset residuals</td><td>The stated equations and interface agree</td></tr><tr><td>Model validity</td><td>Compare against an explicit higher-order realization over a declared range</td><td>A bounded approximation error for that study</td></tr><tr><td>External validation</td><td>Independent measurements or a qualified reference model</td><td>Agreement with that external evidence</td></tr></tbody></table></div>\n<p>The website experiments establish the first row. The source six-family comparison notebook retains stable and unstable rows explicitly and documents its common operating-point protocol. Do not omit an unstable model merely to produce attractive overlays, or infer a global controller ranking from one step test.</p>\n<h3>Course project</h3>\n<p>Submit a model contract, your parameter snapshot and Python experiment, a matched-equilibrium table, two disturbance comparisons, and a short explanation of observed differences. Include numerical refinement, retained outputs and validity limits. An extended project can repeat the protocol using the source full-order notebooks and report how the teaching-model conclusions change.</p><p>The default 4 s window may end before VSM settles, especially with the retained 0.1 s power filter. Extend the duration to 20 s before discussing a steady value. Some parameter choices can produce growing oscillations; preserve that result and check the model domain.</p>",
-        "zh": "<h3>在同一物理端口规定目标</h3>\n<p>公平比较先统一 PoC 的 P、Q、电压、频率、系统基值和电网条件；实现这些目标所需的控制指令可以不同。实验中，GFL、droop、VSM、parallel 的总 P 均为 0.6 pu、Q 均为零；parallel 将端口目标平均分给两个支路。</p>\n<p>基值为 S_b = 10 kVA、V_b = 400 V、f_b = 50 Hz。初始电网幅值 1 pu，X/R = 10，|Z_g| = 1/SCR。这里的 SCR 基于共同系统基值；并联支路额定容量不会悄悄改变电网阻抗。</p>\n<h3>先求平衡点，再加扰动</h3>\n<p>端口满足 S = VI*、V = 1 + Z_g I。消去 I 后，得到 V = 1 + Z_g conj(S/V)。选择高电压根，再分别在各控制器的坐标中初始化，并检查 max|f(x₀,u₀)|。Droop、VSM 的 Q* 偏置用于补偿源阻抗电压降；强制原始 Q* 相同，会得到不同的端口运行点。</p>\n<h3>保持可复现的事件协议</h3>\n<p>先以旧输入积分 0–1 s，再以新输入积分 1–4 s。求解器将事件精确放在积分边界，1 s 的相邻采样显示事件前后值，避免 Runge–Kutta 子步跨越不连续点而平均输入。切换实验还在 2 s 结束一段积分，并应用显式重置。</p>\n<p>默认积分步长为 0.5 ms。可在 Python 实验中将步长减半并比较轨迹；曲线平滑并不能证明数值精度足够。</p>\n<h3>区分三类证据</h3>\n<div class=\"ibr-table\"><table><thead><tr><th>证据类别</th><th>检查方式</th><th>能够证明什么</th></tr></thead><tbody><tr><td>方程一致性</td><td>平衡点、KCL、功率求和、重置残差</td><td>所声明的方程与接口一致</td></tr><tr><td>模型有效性</td><td>在声明范围内与显式高阶实现比较</td><td>该研究范围内的近似误差有界</td></tr><tr><td>外部验证</td><td>独立测量或合格参考模型</td><td>与该外部证据的符合程度</td></tr></tbody></table></div>\n<p>网页实验完成的是第一类检查。源仓库六类别比较 Notebook 显式保留稳定与不稳定条目，记录共同运行点协议。不要为叠加出漂亮曲线而删掉不稳定模型，也不要从一次阶跃实验推导所有控制类别的全局排名。</p>\n<h3>结课项目</h3>\n<p>提交模型约定、参数快照和 Python 实验、匹配平衡点表、两类扰动比较，以及响应差异解释。说明数值步长细化结果、保留输出和适用范围。进阶项目可将同一协议用于仓库完整阶次 Notebook，再说明教学模型中的结论如何变化。</p><p>默认 4 s 窗口可能在 VSM 收敛前结束，尤其这里保留了 0.1 s 功率滤波。讨论稳态值前，可将时长延长至 20 s。某些参数组合可能出现增长的振荡；应保留该结果，并检查模型适用域。</p>"
+        "en": "<h3>Match the physical target, not every input number</h3><p>Use one 10 kVA, 400 V, 50 Hz base, one PoC and one grid. Set total initial P = 0.6 pu and Q = 0; the parallel case splits that target between branches. Solve S = VI* with V = 1 + Z_gI, selecting the high-voltage power-flow root.</p><p>Each controller must realize this point in its own coordinates. Droop and VSM need Q* offsets to support their internal voltage drop. Different raw commands can therefore produce the same physical target, which is the comparison we need.</p><h3>Verify equilibrium and place events exactly</h3><p>Check max|f(x₀,u₀)| before applying a disturbance. Integrate up to 1 s under the old input, then start a new segment under the changed input. Duplicate-time samples capture before and after values without averaging a discontinuity across Runge–Kutta stages.</p><p>The default step is 0.5 ms. Repeat with 0.25 ms and compare trajectories on the same output grid. A smooth line is a rendering property; refinement is evidence about the numerical solution. Switching cases need an additional segment boundary and reset at 2 s.</p><h3>Separate consistency, validity and validation</h3><p>Equilibrium, KCL, power sums and reset residuals establish consistency with the stated equations. Comparing against a higher-order realization over a declared range assesses approximation validity. Independent measurements or a qualified reference are needed for external validation.</p><p>The browser experiments provide the first kind of evidence. Retain unstable results rather than hiding them. Extend the 4 s window when VSM settling is unresolved. Conclusions should identify the model, disturbance and parameter range instead of announcing a global controller ranking.</p><h3>Turn the comparison into a decision brief</h3><p>Submit a short brief with a model contract, matched-equilibrium table, two controlled disturbances and an explanation of the observed differences. Attach the parameter snapshot, executable experiment and a refinement check.</p><p>End with a recommendation proportional to the evidence: which realization is sufficient for the stated study, what mechanism explains its response, and which additional dynamics must be tested before extending the conclusion. The full-order source notebooks offer the next level of investigation.</p>",
+        "zh": "<h3>匹配物理目标，而非所有输入数字</h3><p>统一采用 10 kVA、400 V、50 Hz 基值、同一个 PoC 和同一个电网。总初始 P = 0.6 pu、Q = 0，并联模型再将目标分到各支路。联立 S = VI* 与 V = 1 + Z_gI，选择潮流高电压解。</p><p>每个控制器都必须在自身坐标中实现这一点。droop、VSM 需要 Q* 偏置来支撑内部电压降。因此，不同原始指令可以对应同一物理目标，这才是我们所需的比较。</p><h3>先验证稳态，再准确放置事件</h3><p>扰动前先检查 max|f(x₀,u₀)|。用旧输入积分到 1 s，再用新输入启动下一段。相同时间戳的前后采样保留突变两侧数值，避免 Runge–Kutta 阶段跨越不连续点进行平均。</p><p>默认步长为 0.5 ms，再用 0.25 ms 重算并在共同输出网格比较轨迹。曲线光滑只是绘图特性；步长细化才提供数值解的证据。切换实验还要在 2 s 增加分段边界与重置。</p><h3>区分自洽、有效性与外部验证</h3><p>稳态、KCL、功率和与重置残差，检查的是与所声明方程是否自洽。与更完整模型在指定范围内比较，评估的是近似有效性。独立测量或经过确认的参考模型，才提供外部验证。</p><p>浏览器实验提供第一类证据。不稳定结果应保留；若 4 s 内无法判断 VSM 收敛，应延长窗口。结论应明确模型、扰动与参数范围，而不是宣布某控制器普遍更优。</p><h3>把模型比较写成决策报告</h3><p>提交一份简短决策报告，包含模型契约、匹配稳态表、两种受控扰动，以及对响应差异的机理解释；附上参数快照、可执行实验和步长细化结果。</p><p>最后给出与证据相称的建议：哪个实现足以回答当前问题，什么机理解释它的响应，以及扩展结论前还需测试哪些动态。源仓库完整阶次 notebook 提供下一层研究入口。</p>"
       },
       "equations": [
         "S=VI^*,\\qquad V=1+Z_g\\overline{S/V},\\qquad\\lVert f(x_0,u_0)\\rVert_\\infty<\\varepsilon",
@@ -509,7 +1569,193 @@
       "sources": [
         "Coding/Modeling/Single-IBR-Infinite-Bus/12_Single_IBR_Control_Family_Comparison.ipynb",
         "Research-Xirui-Zhang/Coding/xirui_low_frequency/model.py"
+      ],
+      "question": {
+        "en": "What evidence makes a model comparison credible?",
+        "zh": "什么证据能让模型比较可信？"
+      },
+      "opening": {
+        "en": "A review panel asks which controller is best. Four attractive curves are insufficient: the starting point, event, observation port and numerical accuracy must agree before the differences mean anything.",
+        "zh": "评审希望知道哪种控制器更好。但四条漂亮曲线还不够：起始工作点、扰动、测量端口和数值精度必须先一致，曲线差异才具有可解释的意义。"
+      },
+      "chapters": [
+        {
+          "title": {
+            "en": "Match the physical target, not every input number",
+            "zh": "匹配物理目标，而非所有输入数字"
+          },
+          "body": {
+            "en": "<p>Use one 10 kVA, 400 V, 50 Hz base, one PoC and one grid. Set total initial P = 0.6 pu and Q = 0; the parallel case splits that target between branches. Solve S = VI* with V = 1 + Z_gI, selecting the high-voltage power-flow root.</p><p>Each controller must realize this point in its own coordinates. Droop and VSM need Q* offsets to support their internal voltage drop. Different raw commands can therefore produce the same physical target, which is the comparison we need.</p>",
+            "zh": "<p>统一采用 10 kVA、400 V、50 Hz 基值、同一个 PoC 和同一个电网。总初始 P = 0.6 pu、Q = 0，并联模型再将目标分到各支路。联立 S = VI* 与 V = 1 + Z_gI，选择潮流高电压解。</p><p>每个控制器都必须在自身坐标中实现这一点。droop、VSM 需要 Q* 偏置来支撑内部电压降。因此，不同原始指令可以对应同一物理目标，这才是我们所需的比较。</p>"
+          },
+          "figure": "comparison-protocol",
+          "equations": [
+            0,
+            1
+          ]
+        },
+        {
+          "title": {
+            "en": "Verify equilibrium and place events exactly",
+            "zh": "先验证稳态，再准确放置事件"
+          },
+          "body": {
+            "en": "<p>Check max|f(x₀,u₀)| before applying a disturbance. Integrate up to 1 s under the old input, then start a new segment under the changed input. Duplicate-time samples capture before and after values without averaging a discontinuity across Runge–Kutta stages.</p><p>The default step is 0.5 ms. Repeat with 0.25 ms and compare trajectories on the same output grid. A smooth line is a rendering property; refinement is evidence about the numerical solution. Switching cases need an additional segment boundary and reset at 2 s.</p>",
+            "zh": "<p>扰动前先检查 max|f(x₀,u₀)|。用旧输入积分到 1 s，再用新输入启动下一段。相同时间戳的前后采样保留突变两侧数值，避免 Runge–Kutta 阶段跨越不连续点进行平均。</p><p>默认步长为 0.5 ms，再用 0.25 ms 重算并在共同输出网格比较轨迹。曲线光滑只是绘图特性；步长细化才提供数值解的证据。切换实验还要在 2 s 增加分段边界与重置。</p>"
+          },
+          "figure": null,
+          "equations": [
+            2
+          ]
+        },
+        {
+          "title": {
+            "en": "Separate consistency, validity and validation",
+            "zh": "区分自洽、有效性与外部验证"
+          },
+          "body": {
+            "en": "<p>Equilibrium, KCL, power sums and reset residuals establish consistency with the stated equations. Comparing against a higher-order realization over a declared range assesses approximation validity. Independent measurements or a qualified reference are needed for external validation.</p><p>The browser experiments provide the first kind of evidence. Retain unstable results rather than hiding them. Extend the 4 s window when VSM settling is unresolved. Conclusions should identify the model, disturbance and parameter range instead of announcing a global controller ranking.</p>",
+            "zh": "<p>稳态、KCL、功率和与重置残差，检查的是与所声明方程是否自洽。与更完整模型在指定范围内比较，评估的是近似有效性。独立测量或经过确认的参考模型，才提供外部验证。</p><p>浏览器实验提供第一类证据。不稳定结果应保留；若 4 s 内无法判断 VSM 收敛，应延长窗口。结论应明确模型、扰动与参数范围，而不是宣布某控制器普遍更优。</p>"
+          },
+          "figure": null,
+          "equations": []
+        },
+        {
+          "title": {
+            "en": "Turn the comparison into a decision brief",
+            "zh": "把模型比较写成决策报告"
+          },
+          "body": {
+            "en": "<p>Submit a short brief with a model contract, matched-equilibrium table, two controlled disturbances and an explanation of the observed differences. Attach the parameter snapshot, executable experiment and a refinement check.</p><p>End with a recommendation proportional to the evidence: which realization is sufficient for the stated study, what mechanism explains its response, and which additional dynamics must be tested before extending the conclusion. The full-order source notebooks offer the next level of investigation.</p>",
+            "zh": "<p>提交一份简短决策报告，包含模型契约、匹配稳态表、两种受控扰动，以及对响应差异的机理解释；附上参数快照、可执行实验和步长细化结果。</p><p>最后给出与证据相称的建议：哪个实现足以回答当前问题，什么机理解释它的响应，以及扩展结论前还需测试哪些动态。源仓库完整阶次 notebook 提供下一层研究入口。</p>"
+          },
+          "figure": null,
+          "equations": []
+        }
+      ],
+      "worked": {
+        "title": {
+          "en": "Work the case",
+          "zh": "把案例算清楚"
+        },
+        "given": {
+          "en": "For an equilibrium illustration, required source E is 1.01 pu, E₀ = 1, terminal Q = 0 and n_q = 0.0325. Find the matching Q*.",
+          "zh": "在一个稳态匹配算例中，所需源幅值 E = 1.01 pu、E₀ = 1、端口 Q = 0、n_q = 0.0325，求匹配的 Q*。"
+        },
+        "steps": [
+          {
+            "en": "At equilibrium, Q_f = terminal Q = 0.",
+            "zh": "稳态 Q_f 等于端口 Q，即 0。"
+          },
+          {
+            "en": "Rearrange E = E₀ − n_q(Q_f − Q*).",
+            "zh": "整理 E = E₀ − n_q(Q_f − Q*)。"
+          },
+          {
+            "en": "Thus Q* = (1.01 − 1)/0.0325.",
+            "zh": "得到 Q* = (1.01 − 1)/0.0325。"
+          }
+        ],
+        "conclusion": {
+          "en": "The matching command is 0.307692 pu despite zero terminal Q. The given source amplitude is illustrative, not the default SCR = 5 amplitude.",
+          "zh": "匹配指令为 0.307692 pu，而端口 Q 仍然为零。给定源幅值是独立算例，并非默认 SCR = 5 的幅值。"
+        }
+      },
+      "numeric": {
+        "question": {
+          "en": "Enter Q* for this fixed equilibrium illustration.",
+          "zh": "输入上述固定稳态算例中的 Q*。"
+        },
+        "answer": 0.3076923076923077,
+        "unit": "pu",
+        "tolerance": 0.001,
+        "solution": {
+          "en": "The matching command is 0.307692 pu despite zero terminal Q. The given source amplitude is illustrative, not the default SCR = 5 amplitude.",
+          "zh": "匹配指令为 0.307692 pu，而端口 Q 仍然为零。给定源幅值是独立算例，并非默认 SCR = 5 的幅值。"
+        }
+      },
+      "decision": {
+        "en": "Prepare a two-page decision brief. Give equal attention to the model contract, derivation, experiment and strength of evidence; include unresolved limits in the recommendation.",
+        "zh": "完成两页决策报告，均衡呈现模型契约、推导、实验与证据强度，并把尚未解决的适用边界写进建议。"
+      },
+      "bridge": {
+        "en": "The modeling course ends here. A physics-informed or neural-ODE surrogate should inherit this same state definition, port convention, equilibrium and event protocol.",
+        "zh": "建模课程至此闭环。后续 physics-informed 或 neural ODE 代理模型，应继承同样的状态定义、端口约定、稳态与事件协议。"
+      },
+      "diagram": "comparison-protocol",
+      "phase": 3,
+      "response": {
+        "figure": "comparison-response",
+        "title": {
+          "en": "Curves become evidence only after the protocol",
+          "zh": "先有比较协议，曲线才成为证据"
+        },
+        "body": {
+          "en": "Matched PoC power and an identical total command step isolate the stated model differences. The overlay does not establish a universal ranking.",
+          "zh": "匹配 PoC 功率并施加相同总指令阶跃，才能识别所声明模型的差异；叠图不能建立普遍排名。"
+        }
+      },
+      "observations": [
+        {
+          "en": "All cases begin at the same total PoC P and Q, even though raw commands differ.",
+          "zh": "所有模型从相同 PoC 总 P、Q 出发，原始控制指令仍可不同。"
+        },
+        {
+          "en": "One total command step exposes the model-specific transient mechanisms.",
+          "zh": "相同总指令阶跃揭示各模型的暂态机理。"
+        },
+        {
+          "en": "Inspect equilibrium and timestep refinement before attributing a difference to control design.",
+          "zh": "先检查稳态与步长细化，再将差异归因于控制设计。"
+        }
       ]
     }
-  }
+  },
+  "phases": [
+    {
+      "number": "01",
+      "title": {
+        "en": "Establish the physical foundation",
+        "zh": "建立物理基础"
+      },
+      "question": {
+        "en": "What must the model retain?",
+        "zh": "模型必须保留什么？"
+      },
+      "description": {
+        "en": "Boundaries, coordinates and stored energy make the equations interpretable.",
+        "zh": "边界、坐标与储能，让方程对应清楚的物理对象。"
+      }
+    },
+    {
+      "number": "02",
+      "title": {
+        "en": "Understand the synchronization mechanism",
+        "zh": "理解同步机制"
+      },
+      "question": {
+        "en": "Where does the angle come from?",
+        "zh": "角度究竟从哪里来？"
+      },
+      "description": {
+        "en": "Follow an acquired angle, generate one through droop, then add speed dynamics.",
+        "zh": "从 PLL 获取角度，到 droop 生成角度，再加入速度动态。"
+      }
+    },
+    {
+      "number": "03",
+      "title": {
+        "en": "Make a defensible engineering judgment",
+        "zh": "形成有依据的工程判断"
+      },
+      "question": {
+        "en": "What evidence supports the decision?",
+        "zh": "什么证据支持决策？"
+      },
+      "description": {
+        "en": "Connect branches, design transitions and compare models on common terms.",
+        "zh": "连接支路、设计切换，并在共同条件下比较模型。"
+      }
+    }
+  ]
 }

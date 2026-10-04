@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1040 475" role="img" aria-labelledby="title desc" lang="zh">
+<title id="title">切换是不同状态含义之间的重置映射</title><desc id="desc">切换是不同状态含义之间的重置映射. 课程绘制的结构图或计算响应。</desc>
+<defs><marker id="arrow0" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#17374b"/></marker><marker id="arrow1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#2f7095"/></marker><marker id="arrow2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#bd733d"/></marker><marker id="arrow3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#377e70"/></marker><marker id="arrow4" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#667c87"/></marker></defs>
+<style>text{font-family:Arial,"PingFang SC","Microsoft YaHei",sans-serif} .small{font-size:17px} .label{font-size:20px;font-weight:600} .note{font-size:18px} .title{font-size:26px;font-weight:600}</style>
+<rect width="1040" height="475" rx="18" fill="#fbfcfc"/>
+<rect x="35" y="78" width="315" height="120" rx="10" fill="#fff" stroke="#2f7095"/>
+<text x="192.5" y="108" font-size="20" fill="#2f7095" text-anchor="middle" font-weight="600">GFL</text>
+<text x="192.5" y="182" font-size="16" fill="#667c87" text-anchor="middle" font-weight="400">[δ_PLL, ξ_PLL, i_d, i_q]</text>
+<rect x="690" y="78" width="315" height="120" rx="10" fill="#fff" stroke="#377e70"/>
+<text x="847.5" y="108" font-size="20" fill="#377e70" text-anchor="middle" font-weight="600">VSM</text>
+<text x="847.5" y="182" font-size="16" fill="#667c87" text-anchor="middle" font-weight="400">[δ_source, ω, P_f, Q_f]</text>
+<path d="M350 138L681 138" fill="none" stroke="#bd733d" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow2)"/>
+<text x="520" y="110" font-size="22" fill="#bd733d" text-anchor="middle" font-weight="600">R(x⁻, u)</text>
+<rect x="232" y="258" width="575" height="132" rx="10" fill="#f5f8f8" stroke="#d7e1e5"/>
+<text x="520" y="294" font-size="22" fill="#17374b" text-anchor="middle" font-weight="600">先匹配端口，再初始化新状态</text>
+<text x="520" y="330" font-size="25" fill="#377e70" text-anchor="middle" font-weight="400">U⁺ = V⁻ + Z_f I⁻</text>
+<text x="520" y="364" font-size="21" fill="#17374b" text-anchor="middle" font-weight="400">ω⁺ = ω⁻    P_f⁺ = P⁻    Q_f⁺ = Q⁻</text>
+<path d="M191 198 V325 H221" fill="none" stroke="#2f7095" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow1)"/>
+<path d="M818 325 H848 V208" fill="none" stroke="#377e70" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow3)"/>
+<text x="32" y="451" font-size="17" fill="#667c87" text-anchor="start" font-weight="400">演示重置还校准 P*、E₀；端口量连续不要求内部源角度相等。</text>
+</svg>

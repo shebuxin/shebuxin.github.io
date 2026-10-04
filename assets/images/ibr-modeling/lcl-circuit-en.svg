@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1040 440" role="img" aria-labelledby="title desc" lang="en">
+<title id="title">Three energy stores, six electrical states</title><desc id="desc">Three energy stores, six electrical states. Course-authored schematic or calculated response.</desc>
+<defs><marker id="arrow0" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#17374b"/></marker><marker id="arrow1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#2f7095"/></marker><marker id="arrow2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#bd733d"/></marker><marker id="arrow3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#377e70"/></marker><marker id="arrow4" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#667c87"/></marker></defs>
+<style>text{font-family:Arial,"PingFang SC","Microsoft YaHei",sans-serif} .small{font-size:17px} .label{font-size:20px;font-weight:600} .note{font-size:18px} .title{font-size:26px;font-weight:600}</style>
+<rect width="1040" height="440" rx="18" fill="#fbfcfc"/>
+<text x="32" y="44" font-size="17" fill="#2f7095" text-anchor="start" font-weight="600">AVERAGED ELECTRICAL PLANT</text>
+<rect x="55" y="115" width="115" height="140" rx="10" fill="#eef4f7" stroke="#2f7095"/>
+<text x="112" y="162" font-size="25" fill="#2f7095" text-anchor="middle" font-weight="600">VSC</text>
+<text x="112" y="192" font-size="18" fill="#2f7095" text-anchor="middle" font-weight="400">average u</text>
+<path d="M170 180L220 180" fill="none" stroke="#17374b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M220 180 c0 -22 20.0 -22 20.0 0 c0 -22 20.0 -22 20.0 0 c0 -22 20.0 -22 20.0 0 c0 -22 20.0 -22 20.0 0" fill="none" stroke="#17374b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M300 180L425 180" fill="none" stroke="#17374b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="425" cy="180" r="4" fill="#17374b" stroke="#17374b" stroke-width="2"/>
+<path d="M425 180L425 238" fill="none" stroke="#17374b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M400 238L450 238" fill="none" stroke="#17374b" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M400 250L450 250" fill="none" stroke="#17374b" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M425 250L425 328" fill="none" stroke="#17374b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M425 180L525 180" fill="none" stroke="#17374b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M525 180 c0 -22 20.0 -22 20.0 0 c0 -22 20.0 -22 20.0 0 c0 -22 20.0 -22 20.0 0 c0 -22 20.0 -22 20.0 0" fill="none" stroke="#17374b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M605 180L690 180" fill="none" stroke="#17374b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="690" cy="180" r="4" fill="#17374b" stroke="#17374b" stroke-width="2"/>
+<path d="M690 180L755 180" fill="none" stroke="#17374b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M755 180 c0 -22 20.0 -22 20.0 0 c0 -22 20.0 -22 20.0 0 c0 -22 20.0 -22 20.0 0 c0 -22 20.0 -22 20.0 0" fill="none" stroke="#17374b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M835 180L920 180" fill="none" stroke="#17374b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="949" cy="180" r="30" fill="#fff" stroke="#17374b" stroke-width="2"/>
+<text x="949" y="189" font-size="29" fill="#17374b" text-anchor="middle" font-weight="400">~</text>
+<path d="M949 210L949 328" fill="none" stroke="#17374b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M112 255L112 328" fill="none" stroke="#17374b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M112 328L949 328" fill="none" stroke="#17374b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="260" y="132" font-size="20" fill="#17374b" text-anchor="middle" font-weight="400">r₁, ℓ₁</text>
+<text x="560" y="132" font-size="20" fill="#17374b" text-anchor="middle" font-weight="400">r_f2, ℓ_f2</text>
+<text x="793" y="132" font-size="20" fill="#17374b" text-anchor="middle" font-weight="400">r_g, ℓ_g</text>
+<text x="456" y="246" font-size="22" fill="#377e70" text-anchor="start" font-weight="400">c</text>
+<text x="425" y="365" font-size="20" fill="#377e70" text-anchor="middle" font-weight="600">v_cd , v_cq</text>
+<text x="690" y="223" font-size="20" fill="#2f7095" text-anchor="middle" font-weight="600">PoC</text>
+<text x="949" y="259" font-size="22" fill="#17374b" text-anchor="middle" font-weight="400">V_g</text>
+<path d="M310 156L370 156" fill="none" stroke="#bd733d" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow2)"/>
+<text x="340" y="102" font-size="20" fill="#bd733d" text-anchor="middle" font-weight="600">i₁d , i₁q</text>
+<path d="M622 155L672 155" fill="none" stroke="#bd733d" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow2)"/>
+<text x="650" y="102" font-size="20" fill="#bd733d" text-anchor="middle" font-weight="600">i₂d , i₂q</text>
+<text x="32" y="416" font-size="17" fill="#667c87" text-anchor="start" font-weight="400">Power at the capacitor and at PoC are distinct measurements.</text>
+</svg>

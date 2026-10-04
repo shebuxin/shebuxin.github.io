@@ -46,8 +46,8 @@
   <script defer src="{{ '/assets/js/pandapower-implementation-lesson.js' | relative_url }}?v={{ site.github.build_revision | default: 'code-guide-20261003' }}"></script>
 {% endif %}
 
-{% if page.ibr_modeling and page.module_id %}
-  <script defer src="{{ '/assets/js/course-python-runner.js' | relative_url }}?v={{ site.github.build_revision | default: 'code-guide-20261003' }}"></script>
+{% if page.ibr_modeling %}
+  {% if page.module_id %}<script defer src="{{ '/assets/js/course-python-runner.js' | relative_url }}?v={{ site.github.build_revision | default: 'code-guide-20261003' }}"></script>{% endif %}
   <script defer src="{{ '/assets/js/ibr-modeling-lesson.js' | relative_url }}"></script>
 {% endif %}
 

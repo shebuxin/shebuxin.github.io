@@ -1,0 +1,254 @@
+{
+  "course-map": {
+    "en": {
+      "path": "assets/images/ibr-modeling/course-map-en.svg",
+      "title": "A learning path from physics to model judgment",
+      "width": 520,
+      "height": 485
+    },
+    "zh": {
+      "path": "assets/images/ibr-modeling/course-map-zh.svg",
+      "title": "从物理电路走向模型判断的学习路径",
+      "width": 520,
+      "height": 485
+    }
+  },
+  "model-boundaries": {
+    "en": {
+      "path": "assets/images/ibr-modeling/model-boundaries-en.svg",
+      "title": "Choose a representation from the question",
+      "width": 1040,
+      "height": 420
+    },
+    "zh": {
+      "path": "assets/images/ibr-modeling/model-boundaries-zh.svg",
+      "title": "由研究问题选择模型表示",
+      "width": 1040,
+      "height": 420
+    }
+  },
+  "reference-frames": {
+    "en": {
+      "path": "assets/images/ibr-modeling/reference-frames-en.svg",
+      "title": "Rotate both vectors; physical power is invariant",
+      "width": 1040,
+      "height": 450
+    },
+    "zh": {
+      "path": "assets/images/ibr-modeling/reference-frames-zh.svg",
+      "title": "同时旋转电压和电流，物理功率保持不变",
+      "width": 1040,
+      "height": 450
+    }
+  },
+  "lcl-circuit": {
+    "en": {
+      "path": "assets/images/ibr-modeling/lcl-circuit-en.svg",
+      "title": "Three energy stores, six electrical states",
+      "width": 1040,
+      "height": 440
+    },
+    "zh": {
+      "path": "assets/images/ibr-modeling/lcl-circuit-zh.svg",
+      "title": "三类储能元件，六个电气状态",
+      "width": 1040,
+      "height": 440
+    }
+  },
+  "gfl-control": {
+    "en": {
+      "path": "assets/images/ibr-modeling/gfl-control-en.svg",
+      "title": "A GFL loop follows voltage angle and regulates current",
+      "width": 1040,
+      "height": 490
+    },
+    "zh": {
+      "path": "assets/images/ibr-modeling/gfl-control-zh.svg",
+      "title": "GFL 跟踪电压角度，再调节注入电流",
+      "width": 1040,
+      "height": 490
+    }
+  },
+  "droop-control": {
+    "en": {
+      "path": "assets/images/ibr-modeling/droop-control-en.svg",
+      "title": "Power mismatch changes frequency, angle and electrical power",
+      "width": 1040,
+      "height": 485
+    },
+    "zh": {
+      "path": "assets/images/ibr-modeling/droop-control-zh.svg",
+      "title": "功率偏差依次改变频率、角度和电气功率",
+      "width": 1040,
+      "height": 485
+    }
+  },
+  "vsm-mechanism": {
+    "en": {
+      "path": "assets/images/ibr-modeling/vsm-mechanism-en.svg",
+      "title": "The same steady slope, a different frequency state",
+      "width": 1040,
+      "height": 455
+    },
+    "zh": {
+      "path": "assets/images/ibr-modeling/vsm-mechanism-zh.svg",
+      "title": "相同稳态斜率，不同频率动态",
+      "width": 1040,
+      "height": 455
+    }
+  },
+  "parallel-pcc": {
+    "en": {
+      "path": "assets/images/ibr-modeling/parallel-pcc-en.svg",
+      "title": "Two active branches, one physical PCC",
+      "width": 1040,
+      "height": 480
+    },
+    "zh": {
+      "path": "assets/images/ibr-modeling/parallel-pcc-zh.svg",
+      "title": "两个同时工作的支路，同一个物理 PCC",
+      "width": 1040,
+      "height": 480
+    }
+  },
+  "switching-reset": {
+    "en": {
+      "path": "assets/images/ibr-modeling/switching-reset-en.svg",
+      "title": "A transition is a reset map between distinct state meanings",
+      "width": 1040,
+      "height": 475
+    },
+    "zh": {
+      "path": "assets/images/ibr-modeling/switching-reset-zh.svg",
+      "title": "切换是不同状态含义之间的重置映射",
+      "width": 1040,
+      "height": 475
+    }
+  },
+  "comparison-protocol": {
+    "en": {
+      "path": "assets/images/ibr-modeling/comparison-protocol-en.svg",
+      "title": "A comparison requires a common operating point and protocol",
+      "width": 1040,
+      "height": 450
+    },
+    "zh": {
+      "path": "assets/images/ibr-modeling/comparison-protocol-zh.svg",
+      "title": "比较需要共同运行点和一致的实验协议",
+      "width": 1040,
+      "height": 450
+    }
+  },
+  "frame-response": {
+    "en": {
+      "path": "assets/images/ibr-modeling/frame-response-en.svg",
+      "title": "A 20° coordinate change preserves P and Q",
+      "width": 1040,
+      "height": 445
+    },
+    "zh": {
+      "path": "assets/images/ibr-modeling/frame-response-zh.svg",
+      "title": "20° 坐标偏差不改变 P、Q",
+      "width": 1040,
+      "height": 445
+    }
+  },
+  "lcl-response": {
+    "en": {
+      "path": "assets/images/ibr-modeling/lcl-response-en.svg",
+      "title": "A voltage command excites the electrical plant",
+      "width": 1040,
+      "height": 445
+    },
+    "zh": {
+      "path": "assets/images/ibr-modeling/lcl-response-zh.svg",
+      "title": "电压指令激发电气电路暂态",
+      "width": 1040,
+      "height": 445
+    }
+  },
+  "gfl-response": {
+    "en": {
+      "path": "assets/images/ibr-modeling/gfl-response-en.svg",
+      "title": "PLL tracks a +0.1 Hz grid-frequency step",
+      "width": 1040,
+      "height": 445
+    },
+    "zh": {
+      "path": "assets/images/ibr-modeling/gfl-response-zh.svg",
+      "title": "PLL 跟踪 +0.1 Hz 电网频率阶跃",
+      "width": 1040,
+      "height": 445
+    }
+  },
+  "droop-response": {
+    "en": {
+      "path": "assets/images/ibr-modeling/droop-response-en.svg",
+      "title": "Power changes after the angle begins to move",
+      "width": 1040,
+      "height": 445
+    },
+    "zh": {
+      "path": "assets/images/ibr-modeling/droop-response-zh.svg",
+      "title": "角度开始变化后，电气功率才跟上",
+      "width": 1040,
+      "height": 445
+    }
+  },
+  "vsm-response": {
+    "en": {
+      "path": "assets/images/ibr-modeling/vsm-response-en.svg",
+      "title": "An added frequency state changes the transient",
+      "width": 1040,
+      "height": 445
+    },
+    "zh": {
+      "path": "assets/images/ibr-modeling/vsm-response-zh.svg",
+      "title": "增加频率状态，改变暂态轨迹",
+      "width": 1040,
+      "height": 445
+    }
+  },
+  "parallel-response": {
+    "en": {
+      "path": "assets/images/ibr-modeling/parallel-response-en.svg",
+      "title": "Branch power increments still add to the total",
+      "width": 1040,
+      "height": 445
+    },
+    "zh": {
+      "path": "assets/images/ibr-modeling/parallel-response-zh.svg",
+      "title": "支路功率增量仍满足总量求和",
+      "width": 1040,
+      "height": 445
+    }
+  },
+  "switch-response": {
+    "en": {
+      "path": "assets/images/ibr-modeling/switch-response-en.svg",
+      "title": "At 2 s, the explicit reset preserves terminal power",
+      "width": 1040,
+      "height": 445
+    },
+    "zh": {
+      "path": "assets/images/ibr-modeling/switch-response-zh.svg",
+      "title": "2 s 显式重置保持端口功率连续",
+      "width": 1040,
+      "height": 445
+    }
+  },
+  "comparison-response": {
+    "en": {
+      "path": "assets/images/ibr-modeling/comparison-response-en.svg",
+      "title": "Matched terminal point; different transient trajectories",
+      "width": 1040,
+      "height": 445
+    },
+    "zh": {
+      "path": "assets/images/ibr-modeling/comparison-response-zh.svg",
+      "title": "端口运行点相同，暂态轨迹仍然不同",
+      "width": 1040,
+      "height": 445
+    }
+  }
+}

@@ -1,5 +1,5 @@
 ---
-layout: course
+layout: ibr-modeling
 ibr_courses: true
 ibr_modeling: true
 lang: "en"
@@ -12,4 +12,4 @@ parent_url: "/teaching/course-development/ibr/"
 parent_title: "IBR Dynamics and Physics-Informed Learning"
 ---
 
-{% include ibr-course.html %}
+{% include ibr-modeling-course.html %}

@@ -1,0 +1,13 @@
+---
+layout: default
+---
+<div id="main" role="main" class="ibr-campus-main">
+  <article class="ibr-campus">
+    <nav class="ibr-mastline" aria-label="{% if page.lang == 'zh' %}课程导航{% else %}Course navigation{% endif %}">
+      <a href="{{ page.parent_url | relative_url }}">← {{ page.parent_title }}</a>
+      <span>IBR · MODELING STUDIO</span>
+      {% if page.lang == 'zh' %}<a href="{{ page.permalink | remove_first: '/zh' | relative_url }}" lang="en">English ↗</a>{% else %}<a href="{{ '/zh' | append: page.permalink | relative_url }}" lang="zh">中文 ↗</a>{% endif %}
+    </nav>
+    <div class="page__content">{{ content }}</div>
+  </article>
+</div>

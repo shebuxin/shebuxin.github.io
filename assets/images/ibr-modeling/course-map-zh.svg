@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 485" role="img" aria-labelledby="title desc" lang="zh">
+<title id="title">从物理电路走向模型判断的学习路径</title><desc id="desc">从物理电路走向模型判断的学习路径. 课程绘制的结构图或计算响应。</desc>
+<defs><marker id="arrow0" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#17374b"/></marker><marker id="arrow1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#2f7095"/></marker><marker id="arrow2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#bd733d"/></marker><marker id="arrow3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#377e70"/></marker><marker id="arrow4" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#667c87"/></marker></defs>
+<style>text{font-family:Arial,"PingFang SC","Microsoft YaHei",sans-serif} .small{font-size:17px} .label{font-size:20px;font-weight:600} .note{font-size:18px} .title{font-size:26px;font-weight:600}</style>
+<rect width="520" height="485" rx="18" fill="#fbfcfc"/>
+<text x="30" y="47" font-size="18" fill="#2f7095" text-anchor="start" font-weight="600">IBR / DYNAMICS</text>
+<path d="M85 147L445 147" fill="none" stroke="#17374b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="45" y="112" width="92" height="72" rx="10" fill="#f0f5f7" stroke="#2f7095"/>
+<text x="91" y="156" font-size="24" fill="#2f7095" text-anchor="middle" font-weight="600">VSC</text>
+<path d="M168 147 c0 -22 13.25 -22 13.25 0 c0 -22 13.25 -22 13.25 0 c0 -22 13.25 -22 13.25 0 c0 -22 13.25 -22 13.25 0" fill="none" stroke="#17374b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="194" y="110" font-size="19" fill="#17374b" text-anchor="middle" font-weight="400">L₁</text>
+<circle cx="274" cy="147" r="4" fill="#17374b" stroke="#17374b" stroke-width="2"/>
+<path d="M274 147L274 201" fill="none" stroke="#17374b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M259 201L289 201" fill="none" stroke="#17374b" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M259 211L289 211" fill="none" stroke="#17374b" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M274 211L274 238" fill="none" stroke="#17374b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="299" y="211" font-size="19" fill="#377e70" text-anchor="start" font-weight="400">C</text>
+<path d="M323 147 c0 -22 13.25 -22 13.25 0 c0 -22 13.25 -22 13.25 0 c0 -22 13.25 -22 13.25 0 c0 -22 13.25 -22 13.25 0" fill="none" stroke="#17374b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="351" y="110" font-size="19" fill="#17374b" text-anchor="middle" font-weight="400">L₂</text>
+<circle cx="454" cy="147" r="22" fill="#fff" stroke="#17374b" stroke-width="2"/>
+<text x="454" y="155" font-size="24" fill="#17374b" text-anchor="middle" font-weight="400">~</text>
+<text x="454" y="200" font-size="16" fill="#667c87" text-anchor="middle" font-weight="400">电网</text>
+<rect x="31" y="280" width="140" height="112" rx="10" fill="#f0f5f7" stroke="#2f7095"/>
+<rect x="190" y="280" width="140" height="112" rx="10" fill="#f0f6f3" stroke="#377e70"/>
+<rect x="349" y="280" width="140" height="112" rx="10" fill="#fbf5ee" stroke="#bd733d"/>
+<text x="101" y="321" font-size="24" fill="#2f7095" text-anchor="middle" font-weight="600">GFL</text>
+<text x="101" y="357" font-size="16" fill="#667c87" text-anchor="middle" font-weight="400">跟踪电压角度</text>
+<text x="260" y="321" font-size="24" fill="#377e70" text-anchor="middle" font-weight="600">GFM</text>
+<text x="260" y="357" font-size="16" fill="#667c87" text-anchor="middle" font-weight="400">建立电压与角度</text>
+<text x="419" y="321" font-size="24" fill="#bd733d" text-anchor="middle" font-weight="600">HYBRID</text>
+<text x="419" y="357" font-size="16" fill="#667c87" text-anchor="middle" font-weight="400">并联 / 模式切换</text>
+<path d="M91 184 V242 H419 V272" fill="none" stroke="#bd733d" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow2)"/>
+<path d="M260 242 V272" fill="none" stroke="#377e70" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow3)"/>
+<path d="M101 242 V272" fill="none" stroke="#2f7095" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow1)"/>
+<text x="260" y="449" font-size="20" fill="#17374b" text-anchor="middle" font-weight="400">同一物理电路，不同动态表示。</text>
+</svg>

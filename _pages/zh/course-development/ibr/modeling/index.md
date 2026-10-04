@@ -1,5 +1,5 @@
 ---
-layout: course
+layout: ibr-modeling
 ibr_courses: true
 ibr_modeling: true
 lang: "zh"
@@ -12,4 +12,4 @@ parent_url: "/zh/teaching/course-development/ibr/"
 parent_title: "IBR 动态与物理信息学习"
 ---
 
-{% include ibr-course.html %}
+{% include ibr-modeling-course.html %}

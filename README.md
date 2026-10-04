@@ -102,22 +102,25 @@ python3 scripts/build_ibr_course_pages.py
 
 The generator preserves existing pages, including authored page bodies. Develop an individual lesson in its bilingual page bodies or a dedicated include, while retaining its IDs and permalink. Update the shared outline and preparation note as content becomes available. Run a strict Jekyll build and the existing generated-HTML checks after changing routes or navigation.
 
-C1 content lives in `_data/ibr_modeling.json` and `_includes/ibr-modeling-*.html`. Its wrappers use `ibr_modeling: true`, which scopes the additional stylesheet, KaTeX, Python runner and lesson script. Course/module status values are `lessons`/`lesson`, with `readiness: developed`; other courses remain `framework`/`outline`.
+C1 content lives in `_data/ibr_modeling.json` and `_includes/ibr-modeling-*.html`. The dedicated `ibr-modeling` layout presents three curriculum stages and nine case-driven lessons. Each lesson connects an opening decision, illustrated causal chapters, equations, a worked numerical case, calculated response reading, a live lab, calculation/concept checks and a decision debrief. Chapter equation indices place formulas beside the relevant derivation. Its wrappers use `ibr_modeling: true`, which scopes the additional stylesheet, KaTeX, Python runner and lesson script. Course/module status values are `lessons`/`lesson`, with `readiness: developed`; other courses remain `framework`/`outline`.
 
 `assets/code/ibr-modeling.py` is a separately authored, standard-library teaching solver. It uses the source power-invariant dq convention but does **not** copy or claim equivalence to the full-order `ibrsim` controllers. The frame experiment audits power invariance. The open-loop LCL experiment retains six electrical states, using a 2 μs RK4 step. Low-frequency GFL/droop/VSM/parallel cases retain 4/3/4/7 states, use a common PCC and nominal-frequency algebraic impedances, and start at total PCC P=0.6, Q=0. The switch demo explicitly reconstructs the incoming VSM source and recalibrates its command/voltage offset; it is not a same-command transition or the source's full transition model. DC, limits, protection and switching ripple are omitted. Declared parameters and source paths accompany each lesson.
 
 The lab and editable-code panel run that Python source through the existing Pyodide 0.28.3 worker, with fresh namespaces, stop/restart and timeout handling. Precomputed previews come from the same solver and include its SHA-256; controls require Run before the curve updates. JSON export stores the result's actual parameter snapshot. No Python parameters or code are sent to a computation server. First initialization needs jsDelivr. VSM may not settle in 4 seconds; the duration control extends to 20 seconds, and the lesson preserves oscillatory cases rather than assuming stability.
 
-After changing C1 content or equations, regenerate downloads/previews and verify:
+The 18 figure types in `assets/images/ibr-modeling/` have separate English/Chinese SVGs. `scripts/build_ibr_modeling_figures.py` draws the schematics and calculates response curves from the teaching solver; plot metadata records the case and source SHA-256. `_data/ibr_modeling_figures.json` is the generated asset manifest. Notebook images are embedded as Markdown attachments, so they remain available offline.
+
+After changing C1 content, equations or figures, regenerate downloads/previews and verify:
 
 ```sh
 python3 scripts/build_ibr_modeling_baselines.py
+python3 scripts/build_ibr_modeling_figures.py
 python3 scripts/build_ibr_modeling_notebooks.py
 JEKYLL_ENV=production bundle exec jekyll build --strict_front_matter
 python3 tests/ibr_modeling_test.py
 ```
 
-The tests check analytic Park/power results, terminal equilibrium matching, KCL and branch power sums, VSM RoCoF, droop steady slope, explicit reset continuity away from equilibrium, exact event boundaries, energy balance, timestep refinement, invalid inputs, baseline/source consistency, notebook execution, and bilingual rendered structure. These establish mathematical and numerical consistency within the stated teaching domain; they do not constitute external or full-order model validation.
+The tests check analytic Park/power results, terminal equilibrium matching, KCL and branch power sums, VSM RoCoF, droop steady slope, explicit reset continuity away from equilibrium, exact event boundaries, energy balance, timestep refinement, invalid inputs, baseline/source consistency, notebook execution, analytic answers for all nine calculation exercises, figure accessibility/source metadata, offline figure attachments, and bilingual rendered structure. These establish mathematical and numerical consistency within the stated teaching domain; they do not constitute external or full-order model validation.
 
 The Balanced Power Flow chapter lives at `/teaching/course-development/physics-informed-gnn/balanced-power-flow/`. English and Chinese lesson pages share `_includes/balanced-*.html`, `_data/balanced_controls.yml`, and `assets/css/balanced-power-flow.css`. It uses a three-bus balanced AC constant-PQ model with an analytic Newton Jacobian, line outages, and radial/meshed configurations. `assets/js/balanced-power-flow-model.js` powers the immediate slider response; `assets/js/balanced-power-flow-lesson.js` renders SVG diagrams and connects the controls.
 

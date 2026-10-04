@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1040 450" role="img" aria-labelledby="title desc" lang="zh">
+<title id="title">同时旋转电压和电流，物理功率保持不变</title><desc id="desc">同时旋转电压和电流，物理功率保持不变. 课程绘制的结构图或计算响应。</desc>
+<defs><marker id="arrow0" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#17374b"/></marker><marker id="arrow1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#2f7095"/></marker><marker id="arrow2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#bd733d"/></marker><marker id="arrow3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#377e70"/></marker><marker id="arrow4" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#667c87"/></marker></defs>
+<style>text{font-family:Arial,"PingFang SC","Microsoft YaHei",sans-serif} .small{font-size:17px} .label{font-size:20px;font-weight:600} .note{font-size:18px} .title{font-size:26px;font-weight:600}</style>
+<rect width="1040" height="450" rx="18" fill="#fbfcfc"/>
+<circle cx="250" cy="237" r="117" fill="#fff" stroke="#d7e1e5" stroke-width="2"/>
+<path d="M114 237L396 237" fill="none" stroke="#667c87" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow4)"/>
+<path d="M250 369L250 91" fill="none" stroke="#667c87" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow4)"/>
+<text x="400" y="262" font-size="18" fill="#667c87" text-anchor="start" font-weight="400">D</text>
+<text x="260" y="97" font-size="18" fill="#667c87" text-anchor="start" font-weight="400">Q</text>
+<path d="M250 237L358.0 237.0" fill="none" stroke="#2f7095" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow1)"/>
+<path d="M250 237L324.47818472546174 280.0" fill="none" stroke="#bd733d" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow2)"/>
+<text x="371.0" y="227.0" font-size="22" fill="#2f7095" text-anchor="start" font-weight="400">V</text>
+<text x="337.1384387633061" y="300.0" font-size="22" fill="#bd733d" text-anchor="start" font-weight="400">I</text>
+<text x="250" y="55" font-size="24" fill="#17374b" text-anchor="middle" font-weight="600">电网对齐坐标</text>
+<text x="250" y="397" font-size="19" fill="#17374b" text-anchor="middle" font-weight="400">v_d = 1, v_q = 0</text>
+<circle cx="735" cy="237" r="117" fill="#fff" stroke="#d7e1e5" stroke-width="2"/>
+<path d="M599 237L881 237" fill="none" stroke="#667c87" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow4)"/>
+<path d="M735 369L735 91" fill="none" stroke="#667c87" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow4)"/>
+<text x="885" y="262" font-size="18" fill="#667c87" text-anchor="start" font-weight="400">d</text>
+<text x="745" y="97" font-size="18" fill="#667c87" text-anchor="start" font-weight="400">q</text>
+<path d="M735 237L836.4868030448781 273.93817547917223" fill="none" stroke="#2f7095" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow1)"/>
+<path d="M735 237L790.2797344330424 302.87982210823213" fill="none" stroke="#bd733d" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow2)"/>
+<text x="848.7028071150949" y="268.38443734240593" font-size="22" fill="#2f7095" text-anchor="start" font-weight="400">V</text>
+<text x="800.7076105299078" y="325.5402665394219" font-size="22" fill="#bd733d" text-anchor="start" font-weight="400">I</text>
+<text x="735" y="55" font-size="24" fill="#17374b" text-anchor="middle" font-weight="600">坐标偏差 +20°</text>
+<text x="735" y="397" font-size="19" fill="#17374b" text-anchor="middle" font-weight="400">v_d = 0.940, v_q = −0.342</text>
+<path d="M455 235L530 235" fill="none" stroke="#377e70" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow3)"/>
+<text x="492" y="204" font-size="19" fill="#377e70" text-anchor="middle" font-weight="400">T(θ)</text>
+<text x="32" y="426" font-size="17" fill="#667c87" text-anchor="start" font-weight="400">P = 0.519615 pu     Q = +0.300000 pu   ·   功率不变 Park 变换</text>
+</svg>

@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1040 480" role="img" aria-labelledby="title desc" lang="zh">
+<title id="title">两个同时工作的支路，同一个物理 PCC</title><desc id="desc">两个同时工作的支路，同一个物理 PCC. 课程绘制的结构图或计算响应。</desc>
+<defs><marker id="arrow0" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#17374b"/></marker><marker id="arrow1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#2f7095"/></marker><marker id="arrow2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#bd733d"/></marker><marker id="arrow3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#377e70"/></marker><marker id="arrow4" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#667c87"/></marker></defs>
+<style>text{font-family:Arial,"PingFang SC","Microsoft YaHei",sans-serif} .small{font-size:17px} .label{font-size:20px;font-weight:600} .note{font-size:18px} .title{font-size:26px;font-weight:600}</style>
+<rect width="1040" height="480" rx="18" fill="#fbfcfc"/>
+<rect x="42" y="76" width="215" height="95" rx="10" fill="#fff" stroke="#2f7095"/>
+<text x="149.5" y="106" font-size="20" fill="#2f7095" text-anchor="middle" font-weight="600">GFL</text>
+<text x="149.5" y="155" font-size="16" fill="#667c87" text-anchor="middle" font-weight="400">电流支路 · 4 状态</text>
+<path d="M257 124L567 124" fill="none" stroke="#2f7095" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow1)"/>
+<text x="417" y="104" font-size="21" fill="#2f7095" text-anchor="start" font-weight="400">I_c</text>
+<rect x="42" y="251" width="215" height="95" rx="10" fill="#fff" stroke="#377e70"/>
+<text x="149.5" y="281" font-size="20" fill="#377e70" text-anchor="middle" font-weight="600">Droop GFM</text>
+<text x="149.5" y="330" font-size="16" fill="#667c87" text-anchor="middle" font-weight="400">电压支路 · 3 状态</text>
+<path d="M257 298L355 298" fill="none" stroke="#377e70" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="355" y="264" width="112" height="68" rx="10" fill="#fff" stroke="#377e70"/>
+<text x="411.0" y="294" font-size="20" fill="#377e70" text-anchor="middle" font-weight="600">Z_f</text>
+<path d="M467 298L567 298" fill="none" stroke="#377e70" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow3)"/>
+<path d="M580 96L580 330" fill="none" stroke="#17374b" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="580" y="63" font-size="23" fill="#17374b" text-anchor="middle" font-weight="600">PCC · V</text>
+<path d="M580 205L690 205" fill="none" stroke="#17374b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow0)"/>
+<rect x="690" y="165" width="116" height="79" rx="10" fill="#fff" stroke="#17374b"/>
+<text x="748.0" y="195" font-size="20" fill="#17374b" text-anchor="middle" font-weight="600">Z_g</text>
+<path d="M806 205L915 205" fill="none" stroke="#17374b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="946" cy="205" r="30" fill="#fff" stroke="#17374b" stroke-width="2"/>
+<text x="946" y="215" font-size="29" fill="#17374b" text-anchor="middle" font-weight="400">~</text>
+<text x="946" y="270" font-size="22" fill="#17374b" text-anchor="middle" font-weight="400">V_g</text>
+<text x="610" y="141" font-size="21" fill="#17374b" text-anchor="start" font-weight="400">I_g = I_c + I_v</text>
+<path d="M580 330 V375 H148 V354" fill="none" stroke="#bd733d" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow2)"/>
+<path d="M580 124 V33 H148 V68" fill="none" stroke="#bd733d" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow2)"/>
+<text x="336" y="405" font-size="18" fill="#bd733d" text-anchor="middle" font-weight="400">两个支路使用相同的物理端口电压。</text>
+<text x="32" y="456" font-size="17" fill="#667c87" text-anchor="start" font-weight="400">P_total = P_GFL + P_GFM；所有量使用共同系统基值。</text>
+</svg>
