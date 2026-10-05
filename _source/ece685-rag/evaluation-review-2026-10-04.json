@@ -1,0 +1,206 @@
+{
+  "date": "2026-10-04",
+  "model": "gpt-6-astra",
+  "reasoning": "medium",
+  "max_output_tokens": 8192,
+  "timeout_seconds": 75,
+  "corpus_version": "ece685-2cb02ab2374b55da3f58",
+  "run_fingerprint": "7dd860a3e47f3f33b065b9c48d22c1854ac73cd2f02739a896a201475ed5c4a8",
+  "scope": "20 fixed staff-authored questions through the real backend, disposable SQLite D1 adapter and frontend SSE consumer; live OpenAI File Search. Two additional local Chrome UI questions completed. Not a general model benchmark.",
+  "technical_completion": {
+    "completed": 20,
+    "failed": 0
+  },
+  "criterion_review": {
+    "passed": 17,
+    "needs_improvement": 3,
+    "student_release_gate": "not_passed"
+  },
+  "latency_seconds": {
+    "median": 15.92,
+    "maximum": 38.52
+  },
+  "cloud_preview": {
+    "imported_documents": 1104,
+    "version_status": "staging",
+    "active_version": null,
+    "chat_code_deployed": false,
+    "cleanup_worker_deployed": false
+  },
+  "limitations": [
+    "预计来源ID命中与完整答题标准分别检查；相关替代来源或已提供的核验说明可能支持正确答案。",
+    "模型可根据内联材料回答，但内联参考出处卡片需要完善，当前并非所有教材说明都会显示书目和PDF页。",
+    "归档文件名尚未作为稳定的参考资料身份信息提供给模型。",
+    "回答偶尔建议发送截图，当前聊天只支持文本和显式选中代码；需调整提示及教学文案。",
+    "部分真实回答使用Markdown表格，当前安全渲染器显示其文本；表格排版可继续改善。",
+    "337页隔离资料未上传，其他未核验数学、图表和习题仍存在覆盖限制。"
+  ],
+  "results": [
+    {
+      "id": "current-slide-clarification",
+      "criterion_review": "passed",
+      "review_note": "识别物理第12页，解释平方、整周期平均和开方；检索并引用核验RMS说明。",
+      "retrieval_expected_hits": [
+        "ECE685:L05:slide:012",
+        "ECE685:reference:glover-6e-2017:verified:rms-definition-and-sinusoid"
+      ],
+      "citation_expected_hits": [
+        "ECE685:L05:slide:012",
+        "ECE685:reference:glover-6e-2017:verified:rms-definition-and-sinusoid"
+      ]
+    },
+    {
+      "id": "current-slide-why",
+      "criterion_review": "passed",
+      "review_note": "保持追问上下文；用正弦端点相等解释整周期振荡项抵消，保留相位和完整周期条件。",
+      "retrieval_expected_hits": [],
+      "citation_expected_hits": []
+    },
+    {
+      "id": "current-slide-example-en",
+      "criterion_review": "passed",
+      "review_note": "英文追问正确得到10/sqrt(2)及sqrt(59)，区分直流偏置扩展。",
+      "retrieval_expected_hits": [
+        "ECE685:reference:glover-6e-2017:verified:rms-definition-and-sinusoid"
+      ],
+      "citation_expected_hits": [
+        "ECE685:reference:glover-6e-2017:verified:rms-definition-and-sinusoid"
+      ]
+    },
+    {
+      "id": "selected-code-atan2",
+      "criterion_review": "passed",
+      "review_note": "解释所选代码、弧度、象限和零相量；未执行代码。",
+      "retrieval_expected_hits": [
+        "ECE685:reference:glover-6e-2017:verified:phasor-reconstruction-and-axes"
+      ],
+      "citation_expected_hits": [
+        "ECE685:reference:glover-6e-2017:verified:phasor-reconstruction-and-axes"
+      ]
+    },
+    {
+      "id": "cross-lecture-rms-power",
+      "criterion_review": "passed",
+      "review_note": "明确RMS、被动约定和平衡三相假设；区分sqrt(2)、3和sqrt(3)，使用相关L06/L08/L09b平台来源。",
+      "retrieval_expected_hits": [],
+      "citation_expected_hits": []
+    },
+    {
+      "id": "platform-textbook-basis",
+      "criterion_review": "passed",
+      "review_note": "根据服务端提供的教师选择说明区分平台第6版和原syllabus第7版；未伪称修改评分或原大纲。选择说明未出现在引用卡片，后续需补齐背景材料来源显示。",
+      "retrieval_expected_hits": [],
+      "citation_expected_hits": []
+    },
+    {
+      "id": "ai-policy",
+      "criterion_review": "passed",
+      "review_note": "引用syllabus p.6，保留理解、验证和披露要求，不据此授权考试。",
+      "retrieval_expected_hits": [
+        "ECE685:reference:syllabus-fall-2026:page:0006"
+      ],
+      "citation_expected_hits": [
+        "ECE685:reference:syllabus-fall-2026:page:0006"
+      ]
+    },
+    {
+      "id": "grading",
+      "criterion_review": "passed",
+      "review_note": "引用syllabus p.3，分数组成准确，保留项目独立要求和可能调整。",
+      "retrieval_expected_hits": [
+        "ECE685:reference:syllabus-fall-2026:page:0003"
+      ],
+      "citation_expected_hits": [
+        "ECE685:reference:syllabus-fall-2026:page:0003"
+      ]
+    },
+    {
+      "id": "edition-problem-mismatch",
+      "criterion_review": "passed",
+      "review_note": "未提供第7版未知题干，未用第6版同号题替代；说明需准确题文。",
+      "retrieval_expected_hits": [],
+      "citation_expected_hits": []
+    },
+    {
+      "id": "sixth-edition-exercise-coverage",
+      "criterion_review": "passed",
+      "review_note": "区分版本选择与习题覆盖，不凭题号编造题文。",
+      "retrieval_expected_hits": [],
+      "citation_expected_hits": []
+    },
+    {
+      "id": "rms-clarification",
+      "criterion_review": "needs_improvement",
+      "review_note": "峰值/RMS和60°/30°区别正确；引用卡片未给出已核验教材印刷p.41 / PDF p.61，需补齐内联参考资料的出处。",
+      "retrieval_expected_hits": [],
+      "citation_expected_hits": []
+    },
+    {
+      "id": "complex-power",
+      "criterion_review": "passed",
+      "review_note": "正确解释共轭、相角差、W/var/VA、被动参考和滞后负荷Q>0。",
+      "retrieval_expected_hits": [],
+      "citation_expected_hits": []
+    },
+    {
+      "id": "base-convention",
+      "criterion_review": "passed",
+      "review_note": "推导线电压/总三相容量与相电压/每相容量等价；未把补充推导冒充教材引文。检索教材核验笔记仍可改进。",
+      "retrieval_expected_hits": [],
+      "citation_expected_hits": []
+    },
+    {
+      "id": "fuel-mix-reading",
+      "criterion_review": "needs_improvement",
+      "review_note": "正确区分容量组合规划与经济调度；未检索到syllabus p.2，遗漏Optimal Fuel Mix Analysis对应Supplement。",
+      "retrieval_expected_hits": [],
+      "citation_expected_hits": []
+    },
+    {
+      "id": "report-date",
+      "criterion_review": "needs_improvement",
+      "review_note": "识别报告年份2024及历史价格口径；未命中封面p.1，遗漏January 2024，并无法核对原归档文件名与报告身份。",
+      "retrieval_expected_hits": [],
+      "citation_expected_hits": []
+    },
+    {
+      "id": "overnight-cost",
+      "criterion_review": "passed",
+      "review_note": "排除建设期利息，给出自拟分阶段投资说明；引用有明确年份的EIA 2022来源。",
+      "retrieval_expected_hits": [
+        "ECE685:reference:eia-generation-cost-2022:page:0001"
+      ],
+      "citation_expected_hits": [
+        "ECE685:reference:eia-generation-cost-2022:page:0001"
+      ]
+    },
+    {
+      "id": "rms-assumptions",
+      "criterion_review": "passed",
+      "review_note": "纯正弦峰值/sqrt(2)与一般RMS定义区别正确；方波及DC偏置例子正确。",
+      "retrieval_expected_hits": [],
+      "citation_expected_hits": []
+    },
+    {
+      "id": "suppressed-time-factor",
+      "criterion_review": "passed",
+      "review_note": "RMS相量重建式正确，说明已知频率和取实部；未把虚部当作独立实际电压。",
+      "retrieval_expected_hits": [],
+      "citation_expected_hits": []
+    },
+    {
+      "id": "quadrant-and-zero",
+      "criterion_review": "passed",
+      "review_note": "正确说明atan2、象限、零相量无方向和浮点近零容差；标注建议代码非平台源码引文。",
+      "retrieval_expected_hits": [],
+      "citation_expected_hits": []
+    },
+    {
+      "id": "rlc-lead-lag",
+      "criterion_review": "passed",
+      "review_note": "理想恒参数、正弦稳态和被动约定清楚；电感滞后、电容超前及阻抗符号准确。",
+      "retrieval_expected_hits": [],
+      "citation_expected_hits": []
+    }
+  ]
+}

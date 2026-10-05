@@ -1,0 +1,87 @@
+{
+  "schema_version": 1,
+  "notes": [
+    {
+      "id": "phasor-representation",
+      "source_id": "glover-6e-2017",
+      "source_sha256": "a58c1823a16d730bcacb23131cd27a0356bd17cf322a917b14896e027996a13f",
+      "pdf_page_number": 61,
+      "printed_page": "41",
+      "section_id": "2.1",
+      "lecture_ids": [
+        "L05"
+      ],
+      "review_method": "Visually checked original PDF page 61, printed page 41, on 2026-10-04. This note paraphrases the text and expresses verified equations in LaTeX; it is not the extracted PDF text.",
+      "text": "Sixth-edition §2.1 uses a cosine reference and RMS phasors. Instantaneous v(t) and i(t) are lowercase; scalar V and I denote RMS magnitudes; phasor notation represents magnitude plus phase. Equation (2.1.4): $$\\mathbf V=Ve^{j\\delta}=V\\angle\\delta=V\\cos\\delta+jV\\sin\\delta.$$ Phase in an exponential must be expressed in radians. The page's voltage example is $$v(t)=169.7\\cos(\\omega t+60^\\circ)\\ \\mathrm V,\\qquad \\mathbf V\\approx120\\angle60^\\circ\\ \\mathrm V.$$ The current example is $$i(t)=100\\cos(\\omega t+45^\\circ)\\ \\mathrm A,\\qquad \\mathbf I\\approx70.7\\angle45^\\circ\\ \\mathrm A\\approx50+j50\\ \\mathrm A.$$ These displayed RMS/component values are rounded. The R/L/C relationships assume sinusoidal steady state and constant element values. Voltage/current specifications are RMS unless indicated otherwise. This conceptual explanation uses the platform-selected sixth edition. Exercise identities must match the requested edition and actual exercise text."
+    },
+    {
+      "id": "complex-power-convention",
+      "source_id": "glover-6e-2017",
+      "source_sha256": "a58c1823a16d730bcacb23131cd27a0356bd17cf322a917b14896e027996a13f",
+      "pdf_page_number": 67,
+      "printed_page": "47",
+      "section_id": "2.3",
+      "lecture_ids": [
+        "L06",
+        "L07"
+      ],
+      "review_method": "Visually checked original PDF page 67, printed page 47, on 2026-10-04. Equation (2.3.1) and the current-into-element reference were verified; the following note is a paraphrase with explicit units.",
+      "text": "Sixth-edition §2.3 defines complex power for sinusoidal steady state with RMS voltage and current phasors, and current referenced into the circuit element. Equation (2.3.1): $$S=\\mathbf V\\mathbf I^*=VI\\angle(\\delta-\\beta)=VI\\cos(\\delta-\\beta)+jVI\\sin(\\delta-\\beta)=P+jQ.$$ The conjugate changes the current phase sign, so the power angle is voltage phase minus current phase. P is in W, Q in var, and S in VA. With this reference an inductive load's lagging current corresponds to positive reactive absorption, while a capacitor can deliver reactive power. The page discusses reactive energy exchange, rather than net average real-energy consumption. Preserve the current reference and RMS convention when relating this formula to L06/L07. This conceptual note uses the platform-selected sixth edition; it does not supply the text of a numbered exercise."
+    },
+    {
+      "id": "per-unit-base-conventions",
+      "source_id": "glover-6e-2017",
+      "source_sha256": "a58c1823a16d730bcacb23131cd27a0356bd17cf322a917b14896e027996a13f",
+      "pdf_page_number": 128,
+      "printed_page": "108",
+      "section_id": "3.3",
+      "lecture_ids": [
+        "L13",
+        "L14",
+        "L15"
+      ],
+      "review_method": "Visually checked original PDF page 128, printed page 108, on 2026-10-04. Equations (3.3.2)–(3.3.5) use per-phase S and line-to-neutral V. The balanced three-phase total-S/line-to-line-V equivalence below is an explicitly derived bridge to the webpage's convention.",
+      "text": "Sixth-edition §3.3 uses two independent base quantities: RMS line-to-neutral voltage V_base,LN and per-phase apparent power S_base,1phi. Equations (3.3.3)–(3.3.5) give $$I_{\\mathrm{base}}=\\frac{S_{\\mathrm{base},1\\phi}}{V_{\\mathrm{base,LN}}},\\qquad Z_{\\mathrm{base}}=\\frac{V_{\\mathrm{base,LN}}^2}{S_{\\mathrm{base},1\\phi}},\\qquad Y_{\\mathrm{base}}=\\frac{1}{Z_{\\mathrm{base}}}.$$ Actual and base quantities must have the same units, so a per-unit ratio is dimensionless. Base values are real; dividing by a base leaves a phasor's angle unchanged. The text keeps the same power base throughout the system and chooses transformer-side voltage bases in the rated voltage ratio, giving invariant referred per-unit impedance. Derived bridge to the course webpage for a balanced three-phase system: $$S_{\\mathrm{base},3\\phi}=3S_{\\mathrm{base},1\\phi},\\quad V_{\\mathrm{base,LL}}=\\sqrt3 V_{\\mathrm{base,LN}},\\quad I_{\\mathrm{base}}=\\frac{S_{\\mathrm{base},3\\phi}}{\\sqrt3 V_{\\mathrm{base,LL}}},\\quad Z_{\\mathrm{base}}=\\frac{V_{\\mathrm{base,LL}}^2}{S_{\\mathrm{base},3\\phi}}.$$ Do not mix total three-phase S with line-to-neutral V in the per-phase formula. This bridge is a verified supplemental explanation, not a claim that the textbook uses total three-phase S on this page."
+    },
+    {
+      "id": "rms-definition-and-sinusoid",
+      "source_id": "glover-6e-2017",
+      "source_sha256": "a58c1823a16d730bcacb23131cd27a0356bd17cf322a917b14896e027996a13f",
+      "pdf_page_number": 60,
+      "printed_page": "40",
+      "section_id": "2.1",
+      "lecture_ids": [
+        "L05"
+      ],
+      "review_method": "Visually checked PDF page 60, printed page 40, equations (2.1.1) and (2.1.2), on 2026-10-04. The RMS integral and heating interpretation below are an explicitly derived course explanation; only section 2.1 is covered, not the microgrid case-study continuation above it.",
+      "text": "Sixth-edition section 2.1, PHASORS, starts on printed p.40 / PDF p.60. At a fixed frequency, the source describes a cosine-reference sinusoid by its peak magnitude and phase: $$v(t)=V_{\\max}\\cos(\\omega t+\\delta),\\qquad V_{\\mathrm{rms}}=\\frac{V_{\\max}}{\\sqrt2}.$$ These are equations (2.1.1) and (2.1.2). V_max is the time-domain peak, not the RMS phasor magnitude. Supplemental derivation for L05: $$V_{\\mathrm{rms}}=\\sqrt{\\frac1T\\int_0^T v^2(t)\\,dt},\\qquad \\cos^2 x=\\frac{1+\\cos2x}{2}.$$ With a full period T=2*pi/omega, the oscillating term integrates to zero, giving V_rms squared = V_max squared / 2. For a fixed positive resistor R, average heating is V_rms squared / R, the same as a DC voltage of magnitude V_rms. This peak/sqrt(2) rule assumes a sinusoid with no DC offset; it is not a universal peak-to-RMS conversion for arbitrary waveforms. Units of both V_max and V_rms are volts. Angular frequency is rad/s; f=omega/(2*pi) is Hz. Changing frequency alone changes the period, not the sinusoid's peak-to-RMS factor. This note does not cover the microgrid case-study text above section 2.1."
+    },
+    {
+      "id": "phasor-reconstruction-and-axes",
+      "source_id": "glover-6e-2017",
+      "source_sha256": "a58c1823a16d730bcacb23131cd27a0356bd17cf322a917b14896e027996a13f",
+      "pdf_page_number": 61,
+      "printed_page": "41",
+      "section_id": "2.1",
+      "lecture_ids": [
+        "L05"
+      ],
+      "review_method": "Visually checked all relevant text on PDF page 61, printed page 41: equations (2.1.3)-(2.1.8) and Figure 2.1, on 2026-10-04. Reconstruction follows (2.1.3); atan2, zero-vector and addition explanations are identified as course-derived implications, not numbered textbook exercises.",
+      "text": "Sixth-edition section 2.1, printed p.41 / PDF p.61. Equation (2.1.3) restores the real sinusoid from an RMS phasor by including the common rotating factor: $$v(t)=\\operatorname{Re}\\{\\sqrt2\\,\\mathbf V e^{j\\omega t}\\}=\\sqrt2|\\mathbf V|\\cos(\\omega t+\\arg\\mathbf V).$$ The phasor itself stores RMS magnitude and phase, with the time factor suppressed. It is neither instantaneous voltage nor a physical imaginary voltage. Equation (2.1.4) and Figure 2.1 use $$\\mathbf V=Ve^{j\\delta}=V\\angle\\delta=a+jb,\\qquad a=V\\cos\\delta,\\quad b=V\\sin\\delta.$$ Figure 2.1 places a on the real horizontal axis and b on the imaginary vertical axis. Complex exponentials use radians; degree inputs must be converted with delta_rad=delta_deg*pi/180. Course-derived inverse conversion is $$V=\\sqrt{a^2+b^2},\\qquad \\delta=\\operatorname{atan2}(b,a).$$ atan2 preserves the quadrant that atan(b/a) alone can lose; the zero vector has no unique phase. By linearity of the reconstruction formula, compatible sinusoids at the same frequency, with matching voltage/current units, cosine origin and RMS convention, add by complex components. Magnitudes generally do not add. Signals of different frequency cannot be represented by one sum at a single suppressed time factor. Keep the textbook's 60-degree voltage example separate from the platform CE-2A voltage at 30 degrees. The latter is a slide example, not a numbered exercise on this book page."
+    },
+    {
+      "id": "ideal-rlc-phasor-relations",
+      "source_id": "glover-6e-2017",
+      "source_sha256": "a58c1823a16d730bcacb23131cd27a0356bd17cf322a917b14896e027996a13f",
+      "pdf_page_number": 62,
+      "printed_page": "42",
+      "section_id": "2.1",
+      "lecture_ids": [
+        "L05",
+        "L06"
+      ],
+      "review_method": "Visually checked Figure 2.2 at the top of PDF page 62, printed page 42, on 2026-10-04. This note covers the section-2.1 figure only, not all section-2.2 equations below it. Current enters the positive voltage terminal. The simplification I_C=j*omega*C*V and sign explanation are explicit course-derived steps.",
+      "text": "Sixth-edition Figure 2.2, printed p.42 / PDF p.62, summarizes ideal constant R, L and C under sinusoidal steady-state excitation. It continues section 2.1 above the start of section 2.2 on the same physical page. Use RMS voltage and current phasors with current entering the positive voltage terminal and a positive nonzero angular frequency: $$\\mathbf I_R=\\frac{\\mathbf V}{R},\\qquad \\mathbf I_L=\\frac{\\mathbf V}{jX_L},\\quad X_L=\\omega L,\\qquad \\mathbf I_C=\\frac{\\mathbf V}{-jX_C},\\quad X_C=\\frac1{\\omega C}.$$ R, X_L and X_C are positive magnitudes in ohms. Figure 2.2 shows resistor current in phase with voltage, inductor current 90 degrees behind voltage, and capacitor current 90 degrees ahead. Course-derived explanation: dividing by j subtracts 90 degrees, while dividing by -j adds 90 degrees; equivalently $$\\mathbf I_C=j\\omega C\\mathbf V.$$ The impedance of an ideal capacitor is negative imaginary even though the defined reactance magnitude X_C is positive. These relations do not describe transients or a general mixed RLC load as a purely 90-degree relationship. Preserve the current reference when extending this figure to real/reactive power in L06. This note covers Figure 2.2 only, not the entire page's instantaneous-power derivation."
+    }
+  ]
+}

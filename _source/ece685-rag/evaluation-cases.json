@@ -1,0 +1,182 @@
+{
+  "status": "live run and criterion review completed 2026-10-04; see evaluation-review-2026-10-04.json",
+  "cases": [
+    {
+      "id": "platform-textbook-basis",
+      "question": "这个平台采用哪一版教材？为什么 syllabus 上写的是第7版？",
+      "expected_docs": [
+        "ECE685:reference:platform-textbook-selection:decision:edition",
+        "ECE685:reference:syllabus-fall-2026:page:0002"
+      ],
+      "criteria": [
+        "The instructor selected Power System Analysis and Design, sixth edition (2017), as the platform textbook basis on 2026-10-04.",
+        "The original Fall 2026 syllabus states seventh edition (2023); preserve that bibliographic fact and explain the separate platform selection.",
+        "Do not claim that the original syllabus PDF was changed or that this selection changed grading, dates or AI policy."
+      ]
+    },
+    {
+      "id": "ai-policy",
+      "question": "我可以用 AI 做作业和课程项目吗？",
+      "expected_docs": [
+        "ECE685:reference:syllabus-fall-2026:page:0006"
+      ],
+      "criteria": [
+        "Use is allowed unless otherwise specified by instructor.",
+        "Students must understand, verify and explain submitted work, and disclose material AI assistance.",
+        "Do not invent a blanket ban or blanket permission for exams."
+      ]
+    },
+    {
+      "id": "grading",
+      "question": "课程成绩由哪些部分组成？",
+      "expected_docs": [
+        "ECE685:reference:syllabus-fall-2026:page:0003"
+      ],
+      "criteria": [
+        "Three exams and design project each 100 points, homework 50, attendance 20.",
+        "Preserve the separate project-score qualification and possible adjustments; do not invent percentage cutoffs beyond the source."
+      ]
+    },
+    {
+      "id": "edition-problem-mismatch",
+      "question": "第7版第2章第51题的题目是什么？",
+      "expected_docs": [
+        "ECE685:reference:platform-textbook-selection:decision:edition"
+      ],
+      "criteria": [
+        "The platform uses the sixth edition; seventh-edition exercise text has not been imported.",
+        "Do not substitute the sixth-edition problem with the same number.",
+        "Ask for the actual seventh-edition problem text or a source in that edition. Its absence does not block preparation of the selected sixth edition."
+      ]
+    },
+    {
+      "id": "sixth-edition-exercise-coverage",
+      "question": "那第6版第2章第51题呢？有第6版是不是就一定能给出这道题？",
+      "expected_docs": [
+        "ECE685:reference:platform-textbook-selection:decision:edition"
+      ],
+      "criteria": [
+        "The selected edition is six, so its exercise identities are the default platform basis.",
+        "Edition compatibility is distinct from exercise coverage and transcription accuracy; retrieve the actual exercise text before answering.",
+        "Do not invent an exercise when its text is quarantined, missing or unverified; ask for the exact text if needed."
+      ]
+    },
+    {
+      "id": "rms-clarification",
+      "question": "教材的169.7 V和120 V为什么都正确？相位会改变吗？",
+      "expected_docs": [
+        "ECE685:reference:glover-6e-2017:verified:phasor-representation"
+      ],
+      "criteria": [
+        "Peak and RMS differ by sqrt(2), while the cosine phase is retained.",
+        "The textbook example has 60 degrees; do not mix it with the L05 example's 30 degrees.",
+        "Cite sixth-edition printed p.41 / PDF p.61 and preserve rounded values."
+      ]
+    },
+    {
+      "id": "complex-power",
+      "question": "为什么复功率要用电流的共轭？",
+      "expected_docs": [
+        "ECE685:reference:glover-6e-2017:verified:complex-power-convention"
+      ],
+      "criteria": [
+        "With current into the element and RMS phasors, S=VI*, giving voltage phase minus current phase.",
+        "Preserve passive current reference, P/Q units and lagging-load reactive-power sign."
+      ]
+    },
+    {
+      "id": "base-convention",
+      "question": "教材用线对中性点电压算Zbase，网页用线电压，是不是矛盾？",
+      "expected_docs": [
+        "ECE685:reference:glover-6e-2017:verified:per-unit-base-conventions"
+      ],
+      "criteria": [
+        "For balanced three-phase bases, S3phi=3 S1phi and VLL=sqrt(3) VLN.",
+        "VLL squared / total three-phase S equals VLN squared / per-phase S.",
+        "Do not mix total power with phase voltage; label the bridge as a supplemental derivation."
+      ]
+    },
+    {
+      "id": "fuel-mix-reading",
+      "question": "L03和L04的fuel mix是不是教材第6章的经济调度？",
+      "expected_docs": [
+        "ECE685:reference:syllabus-fall-2026:page:0002"
+      ],
+      "criteria": [
+        "Syllabus assigns Optimal Fuel Mix Analysis to Supplement.",
+        "Economic dispatch can be related background, but do not invent a required textbook section for these lectures."
+      ]
+    },
+    {
+      "id": "report-date",
+      "question": "capital_cost_AEO2025这个文件是2025年的成本报告吗？",
+      "expected_docs": [
+        "ECE685:reference:eia-capital-cost-2024:page:0001"
+      ],
+      "criteria": [
+        "Cover publication date is January 2024 despite archive filename.",
+        "Retain report year, dollar-year assumptions and units; do not present as current 2026 prices."
+      ]
+    },
+    {
+      "id": "overnight-cost",
+      "question": "overnight capital cost包含建设期的利息吗？",
+      "expected_docs": [
+        "ECE685:reference:eia-generation-cost-2022:page:0001"
+      ],
+      "criteria": [
+        "The source excludes interest accrued during plant construction and development.",
+        "Keep this distinct from fuel and ongoing operating cost.",
+        "Cite the dated EIA source rather than inventing current price figures."
+      ]
+    },
+    {
+      "id": "rms-assumptions",
+      "question": "为什么要除以根号2？任何波形都可以这样算 RMS 吗？",
+      "expected_docs": [
+        "ECE685:reference:glover-6e-2017:verified:rms-definition-and-sinusoid"
+      ],
+      "criteria": [
+        "Use the full-period mean of squared voltage and cos squared identity for a zero-offset sinusoid.",
+        "The peak/sqrt(2) rule is not valid for arbitrary waveforms or a sinusoid with DC offset.",
+        "Distinguish a source formula from the supplemental heating/integral explanation."
+      ]
+    },
+    {
+      "id": "suppressed-time-factor",
+      "question": "相量没有时间，怎么还原成随时间变化的电压？",
+      "expected_docs": [
+        "ECE685:reference:glover-6e-2017:verified:phasor-reconstruction-and-axes"
+      ],
+      "criteria": [
+        "Reconstruct v(t)=Re{sqrt(2) Vphasor exp(j omega t)} for an RMS phasor.",
+        "The imaginary coordinate is a representation, not an additional physical voltage.",
+        "Do not sum different frequencies as one phasor with a shared time factor."
+      ]
+    },
+    {
+      "id": "quadrant-and-zero",
+      "question": "为什么代码用 atan2，零相量的角度是多少？",
+      "expected_docs": [
+        "ECE685:reference:glover-6e-2017:verified:phasor-reconstruction-and-axes"
+      ],
+      "criteria": [
+        "atan2(imaginary, real) retains quadrant information; atan(imaginary/real) alone does not.",
+        "A zero vector has no unique angle; avoid inventing a physical zero-degree direction.",
+        "Identify these details as course-derived explanations of the source representation."
+      ]
+    },
+    {
+      "id": "rlc-lead-lag",
+      "question": "为什么电感电流滞后90度，电容电流超前90度？",
+      "expected_docs": [
+        "ECE685:reference:glover-6e-2017:verified:ideal-rlc-phasor-relations"
+      ],
+      "criteria": [
+        "Use ideal constant elements in sinusoidal steady state, RMS phasors and current into the positive terminal.",
+        "I_L=V/(j omega L) and I_C=j omega C V; capacitor reactance magnitude is positive but its impedance is negative imaginary.",
+        "These pure-element angles are not universal for mixed loads or transients."
+      ]
+    }
+  ]
+}

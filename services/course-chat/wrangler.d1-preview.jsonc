@@ -1,0 +1,15 @@
+// D1 maintenance only. This file does not configure a deployable website/Worker.
+// Target verified in the owner's Chrome Cloudflare dashboard on 2026-10-04.
+{
+  "name": "ece685-chat-preview-maintenance",
+  "account_id": "185b07f9cc5ab33de05d73b706c4b4f7",
+  "compatibility_date": "2026-10-04",
+  "d1_databases": [
+    {
+      "binding": "CHAT_DB",
+      "database_name": "ece685-chat-preview",
+      "database_id": "cd2eb255-a596-4098-b8cb-d61ad62df9b8",
+      "migrations_dir": "migrations"
+    }
+  ]
+}

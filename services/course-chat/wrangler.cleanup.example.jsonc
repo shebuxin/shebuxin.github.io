@@ -1,0 +1,13 @@
+{
+  // Copy and replace the database identity for the chosen environment before deploying.
+  // Pages has no scheduled handler: use this small companion Worker for physical cleanup.
+  "name":"ece685-chat-cleanup-preview",
+  "main":"src/cleanup.mjs",
+  "compatibility_date":"2026-10-04",
+  "d1_databases":[{
+    "binding":"CHAT_DB",
+    "database_name":"REPLACE_WITH_PREVIEW_DATABASE_NAME",
+    "database_id":"REPLACE_WITH_PREVIEW_DATABASE_ID"
+  }],
+  "triggers":{"crons":["*/15 * * * *"]}
+}

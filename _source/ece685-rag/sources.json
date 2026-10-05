@@ -1,0 +1,93 @@
+{
+  "schema_version": 1,
+  "course_id": "ECE685",
+  "current_term": "Fall 2026",
+  "platform_textbook_edition": 6,
+  "textbook_selection": {
+    "id": "platform-textbook-selection",
+    "source_id": "glover-6e-2017",
+    "edition": 6,
+    "selected_on": "2026-10-04",
+    "authority": "instructor",
+    "instruction": "就按照第六版来准备就行",
+    "syllabus_source_id": "syllabus-fall-2026",
+    "syllabus_stated_edition": 7,
+    "scope": "Platform reference preparation and default textbook basis. Preserve the original syllabus and other course policies; an explicitly specified exercise edition still takes precedence for that exercise."
+  },
+  "sources": [
+    {
+      "id": "syllabus-fall-2026",
+      "filename": "syllabus-fall-2026.pdf",
+      "kind": "syllabus",
+      "role": "current_course_policy",
+      "title": {"en": "ECE 685 Power Systems Design — Fall 2026 Syllabus", "zh": "ECE 685 电力系统设计 — 2026 秋季课程大纲"},
+      "year": 2026,
+      "term": "Fall 2026",
+      "page_count": 8,
+      "sha256": "6178565c71e1909a4485637cb3b704eb270e9269a0867a2a6f63cab94e6b8749",
+      "page_ranges": [[1, 8]],
+      "identity_check": {"page": 1, "contains": ["ECE 685", "Fall 2026"]},
+      "topic_pages": {"course-overview": [1], "prerequisites-and-readings": [2], "course-outline": [2], "grading-and-dates": [3], "expectations": [4, 5], "ai-policy": [6]},
+      "access": "private_reference"
+    },
+    {
+      "id": "glover-6e-2017",
+      "filename": "glover-power-system-analysis-design-6e.pdf",
+      "kind": "textbook",
+      "role": "platform_textbook",
+      "title": {"en": "Power System Analysis and Design, Sixth Edition", "zh": "Power System Analysis and Design，第 6 版"},
+      "authors": ["J. Duncan Glover", "Thomas J. Overbye", "Mulukutla S. Sarma"],
+      "publisher": "Cengage Learning",
+      "edition": 6,
+      "year": 2017,
+      "isbn": "978-1-305-63213-4",
+      "page_count": 962,
+      "sha256": "a58c1823a16d730bcacb23131cd27a0356bd17cf322a917b14896e027996a13f",
+      "page_ranges": [[19, 434]],
+      "identity_check": {"page": 4, "contains": ["Sixth Edition", "978-1-305-63213-4"]},
+      "scope_note": "Instructor selected the sixth edition as the platform textbook basis on 2026-10-04. Import notation and Chapters 1–6 for syllabus topics; Chapters 7–14, front matter and index are outside this import. Section, example, page and exercise identities belong to the sixth edition. Do not substitute same-numbered exercises when another edition is explicitly requested.",
+      "chapter_lectures": {"1": ["L01", "L02"]},
+      "section_lectures": {"2.1": ["L05"], "2.2": ["L06"], "2.3": ["L06", "L07"], "2.5": ["L08", "L09b"], "2.6": ["L09", "L09b"], "2.7": ["L09"], "3.1": ["L10"], "3.2": ["L11", "L12"], "3.3": ["L13", "L14", "L15"], "3.5": ["L14", "L15"]},
+      "access": "private_reference"
+    },
+    {
+      "id": "eia-capital-cost-2024",
+      "filename": "generation-capital-cost-aeo2025.pdf",
+      "kind": "reading",
+      "role": "dated_generation_data",
+      "title": {"en": "Capital Cost and Performance Characteristics for Utility-Scale Electric Power Generating Technologies", "zh": "公用事业规模发电技术的资本成本与性能特征"},
+      "publisher": "U.S. Energy Information Administration",
+      "year": 2024,
+      "page_count": 183,
+      "sha256": "ad9127130fece93d3c2d9e203fc0176fcfc5e4d4dccc61d6576107f2d2df96ec",
+      "page_ranges": [[1, 183]],
+      "identity_check": {"page": 1, "contains": ["Capital Cost and Performance", "January 2024"]},
+      "lecture_ids": ["L03", "L04"],
+      "scope_note": "Course archive filename says AEO2025; publication date on the cover is January 2024. Retain table units, dollar-year bases and assumptions; do not present as current 2026 prices.",
+      "access": "private_reference"
+    },
+    {
+      "id": "eia-generation-cost-2022",
+      "filename": "generation-cost-aeo2022.pdf",
+      "kind": "reading",
+      "role": "dated_generation_data",
+      "title": {"en": "Cost and Performance Characteristics of New Generating Technologies, Annual Energy Outlook 2022", "zh": "AEO2022 新发电技术成本与性能特征"},
+      "publisher": "U.S. Energy Information Administration",
+      "year": 2022,
+      "page_count": 4,
+      "sha256": "e52d4b5886a7934540b960d2bae1e83528340bdb5d0728d668344c8b4c2ddc3c",
+      "page_ranges": [[1, 4]],
+      "identity_check": {"page": 1, "contains": ["Annual Energy Outlook 2022", "March 2022"]},
+      "lecture_ids": ["L03", "L04"],
+      "access": "private_reference"
+    }
+  ],
+  "gaps": [
+    {"id": "additional-readings", "status": "not_located", "title": "Grainger/Stevenson (1994); Gross (2e, 1986); Stagg/El-Abiad (1968)", "reason": "Listed by syllabus. Bibliographic records are available; full texts have not been located or imported."}
+  ],
+  "excluded_archive_categories": ["2024/2025 syllabi as current policy", "student work", "grades and assessment spreadsheets", "actual exams", "homework solution archives", "instructor solutions"],
+  "pending_archive_readings": [
+    {"title": "Tips on PowerWorld.docx", "reason": "Contains historical project-specific settings; requires identification of applicable project/version before use as current instructions."},
+    {"title": "ECE 685 Project Report Guidelines.docx", "reason": "Historical report/rubric; do not override Fall 2026 project instructions without confirming applicability."}
+  ]
+}

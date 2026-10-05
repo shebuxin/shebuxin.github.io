@@ -1,0 +1,8 @@
+# Copy locally to .dev.vars (ignored); values are read only by the backend.
+# Generate a random string of at least 32 characters. This also hashes invitations.
+INVITE_PEPPER=
+# For real local evaluation set CHAT_MODE=live and choose a File Search capable model.
+# Current course Preview uses CHAT_MODEL=gpt-6-astra and CHAT_REASONING_EFFORT=medium.
+# MAX_OUTPUT_TOKENS=8192 includes reasoning and visible output; REQUEST_TIMEOUT_SECONDS=75.
+# OPENAI_API_KEY=
+# CHAT_MODEL=

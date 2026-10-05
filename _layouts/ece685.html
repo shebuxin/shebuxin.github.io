@@ -19,3 +19,8 @@ layout: default
     </article>
   </div>
 </div>
+{% if site.course_chat.enabled and lecture.status == 'live' %}
+  {% if site.course_chat.lectures contains lecture.id or site.course_chat.lectures contains '*' %}
+    {% include ece685-chat.html %}
+  {% endif %}
+{% endif %}

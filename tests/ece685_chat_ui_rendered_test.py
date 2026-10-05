@@ -1,0 +1,65 @@
+"""Feature gating and bilingual UI checks against actual Jekyll output."""
+import argparse
+import json
+from pathlib import Path
+import sys
+import unittest
+
+ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / 'scripts'))
+from export_ece685_chat_corpus import LessonHTML, course_path
+
+parser = argparse.ArgumentParser(description=__doc__)
+parser.add_argument('--site-dir', type=Path, default=ROOT / '_site')
+parser.add_argument('--enabled', action='store_true', help='Expect the local L05-only preview')
+args, unittest_args = parser.parse_known_args()
+
+
+class ChatRenderingTest(unittest.TestCase):
+    def pages(self):
+        for lecture in json.loads((ROOT / '_data/ece685.json').read_text())['lectures']:
+            for lang in ('en','zh'):
+                path = args.site_dir / course_path(lecture,lang).lstrip('/') / 'index.html'
+                yield lecture, lang, LessonHTML(path.read_text()).root
+
+    def test_only_enabled_released_l05_receives_the_component(self):
+        count = 0
+        for lecture,lang,tree in self.pages():
+            chats = tree.find(lambda n:'data-course-chat' in n.attrs)
+            expected = args.enabled and lecture['id'] == 'L05' and lecture['status'] == 'live'
+            self.assertEqual(len(chats),int(expected),(lecture['id'],lang))
+            if chats:
+                count += 1
+                self.assertEqual(chats[0].attrs['data-lecture-id'],'L05')
+                self.assertEqual(chats[0].attrs['data-lang'],lang)
+                slugs = chats[0].attrs['data-live-slugs'].split()
+                self.assertNotIn('l20-three-phase-transformers-i',slugs)
+        self.assertEqual(count,2 if args.enabled else 0)
+
+    def test_labels_and_dialog_targets_are_real_and_private_files_are_absent(self):
+        for lecture,lang,tree in self.pages():
+            chats = tree.find(lambda n:'data-course-chat' in n.attrs)
+            if not chats:
+                continue
+            chat = chats[0]
+            ids = {n.attrs['id'] for n in chat.find(lambda n:'id' in n.attrs)}
+            for label in chat.find(lambda n:n.tag=='label'):
+                self.assertIn(label.attrs['for'],ids)
+            dialog = chat.find(lambda n:n.tag=='dialog')[0]
+            self.assertIn(dialog.attrs['aria-labelledby'],ids)
+            self.assertEqual(chat.find(lambda n:'data-chat-open' in n.attrs)[0].attrs['aria-controls'],dialog.attrs['id'])
+            question = chat.find(lambda n:'data-chat-question' in n.attrs)[0]
+            self.assertEqual(question.attrs['maxlength'],'4000')
+        for private in ('_source','scripts','services','functions','.wrangler','.dev.vars','tmp/ece685-chat'):
+            self.assertFalse((args.site_dir / private).exists(),private)
+
+    def test_chat_resources_follow_the_feature_switch(self):
+        for lecture,lang,tree in self.pages():
+            scripts = tree.find(lambda n:n.tag=='script' and n.attrs.get('src','').endswith('/assets/js/ece685-chat.js'))
+            styles = tree.find(lambda n:n.tag=='link' and n.attrs.get('href','').endswith('/assets/css/ece685-chat.css'))
+            self.assertEqual(bool(scripts),args.enabled,(lecture['id'],lang))
+            self.assertEqual(bool(styles),args.enabled,(lecture['id'],lang))
+
+
+if __name__ == '__main__':
+    unittest.main(argv=[sys.argv[0]]+unittest_args)

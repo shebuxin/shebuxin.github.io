@@ -1,0 +1,95 @@
+{
+  "status": "live run and criterion review completed 2026-10-04; see evaluation-review-2026-10-04.json",
+  "cases": [
+    {
+      "id": "current-slide-clarification",
+      "group": "rms-follow-up",
+      "question": "这里是什么意思？",
+      "context": {
+        "kind": "slide",
+        "section_id": "lecture-overview",
+        "slide_number": 12,
+        "selection_text": ""
+      },
+      "expected_docs": [
+        "ECE685:L05:slide:012",
+        "ECE685:reference:glover-6e-2017:verified:rms-definition-and-sinusoid"
+      ],
+      "criteria": [
+        "Use the physical slide 12 RMS derivation as context without asking what the student means.",
+        "Explain square, full-period average, then square root, with the zero-offset sinusoid assumption.",
+        "Use the verified note rather than copying damaged extraction glyphs."
+      ]
+    },
+    {
+      "id": "current-slide-why",
+      "group": "rms-follow-up",
+      "question": "为什么最后那一项消失了？相位不是还在里面吗？",
+      "context": {
+        "kind": "slide",
+        "section_id": "lecture-overview",
+        "slide_number": 12,
+        "selection_text": ""
+      },
+      "expected_docs": [
+        "ECE685:reference:glover-6e-2017:verified:rms-definition-and-sinusoid"
+      ],
+      "criteria": [
+        "Retain the preceding RMS explanation in session history.",
+        "For a full period omega T=2 pi, so endpoint sine values agree for every phase.",
+        "Explain why this gives phase-independent RMS without claiming that phase never matters."
+      ]
+    },
+    {
+      "id": "current-slide-example-en",
+      "group": "rms-follow-up",
+      "language": "en",
+      "question": "Give me a small numerical example using a 10 V peak sinusoid, then explain how a 3 V DC offset changes the result.",
+      "context": {
+        "kind": "slide",
+        "section_id": "lecture-overview",
+        "slide_number": 12,
+        "selection_text": ""
+      },
+      "expected_docs": [
+        "ECE685:reference:glover-6e-2017:verified:rms-definition-and-sinusoid"
+      ],
+      "criteria": [
+        "Answer in English and preserve the follow-up context.",
+        "Without offset RMS=10/sqrt(2), about 7.071 V.",
+        "With 3 V DC offset the full-period squared mean is 9+50, so RMS=sqrt(59), about 7.681 V; distinguish this extension from the source's pure sinusoid."
+      ]
+    },
+    {
+      "id": "selected-code-atan2",
+      "question": "这两行有什么意义？为什么不能用 atan(imag/real)？",
+      "context": {
+        "kind": "code",
+        "section_id": "lecture-code",
+        "slide_number": null,
+        "selection_text": "magnitude = abs(z)\nphase = math.atan2(z.imag, z.real)"
+      },
+      "expected_docs": [
+        "ECE685:reference:glover-6e-2017:verified:phasor-reconstruction-and-axes"
+      ],
+      "criteria": [
+        "Explain exactly the selected code, with abs giving magnitude and atan2 giving radians.",
+        "Show the quadrant issue, including a vector with negative real part.",
+        "The zero phasor has no unique physical angle; do not execute the selected code."
+      ]
+    },
+    {
+      "id": "cross-lecture-rms-power",
+      "question": "L05 的 RMS 相量怎么接到 L06 的复功率，以及 L08 的三相功率公式？为什么有时候有根号3，有时候没有？",
+      "expected_docs": [
+        "ECE685:reference:glover-6e-2017:verified:complex-power-convention",
+        "ECE685:L08:lesson:zh:lecture-overview"
+      ],
+      "criteria": [
+        "For a passive single-phase load with RMS phasors S=V I*.",
+        "For a balanced three-phase load total power is three times per-phase power, and VLL=sqrt(3) VLN.",
+        "Use sqrt(3) VLL IL cos(phi) for balanced active power, explain the assumptions and avoid mixing peak and RMS or phase and line quantities."
+      ]
+    }
+  ]
+}

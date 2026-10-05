@@ -1,6 +1,7 @@
 # Develop override settings
 
 url: http://localhost:4000
+destination: tmp/ece685-chat/dev-site
 
 analytics:
   provider: false

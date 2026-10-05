@@ -1,0 +1,6 @@
+# Dedicated invitation-gated owner test; broader student release awaits source fixes.
+url: https://codex-ece685-chat-preview.power-edu.pages.dev
+course_chat:
+  enabled: true
+  lectures: [L05]
+  api_base: /api/course-chat

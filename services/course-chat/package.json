@@ -1,0 +1,10 @@
+{
+  "name":"ece685-course-chat",
+  "private":true,
+  "type":"module",
+  "scripts":{
+    "dev":"wrangler dev --config wrangler.local.jsonc",
+    "test":"node --test ../../tests/ece685_chat_backend_test.mjs"
+  },
+  "devDependencies":{"wrangler":"4.147.0"}
+}

@@ -10,6 +10,7 @@
 
 {% if page.ece685 %}
   <script defer src="{{ '/assets/js/ece685.js' | relative_url }}"></script>
+  {% if site.course_chat.enabled %}<script defer src="{{ '/assets/js/ece685-chat.js' | relative_url }}"></script>{% endif %}
 {% endif %}
 {% if page.ece685_slides %}
   <script defer src="{{ '/assets/js/ece685-slides.js' | relative_url }}"></script>

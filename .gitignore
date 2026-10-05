@@ -30,3 +30,9 @@ images/posts/*.tex
 images/posts/*.pdf
 images/posts/*.sty
 _source/*_cache/
+tmp/ece685-chat/
+_source/ece685-rag/materials/
+.wrangler/
+.dev.vars
+.dev.vars.*
+!.dev.vars.example

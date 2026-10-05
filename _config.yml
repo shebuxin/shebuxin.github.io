@@ -13,6 +13,13 @@ name                     : "Buxin She"
 description              : "Buxin She is an Assistant Professor of Electrical and Computer Engineering at Kansas State University."
 url                      : "https://shebuxin.github.io"
 baseurl                  : "" # the subpath of your site, e.g. "/blog"
+
+# Public chat settings only. Runtime credentials belong in Cloudflare Secrets.
+course_chat:
+  enabled: false
+  lectures: [L05]
+  api_base: ""
+
 repository               : "shebuxin/shebuxin.github.io"
 teaser                   : # filename of teaser fallback teaser image placed in /images/, .e.g. "500x300.png"
 breadcrumbs              : false # true, false (default)
@@ -101,6 +108,7 @@ exclude:
   - .asset-cache
   - .bundle
   - .jekyll-cache
+  - _site
   - .Rproj.user
   - _config.dev.yml
   - _source
@@ -125,6 +133,13 @@ exclude:
   - package-lock.json
   - scripts
   - services
+  - functions
+  - .wrangler
+  - .dev.vars
+  - .dev.vars.*
+  - wrangler.json
+  - wrangler.jsonc
+  - wrangler.toml
   - tests
   - tmp
   - vendor

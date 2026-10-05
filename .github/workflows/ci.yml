@@ -2,7 +2,7 @@ name: CI
 
 on:
   push:
-    branches: [master]
+    branches: [master, codex/ece685-chat-preview]
   pull_request:
 
 permissions:
@@ -40,6 +40,8 @@ jobs:
           node --check assets/js/research-landscape.js
           node --check assets/js/ece685.js
           node --check assets/js/ece685-slides.js
+          node --check assets/js/ece685-chat.js
+          bash -n scripts/build_cloudflare_pages.sh
           node --check assets/js/ece685-stage-model.js
           node --check assets/js/ece685-stage-lesson.js
           node --check assets/js/l05-phasor-model.js
@@ -84,6 +86,26 @@ jobs:
       - name: Verify ECE 685 knowledge models and Python parity
         run: node --test tests/ece685_stage_test.cjs
 
+      - name: Verify ECE 685 slide citation navigation
+        run: node --test tests/ece685_slides_test.cjs
+
+      - name: Verify ECE 685 chat context, rendering and streaming
+        run: node --test tests/ece685_chat_test.cjs
+
+      - name: Verify ECE 685 chat backend, quotas and model protocol
+        run: |
+          node --test tests/ece685_chat_backend_test.mjs
+          node --check scripts/evaluate_ece685_chat.mjs
+
+      - name: Compile Cloudflare course chat routes
+        env:
+          WRANGLER_SEND_METRICS: "false"
+          WRANGLER_LOG_PATH: tmp/ece685-chat/wrangler-logs
+        run: |
+          npm ci --prefix services/course-chat --ignore-scripts
+          npm audit --prefix services/course-chat
+          services/course-chat/node_modules/.bin/wrangler pages functions build functions --outfile tmp/ece685-chat/pages-worker.js
+
       - name: Verify four-wire unbalanced power flow
         run: node --test tests/unbalanced_power_flow_test.cjs
 
@@ -110,7 +132,18 @@ jobs:
           python tests/research_rendered_test.py
 
       - name: Validate ECE 685 lecture framework
-        run: python tests/ece685_rendered_test.py
+        run: |
+          python tests/ece685_rendered_test.py
+          python tests/ece685_chat_rendered_test.py
+          python tests/ece685_chat_ui_rendered_test.py
+          python scripts/export_ece685_chat_corpus.py
+
+      - name: Validate local ECE 685 chat preview
+        env:
+          JEKYLL_ENV: production
+        run: |
+          bundle exec jekyll build --strict_front_matter --config _config.yml,services/course-chat/preview.yml --destination tmp/ece685-chat/site
+          python tests/ece685_chat_ui_rendered_test.py --site-dir tmp/ece685-chat/site --enabled
 
       - name: Validate IBR modeling lessons and physics
         run: python tests/ibr_modeling_test.py

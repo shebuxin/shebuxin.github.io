@@ -1,0 +1,16 @@
+{
+  // Local Worker only. Never pass this configuration to a deployment command.
+  "name": "ece685-chat-local",
+  "main": "src/worker.mjs",
+  "compatibility_date": "2026-10-04",
+  "d1_databases": [{
+    "binding": "CHAT_DB", "database_name": "ece685-chat-local",
+    "database_id": "00000000-0000-0000-0000-000000000000",
+    "migrations_dir": "migrations"
+  }],
+  "vars": {
+    "CHAT_MODE": "mock",
+    "ALLOWED_ORIGINS": "http://127.0.0.1:8790,http://127.0.0.1:8788,http://localhost:8790"
+  },
+  "dev": {"ip":"127.0.0.1","port":8790}
+}
