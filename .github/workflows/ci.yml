@@ -87,6 +87,9 @@ jobs:
       - name: Verify four-wire unbalanced power flow
         run: node --test tests/unbalanced_power_flow_test.cjs
 
+      - name: Verify ECE 685 slide citation navigation
+        run: node --test tests/ece685_slides_test.cjs
+
       - name: Verify real pandapower and downloadable notebook
         run: |
           python -m pip install -r assets/code/requirements-pandapower.txt
