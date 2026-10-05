@@ -20,13 +20,6 @@
     "median": 15.92,
     "maximum": 38.52
   },
-  "cloud_preview": {
-    "imported_documents": 1104,
-    "version_status": "staging",
-    "active_version": null,
-    "chat_code_deployed": false,
-    "cleanup_worker_deployed": false
-  },
   "limitations": [
     "预计来源ID命中与完整答题标准分别检查；相关替代来源或已提供的核验说明可能支持正确答案。",
     "模型可根据内联材料回答，但内联参考出处卡片需要完善，当前并非所有教材说明都会显示书目和PDF页。",
@@ -202,5 +195,32 @@
       "retrieval_expected_hits": [],
       "citation_expected_hits": []
     }
-  ]
+  ],
+  "cloud_preview_at_evaluation": {
+    "imported_documents": 1104,
+    "version_status": "staging",
+    "active_version": null,
+    "chat_code_deployed": false,
+    "cleanup_worker_deployed": false
+  },
+  "owner_online_test": {
+    "authorization": "User requested push and online testing after the 17/20 evaluation review. Limited teacher test; student release gate unchanged.",
+    "branch": "codex/ece685-chat-preview",
+    "origin": "https://codex-ece685-chat-preview.power-edu.pages.dev",
+    "entry_lecture": "L05",
+    "version_status": "ready",
+    "active_version": "ece685-2cb02ab2374b55da3f58",
+    "chat_code_deployed": true,
+    "cleanup_worker_deployed": true,
+    "browser_verification": "Invitation login, RMS explanation, DC-offset follow-up and verified slide-12 citation navigation passed. Bold/emphasis inline-math rendering regression found and fixed.",
+    "cleanup_cron": "*/15 * * * *",
+    "cleanup_public_http": false,
+    "completed_requests": 2,
+    "failed_requests": 0,
+    "mean_seconds": 15.15,
+    "initial_deployment_id": "e5550aa9-e628-461a-942a-247e8ad795db",
+    "initial_commit": "975140b9a279434e3849d7c00c8e8304bc75cfb3",
+    "initial_ci_url": "https://github.com/shebuxin/shebuxin.github.io/actions/runs/37259376873",
+    "health_probe_limitation": "CLI GET rejected by Cloudflare browser check (1010); browser direct JSON navigation blocked by client. Actual page session and messages APIs succeeded."
+  }
 }

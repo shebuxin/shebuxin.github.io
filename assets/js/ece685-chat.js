@@ -149,8 +149,8 @@
         const token = match[0];
         let child;
         if (token.startsWith("`")) { child = document.createElement("code"); child.textContent = token.slice(1, -1); }
-        else if (token.startsWith("**")) { child = document.createElement("strong"); child.textContent = token.slice(2, -2); }
-        else if (token.startsWith("*")) { child = document.createElement("em"); child.textContent = token.slice(1, -1); }
+        else if (token.startsWith("**")) { child = document.createElement("strong"); inline(child, token.slice(2, -2)); }
+        else if (token.startsWith("*")) { child = document.createElement("em"); inline(child, token.slice(1, -1)); }
         else {
           child = document.createElement("span");
           const display = token.startsWith("$$") || token.startsWith("\\[");

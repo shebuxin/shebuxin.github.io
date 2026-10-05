@@ -1,6 +1,6 @@
 # ECE 685 聊天服务账户配置
 
-本指南用于把已经通过本地验证的聊天后端接入现有 Cloudflare 网站。2026-10-04 已通过 Chrome 核对现有 Pages 项目，创建 Preview D1 并保存绑定及运行参数。1,104 份文档已完成真实索引并导入 staging；GPT-6 Astra 的 20 题实测均完成，17 题达到完整标准，3 题需改进出处及资料定位。用户随后要求在线测试，专用 Preview 数据库已激活并导入教师邀请码，正在发布专用测试分支。学生开放仍等待三处来源修复及评估。
+本指南用于把已经通过本地验证的聊天后端接入现有 Cloudflare 网站。2026-10-04 已通过 Chrome 核对现有 Pages 项目，创建 Preview D1 并保存绑定及运行参数。1,104 份文档已完成真实索引并导入 staging；GPT-6 Astra 的 20 题实测均完成，17 题达到完整标准，3 题需改进出处及资料定位。用户随后要求在线测试，专用 Preview 数据库已激活并导入教师邀请码，专用测试分支已部署并通过线上登录、回答和追问测试。学生开放仍等待三处来源修复及评估。
 
 ## 已核对与配置的环境
 
@@ -11,10 +11,10 @@
 | Git 仓库 | `shebuxin/shebuxin.github.io` |
 | Production 分支 | `master`，自动部署已启用 |
 | Preview 分支 | 全部非 Production 分支；聊天使用 `codex/ece685-chat-preview` |
-| 原构建命令 | `RUBYOPT='-EUTF-8' bundle exec jekyll build` |
+| 原构建命令（变更前） | `RUBYOPT='-EUTF-8' bundle exec jekyll build` |
 | 构建输出 / 系统 | `_site` / Version 3 |
 | Preview D1 | `ece685-chat-preview` |
-| Preview binding | `CHAT_DB` → `ece685-chat-preview`，已保存，下一次部署生效 |
+| Preview binding | `CHAT_DB` → `ece685-chat-preview`，已在聊天 Preview 生效 |
 | D1 ID | `cd2eb255-a596-4098-b8cb-d61ad62df9b8` |
 | Preview schema | 已应用 `0001.sql`：8 张课程表、5 个触发器；1,104 份文档；`ece685-2cb02ab2374b55da3f58` 已为教师测试设为 ready / active |
 | Preview 运行参数 | 已保存下表中的 `CHAT_MODE`、来源限制及六项会话/请求限额 |
@@ -60,7 +60,15 @@ python3 scripts/create_ece685_chat_invite.py --output tmp/ece685-chat/preview-ac
 
 第一条最多新附加 100 文件，重跑继续；第二条仅在本机生成邀请码及 SQL，不自动导入数据库。当前索引已 ready，17 个 SQL 批次均已一次性导入已确认的 Preview D1；远端先确认 1,104 份文档及 staging / 空 active 状态，再按用户在线测试请求一次性执行激活 SQL 与教师邀请码导入。上传曾遇到临时 503 和短暂列表不一致，已先只读核对后恢复，未自动重复未知 POST。三个评估缺口保留为学生开放前的修复项；教师在线测试使用独立 Preview 和邀请码。
 
-本机真实页面使用独立 D1 与回环地址 `http://127.0.0.1:8853`，Chrome 已验证两次问答、公式及来源卡片；不改变 Cloudflare 的启用状态。Preview 清理 Worker 已按专用数据库配置并通过 dry-run 编译，尚未部署。当前 Wrangler 授权只有账户读取和 D1 写入，不包含 Workers/Pages 发布权限；代码发布仍按现有 Git 集成安排。
+本机真实页面使用独立 D1 与回环地址 `http://127.0.0.1:8853`，Chrome 已验证两次问答、公式及来源卡片；不改变 Cloudflare 的启用状态。Preview 清理 Worker `ece685-chat-cleanup-preview` 已通过 Chrome 创建、部署编译后的 `src/cleanup.mjs`、绑定专用 D1；每 15 分钟的 Cron 保存并在重新加载后确认。公开 HTTP 和版本预览 URL 均关闭，无模型凭证。当前 Wrangler 授权只有账户读取和 D1 写入，不包含 Workers/Pages 发布权限；代码发布仍按现有 Git 集成安排。
+
+## 已发布的教师测试
+
+- 分支别名：`https://codex-ece685-chat-preview.power-edu.pages.dev`；仅此 origin 可调用当前 Preview 聊天。
+- 聊天入口：[L05 中文第 12 页](https://codex-ece685-chat-preview.power-edu.pages.dev/zh/teaching/course-development/ece685/l05-single-phase-ac-i/?slide=12#lecture-overview)，英文 L05 同时启用。
+- 初次代码提交：`975140b9a279434e3849d7c00c8e8304bc75cfb3`；[GitHub CI](https://github.com/shebuxin/shebuxin.github.io/actions/runs/37259376873) 成功。Cloudflare 首次部署 `e5550aa9-e628-461a-942a-247e8ad795db` 成功；随后修复强调文字内的行内公式并更新记录。
+- Chrome 真实 HTTPS 验证：邀请码登录、两次连续问答、公式及课件引用跳转。D1 记录两次 completed、无错误，平均 15.15 秒。命令行健康探测被 Cloudflare 浏览器检查拒绝（1010）；直接页面导航 JSON 被客户端拦截，因此没有把这两项写成健康接口通过。浏览器课程 API 登录与实际问答已成功。
+- 私有邀请码保存于本机 `tmp/ece685-chat/preview-account/invitation-code.txt`，未放入仓库或静态网站；会话只存最近三轮短期历史。
 
 ## Cloudflare Preview 配置
 

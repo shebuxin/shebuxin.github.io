@@ -1,10 +1,16 @@
 # ECE 685 Chat 本地预览与接口
 
-页面聊天组件与 Cloudflare 后端已实现，默认生产配置关闭。2026-10-04 已使用 GPT-6 Astra 完成 1,104 份文档的真实索引和 20 题实际问答：20 题调用完成，17 题达到完整标准，3 题的参考出处或资料定位需改进。用户已要求在线测试，专用 Preview D1 已激活该版本并导入教师测试邀请码；代码发布目标为 `codex/ece685-chat-preview`，只在 L05 开启聊天。学生开放仍等待来源修复与评估。原页面演示服务继续可用。
+页面聊天组件与 Cloudflare 后端已实现，默认生产配置关闭。2026-10-04 已使用 GPT-6 Astra 完成 1,104 份文档的真实索引和 20 题实际问答：20 题调用完成，17 题达到完整标准，3 题的参考出处或资料定位需改进。用户已要求在线测试，专用 Preview D1 已激活该版本并导入教师测试邀请码；`codex/ece685-chat-preview` 已通过 Git 集成部署到 Cloudflare，只在 L05 开启聊天。学生开放仍等待来源修复与评估。原页面演示服务继续可用。
 
 本机真实模型页面位于 `http://127.0.0.1:8853/zh/teaching/course-development/ece685/l05-single-phase-ac-i/?slide=12#lecture-overview`，使用独立的私有本地 D1、配置及邀请码；它会产生真实 API 调用。Chrome 已验证两次连续问答、公式和已校验的来源链接。运行配置和日志位于忽略的 `tmp/ece685-chat/live-local/`，本机 key 不进入网页资源。
 
-## 打开预览
+## 在线教师测试
+
+[打开 L05 中文测试页](https://codex-ece685-chat-preview.power-edu.pages.dev/zh/teaching/course-development/ece685/l05-single-phase-ac-i/?slide=12#lecture-overview)。点击“问 AI”，使用本机私有 `tmp/ece685-chat/preview-account/invitation-code.txt` 中的邀请码。该文件不提交 Git，不作为网页资产。邀请码最多 200 次问题、20 个会话，到期时间来自 `invitation-private.json`；每个会话最多 30 次问题，有效两小时。
+
+2026-10-04 已在实际 HTTPS 页面验证邀请码登录、RMS 解释、含直流偏置的连续追问和返回课件第 12 页的引用。D1 确认两次请求均完成，平均 15.15 秒。粗体与斜体内的公式排版问题已补充回归检查并修复。此记录是教师操作测试，20 题质量评估仍为 17/20。
+
+## 打开本地预览
 
 从仓库根目录运行：
 
@@ -128,7 +134,7 @@ API 地址为 `http://127.0.0.1:8790/api/course-chat`。给已有页面预览使
 
 邀请码 HMAC、会话 token SHA-256 保存在 D1；secret 和明文邀请码不进入数据库。默认会话 2 小时、30 次调用，全课程 UTC 日上限 200 次、最多 3 个同时运行请求；邀请码另有总调用与新建会话限额。一次 INSERT 和数据库触发器完成有效性、额度和并发检查及计数，重复请求 ID 不扣第二次。获准调用即计数，取消和失败不退回，避免重复调用绕过额度；调用次数上限不能替代提供商金额预算。
 
-会话保存最近最多三轮对话，总计最多 12,000 字符，仅用于追问；失败/取消的半截回答不进入历史。更换材料版本后不复用旧版对话。过期后拒绝访问并由清理任务物理删除；每次 API 请求也清理过期记录。Pages 上线时需配套每 15 分钟运行的清理 Worker，配置示例为 `wrangler.cleanup.example.jsonc`；独立 Worker 可使用自身的 scheduled handler。当前只实现并测试清理逻辑，云端任务尚未创建。
+会话保存最近最多三轮对话，总计最多 12,000 字符，仅用于追问；失败/取消的半截回答不进入历史。更换材料版本后不复用旧版对话。过期后拒绝访问并由清理任务物理删除；每次 API 请求也清理过期记录。Pages 上线时需配套每 15 分钟运行的清理 Worker，配置示例为 `wrangler.cleanup.example.jsonc`；独立 Worker 可使用自身的 scheduled handler。专用 `ece685-chat-cleanup-preview` Worker 已通过 Chrome 发布并绑定同一个 Preview D1，`*/15 * * * *` 已保存并在重新加载后确认；HTTP 及版本预览 URL 均关闭。清理 Worker 不含模型 key。
 
 请求默认 60 秒超时、输出上限 1,600 tokens、最多两次工具调用。停止会取消上游请求，异常退出的并发占位最长在超时加 30 秒后失效。日志仅含请求 ID、版本、耗时、用量与错误码，不含问题、代码选区、回答、邀请码或 token。Responses 使用 `store: false` 和本地短期历史；这不等同于提供商 Zero Data Retention，API 的其他数据处理按[官方数据控制文档](https://developers.openai.com/api/docs/guides/your-data)执行。
 
@@ -163,4 +169,4 @@ python3 scripts/evaluate_ece685_chat.py --corpus tmp/ece685-chat/ece685-2cb02ab2
 
 上传 SQL 默认位于忽略的 `tmp/ece685-chat/index/<版本>/`，包含教材摘录，不能复制到 `_site`。先导入 staging 数据，再做真实模型/来源评估，最后执行 `activate.sql`。触发器拒绝缺文档或缺教材选择说明的激活。普通更新失败保留旧版本；材料撤回先将受影响版本置为 paused，停止新调用，再清理旧索引。已经开始的回答不能撤回已显示文字，应在撤回操作时结束试用并等待最长运行窗口结束。
 
-真实模型与 Cloudflare 配置步骤见 [账户配置指南](cloudflare-setup.md)。账户所有者已填写两处凭证，Preview Secrets、D1 与模型参数已核对。下一步完善来源检索与引用显示，复测通过后部署清理任务和聊天 Preview；Production 使用独立资源并另行验证。
+真实模型与 Cloudflare 配置步骤见 [账户配置指南](cloudflare-setup.md)。账户所有者已填写两处凭证，Preview Secrets、D1 与模型参数已核对。教师 Preview 已发布并验证，下一步完善来源检索与引用显示后针对性复测；Production 使用独立资源并另行验证。

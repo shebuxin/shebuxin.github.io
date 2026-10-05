@@ -120,6 +120,20 @@ test('Markdown creates text and safe elements; HTML stays inert and math is untr
   assert.equal(math[0].options.maxExpand,1000);
 });
 
+test('math inside emphasized explanations renders without interpreting code or HTML', () => {
+  const body=new Element('div'),math=[];
+  chat.renderMarkdown(body,'**不会直接增加 $3\\ \\mathrm V$**，*RMS 是 $\\sqrt{59}$*。 `**$code$**` **<img src=x>**',document,
+    {render(formula,node,options){math.push({formula,options});node.textContent='math';}});
+  assert.deepEqual(math.map(item=>item.formula),['3\\ \\mathrm V','\\sqrt{59}']);
+  assert(math.every(item=>item.options.trust===false));
+  assert(!body.textContent.includes('$3'));
+  assert(body.textContent.includes('**$code$**'));
+  assert(body.textContent.includes('<img src=x>'));
+  assert(!tags(body).includes('img'));
+  assert(tags(body).includes('strong'));
+  assert(tags(body).includes('em'));
+});
+
 test('a browser-reported editor selection is attached only after the explicit code action', () => {
   const nodes=new Map(),listeners={};
   function element(name) {
