@@ -1,3 +1,7 @@
+---
+published: false
+---
+
 # ECE 685 diagram design and verification
 
 The course diagrams show the modeled electrical connection or a quantitative relationship. Generic process boxes and decorative electrical marks are not substitutes for a circuit, phasor construction, or capacity comparison.
