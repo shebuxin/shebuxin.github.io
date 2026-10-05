@@ -24,11 +24,13 @@
 
   function messageRequest(lecture, language, context, message, requestId) {
     message = message.trim();
-    if (!/^L\d{2}b?$/.test(lecture) || !["en", "zh"].includes(language) || !message || message.length > MAX_TEXT) throw new ChatError("invalid_request");
+    const courseHome = lecture === "COURSE";
+    if ((!courseHome && !/^L\d{2}b?$/.test(lecture)) || !["en", "zh"].includes(language) || !message || message.length > MAX_TEXT) throw new ChatError("invalid_request");
     let snapshot = null;
     if (context) {
-      if (!["slide", "lesson", "selection", "code"].includes(context.kind) || !SECTIONS.has(context.section_id)) throw new ChatError("invalid_context");
+      if (courseHome ? !["lesson", "selection"].includes(context.kind) || context.section_id !== "course-overview" : !["slide", "lesson", "selection", "code"].includes(context.kind) || !SECTIONS.has(context.section_id)) throw new ChatError("invalid_context");
       const page = context.slide_number ?? null;
+      if (courseHome && page !== null) throw new ChatError("invalid_context");
       if (page !== null && (!Number.isInteger(page) || page < 1)) throw new ChatError("invalid_context");
       if (context.kind === "slide" && (page === null || context.section_id !== "lecture-overview")) throw new ChatError("invalid_context");
       const selection = context.selection_text || "";
@@ -200,6 +202,7 @@
     if (!root || !platform) return;
     const find = name => root.querySelector(`[data-chat-${name}]`);
     const lang = root.dataset.lang === "zh" ? "zh" : "en", zh = lang === "zh", lecture = root.dataset.lectureId;
+    const courseHome = lecture === "COURSE";
     const dialog = find("dialog"), question = find("question"), status = find("status"), messages = find("messages");
     const content = platform.querySelector(".ece-body"), reader = platform.querySelector("[data-slide-reader]");
     const base = apiBase(root.dataset.apiBase, window.location.href);
@@ -210,7 +213,10 @@
       ready: "Ready for your question.", connecting: "Checking the invitation code…", thinking: "Answering…", complete: "Answer complete.", stopped: "Stopped. This answer is incomplete.", incomplete: "Answer incomplete. Check your connection before asking again.", failed: "The service is unavailable. Please try later.", unauthorized: "Your session expired. Enter the course invitation code again.", invite_invalid: "Invalid invitation code. Check it and try again.", quota_exceeded: "The course usage allowance has been reached.", rate_limited: "Too many requests. Please try later.", timeout: "Request timed out. This answer is incomplete.", not_configured: "The chat service has not been configured.", invalid_context: "This context is unavailable. Choose it again.", noSelection: "Select text in the lesson, then open chat.", noCode: "Select text in a Python editor, then attach it.", reset: "Chat cleared. Enter the invitation code for a new conversation.", course: "ECE 685 · course question", selected: "selected text", code: "selected code", slide: "slide", page: "", user: "You", assistant: "Learning assistant", demo: "UI demonstration", demoNote: "UI demonstration: checks context, messages and citations. It does not generate real AI answers.", liveNote: "Textbook basis: sixth edition. Ask for an explanation or follow up.", meaning: "What does this mean?", simpler: "Please explain your last answer more simply.", example: "Please give a concrete example.", explain: "Please explain the attached text.", explainCode: "Please explain the attached code.", sections: { "lecture-overview": "Concepts", "lecture-experiment": "Experiment", "lecture-code": "Teaching code", "lecture-practice": "Practice" }
     };
     let session = null, busy = false, epoch = 0, controller = null, lastEditor = null, selection = null, context = null;
-    let position = { kind: "lesson", section_id: "lecture-overview", slide_number: null, selection_text: "" };
+    text.overview = zh ? "请根据课程 syllabus 和课程资料，概述 ECE 685 的主要内容和学习目标。" : "Using the syllabus and course materials, summarize what ECE 685 covers and its learning goals.";
+    text.prerequisites = zh ? "学习 ECE 685 需要哪些先修知识？请区分 syllabus 的正式要求和你的复习建议。" : "What background do I need for ECE 685? Distinguish official syllabus prerequisites from your review suggestions.";
+    text.start = zh ? "我是刚开始学习 ECE 685 的学生，应该从哪里开始？请根据已经开放的课程内容建议学习顺序。" : "I am new to ECE 685. Where should I start? Suggest a learning sequence using the available course material.";
+    let position = { kind: "lesson", section_id: courseHome ? "course-overview" : "lecture-overview", slide_number: null, selection_text: "" };
     function notify(message, error) { status.textContent = message; status.dataset.state = error ? "error" : "ready"; }
     function controls() {
       find("send").disabled = busy || !session || !base;
@@ -222,8 +228,8 @@
     }
     function contextLabel(value) {
       if (!value) return text.course;
-      const place = value.slide_number ? `${text.slide} ${value.slide_number} ${text.page}`.trim() : text.sections[value.section_id];
-      return `${lecture} · ${place}${value.selection_text ? " · " + (value.kind === "code" ? text.code : text.selected) : ""}${value.selection_truncated ? (zh ? "（仅附前 4000 字符）" : " (first 4,000 characters only)") : ""}`;
+      const place = courseHome ? (zh ? "课程概览" : "Course overview") : value.slide_number ? `${text.slide} ${value.slide_number} ${text.page}`.trim() : text.sections[value.section_id];
+      return `${courseHome ? "ECE 685" : lecture} · ${place}${value.selection_text ? " · " + (value.kind === "code" ? text.code : text.selected) : ""}${value.selection_truncated ? (zh ? "（仅附前 4000 字符）" : " (first 4,000 characters only)") : ""}`;
     }
     function setContext(value) {
       context = value ? { ...value } : null;
@@ -249,9 +255,9 @@
       const element = node.nodeType === 1 ? node : node.parentElement;
       if (!element || !content.contains(element) || element.closest("textarea,input,[contenteditable='true']")) return;
       const panel = element.closest("[data-panel]");
-      if (!panel || !SECTIONS.has(panel.id)) return;
+      if (!courseHome && (!panel || !SECTIONS.has(panel.id))) return;
       const selected = range.toString().trim();
-      selection = { kind: "selection", section_id: panel.id, slide_number: element.closest("[data-slide-reader]") ? slideContext()?.slide_number || null : null, selection_text: selected.slice(0, MAX_TEXT), selection_truncated: selected.length > MAX_TEXT };
+      selection = { kind: "selection", section_id: courseHome ? "course-overview" : panel.id, slide_number: element.closest("[data-slide-reader]") ? slideContext()?.slide_number || null : null, selection_text: selected.slice(0, MAX_TEXT), selection_truncated: selected.length > MAX_TEXT };
     }
     function open() {
       captureSelection();
@@ -387,8 +393,8 @@
     });
     window.addEventListener("pagehide", () => { ++epoch; controller?.abort(); });
     const hash = window.location.hash.slice(1);
-    if (SECTIONS.has(hash)) position.section_id = hash;
-    if (new URL(window.location.href).searchParams.has("slide") && position.section_id === "lecture-overview") position.kind = "slide";
+    if (!courseHome && SECTIONS.has(hash)) position.section_id = hash;
+    if (!courseHome && new URL(window.location.href).searchParams.has("slide") && position.section_id === "lecture-overview") position.kind = "slide";
     setContext(currentContext()); controls();
     if (!base) notify(text.not_configured, true);
   }

@@ -32,6 +32,18 @@ test('invalid page, section and oversized attached text fail before a request', 
   ]) assert.throws(()=>chat.messageRequest('L05','en',context,'Question','request'),/invalid_context/);
 });
 
+test('course homepage has its own context and cannot claim a lecture slide or code', () => {
+  const context={kind:'lesson',section_id:'course-overview',slide_number:null,selection_text:''};
+  const body=chat.messageRequest('COURSE','en',context,'What does this course cover?','overview-1');
+  assert.equal(body.lecture_id,'COURSE');
+  assert.equal(body.context.section_id,'course-overview');
+  assert.equal(chat.messageRequest('COURSE','zh',null,'需要哪些基础？','overview-2').context,null);
+  assert.equal(chat.messageRequest('COURSE','zh',{...context,kind:'selection',selection_text:'稳态分析'},'什么意思？','overview-3').context.selection_text,'稳态分析');
+  for(const bad of [{...context,slide_number:1},{...context,kind:'code'},{...context,section_id:'lecture-overview'}])
+    assert.throws(()=>chat.messageRequest('COURSE','en',bad,'Question','overview-4'),/invalid_context/);
+  assert.throws(()=>chat.messageRequest('L01','en',context,'Question','overview-5'),/invalid_context/);
+});
+
 test('API configuration allows HTTPS and loopback preview, without credentials in URLs', () => {
   const page='https://shebuxin.github.io/lesson/';
   assert.equal(chat.apiBase('',page),null);
@@ -169,4 +181,33 @@ test('a browser-reported editor selection is attached only after the explicit co
   assert.equal(nodes.get('selection-preview').hidden,false);
   assert.equal(nodes.get('selection-text').textContent,'result = solve(case)');
   assert(!nodes.get('selection-text').textContent.includes('print(result)'));
+});
+
+test('homepage initialization labels course context and attaches selected homepage text', () => {
+  const nodes=new Map(),prompt=new Element('button');
+  prompt.dataset={chatPrompt:'overview'};prompt.addEventListener=(name,callback)=>{prompt.click=callback;};
+  const root={dataset:{lang:'en',lectureId:'COURSE',apiBase:'/api/course-chat',liveSlugs:'l01-course-orientation',baseurl:''},
+    querySelector(selector){
+      const name=selector.slice('[data-chat-'.length,-1);
+      if(!nodes.has(name)) {
+        const node=new Element('div');node.dataset={};node.value=name==='context'?'current':'';
+        node.events={};node.addEventListener=(event,callback)=>{node.events[event]=callback;};
+        node.setAttribute=()=>{};node.focus=()=>{};
+        nodes.set(name,node);
+      }
+      return nodes.get(name);
+    },querySelectorAll(){return [prompt];}};
+  const ancestor={nodeType:1,closest(){return null;}};
+  const content={contains(node){return node===ancestor;},addEventListener(){}};
+  const platform={querySelector(selector){return selector==='.ece-body'?content:null;},addEventListener(){}};
+  const fakeDocument={querySelector(selector){return selector==='[data-course-chat]'?root:platform;},addEventListener(){}};
+  const fakeWindow={location:{href:'https://example.org/teaching/ece685/?slide=12#lecture-code',hash:'#lecture-code'},
+    addEventListener(){},getSelection(){return {rangeCount:1,toString(){return 'steady-state analysis';},getRangeAt(){return {commonAncestorContainer:ancestor};}};}};
+  chat.init(fakeDocument,fakeWindow);
+  assert.equal(nodes.get('context-label').textContent,'ECE 685 · Course overview');
+  assert.equal(nodes.get('open').hidden,false);
+  prompt.click();assert.match(nodes.get('question').value,/syllabus/);
+  nodes.get('explain-selection').events.click();
+  assert.equal(nodes.get('selection-text').textContent,'steady-state analysis');
+  assert.equal(nodes.get('context-label').textContent,'ECE 685 · Course overview · selected text');
 });
