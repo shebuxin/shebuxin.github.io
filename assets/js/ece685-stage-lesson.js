@@ -40,6 +40,47 @@
   }
   function legend(el,p){el.textContent=p.curves.map((c,i)=>`${i+1}. ${c.name}`).join(' · ');}
   function box(x,y,width,height,title,lines){return `<rect x="${x}" y="${y}" width="${width}" height="${height}" rx="9" fill="#f7f2fc" stroke="#d7c9e4"/><text x="${x+12}" y="${y+24}" class="stage-svg-title">${esc(title)}</text>${lines.map((line,i)=>`<text x="${x+12}" y="${y+48+i*22}" class="stage-svg-text">${esc(line)}</text>`).join('')}`;}
+  function transformerNetworkDiagram(svg,r){
+    const m=r.metrics,p=r.parameters;
+    const sub=(symbol,index)=>`${symbol}<tspan baseline-shift="sub" font-size="70%">${index}</tspan>`;
+    const value=(x,y,s)=>`<text x="${x}" y="${y}" text-anchor="middle" class="stage-circuit-value">${esc(s)}</text>`;
+    const symbol=(x,y,s)=>`<text x="${x}" y="${y}" text-anchor="middle" class="stage-circuit-symbol">${s}</text>`;
+    // L18 slide 14: H-side series impedance and separate ideal-transformer ports.
+    // The complex ratio is in pu on fixed bases, rather than the physical turns ratio.
+    svg.setAttribute('viewBox','0 0 800 365');
+    svg.innerHTML=`<title>${esc(words('Y–Δ 变压器正序等效电路','Y–Δ transformer positive-sequence equivalent circuit'))}</title>
+      <desc>${esc(words('高压侧串联等效阻抗连接理想变压器。高、低压侧回路彼此电气隔离。两侧电压上正下负，高压电流流入、低压电流流出。所有相量采用固定基准的标幺值，忽略励磁支路。','H-side series impedance feeds an ideal transformer with electrically separate H and L ports. Voltage references are positive at the top; H current enters and L current leaves. Phasors use fixed per-unit bases; excitation is neglected.'))}</desc>
+      <defs>
+        <marker id="stage-circuit-h-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0 0L10 5L0 10" fill="none" stroke="#a33e3e" stroke-width="1.5"/></marker>
+        <marker id="stage-circuit-l-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0 0L10 5L0 10" fill="none" stroke="#0877a0" stroke-width="1.5"/></marker>
+      </defs>
+      <text x="400" y="28" text-anchor="middle" class="stage-circuit-heading">${esc(words('Y–Δ 正序等效电路','Y–Δ positive-sequence equivalent circuit'))}</text>
+      <g class="stage-circuit-wire">
+        <path d="M115 140H250 M335 140H475V152 M475 252V265H115 M525 152V140H720 M525 252V265H720"/>
+        <rect x="250" y="127" width="85" height="26"/>
+        <path d="M475 152a12.5 12.5 0 0 1 0 25a12.5 12.5 0 0 1 0 25a12.5 12.5 0 0 1 0 25a12.5 12.5 0 0 1 0 25 M525 152a12.5 12.5 0 0 0 0 25a12.5 12.5 0 0 0 0 25a12.5 12.5 0 0 0 0 25a12.5 12.5 0 0 0 0 25"/>
+        <g fill="#fff"><circle cx="115" cy="140" r="3.5"/><circle cx="115" cy="265" r="3.5"/><circle cx="720" cy="140" r="3.5"/><circle cx="720" cy="265" r="3.5"/></g>
+      </g>
+      <path d="M497 151V253 M503 151V253" class="stage-circuit-core"/>
+      <path d="M145 76H215" fill="none" stroke="#a33e3e" stroke-width="2" marker-end="url(#stage-circuit-h-arrow)"/>
+      <path d="M615 76H685" fill="none" stroke="#0877a0" stroke-width="2" marker-end="url(#stage-circuit-l-arrow)"/>
+      ${symbol(180,57,sub('i','H'))}${symbol(650,57,sub('i','L'))}
+      ${value(180,101,fmt(r.phasors.IH_pu.rms)+' pu ('+fmt(m.h_line_a,1)+' A)')}
+      ${value(650,101,fmt(r.phasors.IL_pu.rms)+' pu ('+fmt(m.l_line_a,1)+' A)')}
+      ${symbol(293,113,sub('z','eq'))}
+      ${value(293,192,fmt(m.z_pu_re)+' + j'+fmt(m.z_pu_im)+' pu')}
+      ${value(293,215,words('折算至高压侧的串联阻抗','H-side series impedance'))}
+      ${symbol(500,65,'τe<tspan baseline-shift="super" font-size="70%">j30°</tspan> : 1')}
+      ${value(500,90,'τ = '+fmt(p.tap))}
+      ${value(500,113,words('标幺理想变压器','Per-unit ideal transformer'))}
+      ${symbol(82,149,'+')}${symbol(82,273,'−')}${symbol(82,207,sub('v','H'))}
+      ${symbol(751,149,'+')}${symbol(751,273,'−')}${symbol(751,207,sub('v','L'))}
+      ${value(225,298,'vH = 1.000∠0° pu')}
+      ${value(625,298,'vL = '+fmt(m.l_voltage_pu)+'∠'+fmt(m.l_angle_deg,1)+'° pu')}
+      ${value(225,320,words('高压线电压：','HV line voltage: ')+fmt(p.h_kv)+' kV')}
+      ${value(625,320,words('低压线电压：','LV line voltage: ')+fmt(m.l_line_kv)+' kV')}
+      ${value(400,351,words('平衡正序 · 忽略励磁支路 · 保持电压基准不变','Balanced positive sequence · excitation neglected · fixed voltage bases'))}`;
+  }
   function diagram(svg,r){
     const m=r.metrics,p=r.parameters;let body='';
     const label=(x,y,s)=>`<text x="${x}" y="${y}" text-anchor="middle" class="stage-svg-text">${esc(s)}</text>`;
@@ -68,9 +109,7 @@
         label(225,75,'VAB,H: 0°')+label(165,222,'Vab,L: '+fmt(m.delta_lh_deg,0)+'°')+
         box(330,20,255,180,(p.h_connection==='wye'?'Y':'Δ')+' – '+(p.l_connection==='wye'?'Y':'Δ'),['a = '+fmt(p.turns_ratio),'kLL = '+fmt(m.line_ratio),'LV line = '+fmt(m.l_line_kv)+' kV','LV coil = '+fmt(m.l_winding_kv)+' kV']);
     }else if(kind==='transformer-network'){
-      body=box(15,25,180,175,words('高压端口','HV terminal'),['vH = 1∠0° pu','Zpu = '+fmt(m.z_pu_re)+' + j'+fmt(m.z_pu_im),'IH = '+fmt(m.h_line_a)+' A'])+
-        box(215,45,165,145,'tHL = τ exp(j30°)',['τ = '+fmt(p.tap),'a = '+fmt(m.winding_ratio),words('固定电压基准','Fixed voltage bases')])+
-        box(400,25,185,175,words('低压端口','LV terminal'),[fmt(m.l_line_kv)+' kV',fmt(m.l_angle_deg)+'°','IL = '+fmt(m.l_line_a)+' A'])+connector;
+      transformerNetworkDiagram(svg,r);return;
     }else if(kind==='per-unit'){
       body=box(15,25,180,175,words('高压基准','HV bases'),[fmt(p.v_base_h_kv)+' kV',fmt(m.z_base_h_ohm)+' Ω','Zref = '+fmt(m.referred_z_re_ohm)+' Ω'])+
         box(215,45,165,145,'Sb = '+fmt(p.s_base_mva,0)+' MVA',['a = '+fmt(p.turns_ratio),'Re(Zpu) = '+fmt(m.z_pu_re,5),'Im(Zpu) = '+fmt(m.z_pu_im,5)])+
