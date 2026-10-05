@@ -3,27 +3,25 @@
   const root = document.querySelector("[data-ece-platform]");
   if (!root) return;
   const zh = root.dataset.lang === "zh";
-  const storageKey = "ece685-reading-v1";
+  const storageKey = "ece685-reading-v2-transformers";
   const knownIds = new Set(Array.from(root.querySelectorAll("[data-reviewed-dot]"), node => node.dataset.reviewedDot));
-  // Preserve the historical exam review when the transformer lessons take L17/L18.
-  if (knownIds.has("L16b") && knownIds.has("L18")) {
-    try {
-      const marker = "ece685-transformer-numbering-20261005";
-      if (!localStorage.getItem(marker)) {
-        const remap = id => ({ L17: "L16b", L20: "L17", L21: "L18" }[id] || id);
-        const reading = JSON.parse(localStorage.getItem(storageKey));
-        if (reading && Array.isArray(reading.reviewed)) {
-          reading.reviewed = [...new Set(reading.reviewed.map(remap))];
-          reading.lastLecture = remap(reading.lastLecture);
-          localStorage.setItem(storageKey, JSON.stringify(reading));
-        }
-        const practiceKey = "ece685-lecture-practice-v1";
-        const practice = JSON.parse(localStorage.getItem(practiceKey));
-        if (Array.isArray(practice)) localStorage.setItem(practiceKey, JSON.stringify([...new Set(practice.map(remap))]));
-        localStorage.setItem(marker, "done");
+  // Keep the old records intact and migrate each record only into its new key.
+  try {
+    const remap = id => ({ L17: "L16b", L20: "L17", L21: "L18" }[id] || id);
+    if (!localStorage.getItem(storageKey)) {
+      const reading = JSON.parse(localStorage.getItem("ece685-reading-v1"));
+      if (reading && Array.isArray(reading.reviewed)) {
+        reading.reviewed = [...new Set(reading.reviewed.map(remap))];
+        reading.lastLecture = remap(reading.lastLecture);
+        localStorage.setItem(storageKey, JSON.stringify(reading));
       }
-    } catch (_) { /* Reading remains usable when browser storage is unavailable. */ }
-  }
+    }
+    const practiceKey = "ece685-lecture-practice-v2-transformers";
+    if (!localStorage.getItem(practiceKey)) {
+      const practice = JSON.parse(localStorage.getItem("ece685-lecture-practice-v1"));
+      if (Array.isArray(practice)) localStorage.setItem(practiceKey, JSON.stringify([...new Set(practice.map(remap))]));
+    }
+  } catch (_) { /* Reading remains usable when browser storage is unavailable. */ }
   let state = { reviewed: [], lastLecture: null };
   let storageAvailable = true;
   function sanitize(value) {
