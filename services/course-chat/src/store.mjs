@@ -77,5 +77,6 @@ export function citation(doc,language,prefix='') {
     'lecture-experiment':'Experiment','lecture-code':'Teaching code','lecture-practice':'Practice'};
   const label=doc.kind==='reference' ? doc.citation.label : `${doc.lecture_id} · ${doc.kind==='slide' ?
     (language==='zh'?`课件第 ${doc.page_number} 页`:`slide ${doc.page_number}`):(sections[doc.section_id] || doc.lecture_id)}`;
-  return {doc_id:doc.doc_id,label:prefix+label,url:doc.kind==='reference'?null:doc.source_urls[language]};
+  const url=doc.kind==='reference'?null:doc.source_urls[language]?.replace(/^((?:\/zh)?\/teaching\/)course-development\/ece685\//,'$1ece685/');
+  return {doc_id:doc.doc_id,label:prefix+label,url};
 }

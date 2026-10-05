@@ -44,7 +44,12 @@
       const base = new URL(href), url = new URL(value, base);
       if (url.origin !== base.origin || url.username || url.password) return null;
       const prefix = (baseurl || "").replace(/\/$/, "");
-      const paths = slugs.flatMap(slug => [`${prefix}/teaching/course-development/ece685/${slug}/`, `${prefix}/zh/teaching/course-development/ece685/${slug}/`]);
+      const paths = slugs.flatMap(slug => [`${prefix}/teaching/ece685/${slug}/`, `${prefix}/zh/teaching/ece685/${slug}/`]);
+      // Existing indexed course documents still carry the previous public paths.
+      const legacyPrefix = prefix + "/teaching/course-development/ece685/";
+      const legacyZhPrefix = prefix + "/zh/teaching/course-development/ece685/";
+      if (url.pathname.startsWith(legacyPrefix)) url.pathname = prefix + "/teaching/ece685/" + url.pathname.slice(legacyPrefix.length);
+      if (url.pathname.startsWith(legacyZhPrefix)) url.pathname = prefix + "/zh/teaching/ece685/" + url.pathname.slice(legacyZhPrefix.length);
       if (!paths.includes(url.pathname) || ![...SECTIONS].some(id => url.hash === "#" + id)) return null;
       if (url.search) {
         const pairs = [...url.searchParams];

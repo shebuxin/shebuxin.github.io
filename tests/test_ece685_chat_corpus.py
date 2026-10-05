@@ -78,7 +78,7 @@ class CorpusTest(unittest.TestCase):
     def test_source_map_uses_physical_pdf_pages_and_language_paths(self):
         docs, _, _ = self.collect()
         page = next(d for d in docs if d["doc_id"] == "ECE685:L05:slide:002")
-        self.assertEqual(page["source_url"], "/teaching/course-development/ece685/l05-example/?slide=2#lecture-overview")
+        self.assertEqual(page["source_url"], "/teaching/ece685/l05-example/?slide=2#lecture-overview")
         self.assertEqual(page["source_urls"]["zh"], "/zh" + page["source_url"])
         self.assertTrue(page["pdf_url"].endswith("#page=2"))
 

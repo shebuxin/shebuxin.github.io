@@ -42,6 +42,7 @@ jobs:
           node --check assets/js/ece685-slides.js
           node --check assets/js/ece685-chat.js
           bash -n scripts/build_cloudflare_pages.sh
+          bash -n scripts/build_shebuxin_pages.sh
           node --check assets/js/ece685-stage-model.js
           node --check assets/js/ece685-stage-lesson.js
           node --check assets/js/l05-phasor-model.js
@@ -134,6 +135,7 @@ jobs:
       - name: Validate ECE 685 lecture framework
         run: |
           python tests/ece685_rendered_test.py
+          python tests/course_urls_rendered_test.py
           python tests/ece685_chat_rendered_test.py
           python tests/ece685_chat_ui_rendered_test.py
           python scripts/export_ece685_chat_corpus.py

@@ -2,7 +2,7 @@
 #### 为什么这里从牛顿–拉夫逊换成前推回代？
 {: #solver-choice }
 
-[上一章]({{ '/zh/teaching/course-development/physics-informed-gnn/balanced-power-flow/' | relative_url }}#newton-method)同样研究配电馈线。**平衡／不平衡是相模型的选择，辐射／网状是拓扑的选择，牛顿–拉夫逊（NR）／前推回代（BFS）是求解方法的选择。** 三者需要分别判断：不平衡潮流也可以用 NR，平衡的辐射馈线也可以用 BFS。
+[上一章]({{ '/zh/teaching/physics-informed-gnn/balanced-power-flow/' | relative_url }}#newton-method)同样研究配电馈线。**平衡／不平衡是相模型的选择，辐射／网状是拓扑的选择，牛顿–拉夫逊（NR）／前推回代（BFS）是求解方法的选择。** 三者需要分别判断：不平衡潮流也可以用 NR，平衡的辐射馈线也可以用 BFS。
 
 上一章选择 NR，是为了从节点导纳矩阵、P/Q 偏差推导通用的雅可比求解框架；其交互实验还允许闭合联络线形成回路。NR 通过联立方程处理全网电压修正，无需把网络限定成一棵树。
 
@@ -18,7 +18,7 @@
 #### Why switch from Newton–Raphson to backward/forward sweep here?
 {: #solver-choice }
 
-The [previous chapter]({{ '/teaching/course-development/physics-informed-gnn/balanced-power-flow/' | relative_url }}#newton-method) also studies a distribution feeder. **Balanced/unbalanced describes the phase model; radial/meshed describes topology; Newton–Raphson (NR)/backward-forward sweep (BFS) describes the numerical method.** These are separate choices. Unbalanced power flow can use NR, and a balanced radial feeder can use BFS.
+The [previous chapter]({{ '/teaching/physics-informed-gnn/balanced-power-flow/' | relative_url }}#newton-method) also studies a distribution feeder. **Balanced/unbalanced describes the phase model; radial/meshed describes topology; Newton–Raphson (NR)/backward-forward sweep (BFS) describes the numerical method.** These are separate choices. Unbalanced power flow can use NR, and a balanced radial feeder can use BFS.
 
 The previous chapter uses NR to derive a general Jacobian-based solution from nodal admittance and P/Q mismatch. Its experiment also allows a tie to close and form a loop. NR computes voltage corrections through simultaneous equations without requiring a tree topology.
 

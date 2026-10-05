@@ -2,7 +2,15 @@
 
 本指南用于把已经通过本地验证的聊天后端接入现有 Cloudflare 网站。2026-10-04 已通过 Chrome 核对现有 Pages 项目，创建 Preview D1 并保存绑定及运行参数。1,104 份文档已完成真实索引并导入 staging；GPT-6 Astra 的 20 题实测均完成，17 题达到完整标准，3 题需改进出处及资料定位。用户随后要求在线测试，专用 Preview 数据库已激活并导入教师邀请码，专用测试分支已部署并通过线上登录、回答和追问测试。学生开放仍等待三处来源修复及评估。
 
-## 已核对与配置的环境
+## 个人主页入口与课程地址
+
+个人主页镜像使用 `https://shebuxin.pages.dev`，仍发布整个个人主页。Pages 项目 `shebuxin` 连接同一仓库，发布分支为 `codex/ece685-chat-preview`，构建命令 `bash scripts/build_shebuxin_pages.sh`，输出 `_site`。Cloudflare 的 Rename 只修改项目标识，原 `pages.dev` hostname 不会随之改变，因此保留 `power-edu` 并使用具名镜像作为公开入口。
+
+课程正式路径统一为 `/teaching/ece685/`、`/teaching/ibr/`、`/teaching/physics-informed-gnn/`；中文加 `/zh`。原 `/teaching/course-development/…` 的页面和旧模块地址保留跳转，保留查询参数和章节位置，且在当前网站内跳转。
+
+新镜像的 AI 入口复用 `https://codex-ece685-chat-preview.power-edu.pages.dev/api/course-chat`。原项目 Preview 的允许来源为原预览域名和 `https://shebuxin.pages.dev`；密钥、D1、限额、定时清理和邀请码仍由原服务管理。新镜像排除全部 Functions 路由，不需要复制 Secret。原索引中的旧课程 URL 在 API 和前端显示时转换为新路径，无需重复上传资料。L05 教师测试范围及学生开放前的来源评估要求继续适用。
+
+## 原项目已核对与配置的环境
 
 | 字段 | 当前值 |
 | --- | --- |
@@ -18,7 +26,7 @@
 | D1 ID | `cd2eb255-a596-4098-b8cb-d61ad62df9b8` |
 | Preview schema | 已应用 `0001.sql`：8 张课程表、5 个触发器；1,104 份文档；`ece685-2cb02ab2374b55da3f58` 已为教师测试设为 ready / active |
 | Preview 运行参数 | 已保存下表中的 `CHAT_MODE`、来源限制及六项会话/请求限额 |
-| 当前 `ALLOWED_ORIGINS` | `https://codex-ece685-chat-preview.power-edu.pages.dev`；使用分支别名，拒绝其他预览 origin |
+| 当前 `ALLOWED_ORIGINS` | `https://codex-ece685-chat-preview.power-edu.pages.dev,https://shebuxin.pages.dev`；拒绝其他 origin |
 | Preview API key | 用户已手动保存 `OPENAI_API_KEY` 为 Secret；控制台确认 Value encrypted，未读取密钥 |
 | Preview 模型参数 | 已保存 `CHAT_MODEL=gpt-6-astra`、`CHAT_REASONING_EFFORT=medium`、输出预算 `8192`、超时 `75`；模型 API 和 20 题实测已验证 |
 | Preview 邀请密钥 | 用户已保存 `INVITE_PEPPER` Secret，控制台确认 Value encrypted |

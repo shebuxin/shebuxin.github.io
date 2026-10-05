@@ -41,13 +41,17 @@ test('API configuration allows HTTPS and loopback preview, without credentials i
 });
 
 test('citations open known course sections and reject arbitrary or future URLs', () => {
-  const page='https://shebuxin.github.io/teaching/course-development/ece685/l05-single-phase-ac-i/';
+  const page='https://shebuxin.github.io/teaching/ece685/l05-single-phase-ac-i/';
   const slugs=['l05-single-phase-ac-i'];
-  const good='/zh/teaching/course-development/ece685/l05-single-phase-ac-i/?slide=12#lecture-overview';
+  const good='/zh/teaching/ece685/l05-single-phase-ac-i/?slide=12#lecture-overview';
   assert.equal(chat.citationHref(good,page,'',slugs),'https://shebuxin.github.io'+good);
   for(const value of ['javascript:alert(1)','https://evil.example'+good,'/assets/private/textbook.pdf',good.replace('l05-single-phase-ac-i','l20-three-phase-transformers-i'),good.replace('12','0'),good+'&secret=true',good.replace('lecture-overview','lecture-code'),'https://user:password@shebuxin.github.io'+good]) assert.equal(chat.citationHref(value,page,'',slugs),null,value);
   const base='/personal'+good;
   assert(chat.citationHref(base,'https://example.org/personal/lesson/','/personal',slugs));
+  const legacy=good.replace('/teaching/','/teaching/course-development/');
+  assert.equal(chat.citationHref(legacy,page,'',slugs),'https://shebuxin.github.io'+good);
+  assert.equal(chat.citationHref('/personal'+legacy,'https://example.org/personal/lesson/','/personal',slugs),'https://example.org/personal'+good);
+  assert.equal(chat.citationHref(legacy.replace('l05-single-phase-ac-i','l20-three-phase-transformers-i'),page,'',slugs),null);
 });
 
 test('SSE preserves Unicode across byte and frame boundaries', async () => {
@@ -153,7 +157,7 @@ test('a browser-reported editor selection is attached only after the explicit co
   const content={contains(node){return node===ancestor;},events:{},addEventListener(event,callback){this.events[event]=callback;}};
   const platform={querySelector(selector){return selector==='.ece-body'?content:null;},addEventListener(){}};
   const fakeDocument={querySelector(selector){return selector==='[data-course-chat]'?root:platform;},addEventListener(event,callback){listeners[event]=callback;}};
-  const fakeWindow={location:{href:'https://example.org/teaching/course-development/ece685/l05-single-phase-ac-i/#lecture-code',hash:'#lecture-code'},addEventListener(){},getSelection(){return {rangeCount:1,toString(){return 'result = solve(case)';},getRangeAt(){return {commonAncestorContainer:ancestor};}};}};
+  const fakeWindow={location:{href:'https://example.org/teaching/ece685/l05-single-phase-ac-i/#lecture-code',hash:'#lecture-code'},addEventListener(){},getSelection(){return {rangeCount:1,toString(){return 'result = solve(case)';},getRangeAt(){return {commonAncestorContainer:ancestor};}};}};
   chat.init(fakeDocument,fakeWindow);
   const dialog=nodes.get('dialog');dialog.showModal=()=>{dialog.open=true;};
   const editor={value:'result = solve(case)\nprint(result)',selectionStart:0,selectionEnd:'result = solve(case)'.length,matches(){return true;},closest(){return panel;}};

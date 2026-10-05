@@ -122,7 +122,7 @@ def clean_text(text):
 
 
 def course_path(lecture, language="en"):
-    return ("/zh" if language == "zh" else "") + "/teaching/course-development/ece685/" + lecture["slug"] + "/"
+    return ("/zh" if language == "zh" else "") + "/teaching/ece685/" + lecture["slug"] + "/"
 
 
 def asset(root, url, prefix):

@@ -190,7 +190,7 @@ def main():
     manifest, documents = load_corpus(args.corpus)
     handler = partial(PreviewHandler, site=args.site_dir.resolve(), manifest=manifest, documents=documents, sessions={})
     server = ThreadingHTTPServer(('127.0.0.1', args.port), handler)
-    print(f'UI demonstration at http://127.0.0.1:{args.port}/teaching/course-development/ece685/l05-single-phase-ac-i/?slide=12#lecture-overview', flush=True)
+    print(f'UI demonstration at http://127.0.0.1:{args.port}/teaching/ece685/l05-single-phase-ac-i/?slide=12#lecture-overview', flush=True)
     print('Invitation code: DEMO. Fixed demonstration responses only; no model calls.', flush=True)
     try:
         server.serve_forever()

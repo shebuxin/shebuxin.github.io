@@ -7,7 +7,7 @@ import {DatabaseSync} from 'node:sqlite';
 import {Worker} from 'node:worker_threads';
 import {createRequire} from 'node:module';
 import {handle,configuration} from '../services/course-chat/src/worker.mjs';
-import {Store} from '../services/course-chat/src/store.mjs';
+import {Store,citation} from '../services/course-chat/src/store.mjs';
 import {sha256,keyedHash,messageBody} from '../services/course-chat/src/validation.mjs';
 import {prompt,openAI,shortHistory,readHistory} from '../services/course-chat/src/provider.mjs';
 import {scheduled} from '../services/course-chat/src/cleanup.mjs';
@@ -16,6 +16,16 @@ const migration=readFileSync(new URL('../services/course-chat/migrations/0001.sq
 const {consumeStream}=createRequire(import.meta.url)('../assets/js/ece685-chat.js');
 const pepper='test-only-pepper-with-more-than-32-characters',invite='test-invitation-123456789',version='ece685-test';
 const currentId='ECE685:L05:slide:012',choiceId='ECE685:reference:platform-textbook-selection:decision:edition';
+test('indexed citations use the current public course paths without reindexing',()=>{
+  for(const language of ['en','zh']) {
+    const prefix=language==='zh'?'/zh':'';
+    const url=prefix+'/teaching/ece685/l05-single-phase-ac-i/?slide=12#lecture-overview';
+    for(const stored of [url,url.replace('/teaching/','/teaching/course-development/')]) {
+      const doc={doc_id:currentId,kind:'slide',lecture_id:'L05',page_number:12,source_urls:{[language]:stored}};
+      assert.equal(citation(doc,language).url,url);
+    }
+  }
+});
 class D1 {
   constructor(db) { this.db=db; }
   prepare(sql) {
@@ -39,7 +49,7 @@ async function fixture(path=':memory:',mode='mock',limits={}) {
   db.prepare('INSERT INTO course_versions VALUES(?,?,?,?,?,?,?,?,?)').run(version,'ECE685','vs_test',mode==='mock'?'mock':'openai',4,choiceId,'manifest','ready',now);
   const docs=[
     {doc_id:currentId,kind:'slide',source_type:'student_slides',lecture_id:'L05',page_number:12,
-      text:'RMS',source_urls:{en:'/teaching/course-development/ece685/l05-single-phase-ac-i/?slide=12#lecture-overview',zh:'/zh/teaching/course-development/ece685/l05-single-phase-ac-i/?slide=12#lecture-overview'}},
+      text:'RMS',source_urls:{en:'/teaching/ece685/l05-single-phase-ac-i/?slide=12#lecture-overview',zh:'/zh/teaching/ece685/l05-single-phase-ac-i/?slide=12#lecture-overview'}},
     {doc_id:'ECE685:L05:lesson:zh:lecture-overview',kind:'lesson',source_type:'platform_lesson',lecture_id:'L05',section_id:'lecture-overview',text:'Concepts',source_urls:{en:'/x',zh:'/x'}},
     {doc_id:choiceId,kind:'reference',source_type:'course_material_selection',edition:6,text:'Sixth edition, preserve original syllabus.',citation:{label:'Instructor textbook selection'}},
     {doc_id:'ECE685:reference:book:verified:rms',kind:'reference',source_type:'verified_reference_note',lecture_ids:['L05'],text:'RMS = peak / sqrt(2)',citation:{label:'Sixth edition printed p. 40 (PDF p. 60)'}}

@@ -11,6 +11,7 @@ def create_page(path, metadata, include):
     if path.exists():
         return 0
     path.parent.mkdir(parents=True, exist_ok=True)
+    metadata = {**metadata, "redirect_from": [metadata["permalink"].replace("/teaching/", "/teaching/course-development/", 1)]}
     fields = ["---", "layout: " + ("ibr-modeling" if metadata.get("ibr_modeling") else "course"), "ibr_courses: true"]
     fields.extend(f"{key}: {json.dumps(value, ensure_ascii=False)}" for key, value in metadata.items())
     fields.extend(("---", "", "{% include " + include + " %}", ""))
@@ -22,7 +23,7 @@ def main():
     created = 0
     for lang in ("en", "zh"):
         prefix = "/zh" if lang == "zh" else ""
-        base = prefix + "/teaching/course-development/ibr/"
+        base = prefix + "/teaching/ibr/"
         directory = ROOT / "_pages" / ("zh/course-development/ibr" if lang == "zh" else "course-development/ibr")
         common = {"lang": lang, "course_title": CATALOG["title"][lang]}
         created += create_page(directory / "index.md", {

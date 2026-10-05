@@ -1,0 +1,27 @@
+---
+layout: null
+---
+{% assign redirect_target = page.redirect.to %}
+{% assign site_url_length = site.url | size %}
+{% assign redirect_prefix = redirect_target | slice: 0, site_url_length %}
+{% if redirect_prefix == site.url %}{% assign redirect_target = redirect_target | remove_first: site.url %}{% endif %}
+<!doctype html>
+<html lang="{{ site.locale | default: 'en-US' }}">
+  <head>
+    <meta charset="utf-8">
+    <title>Redirecting…</title>
+    <link rel="canonical" href="{{ page.redirect.to | escape }}">
+    <meta name="robots" content="noindex">
+    <script>
+      const destination = new URL({{ redirect_target | jsonify }}, window.location.href);
+      if (!destination.search) destination.search = window.location.search;
+      if (!destination.hash) destination.hash = window.location.hash;
+      window.location.replace(destination.href);
+    </script>
+    <meta http-equiv="refresh" content="0; url={{ redirect_target | escape }}">
+  </head>
+  <body>
+    <h1>Redirecting…</h1>
+    <a href="{{ redirect_target | escape }}">Continue to the page</a>
+  </body>
+</html>

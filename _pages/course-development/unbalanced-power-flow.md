@@ -1,12 +1,14 @@
 ---
 title: "Unbalanced Power Flow"
-permalink: /teaching/course-development/physics-informed-gnn/unbalanced-power-flow/
+permalink: /teaching/physics-informed-gnn/unbalanced-power-flow/
 layout: course
 unbalanced_power_flow: true
 course_title: "Physics-informed GNN · Microgrids & distribution systems"
-parent_url: /teaching/course-development/physics-informed-gnn/
+parent_url: /teaching/physics-informed-gnn/
 parent_title: "Physics-informed GNN course"
 description: "Interactive three-phase, four-wire power flow: phase-domain derivations, neutral displacement, a feeder example, parameter controls, and editable Python."
+redirect_from:
+  - "/teaching/course-development/physics-informed-gnn/unbalanced-power-flow/"
 ---
 
 Three customers can draw the same total power as a balanced load and still produce very different phase voltages. What changes when most demand sits on phase A, or a rooftop inverter supplies only one phase? This chapter keeps all three phases and the neutral conductor, then lets you test the answer.
@@ -16,7 +18,7 @@ Three customers can draw the same total power as a balanced load and still produ
 ## 1. From one equivalent phase to four conductors
 {: #background }
 
-In the [Balanced Power Flow chapter]({{ '/teaching/course-development/physics-informed-gnn/balanced-power-flow/' | relative_url }}), phase magnitudes were equal and phase angles were separated by 120°. A single equivalent phase described the network. Single-phase customers and inverters break that symmetry: each phase now has its own complex power, voltage, and current.
+In the [Balanced Power Flow chapter]({{ '/teaching/physics-informed-gnn/balanced-power-flow/' | relative_url }}), phase magnitudes were equal and phase angles were separated by 120°. A single equivalent phase described the network. Single-phase customers and inverters break that symmetry: each phase now has its own complex power, voltage, and current.
 
 An unequal load also produces **neutral return current**. If the neutral conductor has finite impedance, its local voltage differs from the grounded source neutral. A customer's voltage is the **phase-to-local-neutral voltage**, not just the phase-conductor voltage measured against the source reference. Explicit four-wire modeling is therefore useful for low-voltage feeders; see the [four-wire modeling study by Claeys, Geth, and Deconinck](https://arxiv.org/abs/2204.08126).
 
@@ -261,7 +263,7 @@ result = main(case)
 
 This fundamental-frequency, radial teaching model excludes delta loads, voltage-dependent loads, asymmetrical conductor geometry, phase-neutral mutual impedance, downstream grounding/earth return, transformers, regulators, harmonics, inverter limits, and dynamic/protection behavior. Opening a branch opens all four conductors; an open-neutral-only fault is not modeled. An isolated section has no voltage reference in this model.
 
-The [PandaPower-based Implementation chapter]({{ '/teaching/course-development/physics-informed-gnn/pandapower-based-implementation/' | relative_url }}) maps equipment to library functions and compares the modeling assumptions explicitly. In particular, [pandapower's `runpp_3ph` documentation](https://pandapower.readthedocs.io/en/v3.2.1/powerflow/ac_3ph.html) describes a sequence-frame solver and its earth-return/wye conventions; its results should not be assumed identical to this explicit neutral-wire case without matching those assumptions.
+The [PandaPower-based Implementation chapter]({{ '/teaching/physics-informed-gnn/pandapower-based-implementation/' | relative_url }}) maps equipment to library functions and compares the modeling assumptions explicitly. In particular, [pandapower's `runpp_3ph` documentation](https://pandapower.readthedocs.io/en/v3.2.1/powerflow/ac_3ph.html) describes a sequence-frame solver and its earth-return/wye conventions; its results should not be assumed identical to this explicit neutral-wire case without matching those assumptions.
 
 ### References
 

@@ -8,9 +8,11 @@ course_id: "C1"
 module_id: "C1-04"
 title: "PLL 与跟网型控制"
 description: "沿 GFL 模型理解同步、功率指令与电流调节。"
-permalink: "/zh/teaching/course-development/ibr/modeling/pll-and-gfl/"
-parent_url: "/zh/teaching/course-development/ibr/modeling/"
+permalink: "/zh/teaching/ibr/modeling/pll-and-gfl/"
+parent_url: "/zh/teaching/ibr/modeling/"
 parent_title: "IBR 动态建模与仿真"
+redirect_from:
+  - "/zh/teaching/course-development/ibr/modeling/pll-and-gfl/"
 ---
 
 {% include ibr-modeling-module.html %}

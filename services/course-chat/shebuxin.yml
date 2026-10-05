@@ -1,0 +1,6 @@
+# Personal homepage mirror; reuse the existing invitation-gated AI service.
+url: https://shebuxin.pages.dev
+course_chat:
+  enabled: true
+  lectures: [L05]
+  api_base: https://codex-ece685-chat-preview.power-edu.pages.dev/api/course-chat
