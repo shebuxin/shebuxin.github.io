@@ -1,10 +1,11 @@
 {% assign chat_live = site.data.ece685.lectures | where: 'status', 'live' %}
 {% capture chat_slugs %}{% for item in chat_live %}{{ item.slug }} {% endfor %}{% endcapture %}
-<div class="ece-chat" data-course-chat data-lang="{{ ece_lang }}" data-lecture-id="{{ lecture.id }}" data-api-base="{{ site.course_chat.api_base | escape }}" data-baseurl="{{ site.baseurl | escape }}" data-live-slugs="{{ chat_slugs | strip | escape }}">
+{% assign chat_course_home = false %}{% unless page.lecture_id %}{% assign chat_course_home = true %}{% endunless %}
+<div class="ece-chat" data-course-chat data-lang="{{ ece_lang }}" data-lecture-id="{% if chat_course_home %}COURSE{% else %}{{ lecture.id }}{% endif %}" data-api-base="{{ site.course_chat.api_base | escape }}" data-baseurl="{{ site.baseurl | escape }}" data-live-slugs="{{ chat_slugs | strip | escape }}">
   <button class="ece-chat__launcher" type="button" data-chat-open aria-haspopup="dialog" aria-controls="ece-chat-dialog" hidden>{% if ece_lang == 'zh' %}问 AI{% else %}Ask AI{% endif %} <span aria-hidden="true">↗</span></button>
   <dialog id="ece-chat-dialog" class="ece-chat__dialog" aria-labelledby="ece-chat-title" data-chat-dialog>
     <header class="ece-chat__header">
-      <div><p>ECE 685 · {{ lecture.id }}</p><h2 id="ece-chat-title">{% if ece_lang == 'zh' %}课程学习助手{% else %}Course learning assistant{% endif %}</h2></div>
+      <div><p>ECE 685 · {% if chat_course_home %}{% if ece_lang == 'zh' %}课程概览{% else %}Course overview{% endif %}{% else %}{{ lecture.id }}{% endif %}</p><h2 id="ece-chat-title">{% if ece_lang == 'zh' %}课程学习助手{% else %}Course learning assistant{% endif %}</h2></div>
       <button type="button" class="ece-chat__icon" data-chat-close aria-label="{% if ece_lang == 'zh' %}关闭聊天{% else %}Close chat{% endif %}">×</button>
     </header>
     <p class="ece-chat__notice" data-chat-service-note>{% if ece_lang == 'zh' %}可以询问课程内容、请求解释或继续追问。{% else %}Ask about course material, request an explanation, or follow up.{% endif %}</p>
@@ -15,26 +16,28 @@
     <div class="ece-chat__background">
       <label for="ece-chat-context">{% if ece_lang == 'zh' %}提问背景{% else %}Question context{% endif %}</label>
       <select id="ece-chat-context" data-chat-context>
-        <option value="current">{% if ece_lang == 'zh' %}当前位置{% else %}Current position{% endif %}</option>
+        <option value="current">{% if chat_course_home %}{% if ece_lang == 'zh' %}课程概览{% else %}Course overview{% endif %}{% else %}{% if ece_lang == 'zh' %}当前位置{% else %}Current position{% endif %}{% endif %}</option>
+        {% unless chat_course_home %}
         <option value="slide">{% if ece_lang == 'zh' %}当前课件页{% else %}Current slide{% endif %}</option>
         <option value="lecture-overview">{% if ece_lang == 'zh' %}概念说明{% else %}Concepts{% endif %}</option>
         <option value="lecture-experiment">{% if ece_lang == 'zh' %}参数实验{% else %}Experiment{% endif %}</option>
         <option value="lecture-code">{% if ece_lang == 'zh' %}教学代码{% else %}Teaching code{% endif %}</option>
         <option value="lecture-practice">{% if ece_lang == 'zh' %}练习{% else %}Practice{% endif %}</option>
+        {% endunless %}
         <option value="none">{% if ece_lang == 'zh' %}课程问题 · 不附背景{% else %}Course question · no context{% endif %}</option>
       </select>
       <p data-chat-context-label></p>
       <details data-chat-selection-preview hidden><summary>{% if ece_lang == 'zh' %}查看将发送的内容{% else %}Preview attached text{% endif %}</summary><pre data-chat-selection-text></pre></details>
-      <div class="ece-chat__context-actions"><button type="button" data-chat-explain-selection>{% if ece_lang == 'zh' %}解释选中内容{% else %}Explain selected text{% endif %}</button><button type="button" data-chat-attach-code>{% if ece_lang == 'zh' %}附加选中代码{% else %}Attach selected code{% endif %}</button></div>
+      <div class="ece-chat__context-actions"><button type="button" data-chat-explain-selection>{% if ece_lang == 'zh' %}解释选中内容{% else %}Explain selected text{% endif %}</button><button type="button" data-chat-attach-code{% if chat_course_home %} hidden{% endif %}>{% if ece_lang == 'zh' %}附加选中代码{% else %}Attach selected code{% endif %}</button></div>
     </div>
     <div class="ece-chat__messages" data-chat-messages role="log" aria-label="{% if ece_lang == 'zh' %}聊天记录{% else %}Chat messages{% endif %}" aria-live="off" tabindex="0">
-      <p class="ece-chat__empty" data-chat-empty>{% if ece_lang == 'zh' %}先选择提问背景，再问“这里是什么意思？”{% else %}Choose a context, then ask “What does this mean?”{% endif %}</p>
+      <p class="ece-chat__empty" data-chat-empty>{% if chat_course_home %}{% if ece_lang == 'zh' %}可以询问这门课学什么、需要哪些基础，或者从哪里开始。{% else %}Ask what the course covers, what background you need, or where to start.{% endif %}{% else %}{% if ece_lang == 'zh' %}先选择提问背景，再问“这里是什么意思？”{% else %}Choose a context, then ask “What does this mean?”{% endif %}{% endif %}</p>
     </div>
     <p class="ece-chat__status" data-chat-status role="status" aria-live="polite"></p>
     <form class="ece-chat__composer" data-chat-form>
       <label for="ece-chat-question">{% if ece_lang == 'zh' %}你的问题{% else %}Your question{% endif %}</label>
       <textarea id="ece-chat-question" data-chat-question rows="3" maxlength="4000" placeholder="{% if ece_lang == 'zh' %}哪里不理解？{% else %}What would you like explained?{% endif %}" required></textarea>
-      <div class="ece-chat__quick"><button type="button" data-chat-prompt="meaning">{% if ece_lang == 'zh' %}什么意思？{% else %}What does this mean?{% endif %}</button><button type="button" data-chat-prompt="simpler">{% if ece_lang == 'zh' %}再简单一点{% else %}Explain more simply{% endif %}</button><button type="button" data-chat-prompt="example">{% if ece_lang == 'zh' %}举个例子{% else %}Give an example{% endif %}</button></div>
+      <div class="ece-chat__quick">{% if chat_course_home %}<button type="button" data-chat-prompt="overview">{% if ece_lang == 'zh' %}这门课学什么？{% else %}What does this course cover?{% endif %}</button><button type="button" data-chat-prompt="prerequisites">{% if ece_lang == 'zh' %}需要哪些基础？{% else %}What background do I need?{% endif %}</button><button type="button" data-chat-prompt="start">{% if ece_lang == 'zh' %}从哪里开始？{% else %}Where should I start?{% endif %}</button>{% else %}<button type="button" data-chat-prompt="meaning">{% if ece_lang == 'zh' %}什么意思？{% else %}What does this mean?{% endif %}</button><button type="button" data-chat-prompt="simpler">{% if ece_lang == 'zh' %}再简单一点{% else %}Explain more simply{% endif %}</button><button type="button" data-chat-prompt="example">{% if ece_lang == 'zh' %}举个例子{% else %}Give an example{% endif %}</button>{% endif %}</div>
       <div class="ece-chat__actions"><button type="button" data-chat-clear>{% if ece_lang == 'zh' %}清除聊天{% else %}Clear chat{% endif %}</button><span></span><button type="button" data-chat-stop disabled>{% if ece_lang == 'zh' %}停止{% else %}Stop{% endif %}</button><button type="submit" data-chat-send disabled>{% if ece_lang == 'zh' %}发送{% else %}Send{% endif %}</button></div>
     </form>
   </dialog>

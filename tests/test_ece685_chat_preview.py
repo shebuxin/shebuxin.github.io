@@ -49,6 +49,16 @@ class PreviewContractTest(unittest.TestCase):
         with self.assertRaisesRegex(ValueError,'invalid_context'):
             preview.validate_message(self.body,self.docs,['L05'])
 
+    def test_course_homepage_uses_orientation_source_and_rejects_slide_context(self):
+        source = dict(doc_id='ECE685:L01:lesson:zh:lecture-overview')
+        self.docs[source['doc_id']] = source
+        self.body['lecture_id'] = 'COURSE'
+        self.body['context'] = dict(kind='lesson',section_id='course-overview',slide_number=None,selection_text='')
+        self.assertEqual(preview.validate_message(self.body,self.docs,['L01','L05']),source)
+        self.body['context']['slide_number'] = 1
+        with self.assertRaisesRegex(ValueError,'invalid_context'):
+            preview.validate_message(self.body,self.docs,['L01','L05'])
+
     def test_corpus_hashes_and_reference_quarantine_are_checked_before_serving(self):
         with tempfile.TemporaryDirectory() as folder:
             root = Path(folder)

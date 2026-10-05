@@ -39,7 +39,7 @@ def validate_message(body, documents, lecture_ids):
     if not isinstance(body, dict) or set(body) - {'course_id', 'lecture_id', 'language', 'context', 'message', 'client_request_id'}:
         raise ValueError('invalid_request')
     lecture, language = body.get('lecture_id'), body.get('language')
-    if body.get('course_id') != 'ECE685' or lecture not in lecture_ids or language not in {'en', 'zh'}:
+    if body.get('course_id') != 'ECE685' or (lecture != 'COURSE' and lecture not in lecture_ids) or language not in {'en', 'zh'}:
         raise ValueError('invalid_request')
     if not isinstance(body.get('message'), str) or not 1 <= len(body['message'].strip()) <= 4000:
         raise ValueError('invalid_request')
@@ -51,12 +51,19 @@ def validate_message(body, documents, lecture_ids):
     if not isinstance(context, dict) or set(context) - {'kind', 'section_id', 'slide_number', 'selection_text'}:
         raise ValueError('invalid_context')
     kind, section = context.get('kind'), context.get('section_id')
-    if kind not in {'slide', 'lesson', 'selection', 'code'} or section not in SECTIONS:
-        raise ValueError('invalid_context')
     selected = context.get('selection_text', '')
     if not isinstance(selected, str) or len(selected) > 4000:
         raise ValueError('invalid_context')
     number = context.get('slide_number')
+    if lecture == 'COURSE':
+        if kind not in {'lesson', 'selection'} or section != 'course-overview' or number is not None:
+            raise ValueError('invalid_context')
+        source_id = f'ECE685:L01:lesson:{language}:lecture-overview'
+        if source_id not in documents:
+            raise ValueError('invalid_context')
+        return documents[source_id]
+    if kind not in {'slide', 'lesson', 'selection', 'code'} or section not in SECTIONS:
+        raise ValueError('invalid_context')
     if number is not None:
         if type(number) is not int or number < 1 or section != 'lecture-overview' or kind not in {'slide', 'selection'}:
             raise ValueError('invalid_context')

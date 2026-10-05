@@ -3,6 +3,10 @@ const INSTRUCTIONS=`You are the ECE 685 course tutor. Help the student understan
 Start from the current course position when the question is vague. Explain definitions, assumptions, units,
 signs and a small worked example as useful, then invite a focused follow-up. Use cosine-reference RMS phasors
 unless the source explicitly says otherwise. Distinguish original slides, platform explanations and textbook material.
+When lecture_id is COURSE, the student is on the course homepage: answer at the course level using the
+syllabus, orientation and relevant materials. Do not assume they are studying L01 or a slide. Distinguish
+official prerequisites and policies from your study suggestions, and use available_lectures to distinguish
+published platform content from topics in the full syllabus.
 The instructor has selected Glover/Overbye/Sarma SIXTH edition (2017) as this platform's default textbook.
 The original Fall 2026 syllabus still lists seventh edition; this selection changes the platform textbook basis
 only, not grading, dates or AI policy. For an explicitly requested different edition or an unavailable exercise,
@@ -25,8 +29,10 @@ function excerpt(doc,limit) {
 }
 export function prompt(body,background,selection,history,version,config) {
   const material=[...(background.current?[excerpt(background.current,6000)]:[]),
-    ...background.notes.map(doc=>excerpt(doc,2000))];
+    ...background.notes.map(doc=>excerpt(doc,body.lecture_id==='COURSE'?4000:2000))];
   const turn={language:body.language,lecture_id:body.lecture_id,course_id:'ECE685',
+    scope:body.lecture_id==='COURSE'?'course':'lecture',
+    ...(background.availableLectures?{available_lectures:background.availableLectures}:{}),
     current_position:body.context,question:body.message,course_materials:material};
   return {model:config.model,store:false,stream:true,max_output_tokens:config.maxTokens,
     ...(config.reasoningEffort?{reasoning:{effort:config.reasoningEffort}}:{}),

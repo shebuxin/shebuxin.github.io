@@ -13,6 +13,24 @@ export class Store {
     return row ? {...JSON.parse(row.metadata_json),text:row.text,file_id:row.file_id} : null;
   }
   async background(version,body) {
+    if (body.lecture_id==='COURSE') {
+      // Course questions use real orientation and syllabus sources, without
+      // treating the homepage as an individual lecture or inventing a document.
+      const orientation=await this.doc(version,`ECE685:L01:lesson:${body.language}:lecture-overview`);
+      if (!orientation) throw new ChatError('invalid_context');
+      const rows=await this.stmt(`SELECT * FROM documents WHERE version=?
+        AND json_extract(metadata_json,'$.source_type')='syllabus' ORDER BY doc_id LIMIT 2`,version).all();
+      const lessons=await this.stmt(`SELECT metadata_json FROM documents WHERE version=?
+        AND json_extract(metadata_json,'$.source_type')='platform_lesson'
+        AND json_extract(metadata_json,'$.section_id')='lecture-overview'
+        AND json_extract(metadata_json,'$.language')=? ORDER BY doc_id`,version,body.language).all();
+      const syllabus=rows.results.map(row=>({...JSON.parse(row.metadata_json),text:row.text,file_id:row.file_id}));
+      return {current:body.context ? orientation : null,notes:body.context ? syllabus : [orientation,...syllabus],
+        availableLectures:lessons.results.map(row=>{
+          const doc=JSON.parse(row.metadata_json);
+          return {id:doc.lecture_id,title:doc.title?.[body.language] || doc.lecture_id};
+        })};
+    }
     const lecture=await this.doc(version,`ECE685:${body.lecture_id}:lesson:${body.language}:lecture-overview`);
     if (!lecture) throw new ChatError('invalid_context');
     const id=contextId(body), current=id ? await this.doc(version,id) : null;

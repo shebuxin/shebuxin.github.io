@@ -18,6 +18,25 @@ args, unittest_args = parser.parse_known_args()
 
 
 class ChatRenderingTest(unittest.TestCase):
+    def test_course_homepage_has_overview_chat_in_both_languages(self):
+        for lang in ('en','zh'):
+            prefix = 'zh/' if lang == 'zh' else ''
+            tree = LessonHTML((args.site_dir / prefix / 'teaching/ece685/index.html').read_text()).root
+            self.assertEqual(len(tree.find(lambda n:n.attrs.get('id')=='course-overview')),1)
+            chats = tree.find(lambda n:'data-course-chat' in n.attrs)
+            self.assertEqual(len(chats),int(args.enabled),lang)
+            if not chats:
+                continue
+            chat = chats[0]
+            self.assertEqual(chat.attrs['data-lecture-id'],'COURSE')
+            self.assertEqual(chat.attrs['data-lang'],lang)
+            if args.api_base:
+                self.assertEqual(chat.attrs['data-api-base'],args.api_base)
+            context = chat.find(lambda n:'data-chat-context' in n.attrs)[0]
+            self.assertEqual([n.attrs['value'] for n in context.find(lambda n:n.tag=='option')],['current','none'])
+            self.assertEqual([n.attrs['data-chat-prompt'] for n in chat.find(lambda n:'data-chat-prompt' in n.attrs)],['overview','prerequisites','start'])
+            self.assertIn('hidden',chat.find(lambda n:'data-chat-attach-code' in n.attrs)[0].attrs)
+
     def pages(self):
         for lecture in json.loads((ROOT / '_data/ece685.json').read_text())['lectures']:
             for lang in ('en','zh'):

@@ -13,15 +13,21 @@ export function sessionBody(body) {
 }
 export function messageBody(body) {
   if (!object(body,['course_id','lecture_id','language','context','message','client_request_id']) ||
-      body.course_id!=='ECE685' || !/^L\d{2}b?$/.test(body.lecture_id) || !['en','zh'].includes(body.language) ||
+      body.course_id!=='ECE685' || (body.lecture_id!=='COURSE' && !/^L\d{2}b?$/.test(body.lecture_id)) || !['en','zh'].includes(body.language) ||
       typeof body.message!=='string' || !body.message.trim() || body.message.length>4000 ||
       typeof body.client_request_id!=='string' || !/^[a-zA-Z0-9-]{1,128}$/.test(body.client_request_id))
     throw new ChatError('invalid_request');
   const c=body.context;
   if (c===null) return body;
   if (!object(c,['kind','section_id','slide_number','selection_text']) ||
-      !['slide','lesson','selection','code'].includes(c.kind) || !SECTIONS.has(c.section_id) ||
       typeof c.selection_text!=='string' || c.selection_text.length>4000) throw new ChatError('invalid_context');
+  if (body.lecture_id==='COURSE') {
+    if (!['lesson','selection'].includes(c.kind) || c.section_id!=='course-overview' || c.slide_number!==null)
+      throw new ChatError('invalid_context');
+    return body;
+  }
+  if (!['slide','lesson','selection','code'].includes(c.kind) || !SECTIONS.has(c.section_id))
+    throw new ChatError('invalid_context');
   if (c.slide_number!==null && (!Number.isSafeInteger(c.slide_number) || c.slide_number<1 ||
       c.section_id!=='lecture-overview' || !['slide','selection'].includes(c.kind))) throw new ChatError('invalid_context');
   if ((c.kind==='slide' && c.slide_number===null) || (c.kind==='code' && c.section_id!=='lecture-code'))
@@ -29,7 +35,7 @@ export function messageBody(body) {
   return body;
 }
 export function contextId(body) {
-  if (!body.context) return null;
+  if (!body.context || body.lecture_id==='COURSE') return null;
   const c=body.context;
   return c.slide_number===null ? `ECE685:${body.lecture_id}:lesson:${body.language}:${c.section_id}` :
     `ECE685:${body.lecture_id}:slide:${String(c.slide_number).padStart(3,'0')}`;

@@ -190,6 +190,37 @@ test('live provider request uses server model/active index, store=false, and map
   await (await handle(request('messages',question('follow-up',null),token),f.env,{}, {...quiet,fetch:fakeFetch})).text();
   assert.equal(payload.input.length,3);assert.match(payload.input[0].content,/slide_number/);f.db.close();
 });
+test('course homepage answers use syllabus and published course context, with existing auth and quotas',async()=>{
+  const f=await fixture(':memory:','live'),token=await connect(f),store=new Store(f.env.CHAT_DB);
+  const orientation={doc_id:'ECE685:L01:lesson:zh:lecture-overview',kind:'lesson',source_type:'platform_lesson',
+    language:'zh',lecture_id:'L01',section_id:'lecture-overview',title:{zh:'课程导论',en:'Course orientation'},
+    text:'Orientation and course learning route.',source_urls:{zh:'/zh/teaching/ece685/l01-course-orientation/#lecture-overview'}};
+  const syllabus={doc_id:'ECE685:reference:syllabus-fall-2026:page:0001',kind:'reference',source_type:'syllabus',
+    text:'Course overview and official prerequisites.',citation:{label:'Fall 2026 syllabus, PDF p. 1'}};
+  for(const [i,doc] of [orientation,syllabus].entries())
+    f.db.prepare('INSERT INTO documents VALUES(?,?,?,?,?,?)').run(version,doc.doc_id,'course-file-'+i,await sha256(doc.text),doc.text,JSON.stringify(doc));
+  const body={...question('course-overview'),lecture_id:'COURSE',context:{kind:'lesson',section_id:'course-overview',slide_number:null,selection_text:''}};
+  let payload;
+  const fetcher=async(url,options)=>{payload=JSON.parse(options.body);return providerResponse([
+    {type:'response.output_text.delta',delta:'Course overview'},completed(['course-file-1'])]);};
+  const response=await handle(request('messages',body,token),f.env,{}, {...quiet,fetch:fetcher});
+  assert.equal(response.status,200);
+  const text=await response.text();assert.match(text,/event: done/);assert.match(text,/Fall 2026 syllabus/);
+  const turn=JSON.parse(payload.input[0].content);
+  assert.equal(turn.scope,'course');assert.equal(turn.lecture_id,'COURSE');
+  assert.equal(turn.current_position.section_id,'course-overview');
+  assert.ok(turn.course_materials.some(doc=>doc.source_type==='syllabus'));
+  assert.deepEqual(turn.available_lectures,[{id:'L01',title:'课程导论'}]);
+  assert.match(payload.instructions,/Do not assume they are studying L01/);
+  const noContext=await store.background(version,{...body,context:null});
+  assert.equal(noContext.current,null);assert.equal(noContext.notes[0].doc_id,orientation.doc_id);
+  for(const context of [{...body.context,slide_number:1},{...body.context,kind:'code'},
+    {...body.context,section_id:'lecture-overview'}])
+    assert.equal((await handle(request('messages',{...body,context,client_request_id:'invalid'},token),f.env)).status,400);
+  assert.equal((await handle(request('messages',{...question('invalid-course-section'),context:body.context},token),f.env)).status,400);
+  assert.equal(f.db.prepare('SELECT messages_used FROM sessions').get().messages_used,1);
+  f.db.close();
+});
 test('flagship reasoning budget reaches the Responses request; unsupported effort fails before a model call',async()=>{
   const f=await fixture(':memory:','live',{CHAT_MODEL:'gpt-6-astra',CHAT_REASONING_EFFORT:'medium',MAX_OUTPUT_TOKENS:'8192'});
   const token=await connect(f);let payload,calls=0;

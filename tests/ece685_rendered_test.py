@@ -43,7 +43,7 @@ class Page(HTMLParser):
             self.navigation_ids.append(attrs["data-reviewed-dot"])
         if "data-lecture-card" in attrs:
             self.card_ids.append(attrs["data-lecture-card"])
-        if "data-lecture-id" in attrs:
+        if "data-ece-platform" in attrs:
             self.current_lecture = attrs["data-lecture-id"]
         if tag == "li" and "value" in attrs:
             self.outline_slides.append(int(attrs["value"]))
