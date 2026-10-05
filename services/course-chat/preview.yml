@@ -1,7 +1,7 @@
 # Local preview only; production chat remains disabled in _config.yml.
 course_chat:
   enabled: true
-  lectures: [L05]
+  lectures: ['*']
   api_base: /api/course-chat
 analytics:
   provider: false

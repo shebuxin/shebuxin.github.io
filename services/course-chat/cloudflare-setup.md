@@ -1,6 +1,6 @@
 # ECE 685 聊天服务账户配置
 
-本指南用于把已经通过本地验证的聊天后端接入现有 Cloudflare 网站。2026-10-04 已通过 Chrome 核对现有 Pages 项目，创建 Preview D1 并保存绑定及运行参数。1,104 份文档已完成真实索引并导入 staging；GPT-6 Astra 的 20 题实测均完成，17 题达到完整标准，3 题需改进出处及资料定位。用户随后要求在线测试，专用 Preview 数据库已激活并导入教师邀请码，专用测试分支已部署并通过线上登录、回答和追问测试。学生开放仍等待三处来源修复及评估。
+本指南用于把已经通过本地验证的聊天后端接入现有 Cloudflare 网站。2026-10-04 已通过 Chrome 核对现有 Pages 项目，创建 Preview D1 并保存绑定及运行参数。1,104 份文档已完成真实索引并导入 staging；GPT-6 Astra 的 20 题实测均完成，17 题达到完整标准，3 题需改进出处及资料定位。用户随后要求在线测试，专用 Preview 数据库已激活并导入教师邀请码，专用测试分支已部署并通过线上登录、回答和追问测试。用户进一步要求将入口扩展至所有已完成讲次；原三处来源质量待办仍保留，不视为评估已全部通过。
 
 ## 个人主页入口与课程地址
 
@@ -8,7 +8,7 @@
 
 课程正式路径统一为 `/teaching/ece685/`、`/teaching/ibr/`、`/teaching/physics-informed-gnn/`；中文加 `/zh`。原 `/teaching/course-development/…` 的页面和旧模块地址保留跳转，保留查询参数和章节位置，且在当前网站内跳转。
 
-新镜像的 AI 入口复用 `https://codex-ece685-chat-preview.power-edu.pages.dev/api/course-chat`。原项目 Preview 的允许来源为原预览域名和 `https://shebuxin.pages.dev`；密钥、D1、限额、定时清理和邀请码仍由原服务管理。新镜像排除全部 Functions 路由，不需要复制 Secret。原索引中的旧课程 URL 在 API 和前端显示时转换为新路径，无需重复上传资料。L05 教师测试范围及学生开放前的来源评估要求继续适用。
+新镜像的 AI 入口复用 `https://codex-ece685-chat-preview.power-edu.pages.dev/api/course-chat`。原项目 Preview 的允许来源为原预览域名和 `https://shebuxin.pages.dev`；密钥、D1、限额、定时清理和邀请码仍由原服务管理。新镜像排除全部 Functions 路由，不需要复制 Secret。原索引中的旧课程 URL 在 API 和前端显示时转换为新路径，无需重复上传资料。按用户最新要求，入口覆盖全部 16 个已完成讲次的 32 个中英文页面；`lectures: ['*']` 配合 `status: live` 判定，未完成讲次不显示入口。邀请码仍通过服务端 HMAC 和 D1 校验；拥有者指定的课程代码支持 6–128 位字符，原码更换后撤销，原额度与到期时间保留。
 
 ## 原项目已核对与配置的环境
 
@@ -72,8 +72,8 @@ python3 scripts/create_ece685_chat_invite.py --output tmp/ece685-chat/preview-ac
 
 ## 已发布的教师测试
 
-- 分支别名：`https://codex-ece685-chat-preview.power-edu.pages.dev`；仅此 origin 可调用当前 Preview 聊天。
-- 聊天入口：[L05 中文第 12 页](https://codex-ece685-chat-preview.power-edu.pages.dev/zh/teaching/course-development/ece685/l05-single-phase-ac-i/?slide=12#lecture-overview)，英文 L05 同时启用。
+- 分支别名：`https://codex-ece685-chat-preview.power-edu.pages.dev`；此 origin 和具名主页可调用当前 Preview 聊天。
+- 聊天入口：[L05 中文第 12 页](https://codex-ece685-chat-preview.power-edu.pages.dev/zh/teaching/ece685/l05-single-phase-ac-i/?slide=12#lecture-overview)，英文 L05 同时启用。
 - 初次代码提交：`975140b9a279434e3849d7c00c8e8304bc75cfb3`；[GitHub CI](https://github.com/shebuxin/shebuxin.github.io/actions/runs/37259376873) 成功。Cloudflare 首次部署 `e5550aa9-e628-461a-942a-247e8ad795db` 成功；随后修复强调文字内的行内公式并更新记录。
 - Chrome 真实 HTTPS 验证：邀请码登录、两次连续问答、公式及课件引用跳转。D1 记录两次 completed、无错误，平均 15.15 秒。命令行健康探测被 Cloudflare 浏览器检查拒绝（1010）；直接页面导航 JSON 被客户端拦截，因此没有把这两项写成健康接口通过。浏览器课程 API 登录与实际问答已成功。
 - 私有邀请码保存于本机 `tmp/ece685-chat/preview-account/invitation-code.txt`，未放入仓库或静态网站；会话只存最近三轮短期历史。

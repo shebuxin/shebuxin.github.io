@@ -2,5 +2,5 @@
 url: https://shebuxin.pages.dev
 course_chat:
   enabled: true
-  lectures: [L05]
+  lectures: ['*']
   api_base: https://codex-ece685-chat-preview.power-edu.pages.dev/api/course-chat

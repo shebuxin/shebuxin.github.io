@@ -8,7 +8,7 @@ function object(value, allowed) {
 export function sessionBody(body) {
   if (!object(body,['course_id','language','invitation_code']) || body.course_id!=='ECE685' ||
       !['en','zh'].includes(body.language) || typeof body.invitation_code!=='string' ||
-      !/^[a-zA-Z0-9_-]{16,128}$/.test(body.invitation_code)) throw new ChatError('invite_invalid',401);
+      !/^[a-zA-Z0-9_-]{6,128}$/.test(body.invitation_code)) throw new ChatError('invite_invalid',401);
   return body;
 }
 export function messageBody(body) {

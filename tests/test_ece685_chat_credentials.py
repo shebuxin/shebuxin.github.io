@@ -1,5 +1,8 @@
 """Private key input must not execute text, leak values, or read shared files."""
 import os
+import hashlib
+import hmac
+import json
 from pathlib import Path
 import subprocess
 import sys
@@ -61,6 +64,31 @@ class CredentialsTest(unittest.TestCase):
         self.assertNotIn(pepper, result.stdout+result.stderr)
         self.assertTrue((self.folder/'invite/invitation.sql').exists())
         self.assertEqual((self.folder/'invite/invitation-private.json').stat().st_mode & 0o777, 0o600)
+
+    def test_owner_selected_code_uses_the_same_backend_hash_and_private_outputs(self):
+        pepper = 'fake-preview-pepper-for-test-only-12345'
+        self.write('INVITE_PEPPER='+pepper+'\n')
+        folder = self.folder/'course-code'
+        result = subprocess.run([sys.executable, str(ROOT/'scripts/create_ece685_chat_invite.py'),
+            '--output', str(folder), '--code', 'ECE685', '--credentials-file', str(self.path)],
+            capture_output=True, text=True)
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertNotIn(pepper, result.stdout+result.stderr)
+        self.assertNotIn('ECE685', result.stdout+result.stderr)
+        self.assertEqual(json.loads((folder/'invitation-private.json').read_text())['invitation_code'],'ECE685')
+        self.assertEqual((folder/'invitation-code.txt').read_text(),'ECE685\n')
+        expected = hmac.new(pepper.encode(),b'invite:ECE685',hashlib.sha256).hexdigest()
+        self.assertIn(expected,(folder/'invitation.sql').read_text())
+        for name in ('invitation.sql','invitation-private.json','invitation-code.txt'):
+            self.assertEqual((folder/name).stat().st_mode & 0o777,0o600)
+
+    def test_invalid_owner_code_cannot_enter_generated_sql(self):
+        for code in ('ECE68',"ECE685');DELETE",'ECE 685','x'*129):
+            result = subprocess.run([sys.executable, str(ROOT/'scripts/create_ece685_chat_invite.py'),
+                '--output', str(self.folder/'invalid'), '--code', code],capture_output=True,text=True)
+            self.assertNotEqual(result.returncode,0)
+            self.assertIn('Invalid invitation code format',result.stderr)
+            self.assertFalse((self.folder/'invalid/invitation.sql').exists())
 
 
 if __name__ == '__main__':

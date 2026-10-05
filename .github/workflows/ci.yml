@@ -147,6 +147,13 @@ jobs:
           bundle exec jekyll build --strict_front_matter --config _config.yml,services/course-chat/preview.yml --destination tmp/ece685-chat/site
           python tests/ece685_chat_ui_rendered_test.py --site-dir tmp/ece685-chat/site --enabled
 
+      - name: Validate named Cloudflare homepage chat
+        env:
+          JEKYLL_ENV: production
+        run: |
+          bundle exec jekyll build --strict_front_matter --config _config.yml,services/course-chat/shebuxin.yml --destination tmp/ece685-chat/named-site
+          python tests/ece685_chat_ui_rendered_test.py --site-dir tmp/ece685-chat/named-site --enabled --api-base https://codex-ece685-chat-preview.power-edu.pages.dev/api/course-chat
+
       - name: Validate IBR modeling lessons and physics
         run: python tests/ibr_modeling_test.py
 

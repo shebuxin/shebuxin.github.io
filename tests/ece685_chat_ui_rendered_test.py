@@ -11,7 +11,9 @@ from export_ece685_chat_corpus import LessonHTML, course_path
 
 parser = argparse.ArgumentParser(description=__doc__)
 parser.add_argument('--site-dir', type=Path, default=ROOT / '_site')
-parser.add_argument('--enabled', action='store_true', help='Expect the local L05-only preview')
+parser.add_argument('--enabled', action='store_true', help='Expect chat on released lectures')
+parser.add_argument('--lectures', nargs='+', default=['*'], help='Enabled lecture IDs, or * for all released lectures')
+parser.add_argument('--api-base', help='Expected public API URL when chat is enabled')
 args, unittest_args = parser.parse_known_args()
 
 
@@ -22,19 +24,23 @@ class ChatRenderingTest(unittest.TestCase):
                 path = args.site_dir / course_path(lecture,lang).lstrip('/') / 'index.html'
                 yield lecture, lang, LessonHTML(path.read_text()).root
 
-    def test_only_enabled_released_l05_receives_the_component(self):
+    def test_only_enabled_released_lectures_receive_the_component(self):
         count = 0
+        expected_count = 0
         for lecture,lang,tree in self.pages():
             chats = tree.find(lambda n:'data-course-chat' in n.attrs)
-            expected = args.enabled and lecture['id'] == 'L05' and lecture['status'] == 'live'
+            expected = args.enabled and lecture['status'] == 'live' and ('*' in args.lectures or lecture['id'] in args.lectures)
+            expected_count += int(expected)
             self.assertEqual(len(chats),int(expected),(lecture['id'],lang))
             if chats:
                 count += 1
-                self.assertEqual(chats[0].attrs['data-lecture-id'],'L05')
+                self.assertEqual(chats[0].attrs['data-lecture-id'],lecture['id'])
                 self.assertEqual(chats[0].attrs['data-lang'],lang)
+                if args.api_base:
+                    self.assertEqual(chats[0].attrs['data-api-base'],args.api_base)
                 slugs = chats[0].attrs['data-live-slugs'].split()
                 self.assertNotIn('l20-three-phase-transformers-i',slugs)
-        self.assertEqual(count,2 if args.enabled else 0)
+        self.assertEqual(count,expected_count)
 
     def test_labels_and_dialog_targets_are_real_and_private_files_are_absent(self):
         for lecture,lang,tree in self.pages():

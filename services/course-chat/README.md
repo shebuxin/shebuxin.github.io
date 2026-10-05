@@ -1,12 +1,12 @@
 # ECE 685 Chat 本地预览与接口
 
-页面聊天组件与 Cloudflare 后端已实现，默认生产配置关闭。2026-10-04 已使用 GPT-6 Astra 完成 1,104 份文档的真实索引和 20 题实际问答：20 题调用完成，17 题达到完整标准，3 题的参考出处或资料定位需改进。用户已要求在线测试，专用 Preview D1 已激活该版本并导入教师测试邀请码；`codex/ece685-chat-preview` 已通过 Git 集成部署到 Cloudflare，只在 L05 开启聊天。学生开放仍等待来源修复与评估。原页面演示服务继续可用。
+页面聊天组件与 Cloudflare 后端已实现，默认生产配置关闭。2026-10-04 已使用 GPT-6 Astra 完成 1,104 份文档的真实索引和 20 题实际问答：20 题调用完成，17 题达到完整标准，3 题的参考出处或资料定位需改进。用户已要求在线测试，专用 Preview D1 已激活该版本并导入教师测试邀请码；`codex/ece685-chat-preview` 已通过 Git 集成部署到 Cloudflare，现按用户要求扩展至全部 16 个已完成讲次（L01–L15，包含 L09b）的中英文页面。既有评估记录中的三处来源改进仍保留为质量待办。原页面演示服务继续可用。
 
 本机真实模型页面位于 `http://127.0.0.1:8853/zh/teaching/ece685/l05-single-phase-ac-i/?slide=12#lecture-overview`，使用独立的私有本地 D1、配置及邀请码；它会产生真实 API 调用。Chrome 已验证两次连续问答、公式和已校验的来源链接。运行配置和日志位于忽略的 `tmp/ece685-chat/live-local/`，本机 key 不进入网页资源。
 
 ## 在线教师测试
 
-[打开 L05 中文测试页](https://shebuxin.pages.dev/zh/teaching/ece685/l05-single-phase-ac-i/?slide=12#lecture-overview)。个人主页镜像通过 `scripts/build_shebuxin_pages.sh` 发布，复用原 Preview API；来源和 Secret 归属见 `cloudflare-setup.md`。点击“问 AI”，使用本机私有 `tmp/ece685-chat/preview-account/invitation-code.txt` 中的邀请码。该文件不提交 Git，不作为网页资产。邀请码最多 200 次问题、20 个会话，到期时间来自 `invitation-private.json`；每个会话最多 30 次问题，有效两小时。
+[打开 L05 中文测试页](https://shebuxin.pages.dev/zh/teaching/ece685/l05-single-phase-ac-i/?slide=12#lecture-overview)。个人主页镜像通过 `scripts/build_shebuxin_pages.sh` 发布，复用原 Preview API；来源和 Secret 归属见 `cloudflare-setup.md`。点击“问 AI”，使用本机私有 `tmp/ece685-chat/preview-account/invitation-code.txt` 中的邀请码。该文件不提交 Git，不作为网页资产。更换邀请码时撤销原码及其已有会话，并保留原有到期时间和已使用额度。邀请码最多 200 次问题、20 个会话，到期时间来自 `invitation-private.json`；每个会话最多 30 次问题，有效两小时。
 
 2026-10-04 已在实际 HTTPS 页面验证邀请码登录、RMS 解释、含直流偏置的连续追问和返回课件第 12 页的引用。D1 确认两次请求均完成，平均 15.15 秒。粗体与斜体内的公式排版问题已补充回归检查并修复。此记录是教师操作测试，20 题质量评估仍为 17/20。
 
@@ -19,7 +19,7 @@ JEKYLL_ENV=production bundle exec jekyll build --strict_front_matter --config _c
 python3 scripts/serve_ece685_chat_preview.py --corpus tmp/ece685-chat/ece685-2cb02ab2374b55da3f58
 ```
 
-然后打开 `http://127.0.0.1:8788/zh/teaching/ece685/l05-single-phase-ac-i/?slide=12#lecture-overview`，点击“问 AI”，输入演示邀请码 `DEMO`。英文路径去掉 `/zh`。默认只开启已发布的 L05。重新生成语料后，将命令中的版本目录换成新 manifest 所属目录。
+然后打开 `http://127.0.0.1:8788/zh/teaching/ece685/l05-single-phase-ac-i/?slide=12#lecture-overview`，点击“问 AI”，输入演示邀请码 `DEMO`。英文路径去掉 `/zh`。预览在全部已完成讲次开启入口；未发布讲次不显示入口。重新生成语料后，将命令中的版本目录换成新 manifest 所属目录。
 
 服务只监听 `127.0.0.1`，静态根目录为已经构建的预览网站，不提供教材 PDF 或原始课程包。固定回答用于核对操作和排版，每次回答明确显示“界面演示”；它不构成检索或模型质量评估。修改资源或重新构建后刷新浏览器。
 
@@ -50,7 +50,7 @@ python3 scripts/serve_ece685_chat_preview.py --corpus tmp/ece685-chat/ece685-2cb
 {"session_token":"opaque-session-token","expires_at":"2026-10-04T23:00:00Z","mode":"demo"}
 ```
 
-正式服务使用 `mode: live`，并在服务端验证邀请码。前端仅在当前页面内存保存会话凭证。正式邀请码由私有生成工具创建，至少 16 字符；`DEMO` 仅供原 Python 界面演示服务使用。
+正式服务使用 `mode: live`，并在服务端验证邀请码。前端仅在当前页面内存保存会话凭证。正式邀请码由私有生成工具创建，默认生成随机长码，也支持拥有者指定的 6–128 位课程代码；`DEMO` 仅供原 Python 界面演示服务使用。
 
 `POST /api/course-chat/messages` 使用 `Authorization: Bearer <session_token>`：
 

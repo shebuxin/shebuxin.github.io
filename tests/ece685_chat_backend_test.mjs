@@ -98,6 +98,26 @@ test('expired/disabled invitations invalidate existing sessions',async()=>{
   assert.equal((await handle(request('messages',question(),token),f.env)).status,401);
   assert.equal(f.db.prepare('SELECT COUNT(*) n FROM sessions').get().n,0);f.db.close();
 });
+test('owner-selected six-character course code is hashed and requires an enabled invitation',async()=>{
+  const f=await fixture(),oldToken=await connect(f);
+  const body={course_id:'ECE685',language:'zh',invitation_code:'ECE685'};
+  assert.equal((await handle(request('session',body),f.env)).status,401);
+  const newHash=await keyedHash(pepper,'invite:'+body.invitation_code);
+  f.db.prepare(`INSERT INTO invitations(invite_hash,expires_at,max_messages,max_sessions)
+    VALUES(?,?,?,?)`).run(newHash,f.now+86400,100,50);
+  f.db.prepare('UPDATE invitations SET enabled=0 WHERE invite_hash=?').run(f.hash);
+  const response=await handle(request('session',body),f.env);
+  assert.equal(response.status,200);
+  const token=(await response.json()).session_token;
+  const row=f.db.prepare('SELECT * FROM sessions WHERE token_hash=?').get(await sha256(token));
+  assert.equal(row.invite_hash,newHash);
+  assert.ok(!JSON.stringify(row).includes(body.invitation_code));
+  assert.equal((await handle(request('session',{...body,invitation_code:invite}),f.env)).status,401);
+  assert.equal((await handle(request('messages',question(),oldToken),f.env)).status,401);
+  for(const code of ['ECE68','DEMO','ECE685\n','ECE 685','x'.repeat(129)])
+    assert.equal((await handle(request('session',{...body,invitation_code:code}),f.env)).status,401);
+  f.db.close();
+});
 test('scheduled cleanup removes expired transcript/request rows without refunding course quota',async()=>{
   const f=await fixture(),token=await connect(f);
   await (await handle(request('messages',question(),token),f.env,{},quiet)).text();
