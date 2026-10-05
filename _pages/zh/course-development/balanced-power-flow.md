@@ -1,13 +1,15 @@
 ---
 title: "Balanced Power Flow · 平衡潮流"
-permalink: /zh/teaching/course-development/physics-informed-gnn/balanced-power-flow/
+permalink: /zh/teaching/physics-informed-gnn/balanced-power-flow/
 layout: course
 lang: zh
 balanced_power_flow: true
 course_title: "Physics-informed GNN · 微电网与配电系统"
-parent_url: /zh/teaching/course-development/physics-informed-gnn/
+parent_url: /zh/teaching/physics-informed-gnn/
 parent_title: "Physics-informed GNN 课程"
 description: "平衡三相 AC 潮流互动教材：背景、公式推导、馈线例题、参数实验和可编辑 Python。"
+redirect_from:
+  - "/zh/teaching/course-development/physics-informed-gnn/balanced-power-flow/"
 ---
 
 为什么负荷增加时馈线电压会下降？本地发电能否使潮流反向？无功支撑会改变什么？本章从模型推导出发，计算一个具体例题，再通过参数实验与 Python 验证你的预测。
@@ -87,7 +89,7 @@ description: "平衡三相 AC 潮流互动教材：背景、公式推导、馈�
 
 本章以牛顿–拉夫逊（NR）建立通用的 AC 潮流求解框架：从节点导纳与功率偏差出发，用雅可比矩阵联立修正未知电压。例题虽是配电馈线，后面的实验也允许闭合联络线形成回路，因此选用不依赖树形拓扑的 NR。
 
-**三相平衡不是使用 NR 的必要条件。** 平衡的辐射型网络同样可以用前推回代；不平衡网络也可以建立三相 NR 方程。下一章将利用单电源、辐射型四线结构，改用电流求和的前推回代，以展示共享中性线与逐相电压的关系。算法选择的原因与适用边界见[两种方法的对照]({{ '/zh/teaching/course-development/physics-informed-gnn/unbalanced-power-flow/' | relative_url }}#solver-choice)。
+**三相平衡不是使用 NR 的必要条件。** 平衡的辐射型网络同样可以用前推回代；不平衡网络也可以建立三相 NR 方程。下一章将利用单电源、辐射型四线结构，改用电流求和的前推回代，以展示共享中性线与逐相电压的关系。算法选择的原因与适用边界见[两种方法的对照]({{ '/zh/teaching/physics-informed-gnn/unbalanced-power-flow/' | relative_url }}#solver-choice)。
 
 
 从平坦电压与零相角开始，计算指定功率与当前计算功率的偏差。J 定义为**计算注入**对 x 的导数，因此下面的更新采用加号：
@@ -172,7 +174,7 @@ description: "平衡三相 AC 潮流互动教材：背景、公式推导、馈�
 
 ## 7. 模型范围与后续内容
 
-本章是固定平衡节点电压、恒定 PQ 的平衡稳态教学模型，未包含相间不平衡、随电压变化的负荷、变压器与分接头、逆变器能力约束、电源容量限制、线路充电和保护。孤岛被标为超出单平衡节点模型范围，其 DG 不会自动转成构网电源。后续 [Unbalanced Power Flow]({{ '/zh/teaching/course-development/physics-informed-gnn/unbalanced-power-flow/' | relative_url }}) 将放宽三相对称假设，**PandaPower-based Implementation** 将扩展建模流程。
+本章是固定平衡节点电压、恒定 PQ 的平衡稳态教学模型，未包含相间不平衡、随电压变化的负荷、变压器与分接头、逆变器能力约束、电源容量限制、线路充电和保护。孤岛被标为超出单平衡节点模型范围，其 DG 不会自动转成构网电源。后续 [Unbalanced Power Flow]({{ '/zh/teaching/physics-informed-gnn/unbalanced-power-flow/' | relative_url }}) 将放宽三相对称假设，**PandaPower-based Implementation** 将扩展建模流程。
 
 ### 参考资料
 {: #references }

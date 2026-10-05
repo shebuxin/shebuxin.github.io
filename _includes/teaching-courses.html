@@ -1,7 +1,7 @@
 {% assign teaching_zh = false %}
 {% assign teaching_prefix = '' %}
 {% if page.lang == 'zh' %}{% assign teaching_zh = true %}{% assign teaching_prefix = '/zh' %}{% endif %}
-{% assign gnn_path = teaching_prefix | append: '/teaching/course-development/physics-informed-gnn/' %}
+{% assign gnn_path = teaching_prefix | append: '/teaching/physics-informed-gnn/' %}
 <div class="teaching-courses">
   <section class="teaching-course teaching-course--featured" aria-labelledby="ieee-course-title">
     <p class="teaching-course__meta">IEEE Learning Network · IEEE Power &amp; Energy Society · 2026</p>
@@ -20,10 +20,10 @@
 
   <section class="teaching-course" aria-labelledby="ece685-course-title">
     <p class="teaching-course__meta">{% if teaching_zh %}堪萨斯州立大学{% else %}Kansas State University{% endif %}</p>
-    <h3 id="ece685-course-title"><a href="{{ teaching_prefix | append: '/teaching/course-development/ece685/' | relative_url }}">ECE 685 — Power Systems Design</a></h3>
+    <h3 id="ece685-course-title"><a href="{{ teaching_prefix | append: '/teaching/ece685/' | relative_url }}">ECE 685 — Power Systems Design</a></h3>
     <p>{% if teaching_zh %}按照 lecture slides 学习发电规划、交流电路、变压器、输电线路与潮流分析。{% else %}Follow the lecture slides through generation planning, AC circuits, transformers, transmission lines, and power flow.{% endif %}</p>
     <ul class="teaching-course__modules">
-      <li><a href="{{ teaching_prefix | append: '/teaching/course-development/ece685/' | relative_url }}">{% if teaching_zh %}查看全部 {{ site.data.ece685.lectures.size }} 讲{% else %}Explore all {{ site.data.ece685.lectures.size }} lectures{% endif %}</a><span class="teaching-course__status">{% if teaching_zh %}课程框架{% else %}Course framework{% endif %}</span></li>
+      <li><a href="{{ teaching_prefix | append: '/teaching/ece685/' | relative_url }}">{% if teaching_zh %}查看全部 {{ site.data.ece685.lectures.size }} 讲{% else %}Explore all {{ site.data.ece685.lectures.size }} lectures{% endif %}</a><span class="teaching-course__status">{% if teaching_zh %}课程框架{% else %}Course framework{% endif %}</span></li>
     </ul>
   </section>
 
@@ -39,7 +39,7 @@
   </section>
 
   <section class="teaching-course" aria-labelledby="ibr-course-title">
-    {% assign ibr_path = teaching_prefix | append: '/teaching/course-development/ibr/' %}
+    {% assign ibr_path = teaching_prefix | append: '/teaching/ibr/' %}
     <p class="teaching-course__meta">{% if teaching_zh %}IBR 动态 · 建模 · 物理信息学习{% else %}IBR dynamics · Modeling · Physics-informed learning{% endif %}</p>
     <h3 id="ibr-course-title"><a href="{{ ibr_path | relative_url }}">{% if teaching_zh %}IBR 动态与物理信息学习{% else %}IBR Dynamics and Physics-Informed Learning{% endif %}</a></h3>
     <p>{% if teaching_zh %}三门核心课程连接 GFL、GFM 与 hybrid 建模、稳定性与降阶、Physics-informed Neural ODE；两个进阶专题扩展到辨识与多 IBR 网络动态。{% else %}Three core courses connect GFL, GFM, and hybrid modeling, stability and reduction, and physics-informed Neural ODEs. Two advanced topics extend the path to identification and multi-IBR network dynamics.{% endif %}</p>

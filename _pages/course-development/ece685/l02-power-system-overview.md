@@ -5,9 +5,11 @@ lang: en
 title: "L02 · Power-System Evolution and Symbolic Representation"
 description: "Trace the physical power system, construct a one-line diagram, and reconcile real and reactive power."
 lecture_id: L02
-permalink: /teaching/course-development/ece685/l02-power-system-overview/
+permalink: /teaching/ece685/l02-power-system-overview/
 ece685_slides: true
 ece685_lab: true
+redirect_from:
+  - "/teaching/course-development/ece685/l02-power-system-overview/"
 ---
 
 {% include ece685-lecture.html %}

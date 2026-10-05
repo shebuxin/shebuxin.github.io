@@ -1,12 +1,14 @@
 ---
 title: "PandaPower-based Implementation"
-permalink: /teaching/course-development/physics-informed-gnn/pandapower-based-implementation/
+permalink: /teaching/physics-informed-gnn/pandapower-based-implementation/
 layout: course
 pandapower_implementation: true
 course_title: "Physics-informed GNN · Microgrids & distribution systems"
-parent_url: /teaching/course-development/physics-informed-gnn/
+parent_url: /teaching/physics-informed-gnn/
 parent_title: "Physics-informed GNN course"
 description: "Build and run real pandapower networks in your browser: balanced and three-phase power flow, live controls, editable Python, and N-1 screening."
+redirect_from:
+  - "/teaching/course-development/physics-informed-gnn/pandapower-based-implementation/"
 ---
 
 The previous chapters explained the equations. Now turn a feeder diagram into a reproducible computational experiment: create buses and equipment, solve the operating point, inspect the results, and ask what happens when a line goes out of service. This chapter executes **real pandapower 3.2.1** in your browser and connects those results to the first steps of security-data generation.
@@ -16,7 +18,7 @@ The previous chapters explained the equations. Now turn a feeder diagram into a 
 ## 1. Translate the physical model into tables
 {: #background }
 
-Prerequisites: [Balanced Power Flow]({{ '/teaching/course-development/physics-informed-gnn/balanced-power-flow/' | relative_url }}) and [Unbalanced Power Flow]({{ '/teaching/course-development/physics-informed-gnn/unbalanced-power-flow/' | relative_url }}). First connect the physical assumptions to equipment tables and solvers; the worked example then introduces the feeder, bus numbers, and power settings.
+Prerequisites: [Balanced Power Flow]({{ '/teaching/physics-informed-gnn/balanced-power-flow/' | relative_url }}) and [Unbalanced Power Flow]({{ '/teaching/physics-informed-gnn/unbalanced-power-flow/' | relative_url }}). First connect the physical assumptions to equipment tables and solvers; the worked example then introduces the feeder, bus numbers, and power settings.
 
 ### Modeling assumptions
 
@@ -81,7 +83,7 @@ For 120 kW at PF = 0.95, Q ≈ 39.442 kvar. In code, that is `p_mw=0.120` and `q
 
 `runpp(net, algorithm="nr")` solves the balanced AC equations using Newton–Raphson. The experiment also offers `bfsw` to compare a backward/forward sweep. See the [balanced solver options](https://pandapower.readthedocs.io/en/v3.2.1/powerflow/ac.html).
 
-Switching `nr` / `bfsw` compares numerical methods within the same balanced model. Switching `runpp()` / `runpp_3ph()` changes the phase model; distinguish these two choices. The preceding chapters' reasons for using NR and four-wire sweeps are explained in the [solver comparison]({{ '/teaching/course-development/physics-informed-gnn/unbalanced-power-flow/' | relative_url }}#solver-choice).
+Switching `nr` / `bfsw` compares numerical methods within the same balanced model. Switching `runpp()` / `runpp_3ph()` changes the phase model; distinguish these two choices. The preceding chapters' reasons for using NR and four-wire sweeps are explained in the [solver comparison]({{ '/teaching/physics-informed-gnn/unbalanced-power-flow/' | relative_url }}#solver-choice).
 
 For a symmetric sequence-impedance line, the phase-domain impedance follows:
 

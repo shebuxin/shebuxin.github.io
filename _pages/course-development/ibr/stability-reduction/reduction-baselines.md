@@ -7,9 +7,11 @@ course_id: "C2"
 module_id: "C2-05"
 title: "Conventional Reduction Baselines"
 description: "Compare reduction methods under a shared input-output contract."
-permalink: "/teaching/course-development/ibr/stability-reduction/reduction-baselines/"
-parent_url: "/teaching/course-development/ibr/stability-reduction/"
+permalink: "/teaching/ibr/stability-reduction/reduction-baselines/"
+parent_url: "/teaching/ibr/stability-reduction/"
 parent_title: "IBR Stability, Model Reduction, and Validation"
+redirect_from:
+  - "/teaching/course-development/ibr/stability-reduction/reduction-baselines/"
 ---
 
 {% include ibr-module.html %}

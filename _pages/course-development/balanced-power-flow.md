@@ -1,12 +1,14 @@
 ---
 title: "Balanced Power Flow"
-permalink: /teaching/course-development/physics-informed-gnn/balanced-power-flow/
+permalink: /teaching/physics-informed-gnn/balanced-power-flow/
 layout: course
 balanced_power_flow: true
 course_title: "Physics-informed GNN · Microgrids & distribution systems"
-parent_url: /teaching/course-development/physics-informed-gnn/
+parent_url: /teaching/physics-informed-gnn/
 parent_title: "Physics-informed GNN course"
 description: "An interactive lesson on balanced three-phase AC power flow, with derivations, a worked feeder example, parameter experiments, and editable Python."
+redirect_from:
+  - "/teaching/course-development/physics-informed-gnn/balanced-power-flow/"
 ---
 
 Why does a feeder's voltage fall when demand increases? Can local generation reverse a line's power flow? How does reactive support change the result? In this lesson, derive the model, solve a concrete example, and test your predictions with an interactive experiment and Python.
@@ -86,7 +88,7 @@ Under this chapter's assumptions, loads and fixed-PQ distributed generators are 
 
 This chapter uses Newton–Raphson (NR) to build a general AC power-flow solution from nodal admittance, power mismatch and simultaneous Jacobian-based voltage corrections. Although the example is a distribution feeder, its experiment can close a tie and form a loop, so NR provides a method that does not require a tree topology.
 
-**Three-phase balance is not a requirement for NR.** A balanced radial network can also use backward/forward sweep; an unbalanced network can be formulated for three-phase NR. The next chapter exploits a single-source, radial four-wire structure and uses current-summation sweeps to make the shared neutral and phase-voltage updates visible. See the [algorithm comparison and applicability discussion]({{ '/teaching/course-development/physics-informed-gnn/unbalanced-power-flow/' | relative_url }}#solver-choice).
+**Three-phase balance is not a requirement for NR.** A balanced radial network can also use backward/forward sweep; an unbalanced network can be formulated for three-phase NR. The next chapter exploits a single-source, radial four-wire structure and uses current-summation sweeps to make the shared neutral and phase-voltage updates visible. See the [algorithm comparison and applicability discussion]({{ '/teaching/physics-informed-gnn/unbalanced-power-flow/' | relative_url }}#solver-choice).
 
 
 Start with flat voltages and zero angles. Compute the mismatch between specified and calculated P/Q. Let J be the derivatives of the **calculated** injections with respect to x, so the update sign below is positive:
@@ -171,7 +173,7 @@ Turn the worked example into a code experiment: read the input dictionary `case`
 
 ## 7. Scope and next steps
 
-This is a steady-state, balanced, constant-PQ teaching model with a fixed slack voltage. It omits phase imbalance, voltage-dependent loads, transformer/tap models, inverter capability limits, source limits, line charging, and protection. An isolated component is reported as outside the single-slack model; its DG is not automatically converted into a grid-forming source. Use the next [Unbalanced Power Flow]({{ '/teaching/course-development/physics-informed-gnn/unbalanced-power-flow/' | relative_url }}) module to relax phase symmetry, and **PandaPower-based Implementation** for a broader modeling workflow.
+This is a steady-state, balanced, constant-PQ teaching model with a fixed slack voltage. It omits phase imbalance, voltage-dependent loads, transformer/tap models, inverter capability limits, source limits, line charging, and protection. An isolated component is reported as outside the single-slack model; its DG is not automatically converted into a grid-forming source. Use the next [Unbalanced Power Flow]({{ '/teaching/physics-informed-gnn/unbalanced-power-flow/' | relative_url }}) module to relax phase symmetry, and **PandaPower-based Implementation** for a broader modeling workflow.
 
 ### References
 {: #references }

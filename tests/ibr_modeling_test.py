@@ -218,7 +218,7 @@ class RenderedTest(unittest.TestCase):
         modules = catalog["courses"][0]["modules"]
         self.assertEqual(len(content["lessons"]), 9)
         for prefix in ("", "zh/"):
-            base = SITE / prefix / "teaching/course-development/ibr"
+            base = SITE / prefix / "teaching/ibr"
             overview = (base / "modeling" / "index.html").read_text()
             self.assertEqual(overview.count('class="ibr-course-card"'), 9)
             self.assertEqual(overview.count('class="ibr-phase"'), 3)

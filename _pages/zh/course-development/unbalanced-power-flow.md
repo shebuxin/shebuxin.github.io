@@ -1,13 +1,15 @@
 ---
 title: "Unbalanced Power Flow · 不平衡潮流"
-permalink: /zh/teaching/course-development/physics-informed-gnn/unbalanced-power-flow/
+permalink: /zh/teaching/physics-informed-gnn/unbalanced-power-flow/
 layout: course
 lang: zh
 unbalanced_power_flow: true
 course_title: "Physics-informed GNN · 微电网与配电系统"
-parent_url: /zh/teaching/course-development/physics-informed-gnn/
+parent_url: /zh/teaching/physics-informed-gnn/
 parent_title: "Physics-informed GNN 课程"
 description: "三相四线不平衡潮流交互教材：相域推导、中性点偏移、馈线例题、逐相参数实验与可编辑 Python。"
+redirect_from:
+  - "/zh/teaching/course-development/physics-informed-gnn/unbalanced-power-flow/"
 ---
 
 相同的总负荷，分配到三相之后，可能产生完全不同的电压结果。如果需求主要集中在 A 相，或者屋顶光伏只接入一相，会发生什么？本章保留三相与中性线，通过推导、例题和实验回答这些问题。
@@ -17,7 +19,7 @@ description: "三相四线不平衡潮流交互教材：相域推导、中性点
 ## 1. 从单相等值走向四导线模型
 {: #background }
 
-在 [Balanced Power Flow]({{ '/zh/teaching/course-development/physics-informed-gnn/balanced-power-flow/' | relative_url }}) 中，三相幅值相同，相角相差 120°，可以用一个等值相表示网络。单相用户和逆变器破坏了这一对称性：现在每一相都有自己的复功率、电压和电流。
+在 [Balanced Power Flow]({{ '/zh/teaching/physics-informed-gnn/balanced-power-flow/' | relative_url }}) 中，三相幅值相同，相角相差 120°，可以用一个等值相表示网络。单相用户和逆变器破坏了这一对称性：现在每一相都有自己的复功率、电压和电流。
 
 不平衡负荷还会产生**中性线返回电流**。中性线阻抗有限时，当地中性点电压不再等于电源接地点电压。用户实际得到的是**相线对当地中性点的电压**，不能只看相线对电源参考点的电压。四线模型在低压配电分析中的意义，可参见 [Claeys、Geth 与 Deconinck 的研究](https://arxiv.org/abs/2204.08126)。
 
@@ -262,7 +264,7 @@ result = main(case)
 
 本章是基波、辐射型教学模型，不包含三角形负荷、电压相关负荷、不对称导线几何、相线与中性线互阻抗、下游接地与大地回流、变压器、调压器、谐波、逆变器能力限值或动态与保护行为。支路断开时四根导线同时断开，没有建模仅中性线断开的故障。孤岛在本模型中没有电压参考。
 
-在 [PandaPower-based Implementation]({{ '/zh/teaching/course-development/physics-informed-gnn/pandapower-based-implementation/' | relative_url }}) 中，我们将设备映射到库函数，并明确比较工具的建模假设。[pandapower `runpp_3ph` 文档](https://pandapower.readthedocs.io/en/v3.2.1/powerflow/ac_3ph.html)说明了序域求解和大地回流、星形连接约定。在匹配这些假设之前，不应认为其结果会与本章显式中性线模型一致。
+在 [PandaPower-based Implementation]({{ '/zh/teaching/physics-informed-gnn/pandapower-based-implementation/' | relative_url }}) 中，我们将设备映射到库函数，并明确比较工具的建模假设。[pandapower `runpp_3ph` 文档](https://pandapower.readthedocs.io/en/v3.2.1/powerflow/ac_3ph.html)说明了序域求解和大地回流、星形连接约定。在匹配这些假设之前，不应认为其结果会与本章显式中性线模型一致。
 
 ### 参考资料
 

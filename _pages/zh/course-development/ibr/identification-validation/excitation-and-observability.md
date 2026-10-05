@@ -7,9 +7,11 @@ course_id: "T1"
 module_id: "T1-01"
 title: "激励、观测与可辨识性"
 description: "确定测量能够揭示哪些选定参数的信息。"
-permalink: "/zh/teaching/course-development/ibr/identification-validation/excitation-and-observability/"
-parent_url: "/zh/teaching/course-development/ibr/identification-validation/"
+permalink: "/zh/teaching/ibr/identification-validation/excitation-and-observability/"
+parent_url: "/zh/teaching/ibr/identification-validation/"
 parent_title: "IBR 辨识与学习模型验证"
+redirect_from:
+  - "/zh/teaching/course-development/ibr/identification-validation/excitation-and-observability/"
 ---
 
 {% include ibr-module.html %}

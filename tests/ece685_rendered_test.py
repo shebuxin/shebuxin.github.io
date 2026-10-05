@@ -57,7 +57,7 @@ class LectureShellTest(unittest.TestCase):
         self.assertEqual(len(released), 18)
         self.assertEqual(set(SLIDES), {lecture["id"] for lecture in released})
         for prefix in ("", "zh/"):
-            course = SITE / prefix / "teaching/course-development/ece685"
+            course = SITE / prefix / "teaching/ece685"
             for path in [course / "index.html"] + [course / lecture["slug"] / "index.html" for lecture in MANIFEST["lectures"]]:
                 with self.subTest(path=path):
                     html, page = path.read_text(), Page(path)
@@ -101,7 +101,7 @@ class LectureShellTest(unittest.TestCase):
         targets = {"overview": "L01", "generation": "L03", "single-phase": "L06",
                    "three-phase": "L08", "transformers": "L10", "per-unit": "L13", "exam-review": "L16"}
         for prefix in ("", "zh/"):
-            course = SITE / prefix / "teaching/course-development/ece685"
+            course = SITE / prefix / "teaching/ece685"
             root_redirect = (course / "lecture-01/index.html").read_text()
             self.assertIn('http-equiv="refresh"', root_redirect)
             self.assertNotIn('data-stage-index', root_redirect)
@@ -138,7 +138,7 @@ class LectureShellTest(unittest.TestCase):
         lecture = next(item for item in MANIFEST["lectures"] if item["id"] == "L05")
         self.assertEqual(lecture["status"], "live")
         for prefix in ("", "zh/"):
-            base = SITE / prefix / "teaching/course-development/ece685"
+            base = SITE / prefix / "teaching/ece685"
             html = (base / lecture["slug"] / "index.html").read_text()
             for marker in ('data-continuous="true"', 'data-l05', 'data-phasor',
                            'data-waveform', 'data-phase-wave', 'data-numerical-practice',
@@ -158,7 +158,7 @@ class LectureShellTest(unittest.TestCase):
         self.assertEqual(ids[ids.index("L09") + 1], "L09b")
         self.assertEqual(ids[ids.index("L17") + 1], "L20")
         for prefix in ("", "/zh"):
-            course = prefix + "/teaching/course-development/ece685/"
+            course = prefix + "/teaching/ece685/"
             overview_path = SITE / course.strip("/") / "index.html"
             overview = Page(overview_path)
             self.assertEqual(overview.card_ids, ids)
@@ -177,7 +177,7 @@ class LectureShellTest(unittest.TestCase):
                         self.assertIn(course + lectures[index - 1]["slug"] + "/", page.links)
                     if index + 1 < len(lectures):
                         self.assertIn(course + lectures[index + 1]["slug"] + "/", page.links)
-                    self.assertNotIn(prefix + "/teaching/course-development/power-flow/", page.links)
+                    self.assertNotIn(prefix + "/teaching/power-flow/", page.links)
                     html = path.read_text()
                     lang = "zh" if prefix else "en"
                     self.assertIn(lecture["title"][lang], html)
@@ -187,13 +187,13 @@ class LectureShellTest(unittest.TestCase):
 
     def test_removed_demo_and_shared_course_styles(self):
         for prefix in ("", "zh/"):
-            self.assertFalse((SITE / prefix / "teaching/course-development/power-flow/index.html").exists())
+            self.assertFalse((SITE / prefix / "teaching/power-flow/index.html").exists())
             teaching = Page(SITE / prefix / "teaching/index.html")
             self.assertTrue(any("/ece685/" in url for url in teaching.links))
         for asset in ("power-flow-model.js", "power-flow-lab.js"):
             self.assertFalse((ROOT / "assets/js" / asset).exists())
         for slug in ("balanced-power-flow", "unbalanced-power-flow"):
-            html = (SITE / "teaching/course-development/physics-informed-gnn" / slug / "index.html").read_text()
+            html = (SITE / "teaching/physics-informed-gnn" / slug / "index.html").read_text()
             self.assertIn("/assets/css/course.css", html)
             self.assertNotIn('href="/assets/css/power-flow.css"', html)
 

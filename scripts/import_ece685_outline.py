@@ -124,15 +124,18 @@ def main():
                      "title: " + json.dumps(lecture["id"] + " · " + lecture["title"][lang], ensure_ascii=False),
                      "description: " + json.dumps(lecture["summary"][lang], ensure_ascii=False),
                      f"lecture_id: {lecture['id']}",
-                     f"permalink: {prefix}/teaching/course-development/ece685/{lecture['slug']}/"]
+                     f"permalink: {prefix}/teaching/ece685/{lecture['slug']}/"]
             if lecture["status"] == "live":
                 front.append("ece685_slides: true")
             if lecture.get("interactive_model"):
                 front.append("ece685_lab: true")
+            front.extend(["redirect_from:",
+                          f"  - {prefix}/teaching/course-development/ece685/{lecture['slug']}/"])
             if lecture["id"] in LEGACY_MODELS:
                 model = LEGACY_MODELS[lecture["id"]]
                 front.extend([
-                    "redirect_from:",
+                    f"  - {prefix}/teaching/ece685/modules/{model}/",
+                    f"  - {prefix}/teaching/ece685/lecture-01/{model}/",
                     f"  - {prefix}/teaching/course-development/ece685/modules/{model}/",
                     f"  - {prefix}/teaching/course-development/ece685/lecture-01/{model}/",
                 ])

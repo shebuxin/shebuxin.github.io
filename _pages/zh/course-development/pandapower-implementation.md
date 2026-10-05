@@ -1,13 +1,15 @@
 ---
 title: "PandaPower-based Implementation"
-permalink: /zh/teaching/course-development/physics-informed-gnn/pandapower-based-implementation/
+permalink: /zh/teaching/physics-informed-gnn/pandapower-based-implementation/
 layout: course
 lang: zh
 pandapower_implementation: true
 course_title: "Physics-informed GNN · 微电网与配电系统"
-parent_url: /zh/teaching/course-development/physics-informed-gnn/
+parent_url: /zh/teaching/physics-informed-gnn/
 parent_title: "返回 Physics-informed GNN 课程"
 description: "在浏览器中用真实 pandapower 建网并运行平衡与三相潮流，包含公式、例题、参数实验、可编辑 Python 和 N-1 筛查。"
+redirect_from:
+  - "/zh/teaching/course-development/physics-informed-gnn/pandapower-based-implementation/"
 ---
 
 前两章解释了潮流方程。这一章把馈线图变成可以复现的计算实验：建立节点与设备，求解运行点，读取结果，再检查一条线路退出后的状态。网页直接运行 **pandapower 3.2.1**，并把潮流结果连接到安全预测数据的生成过程。
@@ -17,7 +19,7 @@ description: "在浏览器中用真实 pandapower 建网并运行平衡与三相
 ## 1. 把物理系统映射为设备表
 {: #background }
 
-建议先学习 [Balanced Power Flow]({{ '/zh/teaching/course-development/physics-informed-gnn/balanced-power-flow/' | relative_url }}) 与 [Unbalanced Power Flow]({{ '/zh/teaching/course-development/physics-informed-gnn/unbalanced-power-flow/' | relative_url }})。本章先说明物理假设怎样进入设备表和求解器，再在例题中给出具体馈线、节点编号与功率设置。
+建议先学习 [Balanced Power Flow]({{ '/zh/teaching/physics-informed-gnn/balanced-power-flow/' | relative_url }}) 与 [Unbalanced Power Flow]({{ '/zh/teaching/physics-informed-gnn/unbalanced-power-flow/' | relative_url }})。本章先说明物理假设怎样进入设备表和求解器，再在例题中给出具体馈线、节点编号与功率设置。
 
 ### 本章的模型假设
 
@@ -82,7 +84,7 @@ description: "在浏览器中用真实 pandapower 建网并运行平衡与三相
 
 `runpp(net, algorithm="nr")` 用 Newton–Raphson 求解平衡 AC 方程。实验还提供 `bfsw` 前推回代算法供比较，参见 [平衡潮流选项](https://pandapower.readthedocs.io/en/v3.2.1/powerflow/ac.html)。
 
-这里切换 `nr` / `bfsw`，是在同一套平衡模型下比较数值算法；切换 `runpp()` / `runpp_3ph()` 则会改变相模型，不能把两种选择混在一起。前两章分别采用 NR 与四线前推回代的教学原因，见[求解方法对照]({{ '/zh/teaching/course-development/physics-informed-gnn/unbalanced-power-flow/' | relative_url }}#solver-choice)。
+这里切换 `nr` / `bfsw`，是在同一套平衡模型下比较数值算法；切换 `runpp()` / `runpp_3ph()` 则会改变相模型，不能把两种选择混在一起。前两章分别采用 NR 与四线前推回代的教学原因，见[求解方法对照]({{ '/zh/teaching/physics-informed-gnn/unbalanced-power-flow/' | relative_url }}#solver-choice)。
 
 对于序阻抗可以解耦的对称线路，相域阻抗由序域转换得到：
 

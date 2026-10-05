@@ -110,7 +110,9 @@ jobs:
           python tests/research_rendered_test.py
 
       - name: Validate ECE 685 lecture framework
-        run: python tests/ece685_rendered_test.py
+        run: |
+          python tests/ece685_rendered_test.py
+          python tests/course_urls_rendered_test.py
 
       - name: Validate IBR modeling lessons and physics
         run: python tests/ibr_modeling_test.py
