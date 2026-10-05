@@ -17,6 +17,7 @@
 {% endif %}
 {% if page.ece685_lab %}
   <script defer src="{{ '/assets/js/ece685-stage-model.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>
+  <script defer src="{{ '/assets/js/ece685-stage-diagrams.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>
   <script defer src="{{ '/assets/js/course-python-runner.js' | relative_url }}?v={{ site.github.build_revision | default: 'code-guide-20261003' }}"></script>
   <script defer src="{{ '/assets/js/ece685-stage-lesson.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>
 {% endif %}

@@ -14,12 +14,12 @@
   <div class="ece-hero__diagram" aria-hidden="true">
     <div class="ece-diagram-label">SYSTEM → MODEL → DESIGN</div>
     <svg viewBox="0 0 330 180" fill="none">
-      <path d="M45 92H128M145 92H238M258 92H304M145 92V147H254" stroke="currentColor" stroke-width="2"/>
+      <path d="M45 92H88 M142 92H260 M260 92H304 M260 92V133" stroke="currentColor" stroke-width="2"/>
       <circle cx="28" cy="92" r="17" stroke="currentColor" stroke-width="2"/>
-      <path d="M17 92c5-15 16 15 22 0M128 67v50M145 67v50M238 67v50M254 67v50M295 76l9 16-9 16M237 133v27M254 133v27" stroke="currentColor" stroke-width="2"/>
-      <circle cx="128" cy="92" r="4" fill="currentColor"/><circle cx="238" cy="92" r="4" fill="currentColor"/>
-      <path d="M54 38H118M152 38H220M56 147H105" stroke="currentColor" opacity=".25" stroke-dasharray="3 5"/>
-      <text x="10" y="48">SOURCE</text><text x="125" y="48">NETWORK</text><text x="271" y="48">LOAD</text>
+      <path d="M15 92q6-14 13 0t13 0 M165 69V115 M260 69V115 M295 83l9 9-9 9 M248 133H272 M248 142H272 M260 142V155" stroke="currentColor" stroke-width="2"/>
+      <circle cx="105" cy="92" r="17" stroke="currentColor" stroke-width="2"/><circle cx="125" cy="92" r="17" stroke="currentColor" stroke-width="2"/>
+      <circle cx="260" cy="92" r="3" fill="currentColor"/>
+      <text x="10" y="48">{% if ece_lang == 'zh' %}电源{% else %}SOURCE{% endif %}</text><text x="135" y="48">{% if ece_lang == 'zh' %}网络{% else %}NETWORK{% endif %}</text><text x="271" y="48">{% if ece_lang == 'zh' %}负荷{% else %}LOAD{% endif %}</text>
     </svg>
     <div class="ece-hero__numbers"><div><strong>{{ site.data.ece685.lectures.size }}</strong><span>LECTURES</span></div><div><strong>{{ site.data.ece685.groups.size }}</strong><span>TOPIC GROUPS</span></div></div>
   </div>

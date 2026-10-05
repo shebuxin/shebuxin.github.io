@@ -1,0 +1,10 @@
+{
+  "overview": 430,
+  "generation": 460,
+  "single-phase": 440,
+  "three-phase": 460,
+  "transformers": 435,
+  "per-unit": 445,
+  "transformer-banks": 550,
+  "transformer-network": 365
+}
