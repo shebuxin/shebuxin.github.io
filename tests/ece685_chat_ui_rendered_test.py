@@ -4,6 +4,7 @@ import json
 from pathlib import Path
 import sys
 import unittest
+from urllib.parse import urlsplit
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / 'scripts'))
@@ -80,7 +81,7 @@ class ChatRenderingTest(unittest.TestCase):
 
     def test_chat_resources_follow_the_feature_switch(self):
         for lecture,lang,tree in self.pages():
-            scripts = tree.find(lambda n:n.tag=='script' and n.attrs.get('src','').endswith('/assets/js/ece685-chat.js'))
+            scripts = tree.find(lambda n:n.tag=='script' and urlsplit(n.attrs.get('src','')).path.endswith('/assets/js/ece685-chat.js'))
             styles = tree.find(lambda n:n.tag=='link' and n.attrs.get('href','').endswith('/assets/css/ece685-chat.css'))
             self.assertEqual(bool(scripts),args.enabled,(lecture['id'],lang))
             self.assertEqual(bool(styles),args.enabled,(lecture['id'],lang))
