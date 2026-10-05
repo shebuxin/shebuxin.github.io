@@ -13,6 +13,12 @@ name                     : "Buxin She"
 description              : "Buxin She is an Assistant Professor of Electrical and Computer Engineering at Kansas State University."
 url                      : "https://shebuxin.github.io"
 baseurl                  : "" # the subpath of your site, e.g. "/blog"
+# Course chat calls the existing Cloudflare API; credentials stay on the server.
+course_chat:
+  enabled: true
+  lectures: [L01, L02, L03, L04, L05, L06, L07, L08, L09, L09b, L10, L11, L12, L13, L14, L15]
+  api_base: https://codex-ece685-chat-preview.power-edu.pages.dev/api/course-chat
+
 repository               : "shebuxin/shebuxin.github.io"
 teaser                   : # filename of teaser fallback teaser image placed in /images/, .e.g. "500x300.png"
 breadcrumbs              : false # true, false (default)
@@ -124,6 +130,12 @@ exclude:
   - package.json
   - package-lock.json
   - scripts
+  - tmp
+  - services
+  - functions
+  - .wrangler
+  - .dev.vars
+  - .dev.vars.*
   - services
   - tests
   - tmp

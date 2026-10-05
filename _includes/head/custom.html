@@ -23,6 +23,9 @@
 {% endif %}
 {% if page.ece685 %}
 <link rel="stylesheet" href="{{ '/assets/css/ece685.css' | relative_url }}">
+{% if site.course_chat.enabled %}
+<link rel="stylesheet" href="{{ '/assets/css/ece685-chat.css' | relative_url }}">
+{% endif %}
 {% endif %}
 {% if page.ece685_slides %}
 <link rel="stylesheet" href="{{ '/assets/css/ece685-slides.css' | relative_url }}">

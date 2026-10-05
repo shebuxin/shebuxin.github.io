@@ -40,6 +40,7 @@ jobs:
           node --check assets/js/research-landscape.js
           node --check assets/js/ece685.js
           node --check assets/js/ece685-slides.js
+          node --check assets/js/ece685-chat.js
           node --check assets/js/ece685-stage-model.js
           node --check assets/js/ece685-stage-lesson.js
           node --check assets/js/l05-phasor-model.js
@@ -86,6 +87,9 @@ jobs:
 
       - name: Verify four-wire unbalanced power flow
         run: node --test tests/unbalanced_power_flow_test.cjs
+
+      - name: Verify ECE 685 chat interactions
+        run: node --test tests/ece685_chat_test.cjs
 
       - name: Verify ECE 685 slide citation navigation
         run: node --test tests/ece685_slides_test.cjs

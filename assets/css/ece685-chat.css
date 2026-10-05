@@ -1,0 +1,66 @@
+.ece-chat { --chat-purple: #512888; --chat-ink: #292536; --chat-muted: #706a7c; --chat-border: #e4dfea; color: var(--chat-ink); font-size: 15px; }
+.ece-chat [hidden] { display: none !important; }
+.ece-chat button, .ece-chat input, .ece-chat select, .ece-chat textarea { font: inherit; }
+.ece-chat button { cursor: pointer; border: 1px solid var(--chat-border); border-radius: 7px; background: #fff; color: var(--chat-purple); padding: .55rem .75rem; line-height: 1.4; }
+.ece-chat button:disabled { opacity: .5; cursor: default; }
+.ece-chat :focus-visible { outline: 3px solid #9a71c5; outline-offset: 3px; }
+.ece-chat .ece-chat__launcher { position: fixed; right: 1.5rem; bottom: 1.5rem; z-index: 30; display: flex; gap: 1.2rem; align-items: center; min-height: 48px; padding: .8rem 1.2rem; background: var(--chat-purple); color: #fff; border-color: var(--chat-purple); border-radius: 30px; box-shadow: 0 5px 24px #32204333; }
+.ece-chat__dialog { position: fixed; inset: 0 0 0 auto; margin: 0; width: min(450px, 100%); height: 100dvh; max-width: 100%; max-height: 100dvh; padding: 0; border: 0; border-left: 1px solid var(--chat-border); background: #fff; color: var(--chat-ink); box-shadow: -8px 0 36px #29253622; font-size: 15px; }
+.ece-chat__dialog[open] { display: flex; flex-direction: column; }
+.ece-chat__header, .ece-chat__notice, .ece-chat__access, .ece-chat__background, .ece-chat__status, .ece-chat__composer { flex-shrink: 0; }
+.ece-chat__dialog::backdrop { background: #29253626; }
+.ece-chat__header { display: flex; justify-content: space-between; align-items: center; padding: 1rem 1.15rem .7rem; border-bottom: 1px solid var(--chat-border); }
+.ece-chat__header p { margin: 0 0 .2rem; color: var(--chat-muted); font-size: 11px; letter-spacing: .07em; }
+.ece-chat__header h2 { margin: 0; font-size: 19px; line-height: 1.5; }
+.ece-chat .ece-chat__icon { font-size: 24px; border: 0; padding: .2rem .5rem; }
+.ece-chat__notice { margin: .65rem 1.15rem; font-size: 12px; color: var(--chat-muted); line-height: 1.6; }
+.ece-chat__access { margin: 0 1.15rem .7rem; padding: .8rem; border: 1px solid var(--chat-border); border-radius: 8px; background: #fbfafc; }
+.ece-chat label { display: block; font-size: 12px; font-weight: 600; margin: 0 0 .4rem; }
+.ece-chat__access > div { display: flex; gap: .5rem; }
+.ece-chat input, .ece-chat select, .ece-chat textarea { width: 100%; min-width: 0; border: 1px solid var(--chat-border); border-radius: 6px; padding: .55rem; background: #fff; color: var(--chat-ink); margin: 0; box-shadow: none; }
+.ece-chat__access input { flex: 1; }
+.ece-chat__access button { flex-shrink: 0; font-size: 12px; }
+.ece-chat__background { margin: 0 1.15rem .4rem; padding: .65rem .8rem; background: #f5f0fa; border-radius: 8px; }
+.ece-chat__background select { font-size: 12px; }
+.ece-chat__background > p { margin: .5rem 0 .35rem; font-size: 12px; line-height: 1.5; }
+.ece-chat__background details { font-size: 12px; margin-bottom: .5rem; }
+.ece-chat__background summary { cursor: pointer; }
+.ece-chat__background pre { max-height: 105px; overflow: auto; white-space: pre-wrap; overflow-wrap: anywhere; font-size: 11px; padding: .5rem; margin: .4rem 0; }
+.ece-chat__context-actions { display: flex; flex-wrap: wrap; gap: .4rem; }
+.ece-chat__context-actions button { font-size: 11px; padding: .35rem .5rem; }
+.ece-chat__messages { flex: 1; min-height: 100px; overflow: auto; overscroll-behavior: contain; padding: .6rem 1.15rem; }
+.ece-chat__empty { color: var(--chat-muted); font-size: 13px; line-height: 1.8; padding: .8rem 0; }
+.ece-chat__message { margin: .55rem 0 1rem; font-size: 13px; line-height: 1.8; overflow-wrap: anywhere; }
+.ece-chat__message > header { font-size: 11px; font-weight: 600; color: var(--chat-muted); margin-bottom: .3rem; }
+.ece-chat__message[data-role="user"] { border-left: 3px solid #b69dcc; padding-left: .7rem; }
+.ece-chat__message p { margin: .35rem 0; }
+.ece-chat__message ul, .ece-chat__message ol { margin: .4rem 0; padding-left: 1.2rem; }
+.ece-chat__message pre { max-height: 260px; overflow: auto; background: #f5f3f7; border: 1px solid var(--chat-border); border-radius: 6px; padding: .65rem; font-size: 11px; white-space: pre; }
+.ece-chat__message code { font-size: .9em; }
+.ece-chat__message .katex-display { overflow: auto hidden; padding: .3rem 0; }
+.ece-chat__message .ece-chat__outcome { display: block; font-size: 11px; color: var(--chat-muted); margin-top: .4rem; }
+.ece-chat__sources { display: flex; flex-direction: column; gap: .3rem; font-size: 11px; margin: .5rem 0; padding-top: .45rem; border-top: 1px solid var(--chat-border); }
+.ece-chat__sources a { color: var(--chat-purple); text-decoration: underline; }
+.ece-chat__sources span { color: var(--chat-muted); }
+.ece-chat__status { min-height: 1.5em; margin: .25rem 1.15rem; font-size: 12px; color: var(--chat-muted); line-height: 1.5; }
+.ece-chat__status[data-state="error"] { color: #9e3d35; }
+.ece-chat__composer { padding: .65rem 1.15rem max(.9rem, env(safe-area-inset-bottom)); border-top: 1px solid var(--chat-border); }
+.ece-chat textarea { resize: vertical; max-height: 180px; font-size: 13px; }
+.ece-chat__quick { display: flex; flex-wrap: wrap; gap: .4rem; margin-top: .5rem; }
+.ece-chat__quick button { font-size: 11px; padding: .3rem .45rem; }
+.ece-chat__actions { display: flex; gap: .5rem; margin-top: .65rem; }
+.ece-chat__actions span { flex: 1; }
+.ece-chat__actions button { font-size: 12px; }
+.ece-chat button[data-chat-send] { background: var(--chat-purple); color: #fff; border-color: var(--chat-purple); }
+@media (max-width: 600px) {
+  .ece-chat .ece-chat__launcher { right: 1rem; bottom: 1rem; }
+  .ece-chat__dialog { width: 100%; }
+  .ece-chat__header { padding-top: max(.7rem, env(safe-area-inset-top)); }
+  .ece-chat__background { margin-bottom: .25rem; }
+  .ece-chat__notice { margin-top: .4rem; margin-bottom: .4rem; }
+}
+@media (prefers-reduced-motion: reduce) { .ece-chat * { scroll-behavior: auto; } }
+@media (max-height: 650px) {
+  .ece-chat__dialog[open] { display: block; overflow-y: auto; }
+  .ece-chat__messages { max-height: 35dvh; min-height: 120px; }
+}
