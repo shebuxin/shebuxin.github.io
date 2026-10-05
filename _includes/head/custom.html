@@ -22,7 +22,7 @@
 <link rel="stylesheet" href="{{ '/assets/css/course.css' | relative_url }}">
 {% endif %}
 {% if page.ece685 %}
-<link rel="stylesheet" href="{{ '/assets/css/ece685.css' | relative_url }}">
+<link rel="stylesheet" href="{{ '/assets/css/ece685.css' | relative_url }}?v={{ site.time | date: '%s' }}">
 {% if site.course_chat.enabled %}
 <link rel="stylesheet" href="{{ '/assets/css/ece685-chat.css' | relative_url }}">
 {% endif %}
