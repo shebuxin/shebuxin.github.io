@@ -29,6 +29,15 @@ test('bank angle illustration respects every paired-dot joining convention',()=>
     assert.equal((svg.match(/r="3\.2"/g)||[]).length,6,'Three dotted winding pairs');
   }
 });
+test('signed power triangle preserves real/reactive directions, including reverse real power in review',()=>{
+  for(const delta of [-170,-80,0,80,170]){
+    const P=2160*Math.cos(delta*Math.PI/180),Q=2160*Math.sin(delta*Math.PI/180);
+    const r={parameters:{focus:'single-phase',voltage_rms:180,current_rms:12,v_phase_deg:delta,i_phase_deg:0},metrics:{p_w:P,q_var:Q,pf:Math.abs(Math.cos(delta*Math.PI/180))}};
+    const v=vector(diagrams.render('exam-review',r).markup,'S');
+    near(v.dx/Math.hypot(v.dx,v.dy),P/2160);near(v.dy/Math.hypot(v.dx,v.dy),Q/2160);
+    assert.ok(Math.abs(v.dx)<=175.000001&&Math.abs(v.dy)<=86.000001);
+  }
+});
 test('all modules render finite, self-contained English and Chinese SVGs, including edge cases',()=>{
   const cases={'single-phase':[{current_rms:0},{delta_deg:-80},{delta_deg:80,target_pf:1}],overview:[{load_mvar:-40,shunt_mvar:80}],generation:[{demand_scale:1.5,wind_credit:1,solar_credit:1}],transformers:[{loading:0},{h_connection:'delta',l_connection:'wye'}],'per-unit':[{system:'single-phase',z_re_ohm:0,z_im_ohm:-5}],'transformer-network':[{tap:1.1,loading:1.2}]};
   for(const kind of Object.keys(model.defaults))for(const p of [{},...(cases[kind]||[])])for(const lang of ['en','zh']){

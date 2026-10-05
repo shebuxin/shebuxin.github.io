@@ -100,10 +100,10 @@
     b+=t(90,279,f(p.voltage_rms,0)+' V RMS')+t(270,279,'Iload = '+f(p.current_rms)+' A');
     b+=`<g opacity="${m.capacitance_uf>0?1:.35}">`+line(410,118,410,174,palette.teal)+line(396,174,424,174,palette.teal)+line(396,186,424,186,palette.teal)+line(410,186,410,246,palette.teal)+node(410,118,false,palette.teal)+node(410,246,false,palette.teal)+'</g>';
     b+=t(410,279,'C = '+f(m.capacitance_uf)+' μF','ed-text','middle',palette.teal)+t(250,312,'Qc = '+f(m.capacitor_var)+' var · '+w('补偿后功率因数：','Corrected pf: ')+f(m.corrected_pf,3));
-    const ox=540,oy=188,scale=Math.min(175/(m.p_w||1),86/(Math.abs(m.q_var)||1)),px=ox+m.p_w*scale,qy=oy-m.q_var*scale,after=oy-(m.q_var-m.capacitor_var)*scale;
+    const ox=m.p_w<0?720:540,oy=188,scale=Math.min(175/(Math.abs(m.p_w)||1),86/(Math.abs(m.q_var)||1)),px=ox+m.p_w*scale,qy=oy-m.q_var*scale,after=oy-(m.q_var-m.capacitor_var)*scale;
     b+=line(515,oy,756,oy,'#b9b1c3',1)+line(ox,85,ox,291,'#b9b1c3',1)+t(755,oy+22,'+P','ed-small')+t(ox-5,84,'+Q','ed-small','end');
-    b+=line(ox,oy,px,oy,palette.blue,3)+line(px,oy,px,qy,palette.gold,3)+arrow(ox,oy,px,qy,'purple');
-    if(m.p_w>1e-8)b+=math((ox+px)/2,oy+(m.q_var<0?-12:25),'P');
+    b+=line(ox,oy,px,oy,palette.blue,3)+line(px,oy,px,qy,palette.gold,3)+`<g data-phasor="S">${arrow(ox,oy,px,qy,'purple')}</g>`;
+    if(Math.abs(m.p_w)>1e-8)b+=math((ox+px)/2,oy+(m.q_var<0?-12:25),'P');
     if(Math.abs(m.q_var)>1e-8)b+=math(px+18,(oy+qy)/2+5,'Q');
     if(m.s_va>1e-8)b+=math((ox+px)/2-24,(oy+qy)/2+(m.q_var<0?19:-8),'S');
     if(m.capacitor_var>1e-8)b+=arrow(ox,oy,px,after,'teal','5 4');
