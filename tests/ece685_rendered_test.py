@@ -54,7 +54,7 @@ class LectureShellTest(unittest.TestCase):
         ids = [lecture["id"] for lecture in MANIFEST["lectures"]]
         released = [lecture for lecture in MANIFEST["lectures"] if lecture["status"] == "live"]
         self.assertEqual(len(ids), 34)
-        self.assertEqual(len(released), 18)
+        self.assertEqual(len(released), 20)
         self.assertEqual(set(SLIDES), {lecture["id"] for lecture in released})
         for prefix in ("", "zh/"):
             course = SITE / prefix / "teaching/ece685"
@@ -156,7 +156,7 @@ class LectureShellTest(unittest.TestCase):
         self.assertEqual(len(ids), len(set(ids)))
         self.assertIn("L09b", ids)
         self.assertEqual(ids[ids.index("L09") + 1], "L09b")
-        self.assertEqual(ids[ids.index("L17") + 1], "L20")
+        self.assertEqual(ids[ids.index("L17") + 1], "L18")
         for prefix in ("", "/zh"):
             course = prefix + "/teaching/ece685/"
             overview_path = SITE / course.strip("/") / "index.html"

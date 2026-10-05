@@ -62,11 +62,20 @@
       body=box(20,20,175,180,'H: '+(p.h_connection==='wye'?'Y':'Δ'),['VLL = '+fmt(p.h_kv)+' kV','Vw = '+fmt(m.h_winding_kv)+' kV','IL = '+fmt(m.h_line_a)+' A'])+
         box(215,55,165,120,'a = '+fmt(p.turns_ratio),[words('绕组比','Winding ratio'),words('线比 ','Line ratio ')+fmt(m.line_ratio)])+
         box(400,20,180,180,'L: '+(p.l_connection==='wye'?'Y':'Δ'),['VLL = '+fmt(m.l_line_kv)+' kV','Vw = '+fmt(m.l_winding_kv)+' kV','IL = '+fmt(m.l_line_a)+' A'])+connector+label(300,232,words('相移方向需要端子与同名端约定','Phase displacement requires terminal/dot conventions'));
+    }else if(kind==='transformer-banks'){
+      const theta=m.delta_lh_deg*Math.PI/180;
+      body='<path d="M35 125H305 M165 20V230" class="stage-axis"/>'+`<path d="M165 125H250 M165 125L${165+85*Math.cos(theta)} ${125-85*Math.sin(theta)}" fill="none" stroke="#67359b" stroke-width="3" marker-end="url(#stage-arrow)"/>`+
+        label(225,75,'VAB,H: 0°')+label(165,222,'Vab,L: '+fmt(m.delta_lh_deg,0)+'°')+
+        box(330,20,255,180,(p.h_connection==='wye'?'Y':'Δ')+' – '+(p.l_connection==='wye'?'Y':'Δ'),['a = '+fmt(p.turns_ratio),'kLL = '+fmt(m.line_ratio),'LV line = '+fmt(m.l_line_kv)+' kV','LV coil = '+fmt(m.l_winding_kv)+' kV']);
+    }else if(kind==='transformer-network'){
+      body=box(15,25,180,175,words('高压端口','HV terminal'),['vH = 1∠0° pu','Zpu = '+fmt(m.z_pu_re)+' + j'+fmt(m.z_pu_im),'IH = '+fmt(m.h_line_a)+' A'])+
+        box(215,45,165,145,'tHL = τ exp(j30°)',['τ = '+fmt(p.tap),'a = '+fmt(m.winding_ratio),words('固定电压基准','Fixed voltage bases')])+
+        box(400,25,185,175,words('低压端口','LV terminal'),[fmt(m.l_line_kv)+' kV',fmt(m.l_angle_deg)+'°','IL = '+fmt(m.l_line_a)+' A'])+connector;
     }else if(kind==='per-unit'){
       body=box(15,25,180,175,words('高压基准','HV bases'),[fmt(p.v_base_h_kv)+' kV',fmt(m.z_base_h_ohm)+' Ω','Zref = '+fmt(m.referred_z_re_ohm)+' Ω'])+
         box(215,45,165,145,'Sb = '+fmt(p.s_base_mva,0)+' MVA',['a = '+fmt(p.turns_ratio),'Re(Zpu) = '+fmt(m.z_pu_re,5),'Im(Zpu) = '+fmt(m.z_pu_im,5)])+
         box(400,25,185,175,words('低压基准与还原','LV bases / recovery'),[fmt(m.v_base_l_kv)+' kV',fmt(m.z_base_l_ohm,4)+' Ω','Zreal = '+fmt(m.recovered_z_re_ohm)+' Ω'])+connector;
-    }else{
+    }else if(kind==='exam-review'){
       body=box(15,15,270,95,words('相量 → 功率','Phasors → power'),['P = '+fmt(m.p_w)+' W','Q = '+fmt(m.q_var)+' var'])+
         box(315,15,270,95,words('Δ 支路 → 线电流','Δ branch → line current'),['IL = '+fmt(m.delta_line_a)+' A','P3 = '+fmt(m.delta_p_w)+' W'])+
         box(15,130,270,95,words('单相基准 → 标幺','Single-phase bases → pu'),['Zpu = '+fmt(m.z_pu_re,6)+' + j'+fmt(m.z_pu_im,6)])+

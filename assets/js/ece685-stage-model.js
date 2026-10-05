@@ -7,6 +7,8 @@
     'three-phase':{voltage_ll:400,resistance:20,reactance:15,connection:'wye',sequence:'abc',phase_ref_deg:0,omega:377},
     transformers:{h_kv:138,turns_ratio:10,s_mva:30,loading:0.8,power_factor:0.9,h_connection:'wye',l_connection:'wye',r_pu:0.01,x_pu:0.08,core_kw:30,oc_v:240,oc_a:2,oc_w:120,sc_v:120,sc_a:4.1667,sc_w:180},
     'per-unit':{system:'three-phase',s_base_mva:100,v_base_h_kv:138,turns_ratio:10,v_actual_l_kv:13.8,current_a:600,z_re_ohm:1,z_im_ohm:4,power_factor:0.9},
+    'transformer-banks':{h_kv:138,turns_ratio:10,s_mva:60,h_connection:'wye',l_connection:'delta',h_delta_order:'abc',l_delta_order:'abc'},
+    'transformer-network':{h_kv:138,l_rated_kv:13.8,s_mva:60,s_base_mva:100,r_pu:0.006,x_pu:0.09,tap:1,loading:0,power_factor:0.9},
     'exam-review':{focus:'single-phase',voltage_rms:180,current_rms:12,v_phase_deg:-20,i_phase_deg:10,delta_voltage_ll:208,delta_r:8,delta_x:6,s_base_kva:30,v_base_h_v:1500,turns_ratio:10,z_h_re:1.5,z_h_im:3.4369,peak_mw:160,prm_percent:15,gt_fixed:75000,gt_variable:85,cc_fixed:195000,cc_variable:45,hours:2000}
   };
   Object.values(defaults).forEach(Object.freeze);Object.freeze(defaults);
@@ -21,6 +23,42 @@
   const range=(p,key,min,max)=>{if(p[key]<min||p[key]>max)throw Error(key+' must be in ['+min+', '+max+']');};
   const choice=(p,key,values)=>{if(!values.includes(p[key]))throw Error(key+' must be one of '+values.join(', '));};
   function plot(x,curves,x_unit,y_unit){return{x,curves:Object.entries(curves).map(([name,values])=>({name,values})),x_unit,y_unit};}
+  // Positive supply sequence and fixed paired dots. Delta order names coil
+  // endpoint directions (ABC: AB,BC,CA; ACB: AC,BA,CB), not supply sequence.
+  function transformerBanks(p){
+    positive(p,['h_kv','turns_ratio','s_mva']);
+    choice(p,'h_connection',['wye','delta']);choice(p,'l_connection',['wye','delta']);
+    choice(p,'h_delta_order',['abc','acb']);choice(p,'l_delta_order',['abc','acb']);
+    const kh=p.h_connection==='wye'?Math.sqrt(3):1,kl=p.l_connection==='wye'?Math.sqrt(3):1;
+    const ratio=p.turns_ratio*kh/kl,hcoil=p.h_kv/kh,lcoil=hcoil/p.turns_ratio,lv=p.h_kv/ratio;
+    const ehAngle=p.h_connection==='wye'?-30:(p.h_delta_order==='abc'?0:-60);
+    const delta=wrap(ehAngle+(p.l_connection==='wye'?30:(p.l_delta_order==='abc'?0:60)));
+    const ih=p.s_mva*1000/(Math.sqrt(3)*p.h_kv),il=p.s_mva*1000/(Math.sqrt(3)*lv);
+    const iwh=p.s_mva*1000/(3*hcoil),iwl=p.s_mva*1000/(3*lcoil);
+    const xs=Array.from({length:41},(_,i)=>2+i*.45);
+    return{metrics:{line_ratio:ratio,l_line_kv:lv,h_winding_kv:hcoil,l_winding_kv:lcoil,h_line_a:ih,l_line_a:il,h_winding_a:iwh,l_winding_a:iwl,phase_mva:p.s_mva/3,delta_lh_deg:delta},
+      phasors:{VAB_H:describe(polar(p.h_kv,0)),EH_A:describe(polar(hcoil,ehAngle)),EL_a:describe(polar(lcoil,ehAngle)),Vab_L:describe(polar(lv,delta))},
+      checks:{h_bank_mva:Math.sqrt(3)*p.h_kv*ih/1000-p.s_mva,l_bank_mva:Math.sqrt(3)*lv*il/1000-p.s_mva,winding_current_ratio:iwl/iwh-p.turns_ratio,line_current_ratio:il/ih-ratio},
+      plots:[plot(xs,{'LV line voltage':xs.map(a=>p.h_kv/(a*kh/kl)),'LV winding voltage':xs.map(a=>hcoil/a)},'winding ratio a','kV'),plot(xs,{'LV line current':xs.map(a=>p.s_mva*1000*a*kh/kl/(Math.sqrt(3)*p.h_kv)),'LV winding current':xs.map(a=>p.s_mva*1000*a/(3*hcoil))},'winding ratio a','A')]};
+  }
+  function transformerNetwork(p){
+    positive(p,['h_kv','l_rated_kv','s_mva','s_base_mva','tap']);
+    nonnegative(p,['r_pu','x_pu','loading']);range(p,'power_factor',0.01,1);
+    // L18's Y–delta ABC/abc bank: delta_LH = -30°, theta_HL = +30°.
+    // Per-unit H phase is the angle reference; line voltages share this
+    // relative displacement. H current enters, L current leaves the branch.
+    const ratio=p.h_kv/p.l_rated_kv,a=ratio/Math.sqrt(3),zbH=p.h_kv**2/p.s_base_mva,zbL=p.l_rated_kv**2/p.s_base_mva;
+    const z={re:p.r_pu*p.s_base_mva/p.s_mva,im:p.x_pu*p.s_base_mva/p.s_mva},t=polar(p.tap,30);
+    const ih=polar(p.loading*p.s_mva/p.s_base_mva,-Math.acos(p.power_factor)*180/Math.PI);
+    const vl=div(sub({re:1,im:0},mul(z,ih)),t),il=mul(conj(t),ih),sh=conj(ih),sl=mul(vl,conj(il));
+    const loss=mul(z,{re:ih.re**2+ih.im**2,im:0}),v=describe(vl),loading=Array.from({length:41},(_,i)=>i*.03),taps=Array.from({length:41},(_,i)=>.9+i*.005);
+    const drop=sub({re:1,im:0},mul(z,ih));
+    const loadV=k=>{const i=polar(k*p.s_mva/p.s_base_mva,-Math.acos(p.power_factor)*180/Math.PI);return Math.hypot(...Object.values(sub({re:1,im:0},mul(z,i))))/p.tap;};
+    return{metrics:{winding_ratio:a*p.tap,rated_line_ratio:ratio,actual_ideal_line_ratio:ratio*p.tap,theta_hl_deg:30,delta_lh_deg:-30,z_pu_re:z.re,z_pu_im:z.im,z_base_h_ohm:zbH,z_base_l_ohm:zbL,z_h_re_ohm:z.re*zbH,z_h_im_ohm:z.im*zbH,z_l_delta_re_ohm:3*z.re*zbL,z_l_delta_im_ohm:3*z.im*zbL,l_voltage_pu:v.rms,l_line_kv:v.rms*p.l_rated_kv,l_angle_deg:v.angle_deg,h_line_a:Math.hypot(ih.re,ih.im)*p.s_base_mva*1000/(Math.sqrt(3)*p.h_kv),l_line_a:Math.hypot(il.re,il.im)*p.s_base_mva*1000/(Math.sqrt(3)*p.l_rated_kv),input_p_mw:sh.re*p.s_base_mva,output_p_mw:sl.re*p.s_base_mva,series_loss_mw:loss.re*p.s_base_mva},
+      phasors:{VH_pu:describe({re:1,im:0}),VL_pu:v,IH_pu:describe(ih),IL_pu:describe(il)},
+      checks:{voltage_equation:Math.hypot(...Object.values(sub({re:1,im:0},add(mul(z,ih),mul(t,vl))))),real_power_balance:sh.re-sl.re-loss.re,reactive_power_balance:sh.im-sl.im-loss.im,ohmic_base_invariance:z.re*zbH-p.r_pu*p.h_kv**2/p.s_mva},
+      plots:[plot(taps,{'LV line voltage':taps.map(tau=>Math.hypot(drop.re,drop.im)/tau*p.l_rated_kv)},'H-side tap magnitude tau','kV'),plot(loading,{'LV terminal voltage':loading.map(loadV)},'rated input-current loading','pu')]};
+  }
   function screening(p){
     const difference=p.gt_variable-p.cc_variable, fixedDifference=p.cc_fixed-p.gt_fixed;
     const crossover=difference===0?null:fixedDifference/difference;
@@ -57,6 +95,19 @@
       plots:[plot(x,{Va:vwave[0],Vb:vwave[1],Vc:vwave[2]},'ms','V'),plot(x,{Ia:iwave[0],Ib:iwave[1],Ic:iwave[2]},'ms','A')]};
   }
   const handlers={
+    'exam-review'(p){
+      positive(p,['voltage_rms','current_rms','delta_voltage_ll','s_base_kva','v_base_h_v','turns_ratio','peak_mw']);nonnegative(p,['delta_r','prm_percent','gt_fixed','gt_variable','cc_fixed','cc_variable','hours']);choice(p,'focus',['single-phase','three-phase','planning']);
+      const delta=wrap(p.v_phase_deg-p.i_phase_deg),P=p.voltage_rms*p.current_rms*Math.cos(rad(delta)),Q=p.voltage_rms*p.current_rms*Math.sin(rad(delta));
+      const three=threePhase({...defaults['three-phase'],voltage_ll:p.delta_voltage_ll,resistance:p.delta_r,reactance:p.delta_x,connection:'delta',phase_ref_deg:-30});
+      const zb=p.v_base_h_v**2/(p.s_base_kva*1000),vl=p.v_base_h_v/p.turns_ratio,zbl=vl*vl/(p.s_base_kva*1000),screen=screening(p),hours=Array.from({length:45},(_,i)=>8760*i/44);
+      const singleX=Array.from({length:241},(_,i)=>i/240*4*Math.PI/377*1000);
+      const singlePlot=plot(singleX,{'v / peak':singleX.map(t=>Math.cos(377*t/1000+rad(p.v_phase_deg))),'i / peak':singleX.map(t=>Math.cos(377*t/1000+rad(p.i_phase_deg)))},'ms','normalized');
+      return{metrics:{p_w:P,q_var:Q,pf:Math.abs(Math.cos(rad(delta))),delta_line_a:three.metrics.line_current_a,delta_p_w:three.metrics.p_w,delta_q_var:three.metrics.q_var,z_pu_re:p.z_h_re/zb,z_pu_im:p.z_h_im/zb,ib_h_a:p.s_base_kva*1000/p.v_base_h_v,ib_l_a:p.s_base_kva*1000/vl,required_capacity_mw:p.peak_mw*(1+p.prm_percent/100),...screen},
+        checks:{per_unit_referral:p.z_h_re/(p.turns_ratio**2)/zbl-p.z_h_re/zb},phasors:three.phasors,
+        plots:p.focus==='single-phase'?[singlePlot]:p.focus==='three-phase'?three.plots:[plot(hours,{GT:hours.map(t=>p.gt_fixed+p.gt_variable*t),CC:hours.map(t=>p.cc_fixed+p.cc_variable*t)},'h/year','$/MW-year')]};
+    },
+    'transformer-banks':transformerBanks,
+    'transformer-network':transformerNetwork,
     overview(p){
       positive(p,['transmission_kv']);nonnegative(p,['load_mw','shunt_mvar','line_loss_mw','transformer_loss_mw']);
       const receiveQ=p.load_mvar-p.shunt_mvar,lineP=p.load_mw+p.line_loss_mw,lineQ=receiveQ+p.line_mvar;
@@ -110,17 +161,6 @@
       return{metrics:{v_base_l_kv:vb,i_base_l_a:ib,i_base_h_a:ib/p.turns_ratio,z_base_l_ohm:zb,z_base_h_ohm:zhb,v_pu:p.v_actual_l_kv/vb,i_pu:p.current_a/ib,z_pu_re:zre,z_pu_im:zim,s_pu:S/p.s_base_mva,physical_s_mva:S,physical_p_mw:S*p.power_factor,recovered_z_re_ohm:zre*zb,recovered_z_im_ohm:zim*zb,referred_z_re_ohm:p.z_re_ohm*p.turns_ratio**2},
         checks:{reconstruction_re:zre*zb-p.z_re_ohm,reconstruction_im:zim*zb-p.z_im_ohm,referral_invariance:p.z_re_ohm*p.turns_ratio**2/zhb-zre,power_base_identity:(p.v_actual_l_kv/vb)*(p.current_a/ib)-S/p.s_base_mva},
         plots:[plot(bases,{'Re(Zpu)':bases.map(b=>p.z_re_ohm*b/vb**2),'Im(Zpu)':bases.map(b=>p.z_im_ohm*b/vb**2)},'Sbase / MVA','pu'),plot(bases,{'recovered Re(Z)':bases.map(()=>p.z_re_ohm),'recovered Im(Z)':bases.map(()=>p.z_im_ohm)},'Sbase / MVA','ohm')]};
-    },
-    'exam-review'(p){
-      positive(p,['voltage_rms','current_rms','delta_voltage_ll','s_base_kva','v_base_h_v','turns_ratio','peak_mw']);nonnegative(p,['delta_r','prm_percent','gt_fixed','gt_variable','cc_fixed','cc_variable','hours']);choice(p,'focus',['single-phase','three-phase','planning']);
-      const delta=wrap(p.v_phase_deg-p.i_phase_deg),P=p.voltage_rms*p.current_rms*Math.cos(rad(delta)),Q=p.voltage_rms*p.current_rms*Math.sin(rad(delta));
-      const three=threePhase({...defaults['three-phase'],voltage_ll:p.delta_voltage_ll,resistance:p.delta_r,reactance:p.delta_x,connection:'delta',phase_ref_deg:-30});
-      const zb=p.v_base_h_v**2/(p.s_base_kva*1000),vl=p.v_base_h_v/p.turns_ratio,zbl=vl*vl/(p.s_base_kva*1000),screen=screening(p),hours=Array.from({length:45},(_,i)=>8760*i/44);
-      const singleX=Array.from({length:241},(_,i)=>i/240*4*Math.PI/377*1000);
-      const singlePlot=plot(singleX,{'v / peak':singleX.map(t=>Math.cos(377*t/1000+rad(p.v_phase_deg))),'i / peak':singleX.map(t=>Math.cos(377*t/1000+rad(p.i_phase_deg)))},'ms','normalized');
-      return{metrics:{p_w:P,q_var:Q,pf:Math.abs(Math.cos(rad(delta))),delta_line_a:three.metrics.line_current_a,delta_p_w:three.metrics.p_w,delta_q_var:three.metrics.q_var,z_pu_re:p.z_h_re/zb,z_pu_im:p.z_h_im/zb,ib_h_a:p.s_base_kva*1000/p.v_base_h_v,ib_l_a:p.s_base_kva*1000/vl,required_capacity_mw:p.peak_mw*(1+p.prm_percent/100),...screen},
-        checks:{per_unit_referral:p.z_h_re/(p.turns_ratio**2)/zbl-p.z_h_re/zb},phasors:three.phasors,
-        plots:p.focus==='single-phase'?[singlePlot]:p.focus==='three-phase'?three.plots:[plot(hours,{GT:hours.map(t=>p.gt_fixed+p.gt_variable*t),CC:hours.map(t=>p.cc_fixed+p.cc_variable*t)},'h/year','$/MW-year')]};
     }
   };
   function solve(module,parameters={}){

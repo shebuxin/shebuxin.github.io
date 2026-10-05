@@ -22,11 +22,18 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("package", type=Path)
     parser.add_argument("--width", type=int, default=1600)
+    parser.add_argument("--lecture", action="append", help="Import only these live lecture IDs, preserving other frozen assets.")
     args = parser.parse_args()
     manifest = json.loads((ROOT / "_data/ece685.json").read_text())
-    result = {}
+    metadata_path = ROOT / "_data/ece685_slides.json"
+    result = json.loads(metadata_path.read_text()) if args.lecture else {}
+    allowed = {row['id'] for row in manifest['lectures'] if row['status'] == 'live'}
+    if args.lecture and set(args.lecture) - allowed:
+        parser.error('Only live lectures can be imported')
     for lecture in manifest["lectures"]:
         if lecture["status"] != "live":
+            continue
+        if args.lecture and lecture['id'] not in args.lecture:
             continue
         source = args.package / "01_lectures" / lecture["source_directory"] / lecture["source_file"]
         digest = hashlib.sha256(source.read_bytes()).hexdigest()
@@ -57,7 +64,7 @@ def main():
                                   "pages_json": "/" + str(text_path.relative_to(ROOT)),
                                   "source": f"01_lectures/{lecture['source_directory']}/{lecture['source_file']}"}
         print(f"{lecture['id']}: {len(pages)} pages copied and rendered", flush=True)
-    (ROOT / "_data/ece685_slides.json").write_text(json.dumps(result, ensure_ascii=False, indent=2) + "\n")
+    metadata_path.write_text(json.dumps(result, ensure_ascii=False, indent=2) + "\n")
 
 
 if __name__ == "__main__":

@@ -167,7 +167,7 @@
       "en": "Exam-1 integrated practice"
     }
   },
-  "L17": {
+  "L16b": {
     "concept_indices": [
       0,
       1,
@@ -178,6 +178,30 @@
     "focus": {
       "zh": "考试一复习与诊断",
       "en": "Exam-1 review and diagnostics"
+    }
+  },
+  "L17": {
+    "concept_indices": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "focus": {
+      "en": "Three-phase banks: coils, terminals and angles",
+      "zh": "三相变压器组：绕组、端口与相角"
+    }
+  },
+  "L18": {
+    "concept_indices": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "focus": {
+      "en": "Three-phase transformer network and taps",
+      "zh": "三相变压器网络与分接头"
     }
   }
 }
