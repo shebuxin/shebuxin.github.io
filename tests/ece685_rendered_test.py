@@ -54,7 +54,7 @@ class LectureShellTest(unittest.TestCase):
         ids = [lecture["id"] for lecture in MANIFEST["lectures"]]
         released = [lecture for lecture in MANIFEST["lectures"] if lecture["status"] == "live"]
         self.assertEqual(len(ids), 30)
-        self.assertEqual(len(released), 16)
+        self.assertEqual(len(released), 18)
         self.assertEqual(len(MANIFEST["groups"]), 10)
         self.assertEqual(set(SLIDES), {lecture["id"] for lecture in released})
         for prefix in ("", "zh/"):
@@ -157,7 +157,7 @@ class LectureShellTest(unittest.TestCase):
         self.assertEqual(len(ids), len(set(ids)))
         self.assertIn("L09b", ids)
         self.assertEqual(ids[ids.index("L09") + 1], "L09b")
-        self.assertEqual(ids[ids.index("L15") + 1], "L20")
+        self.assertEqual(ids[ids.index("L15") + 1], "L17")
         for prefix in ("", "/zh"):
             course = prefix + "/teaching/ece685/"
             overview_path = SITE / course.strip("/") / "index.html"
@@ -187,7 +187,7 @@ class LectureShellTest(unittest.TestCase):
                         self.assertNotIn("\\", slide["title"])
 
     def test_assessment_pages_and_assets_are_not_published(self):
-        removed_ids = {"L16", "L17", "L30", "L41"}
+        removed_ids = {"L16", "L30", "L41"}
         self.assertFalse(removed_ids.intersection(lecture["id"] for lecture in MANIFEST["lectures"]))
         self.assertFalse({"exam-one", "exam-two", "final-review"}.intersection(group["id"] for group in MANIFEST["groups"]))
         removed_routes = ("l16-exam1-practice", "l17-exam1-review", "l30-exam2-review",
@@ -202,7 +202,7 @@ class LectureShellTest(unittest.TestCase):
                     self.assertNotIn("/ece685/" + route + "/", html)
                 self.assertNotIn('data-stage-module="exam-review"', html)
         for base in (ROOT, SITE):
-            for folder in ("l16", "l17"):
+            for folder in ("l16",):
                 self.assertFalse((base / "assets/slides/ece685" / folder).exists())
             self.assertFalse((base / "assets/images/teaching/stage-exam-review.svg").exists())
 

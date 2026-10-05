@@ -16,9 +16,9 @@
   <script defer src="{{ '/assets/js/ece685-slides.js' | relative_url }}"></script>
 {% endif %}
 {% if page.ece685_lab %}
-  <script defer src="{{ '/assets/js/ece685-stage-model.js' | relative_url }}"></script>
+  <script defer src="{{ '/assets/js/ece685-stage-model.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>
   <script defer src="{{ '/assets/js/course-python-runner.js' | relative_url }}?v={{ site.github.build_revision | default: 'code-guide-20261003' }}"></script>
-  <script defer src="{{ '/assets/js/ece685-stage-lesson.js' | relative_url }}"></script>
+  <script defer src="{{ '/assets/js/ece685-stage-lesson.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>
 {% endif %}
 {% if page.ece685 and page.lecture_id == 'L05' %}
   <script defer src="{{ '/assets/js/l05-phasor-model.js' | relative_url }}"></script>

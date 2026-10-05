@@ -1566,8 +1566,8 @@
         "L12"
       ],
       "extension": [
-        "L20",
-        "L21"
+        "L17",
+        "L18"
       ],
       "goals": [
         {
@@ -1616,8 +1616,8 @@
             "en": "3. Phase shift needs terminal conventions"
           },
           "body": {
-            "zh": "Y–Δ 或 Δ–Y 接线可以产生 30° 线量相移，符号取决于端子、同名端和相序约定。这里的接线实验计算幅值；L21 的端子相量推导用于确定相移方向。",
-            "en": "Y–Δ and Δ–Y can produce 30° line-quantity displacement; its sign depends on terminals, dot correspondence, and sequence. This connection experiment calculates magnitudes; the L21 terminal derivation determines the displacement direction."
+            "zh": "Y–Δ 或 Δ–Y 接线可以产生 30° 线量相移，符号取决于端子、同名端和相序约定。这里的接线实验计算幅值；L18 的端子相量推导用于确定相移方向。",
+            "en": "Y–Δ and Δ–Y can produce 30° line-quantity displacement; its sign depends on terminals, dot correspondence, and sequence. This connection experiment calculates magnitudes; the L18 terminal derivation determines the displacement direction."
           },
           "formula": ""
         },
@@ -2047,8 +2047,8 @@
             "en": "Inspect actual phasors and references instead of assigning a sign from the connection name."
           },
           {
-            "zh": "正确。按 L21 的端子约定逐步推导，才能确定相移方向。",
-            "en": "Correct. Derive the terminal phasors with the L21 conventions to determine direction."
+            "zh": "正确。按 L18 的端子约定逐步推导，才能确定相移方向。",
+            "en": "Correct. Derive the terminal phasors with the L18 conventions to determine direction."
           }
         ]
       },
@@ -2075,8 +2075,8 @@
         }
       ],
       "limits": {
-        "zh": "三相组采用理想绕组幅值关系与小压降一阶近似。L12 试验是另一台固定 10 kVA 单相变压器；其试验参数不直接写入三相组。L20–L21 为后续的接线拓展。",
-        "en": "The bank uses ideal winding magnitudes and first-order small-drop approximations. L12 tests concern a separate fixed 10 kVA single-phase unit; they do not parameterize this bank. L20–L21 are the later connection extension."
+        "zh": "三相组采用理想绕组幅值关系与小压降一阶近似。L12 试验是另一台固定 10 kVA 单相变压器；其试验参数不直接写入三相组。L17–L18 为后续的接线拓展。",
+        "en": "The bank uses ideal winding magnitudes and first-order small-drop approximations. L12 tests concern a separate fixed 10 kVA single-phase unit; they do not parameterize this bank. L17–L18 are the later connection extension."
       },
       "challenge": {
         "zh": "切换 Δ–Y，检查线比 a/√3；再提高 OC 有功至超过 VI，观察读数相容性提示，并解释无效测量为何不能推算参数。",
@@ -2530,6 +2530,862 @@
         "zh": "三相 Sb=100 MVA，Vb,H=138 kV，a=10，低压物理 Z=1+j4 Ω。",
         "en": "Three-phase Sb=100 MVA, Vb,H=138 kV, a=10, physical LV Z=1+j4 Ω."
       }
+    },
+    {
+      "id": "transformer-banks",
+      "number": 7,
+      "title": {
+        "en": "Three-phase banks: coils, terminals and angles",
+        "zh": "三相变压器组：绕组、端口与相角"
+      },
+      "summary": {
+        "en": "Reproduce the L17 example and change connection or delta joining order.",
+        "zh": "复现 L17 例题，改变接线或三角形绕组连接方向。"
+      },
+      "sources": [
+        "L17"
+      ],
+      "extension": [
+        "L18"
+      ],
+      "opening": {
+        "en": "A 60 MVA Y–Δ bank has winding ratio a=10 and 138 kV HV line voltage. Does its LV line voltage equal 13.8 kV? Predict the voltage and angle before using the controls.",
+        "zh": "60 MVA 的 Y–Δ 变压器组匝数比 a=10，高压线电压为 138 kV。低压线电压一定是 13.8 kV 吗？先预测幅值和相角，再使用控件。"
+      },
+      "goals": [
+        {
+          "en": "Separate winding count, supply phases and bank construction.",
+          "zh": "区分绕组数、电源相数和变压器组构造。"
+        },
+        {
+          "en": "Derive line voltage and current from paired winding quantities.",
+          "zh": "由对应绕组量推导线电压和线电流。"
+        },
+        {
+          "en": "Find phase displacement from fixed dots and explicit delta coil directions.",
+          "zh": "在固定同名端和明确三角形线圈方向下求相移。"
+        }
+      ],
+      "concepts": [
+        {
+          "title": {
+            "en": "Winding and phase are different counts",
+            "zh": "绕组数与相数是不同概念"
+          },
+          "body": {
+            "en": "A three-phase two-winding transformer has two winding sets, with three phase coils per set. Three single-phase units can form a bank; a common-core unit provides the same terminal functions.",
+            "zh": "三相双绕组变压器有两组绕组，每组包含三个相线圈。三台单相变压器可组成变压器组，共铁芯结构也能实现相同的端口功能。"
+          },
+          "formula": ""
+        },
+        {
+          "title": {
+            "en": "Winding ratio versus terminal ratio",
+            "zh": "绕组比与端口比"
+          },
+          "body": {
+            "en": "a compares paired dotted-to-undotted coil voltages. Y has line voltage √3 times coil voltage; Δ has equal line and coil voltages. Bank MVA is three times phase MVA.",
+            "zh": "a 比较对应线圈从同名端到异名端的电压。Y 的线电压是线圈电压的 √3 倍；Δ 的线电压等于线圈电压。变压器组容量是每相容量的三倍。"
+          },
+          "formula": "k_{LL}=a\\frac{k_H}{k_L},\\quad k_Y=\\sqrt3,\\ k_\\Delta=1,\\quad S_\\phi=S_{3\\phi}/3"
+        },
+        {
+          "title": {
+            "en": "Delta joining order and phase displacement",
+            "zh": "三角形连接方向与相移"
+          },
+          "body": {
+            "en": "Supply sequence is positive on both sides. ABC names coil directions AB, BC, CA; ACB names AC, BA, CB. Keep the paired dots fixed. Y–Δ with low abc gives δLH=−30°; switching low joining to acb gives +30°. These joining names do not reverse the supply sequence.",
+            "zh": "两侧均为正相序。ABC 表示线圈方向 AB、BC、CA；ACB 表示 AC、BA、CB。对应同名端保持不变。Y–Δ 的低压 abc 接法给出 δLH=−30°；切换为 acb 给出 +30°。这些连接名称并不改变电源相序。"
+          },
+          "formula": "\\delta_{LH}=\\angle V_{ab,L}-\\angle V_{AB,H},\\quad V_{AB,H}=\\sqrt3e^{j30^\\circ}V_{AN,H}"
+        },
+        {
+          "title": {
+            "en": "Vector groups and grounding",
+            "zh": "联结组别与接地"
+          },
+          "body": {
+            "en": "Dyn1 indicates HV delta, LV wye, a brought-out neutral, and 30° LV lag. Dyn11 corresponds to +30° δLH. A neutral terminal being available does not specify its grounding. Y has a star point; delta has no star-point neutral, but grounding arrangements can still be provided.",
+            "zh": "Dyn1 表示高压 Δ、低压 Y、引出中性端，低压滞后 30°。Dyn11 对应 δLH=+30°。中性端引出并不说明接地方式。Y 具有星点；Δ 没有星点中性端，但仍可采用相应接地方案。"
+          },
+          "formula": ""
+        }
+      ],
+      "controls": [
+        {
+          "key": "h_connection",
+          "label": {
+            "en": "H connection",
+            "zh": "高压接线"
+          },
+          "unit": "",
+          "step": 0.01,
+          "advanced": false,
+          "type": "select",
+          "min": 0,
+          "max": 1,
+          "options": [
+            {
+              "value": "wye",
+              "label": {
+                "en": "Wye Y",
+                "zh": "星形 Y"
+              }
+            },
+            {
+              "value": "delta",
+              "label": {
+                "en": "Delta Δ",
+                "zh": "三角形 Δ"
+              }
+            }
+          ]
+        },
+        {
+          "key": "l_connection",
+          "label": {
+            "en": "L connection",
+            "zh": "低压接线"
+          },
+          "unit": "",
+          "step": 0.01,
+          "advanced": false,
+          "type": "select",
+          "min": 0,
+          "max": 1,
+          "options": [
+            {
+              "value": "wye",
+              "label": {
+                "en": "Wye Y",
+                "zh": "星形 Y"
+              }
+            },
+            {
+              "value": "delta",
+              "label": {
+                "en": "Delta Δ",
+                "zh": "三角形 Δ"
+              }
+            }
+          ]
+        },
+        {
+          "key": "turns_ratio",
+          "label": {
+            "en": "Winding ratio a",
+            "zh": "绕组匝数比 a"
+          },
+          "unit": "",
+          "step": 0.1,
+          "advanced": false,
+          "type": "range",
+          "min": 2,
+          "max": 20
+        },
+        {
+          "key": "h_delta_order",
+          "label": {
+            "en": "H coil directions (delta only)",
+            "zh": "高压线圈方向（仅 Δ 有效）"
+          },
+          "unit": "",
+          "step": 0.01,
+          "advanced": false,
+          "type": "select",
+          "min": 0,
+          "max": 1,
+          "options": [
+            {
+              "value": "abc",
+              "label": {
+                "en": "ABC: AB, BC, CA",
+                "zh": "ABC：AB、BC、CA"
+              }
+            },
+            {
+              "value": "acb",
+              "label": {
+                "en": "ACB: AC, BA, CB",
+                "zh": "ACB：AC、BA、CB"
+              }
+            }
+          ]
+        },
+        {
+          "key": "l_delta_order",
+          "label": {
+            "en": "L coil directions (delta only)",
+            "zh": "低压线圈方向（仅 Δ 有效）"
+          },
+          "unit": "",
+          "step": 0.01,
+          "advanced": false,
+          "type": "select",
+          "min": 0,
+          "max": 1,
+          "options": [
+            {
+              "value": "abc",
+              "label": {
+                "en": "abc: ab, bc, ca",
+                "zh": "abc：ab、bc、ca"
+              }
+            },
+            {
+              "value": "acb",
+              "label": {
+                "en": "acb: ac, ba, cb",
+                "zh": "acb：ac、ba、cb"
+              }
+            }
+          ]
+        },
+        {
+          "key": "h_kv",
+          "label": {
+            "en": "HV line voltage",
+            "zh": "高压线电压"
+          },
+          "unit": "kV",
+          "step": 0.1,
+          "advanced": true,
+          "type": "range",
+          "min": 10,
+          "max": 230
+        },
+        {
+          "key": "s_mva",
+          "label": {
+            "en": "Bank rated power",
+            "zh": "变压器组额定容量"
+          },
+          "unit": "MVA",
+          "step": 1,
+          "advanced": true,
+          "type": "range",
+          "min": 1,
+          "max": 100
+        }
+      ],
+      "metrics": [
+        {
+          "key": "l_line_kv",
+          "label": {
+            "en": "LV line voltage",
+            "zh": "低压线电压"
+          },
+          "unit": "kV",
+          "digits": 3
+        },
+        {
+          "key": "line_ratio",
+          "label": {
+            "en": "H/L line-voltage ratio",
+            "zh": "高／低线电压比"
+          },
+          "unit": "",
+          "digits": 3
+        },
+        {
+          "key": "delta_lh_deg",
+          "label": {
+            "en": "LV relative to HV (δLH)",
+            "zh": "低压相对高压相角（δLH）"
+          },
+          "unit": "°",
+          "digits": 3
+        },
+        {
+          "key": "l_winding_kv",
+          "label": {
+            "en": "LV winding voltage",
+            "zh": "低压绕组电压"
+          },
+          "unit": "kV",
+          "digits": 3
+        },
+        {
+          "key": "h_line_a",
+          "label": {
+            "en": "Rated HV line current",
+            "zh": "额定高压线电流"
+          },
+          "unit": "A",
+          "digits": 3
+        },
+        {
+          "key": "l_line_a",
+          "label": {
+            "en": "Rated LV line current",
+            "zh": "额定低压线电流"
+          },
+          "unit": "A",
+          "digits": 3
+        },
+        {
+          "key": "l_winding_a",
+          "label": {
+            "en": "Rated LV winding current",
+            "zh": "额定低压绕组电流"
+          },
+          "unit": "A",
+          "digits": 3
+        },
+        {
+          "key": "phase_mva",
+          "label": {
+            "en": "Power per phase",
+            "zh": "每相容量"
+          },
+          "unit": "MVA",
+          "digits": 3
+        }
+      ],
+      "given": {
+        "en": "L17 example: 60 MVA, 138 kV HV line voltage, a=10, H wye, L delta abc; positive sequence and matching dots. VAB,H is the 0° reference.",
+        "zh": "L17 例题：60 MVA，高压线电压 138 kV，a=10，高压 Y、低压 Δ abc；正相序，对应同名端。VAB,H 为 0° 参考。"
+      },
+      "worked": [
+        {
+          "en": "Each phase is rated at 60/3=20 MVA. EH=138/√3=79.6743 kV and EL=EH/10=7.96743 kV.",
+          "zh": "每相额定容量为 60/3=20 MVA。EH=138/√3=79.6743 kV，EL=EH/10=7.96743 kV。"
+        },
+        {
+          "en": "H is Y and L is Δ: kLL=√3×10=17.3205. Thus Vab,L=7.96743 kV, rather than 13.8 kV.",
+          "zh": "高压 Y、低压 Δ：kLL=√3×10=17.3205，因此 Vab,L=7.96743 kV。"
+        },
+        {
+          "en": "VAN,H=(138/√3)∠−30° kV. Matching dots and low abc make Vab,L=7.96743∠−30° kV.",
+          "zh": "VAN,H=(138/√3)∠−30° kV。对应同名端及低压 abc 接法给出 Vab,L=7.96743∠−30° kV。"
+        },
+        {
+          "en": "IH,line=60×1000/(√3×138)=251.022 A. IL,coil=20×1000/7.96743=2510.218 A; IL,line=√3 IL,coil=4347.826 A.",
+          "zh": "IH,线=60×1000/(√3×138)=251.022 A。IL,绕组=20×1000/7.96743=2510.218 A；IL,线=√3 IL,绕组=4347.826 A。"
+        }
+      ],
+      "practice": [
+        {
+          "key": "l_line_kv",
+          "label": {
+            "en": "LV line-voltage magnitude",
+            "zh": "低压线电压幅值"
+          },
+          "unit": "kV",
+          "hint": {
+            "en": "Use 138/(√3×10).",
+            "zh": "计算 138/(√3×10)。"
+          },
+          "tolerance": 0.02
+        },
+        {
+          "key": "delta_lh_deg",
+          "label": {
+            "en": "LV displacement δLH",
+            "zh": "低压相移 δLH"
+          },
+          "unit": "°",
+          "hint": {
+            "en": "VAN,H lags VAB,H by 30°, and the low abc coil is ab.",
+            "zh": "VAN,H 滞后 VAB,H 30°，低压 abc 的对应线圈是 ab。"
+          },
+          "tolerance": 0.1
+        },
+        {
+          "key": "l_line_a",
+          "label": {
+            "en": "Rated LV line current",
+            "zh": "额定低压线电流"
+          },
+          "unit": "A",
+          "hint": {
+            "en": "Use total bank MVA divided by √3 times LV line kV, then multiply by 1000.",
+            "zh": "用变压器组 MVA 除以 √3 倍低压线电压 kV，再乘 1000。"
+          },
+          "tolerance": 0.1
+        }
+      ],
+      "quiz": {
+        "question": {
+          "en": "Switch only the LV delta joining order from abc to acb. What changes?",
+          "zh": "只把低压 Δ 线圈连接从 abc 改为 acb，什么发生变化？"
+        },
+        "choices": [
+          {
+            "value": "0",
+            "label": {
+              "en": "The winding turns ratio becomes √3 a",
+              "zh": "绕组匝数比变为 √3 a"
+            }
+          },
+          {
+            "value": "1",
+            "label": {
+              "en": "Supply sequence reverses",
+              "zh": "电源相序反转"
+            }
+          },
+          {
+            "value": "2",
+            "label": {
+              "en": "δLH changes from −30° to +30°; magnitude ratios stay unchanged",
+              "zh": "δLH 从 −30° 变为 +30°；幅值比保持不变"
+            }
+          }
+        ],
+        "correct": "2",
+        "feedback": [
+          {
+            "en": "Joining coils does not change their turn counts.",
+            "zh": "改变线圈连接并不改变匝数。"
+          },
+          {
+            "en": "These labels describe coil directions; supply sequence stays positive.",
+            "zh": "这里的名称表示线圈方向，电源仍为正相序。"
+          },
+          {
+            "en": "Correct: the endpoints change phase displacement, while Y/Δ magnitude factors remain the same.",
+            "zh": "正确：端点连接改变相移，而 Y/Δ 幅值因子不变。"
+          }
+        ]
+      },
+      "challenge": {
+        "en": "Compare all four bank connections. Then change a delta joining order: explain the phase displacement from the paired red coils while checking unchanged voltage and current magnitudes.",
+        "zh": "比较四种接线，再改变 Δ 线圈方向。从对应红色线圈解释相移，并核查电压、电流幅值比保持不变。"
+      },
+      "limits": {
+        "en": "Ideal balanced positive-sequence bank, with fixed dot correspondence and no impedance, excitation or grounding-current calculation. Delta joining order follows the L17 diagrams. Diagram arrows compare normalized line-voltage directions, not magnitudes.",
+        "zh": "理想、平衡、正相序变压器组，同名端固定；不计算阻抗、励磁或接地电流。Δ 线圈方向遵循 L17 图示。图中箭头按归一化长度比较线电压方向，不表示幅值。"
+      },
+      "code_key": "turns_ratio",
+      "code_values": [
+        2,
+        5,
+        10,
+        15,
+        20
+      ],
+      "plot_titles": [
+        {
+          "en": "Voltage versus winding ratio",
+          "zh": "电压与绕组比"
+        },
+        {
+          "en": "Rated current versus winding ratio",
+          "zh": "额定电流与绕组比"
+        }
+      ]
+    },
+    {
+      "id": "transformer-network",
+      "number": 8,
+      "title": {
+        "en": "Three-phase transformer network and taps",
+        "zh": "三相变压器网络与分接头"
+      },
+      "summary": {
+        "en": "Reproduce the 60 MVA bank on a 100 MVA base and explore a fixed-base complex tap.",
+        "zh": "在 100 MVA 基准上复现 60 MVA 变压器组，探索固定基准上的复变比分接模型。"
+      },
+      "sources": [
+        "L18"
+      ],
+      "extension": [],
+      "opening": {
+        "en": "The L18 bank is rated 60 MVA, 138/13.8 kV, Y–Δ. Its terminal ratio is 10, but its winding ratio is 10/√3. On a 100 MVA system base, does changing base change its physical impedance?",
+        "zh": "L18 的变压器组额定值为 60 MVA、138/13.8 kV、Y–Δ。端口比为 10，绕组比却为 10/√3。在 100 MVA 系统基准上，改变基准会改变实际阻抗吗？"
+      },
+      "goals": [
+        {
+          "en": "Convert winding impedance into an equivalent Y phase model.",
+          "zh": "将绕组阻抗转换为等效 Y 相模型。"
+        },
+        {
+          "en": "Check per-unit base changes by recovering physical ohms.",
+          "zh": "还原实际欧姆值，核查标幺基准变换。"
+        },
+        {
+          "en": "Distinguish a physical tap, fixed voltage bases and directional complex ratios.",
+          "zh": "区分实际分接头、固定电压基准和有方向的复变比。"
+        }
+      ],
+      "concepts": [
+        {
+          "title": {
+            "en": "Balanced branch with phase shift",
+            "zh": "含相移的平衡支路"
+          },
+          "body": {
+            "en": "Use a positive-sequence model, retaining series resistance and leakage and neglecting excitation. The L-side physical delta becomes an equivalent Y impedance ZΔ/3. That equivalent neutral is a reference, not a grounding claim.",
+            "zh": "采用正相序模型，保留串联电阻和漏抗，忽略励磁。低压侧实际 Δ 转换为等效 Y 阻抗 ZΔ/3；等效中性点只是参考，不表示接地。"
+          },
+          "formula": "Z_{Y,L}=Z_{\\Delta,L}/3,\\quad Z_{Y,H}/Z_{Y,L}=k_{LL}^2"
+        },
+        {
+          "title": {
+            "en": "Bank bases and physical impedance",
+            "zh": "变压器组基准与实际阻抗"
+          },
+          "body": {
+            "en": "Use total three-phase Sbase and line-to-line Vbase. The L18 rated voltage bases stay fixed when Sbase changes. The two compatible side bases give the same pu impedance; a delta winding has three times the equivalent Y impedance.",
+            "zh": "使用三相总容量 Sbase 和线电压 Vbase。改变 Sbase 时，L18 的额定电压基准保持固定。两侧相容基准给出相同的标幺阻抗；Δ 绕组阻抗是等效 Y 阻抗的三倍。"
+          },
+          "formula": "Z_B=V_{B,LL}^2/S_B,\\quad z_{new}=z_{old}\\frac{S_{B,new}}{S_{B,old}}\\left(\\frac{V_{B,old}}{V_{B,new}}\\right)^2"
+        },
+        {
+          "title": {
+            "en": "Directional complex tap",
+            "zh": "有方向的复变比"
+          },
+          "body": {
+            "en": "For the L18 Y–Δ abc connection δLH=−30°, so θHL=+30°. H current enters and L current leaves. Fix the voltage bases and define tHL=τexp(jθHL); then iL=tHL* iH. Increasing active H turns increases τ and reduces ideal LV voltage at fixed HV voltage.",
+            "zh": "L18 的 Y–Δ abc 接法给出 δLH=−30°，因此 θHL=+30°。高压电流流入、低压电流流出。固定电压基准，定义 tHL=τexp(jθHL)，则 iL=tHL 的共轭乘 iH。高压有效匝数增加会增大 τ，使固定高压电压下的理想低压电压降低。"
+          },
+          "formula": "v_H=z_{eq}i_H+t_{HL}v_L,\\quad i_L=t_{HL}^*i_H,\\quad t_{HL}=\\tau e^{j\\theta_{HL}}"
+        },
+        {
+          "title": {
+            "en": "Autotransformer power paths",
+            "zh": "自耦变压器功率路径"
+          },
+          "body": {
+            "en": "The source slides show a series-aiding step-down autotransformer: VH=(Ns+Nc)e per turn and VL=Nc e per turn. Power is transferred through both a direct electrical path and magnetic coupling. The common connection removes galvanic isolation; a conventional two-winding bank model cannot represent that isolation difference.",
+            "zh": "原始课件展示串联助磁的降压自耦变压器：VH=(Ns+Nc)×每匝电压，VL=Nc×每匝电压。功率同时经直接电气通路和磁耦合传递。公共电气连接意味着没有电气隔离；普通双绕组组模型不能描述这种隔离差别。"
+          },
+          "formula": "S_{magnetic}/S_{terminal}=(V_H-V_L)/V_H"
+        }
+      ],
+      "controls": [
+        {
+          "key": "tap",
+          "label": {
+            "en": "H-side tap magnitude τ",
+            "zh": "高压侧分接幅值 τ"
+          },
+          "unit": "",
+          "step": 0.005,
+          "advanced": false,
+          "type": "range",
+          "min": 0.9,
+          "max": 1.1
+        },
+        {
+          "key": "loading",
+          "label": {
+            "en": "Input current / rated HV current",
+            "zh": "输入电流／额定高压电流"
+          },
+          "unit": "pu",
+          "step": 0.05,
+          "advanced": false,
+          "type": "range",
+          "min": 0,
+          "max": 1.2
+        },
+        {
+          "key": "power_factor",
+          "label": {
+            "en": "HV input lagging power factor",
+            "zh": "高压输入滞后功率因数"
+          },
+          "unit": "",
+          "step": 0.01,
+          "advanced": false,
+          "type": "range",
+          "min": 0.6,
+          "max": 1
+        },
+        {
+          "key": "s_base_mva",
+          "label": {
+            "en": "System power base",
+            "zh": "系统容量基准"
+          },
+          "unit": "MVA",
+          "step": 5,
+          "advanced": false,
+          "type": "range",
+          "min": 20,
+          "max": 200
+        },
+        {
+          "key": "r_pu",
+          "label": {
+            "en": "Resistance on equipment base",
+            "zh": "设备基准串联电阻"
+          },
+          "unit": "pu",
+          "step": 0.001,
+          "advanced": true,
+          "type": "range",
+          "min": 0,
+          "max": 0.03
+        },
+        {
+          "key": "x_pu",
+          "label": {
+            "en": "Reactance on equipment base",
+            "zh": "设备基准漏抗"
+          },
+          "unit": "pu",
+          "step": 0.001,
+          "advanced": true,
+          "type": "range",
+          "min": 0,
+          "max": 0.2
+        },
+        {
+          "key": "h_kv",
+          "label": {
+            "en": "Rated HV line voltage and fixed base",
+            "zh": "额定高压线电压及固定基准"
+          },
+          "unit": "kV",
+          "step": 0.1,
+          "advanced": true,
+          "type": "range",
+          "min": 10,
+          "max": 230
+        },
+        {
+          "key": "l_rated_kv",
+          "label": {
+            "en": "Rated LV line voltage and fixed base",
+            "zh": "额定低压线电压及固定基准"
+          },
+          "unit": "kV",
+          "step": 0.1,
+          "advanced": true,
+          "type": "range",
+          "min": 1,
+          "max": 69
+        },
+        {
+          "key": "s_mva",
+          "label": {
+            "en": "Equipment rating",
+            "zh": "设备额定容量"
+          },
+          "unit": "MVA",
+          "step": 1,
+          "advanced": true,
+          "type": "range",
+          "min": 1,
+          "max": 100
+        }
+      ],
+      "metrics": [
+        {
+          "key": "winding_ratio",
+          "label": {
+            "en": "Active winding ratio",
+            "zh": "有效绕组比"
+          },
+          "unit": "",
+          "digits": 3
+        },
+        {
+          "key": "z_pu_re",
+          "label": {
+            "en": "System-base resistance",
+            "zh": "系统基准电阻"
+          },
+          "unit": "pu",
+          "digits": 5
+        },
+        {
+          "key": "z_pu_im",
+          "label": {
+            "en": "System-base reactance",
+            "zh": "系统基准电抗"
+          },
+          "unit": "pu",
+          "digits": 5
+        },
+        {
+          "key": "l_line_kv",
+          "label": {
+            "en": "LV terminal line voltage",
+            "zh": "低压端口线电压"
+          },
+          "unit": "kV",
+          "digits": 3
+        },
+        {
+          "key": "l_angle_deg",
+          "label": {
+            "en": "LV angle relative to HV",
+            "zh": "低压相对高压相角"
+          },
+          "unit": "°",
+          "digits": 3
+        },
+        {
+          "key": "z_h_re_ohm",
+          "label": {
+            "en": "Physical HV phase resistance",
+            "zh": "实际高压相电阻"
+          },
+          "unit": "Ω",
+          "digits": 4
+        },
+        {
+          "key": "z_l_delta_re_ohm",
+          "label": {
+            "en": "Physical LV delta winding resistance",
+            "zh": "实际低压 Δ 绕组电阻"
+          },
+          "unit": "Ω",
+          "digits": 6
+        },
+        {
+          "key": "series_loss_mw",
+          "label": {
+            "en": "Series real-power loss",
+            "zh": "串联有功损耗"
+          },
+          "unit": "MW",
+          "digits": 5
+        }
+      ],
+      "given": {
+        "en": "L18 example: 60 MVA, 138/13.8 kV, Y–Δ abc; equipment z=0.006+j0.090 pu. System base is 100 MVA with rated line-voltage bases. τ=1, no load.",
+        "zh": "L18 例题：60 MVA、138/13.8 kV、Y–Δ abc；设备基准 z=0.006+j0.090 pu。系统基准 100 MVA，两侧电压基准取额定线电压。τ=1，空载。"
+      },
+      "worked": [
+        {
+          "en": "a=(138/√3)/13.8=5.77350; rated terminal ratio is 10. On compatible rated voltage bases, ideal magnitude ratio in pu is one.",
+          "zh": "a=(138/√3)/13.8=5.77350；额定端口比为 10。相容额定电压基准上的理想标幺幅值比为 1。"
+        },
+        {
+          "en": "z100=(0.006+j0.090)×100/60=0.010+j0.150 pu. ZB,H=138²/100=190.44 Ω.",
+          "zh": "z100=(0.006+j0.090)×100/60=0.010+j0.150 pu。ZB,H=138²/100=190.44 Ω。"
+        },
+        {
+          "en": "Recover ZY,H=1.9044+j28.566 Ω. On L, ZY,L=0.019044+j0.28566 Ω and ZΔ,L=0.057132+j0.85698 Ω.",
+          "zh": "还原 ZY,H=1.9044+j28.566 Ω。低压 ZY,L=0.019044+j0.28566 Ω，ZΔ,L=0.057132+j0.85698 Ω。"
+        },
+        {
+          "en": "At no load and τ=1, vL=1∠−30° pu, corresponding to 13.8∠−30° kV line voltage with VAB,H at 0°. At τ=1.05, |VLL,L|=13.8/1.05=13.14286 kV.",
+          "zh": "空载且 τ=1 时，vL=1∠−30° pu；以 VAB,H 为 0° 对应低压线电压 13.8∠−30° kV。τ=1.05 时，|VLL,L|=13.8/1.05=13.14286 kV。"
+        },
+        {
+          "en": "With loading, solve vL=(vH−z iH)/tHL and iL=tHL* iH. Input minus output complex power equals z|iH|²; inspect both balance checks.",
+          "zh": "带载时计算 vL=(vH−z iH)/tHL、iL=tHL 的共轭乘 iH。输入减输出复功率等于 z|iH|²，检查有功和无功平衡。"
+        }
+      ],
+      "practice": [
+        {
+          "key": "winding_ratio",
+          "label": {
+            "en": "Winding ratio at τ=1",
+            "zh": "τ=1 时绕组比"
+          },
+          "unit": "",
+          "hint": {
+            "en": "Use (138/√3)/13.8.",
+            "zh": "计算 (138/√3)/13.8。"
+          },
+          "tolerance": 0.001
+        },
+        {
+          "key": "z_pu_im",
+          "label": {
+            "en": "Reactance on the 100 MVA base",
+            "zh": "100 MVA 基准上的电抗"
+          },
+          "unit": "pu",
+          "hint": {
+            "en": "Keep voltage bases fixed and multiply 0.09 by 100/60.",
+            "zh": "电压基准固定，计算 0.09×100/60。"
+          },
+          "tolerance": 0.001
+        },
+        {
+          "key": "z_l_delta_re_ohm",
+          "label": {
+            "en": "LV delta winding resistance",
+            "zh": "低压 Δ 绕组电阻"
+          },
+          "unit": "Ω",
+          "hint": {
+            "en": "Recover equivalent Y resistance, then multiply by 3.",
+            "zh": "先还原等效 Y 电阻，再乘 3。"
+          },
+          "tolerance": 0.0001
+        }
+      ],
+      "quiz": {
+        "question": {
+          "en": "At no load with fixed voltage bases and HV voltage, what does τ=1.05 do?",
+          "zh": "空载、电压基准和高压电压固定时，τ=1.05 会怎样？"
+        },
+        "choices": [
+          {
+            "value": "0",
+            "label": {
+              "en": "LV magnitude increases by 5%",
+              "zh": "低压幅值增加 5%"
+            }
+          },
+          {
+            "value": "1",
+            "label": {
+              "en": "LV magnitude becomes 13.8/1.05 kV; the connection angle stays −30°",
+              "zh": "低压幅值变为 13.8/1.05 kV，接线相角保持 −30°"
+            }
+          },
+          {
+            "value": "2",
+            "label": {
+              "en": "LV angle becomes +30°",
+              "zh": "低压相角变为 +30°"
+            }
+          }
+        ],
+        "correct": "1",
+        "feedback": [
+          {
+            "en": "Here vH=tHL vL, so increasing τ reduces |vL|.",
+            "zh": "这里 vH=tHL vL，因此增大 τ 会降低 |vL|。"
+          },
+          {
+            "en": "Correct. The magnitude tap changes active H turns while the specified connection displacement stays fixed.",
+            "zh": "正确：幅值分接改变高压有效匝数，所指定的接线相移保持固定。"
+          },
+          {
+            "en": "An ordinary magnitude tap does not reverse this connection displacement.",
+            "zh": "普通幅值分接不会反转这种接线相移。"
+          }
+        ]
+      },
+      "challenge": {
+        "en": "Set input-current loading to 1 and vary τ. Explain voltage drop and check power balance. Then change only Sbase: physical ohms, line voltages and currents should stay unchanged.",
+        "zh": "将输入电流负载率设为 1，改变 τ，解释压降并核查功率平衡。再只改变 Sbase：实际欧姆值、线电压和线电流应保持不变。"
+      },
+      "limits": {
+        "en": "Balanced positive sequence, Y–Δ abc with δLH=−30°, fixed rated voltage bases and H-side series impedance; excitation neglected. HV voltage is fixed at 1 pu. Loading prescribes HV input-current magnitude and lagging power factor, not a constant-power LV load. Tap changes active H turns. Autotransformer construction is covered in slides and concepts, outside this two-winding numerical branch.",
+        "zh": "平衡正相序，Y–Δ abc、δLH=−30°，固定额定电压基准，串联阻抗在高压侧；忽略励磁，高压电压固定为 1 pu。负载率规定高压输入电流幅值与滞后功率因数，不是低压恒功率负荷。分接改变高压有效匝数。自耦结构见课件和概念部分，数值支路采用双绕组模型。"
+      },
+      "code_key": "tap",
+      "code_values": [
+        0.9,
+        0.95,
+        1,
+        1.05,
+        1.1
+      ],
+      "plot_titles": [
+        {
+          "en": "LV voltage versus H-side tap",
+          "zh": "低压电压与高压分接头"
+        },
+        {
+          "en": "LV voltage versus input-current loading",
+          "zh": "低压电压与输入电流负载率"
+        }
+      ]
     }
   ]
 }

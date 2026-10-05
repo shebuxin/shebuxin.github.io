@@ -153,5 +153,29 @@
       "zh": "变压器侧与 Y/Δ 标幺化核查",
       "en": "Transformer sides and Y/Δ normalization checks"
     }
+  },
+  "L17": {
+    "concept_indices": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "focus": {
+      "en": "Three-phase banks: coils, terminals and angles",
+      "zh": "三相变压器组：绕组、端口与相角"
+    }
+  },
+  "L18": {
+    "concept_indices": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "focus": {
+      "en": "Three-phase transformer network and taps",
+      "zh": "三相变压器网络与分接头"
+    }
   }
 }

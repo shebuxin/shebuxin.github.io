@@ -59,7 +59,9 @@ class ChatRenderingTest(unittest.TestCase):
                 if args.api_base:
                     self.assertEqual(chats[0].attrs['data-api-base'],args.api_base)
                 slugs = chats[0].attrs['data-live-slugs'].split()
-                self.assertNotIn('l20-three-phase-transformers-i',slugs)
+                self.assertIn('l17-three-phase-transformers-i',slugs)
+                self.assertIn('l18-three-phase-transformers-ii',slugs)
+                self.assertNotIn('l22-transmission-line-parameters-i',slugs)
         self.assertEqual(count,expected_count)
 
     def test_labels_and_dialog_targets_are_real_and_private_files_are_absent(self):

@@ -1,6 +1,6 @@
 """ECE 685 knowledge teaching models. Python standard library only.
 
-Run solve(case), where case['module'] selects one of the six experiment families.
+Run solve(case), where case['module'] selects an experiment family.
 The source examples and simplifications are described in each web lesson.
 This is an editable teaching model, with no external solver or server dependency.
 """
@@ -21,6 +21,10 @@ DEFAULTS = {
                          oc_v=240, oc_a=2, oc_w=120, sc_v=120, sc_a=4.1667, sc_w=180),
     'per-unit': dict(system='three-phase', s_base_mva=100, v_base_h_kv=138, turns_ratio=10,
                      v_actual_l_kv=13.8, current_a=600, z_re_ohm=1, z_im_ohm=4, power_factor=0.9),
+    'transformer-banks': dict(h_kv=138, turns_ratio=10, s_mva=60, h_connection='wye',
+                             l_connection='delta', h_delta_order='abc', l_delta_order='abc'),
+    'transformer-network': dict(h_kv=138, l_rated_kv=13.8, s_mva=60, s_base_mva=100,
+                               r_pu=0.006, x_pu=0.09, tap=1, loading=0, power_factor=0.9),
 }
 
 
@@ -253,8 +257,82 @@ def per_unit(p):
                        plot(bases,{'recovered Re(Z)':[p['z_re_ohm']]*len(bases),'recovered Im(Z)':[p['z_im_ohm']]*len(bases)},'Sbase / MVA','ohm')])
 
 
+def transformer_banks(p):
+    """L17: fixed paired dots and positive supply sequence on both sides.
+
+    Delta joining order names coil directions, not the supply sequence:
+    ABC is AB, BC, CA; ACB is AC, BA, CB (lowercase on the L side).
+    """
+    positive(p, 'h_kv', 'turns_ratio', 's_mva')
+    for side in ('h', 'l'):
+        choice(p, side+'_connection', ['wye', 'delta'])
+        choice(p, side+'_delta_order', ['abc', 'acb'])
+    kh = math.sqrt(3) if p['h_connection'] == 'wye' else 1
+    kl = math.sqrt(3) if p['l_connection'] == 'wye' else 1
+    ratio = p['turns_ratio']*kh/kl
+    hcoil = p['h_kv']/kh
+    lcoil, lv = hcoil/p['turns_ratio'], p['h_kv']/ratio
+    eh_angle = -30 if p['h_connection'] == 'wye' else (0 if p['h_delta_order'] == 'abc' else -60)
+    delta = wrap(eh_angle+(30 if p['l_connection'] == 'wye' else (0 if p['l_delta_order'] == 'abc' else 60)))
+    ih, il = (p['s_mva']*1000/(math.sqrt(3)*v) for v in (p['h_kv'], lv))
+    iwh, iwl = (p['s_mva']*1000/(3*v) for v in (hcoil, lcoil))
+    xs = [2+i*.45 for i in range(41)]
+    return dict(metrics=dict(line_ratio=ratio,l_line_kv=lv,h_winding_kv=hcoil,l_winding_kv=lcoil,
+                             h_line_a=ih,l_line_a=il,h_winding_a=iwh,l_winding_a=iwl,
+                             phase_mva=p['s_mva']/3,delta_lh_deg=delta),
+                phasors=dict(VAB_H=describe(phasor(p['h_kv'],0)),EH_A=describe(phasor(hcoil,eh_angle)),
+                             EL_a=describe(phasor(lcoil,eh_angle)),Vab_L=describe(phasor(lv,delta))),
+                checks=dict(h_bank_mva=math.sqrt(3)*p['h_kv']*ih/1000-p['s_mva'],
+                            l_bank_mva=math.sqrt(3)*lv*il/1000-p['s_mva'],
+                            winding_current_ratio=iwl/iwh-p['turns_ratio'],line_current_ratio=il/ih-ratio),
+                plots=[plot(xs,{'LV line voltage':[p['h_kv']/(a*kh/kl) for a in xs],
+                                'LV winding voltage':[hcoil/a for a in xs]},'winding ratio a','kV'),
+                       plot(xs,{'LV line current':[p['s_mva']*1000*a*kh/kl/(math.sqrt(3)*p['h_kv']) for a in xs],
+                                'LV winding current':[p['s_mva']*1000*a/(3*hcoil) for a in xs]},'winding ratio a','A')])
+
+
+def transformer_network(p):
+    """L18 Y–delta ABC/abc branch, excitation neglected, resistance retained.
+
+    H phase voltage is the pu angle reference. Delta_LH=-30, theta_HL=+30.
+    H current enters; L current leaves. Series impedance is on the H side;
+    tap magnitude changes active H turns while system voltage bases stay fixed.
+    """
+    positive(p, 'h_kv', 'l_rated_kv', 's_mva', 's_base_mva', 'tap')
+    nonnegative(p, 'r_pu', 'x_pu', 'loading')
+    bounded(p, 'power_factor', .01, 1)
+    ratio = p['h_kv']/p['l_rated_kv']
+    a = ratio/math.sqrt(3)
+    zbh, zbl = p['h_kv']**2/p['s_base_mva'], p['l_rated_kv']**2/p['s_base_mva']
+    z = complex(p['r_pu'],p['x_pu'])*p['s_base_mva']/p['s_mva']
+    t = phasor(p['tap'],30)
+    ih = phasor(p['loading']*p['s_mva']/p['s_base_mva'],-math.degrees(math.acos(p['power_factor'])))
+    vl, il = (1-z*ih)/t, t.conjugate()*ih
+    sh, sl = ih.conjugate(), vl*il.conjugate()
+    loss = z*abs(ih)**2
+    v = describe(vl)
+    loading, taps = [i*.03 for i in range(41)], [.9+i*.005 for i in range(41)]
+    load_v = lambda k: abs(1-z*phasor(k*p['s_mva']/p['s_base_mva'],-math.degrees(math.acos(p['power_factor']))))/p['tap']
+    return dict(metrics=dict(winding_ratio=a*p['tap'],rated_line_ratio=ratio,actual_ideal_line_ratio=ratio*p['tap'],
+                             theta_hl_deg=30,delta_lh_deg=-30,z_pu_re=z.real,z_pu_im=z.imag,
+                             z_base_h_ohm=zbh,z_base_l_ohm=zbl,z_h_re_ohm=z.real*zbh,z_h_im_ohm=z.imag*zbh,
+                             z_l_delta_re_ohm=3*z.real*zbl,z_l_delta_im_ohm=3*z.imag*zbl,
+                             l_voltage_pu=v['rms'],l_line_kv=v['rms']*p['l_rated_kv'],l_angle_deg=v['angle_deg'],
+                             h_line_a=abs(ih)*p['s_base_mva']*1000/(math.sqrt(3)*p['h_kv']),
+                             l_line_a=abs(il)*p['s_base_mva']*1000/(math.sqrt(3)*p['l_rated_kv']),
+                             input_p_mw=sh.real*p['s_base_mva'],output_p_mw=sl.real*p['s_base_mva'],
+                             series_loss_mw=loss.real*p['s_base_mva']),
+                phasors=dict(VH_pu=describe(1+0j),VL_pu=v,IH_pu=describe(ih),IL_pu=describe(il)),
+                checks=dict(voltage_equation=abs(1-z*ih-t*vl),real_power_balance=sh.real-sl.real-loss.real,
+                            reactive_power_balance=sh.imag-sl.imag-loss.imag,
+                            ohmic_base_invariance=z.real*zbh-p['r_pu']*p['h_kv']**2/p['s_mva']),
+                plots=[plot(taps,{'LV line voltage':[abs(1-z*ih)/tau*p['l_rated_kv'] for tau in taps]},'H-side tap magnitude tau','kV'),
+                       plot(loading,{'LV terminal voltage':[load_v(k) for k in loading]},'rated input-current loading','pu')])
+
+
 HANDLERS = dict(overview=overview,generation=generation,transformers=transformers)
 HANDLERS.update({'single-phase':single_phase,'three-phase':three_phase,'per-unit':per_unit})
+HANDLERS.update({'transformer-banks':transformer_banks,'transformer-network':transformer_network})
 
 
 def solve(case):

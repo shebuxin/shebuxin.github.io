@@ -22,7 +22,8 @@ ROOT = Path(__file__).resolve().parents[1]
 SECTIONS = ("lecture-overview", "lecture-experiment", "lecture-code", "lecture-practice")
 HANDLERS = {"overview": "overview", "generation": "generation",
             "single-phase": "single_phase", "three-phase": "three_phase",
-            "transformers": "transformers", "per-unit": "per_unit"}
+            "transformers": "transformers", "per-unit": "per_unit",
+            "transformer-banks": "transformer_banks", "transformer-network": "transformer_network"}
 VOID = set("area base br col embed hr img input link meta param source track wbr".split())
 BLOCK = set("article section div p h1 h2 h3 h4 ul ol li figure figcaption pre details summary fieldset legend label".split())
 

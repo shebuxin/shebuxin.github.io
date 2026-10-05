@@ -158,5 +158,25 @@
     "first_page": "/assets/slides/ece685/l15/page-001.webp",
     "pages_json": "/assets/slides/ece685/l15/pages.json",
     "source": "01_lectures/L15_per_unit_iii/L15_per_unit_iii.pdf"
+  },
+  "L17": {
+    "pdf": "/assets/slides/ece685/l17/L17_three_phase_transformers_i.pdf",
+    "sha256": "083b9b8ae8ec8eb683cf98c5a92d560d22981008d8e72a531d89998f9a4864bb",
+    "page_count": 38,
+    "width": 1600,
+    "height": 901,
+    "first_page": "/assets/slides/ece685/l17/page-001.webp",
+    "pages_json": "/assets/slides/ece685/l17/pages.json",
+    "source": "01_lectures/L17_three_phase_transformers_i/L17_three_phase_transformers_i.pdf"
+  },
+  "L18": {
+    "pdf": "/assets/slides/ece685/l18/L18_three_phase_transformers_ii.pdf",
+    "sha256": "38776b195122e5931d5a1216aad77c7ed5a42a174ea6fc0f153c42684ae2c890",
+    "page_count": 37,
+    "width": 1600,
+    "height": 901,
+    "first_page": "/assets/slides/ece685/l18/page-001.webp",
+    "pages_json": "/assets/slides/ece685/l18/pages.json",
+    "source": "01_lectures/L18_three_phase_transformers_ii/L18_three_phase_transformers_ii.pdf"
   }
 }

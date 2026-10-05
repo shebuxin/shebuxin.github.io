@@ -1,6 +1,6 @@
 {% assign power_code_kind = nil %}{% if page.unbalanced_power_flow %}{% assign power_code_kind = 'unbalanced' %}{% elsif page.pandapower_implementation %}{% assign power_code_kind = 'pandapower' %}{% endif %}
 {% assign course_worker = include.worker | default: '/assets/js/course-python-worker.js' %}
-<div class="bf-code" id="{{ include.root_id }}" data-source="{{ include.source | relative_url }}?v={{ site.github.build_revision | default: 'sequence-20261003' }}" data-worker="{{ course_worker | relative_url }}">
+<div class="bf-code" id="{{ include.root_id }}" data-source="{{ include.source | relative_url }}?v={{ site.time | date: '%s' }}" data-worker="{{ course_worker | relative_url }}">
   {% if power_code_kind %}
     {% capture model_editor_id %}{{ include.prefix }}-solver{% endcapture %}
     {% include power-flow-code-guide.html kind=power_code_kind part="inputs" %}

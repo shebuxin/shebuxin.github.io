@@ -63,8 +63,8 @@ test('coherent single/three-phase bases, referral, base changes, and physical re
 test('knowledge models retain their practice and exclude the removed assessment model',()=>{
   assert.throws(()=>model.solve('exam-review'),/Unknown teaching module/);
   const config=JSON.parse(fs.readFileSync(path.resolve(__dirname,'../_data/ece685_stage_one.json')));
-  assert.equal(config.modules.length,6);assert.deepEqual(config.modules.map(m=>m.id),Object.keys(model.defaults));
-  assert.deepEqual(config.modules[4].extension,['L20','L21']);
+  assert.equal(config.modules.length,8);assert.deepEqual(config.modules.map(m=>m.id),Object.keys(model.defaults));
+  assert.deepEqual(config.modules[4].extension,['L17','L18']);
   for(const m of config.modules){const baseline=model.solve(m.id);for(const a of m.practice)assert.ok(Number.isFinite(baseline.metrics[a.key]));assert.equal(m.quiz.choices.length,3);}
 });
 
@@ -73,12 +73,46 @@ test('invalid input and incompatible type choices are rejected',()=>{
   for(const id of Object.keys(model.defaults)){const number=Object.keys(model.defaults[id]).find(k=>typeof model.defaults[id][k]==='number');for(const value of [NaN,Infinity,'10',true])assert.throws(()=>model.solve(id,{[number]:value}));}
 });
 
+test('L17 reproduces the source example and fixed-dot delta joining displacements',()=>{
+  const r=model.solve('transformer-banks');near(r.metrics.l_line_kv,138/(Math.sqrt(3)*10));
+  near(r.metrics.l_line_a,60000/(Math.sqrt(3)*r.metrics.l_line_kv));near(r.metrics.phase_mva,20);
+  const cases=[['wye','wye','abc','abc',0],['wye','delta','abc','abc',-30],['wye','delta','abc','acb',30],
+    ['delta','wye','abc','abc',30],['delta','wye','acb','abc',-30],
+    ['delta','delta','abc','abc',0],['delta','delta','acb','acb',0],
+    ['delta','delta','abc','acb',60],['delta','delta','acb','abc',-60]];
+  for(const [h_connection,l_connection,h_delta_order,l_delta_order,angle] of cases){
+    const b=model.solve('transformer-banks',{h_connection,l_connection,h_delta_order,l_delta_order});
+    near(b.metrics.delta_lh_deg,angle);near(b.phasors.Vab_L.angle_deg,angle);
+    Object.values(b.checks).forEach(x=>near(x,0));
+    near(b.metrics.line_ratio,10*(h_connection==='wye'?Math.sqrt(3):1)/(l_connection==='wye'?Math.sqrt(3):1));
+  }
+  assert.throws(()=>model.solve('transformer-banks',{h_delta_order:'invalid'}));
+});
+
+test('L18 preserves ohms across bases and conserves complex power with directional taps',()=>{
+  const r=model.solve('transformer-network');near(r.metrics.winding_ratio,10/Math.sqrt(3));
+  near(r.metrics.z_pu_re,.01);near(r.metrics.z_pu_im,.15);near(r.metrics.z_h_re_ohm,1.9044);
+  near(r.metrics.z_h_im_ohm,28.566);near(r.metrics.z_l_delta_re_ohm,.057132);
+  near(r.metrics.l_line_kv,13.8);near(r.metrics.l_angle_deg,-30);
+  const tap=model.solve('transformer-network',{tap:1.05});near(tap.metrics.l_line_kv,13.8/1.05);near(tap.metrics.l_angle_deg,-30);
+  const a=model.solve('transformer-network',{tap:1.05,loading:1}),b=model.solve('transformer-network',{tap:1.05,loading:1,s_base_mva:50});
+  for(const m of ['z_h_re_ohm','z_h_im_ohm','z_l_delta_re_ohm','l_line_kv','h_line_a','l_line_a','series_loss_mw'])near(a.metrics[m],b.metrics[m]);
+  for(const x of [a,b,tap])Object.values(x.checks).forEach(v=>near(v,0));
+  near(a.metrics.series_loss_mw,.006*60);assert.ok(a.metrics.l_line_kv<tap.metrics.l_line_kv);
+  near(a.phasors.IL_pu.angle_deg,a.phasors.IH_pu.angle_deg-30);
+  assert.throws(()=>model.solve('transformer-network',{tap:0}));
+});
+
 test('standard-library Python matches every module, its plots, and boundary cases',()=>{
   const cases=Object.keys(model.defaults).map(module=>({module}));
   cases.push({module:'overview',shunt_mvar:80,transmission_kv:69},{module:'generation',cc_fixed:1,cc_variable:100},{module:'generation',gt_variable:26.05},
     {module:'single-phase',delta_deg:-50},{module:'single-phase',current_rms:0},{module:'three-phase',connection:'delta',sequence:'acb'},
     {module:'transformers',h_connection:'delta',l_connection:'wye'},{module:'transformers',loading:0,core_kw:0},
-    {module:'per-unit',system:'single-phase',s_base_mva:50});
+    {module:'per-unit',system:'single-phase',s_base_mva:50},
+    {module:'transformer-banks',h_connection:'delta',l_connection:'delta',h_delta_order:'acb',l_delta_order:'abc'},
+    {module:'transformer-banks',l_delta_order:'acb'},
+    {module:'transformer-network',tap:1.05,loading:1},
+    {module:'transformer-network',tap:.9,loading:1.2,power_factor:.6,s_base_mva:50});
   const program=`import sys, json, importlib.util
 sys.dont_write_bytecode = True
 s=importlib.util.spec_from_file_location('models',sys.argv[1])

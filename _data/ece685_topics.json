@@ -327,34 +327,6 @@
       "released": true,
       "frozen_source": true
     },
-    "L20": {
-      "group": "three-phase-transformers",
-      "title_zh": "三相变压器 I",
-      "summary": {
-        "en": "Build three-phase banks and distinguish winding, line, and bank relationships.",
-        "zh": "建立三相变压器组，区分绕组量、线量与变压器组关系。"
-      },
-      "lab_focus": {
-        "en": "Switch bank connections and inspect winding versus line ratios.",
-        "zh": "切换变压器组接线，比较绕组比与线量比。"
-      },
-      "released": false,
-      "frozen_source": false
-    },
-    "L21": {
-      "group": "three-phase-transformers",
-      "title_zh": "三相变压器 II",
-      "summary": {
-        "en": "Apply phase conventions and delta–wye terminal relationships to transformer phasors.",
-        "zh": "应用相位约定和三角形—星形端口关系分析变压器相量。"
-      },
-      "lab_focus": {
-        "en": "Inspect terminal phasors under an explicit high-side/low-side phase convention.",
-        "zh": "在明确的高、低压侧相位约定下观察端口相量。"
-      },
-      "released": false,
-      "frozen_source": false
-    },
     "L22": {
       "group": "line-parameters",
       "title_zh": "输电线路参数 I",
@@ -522,11 +494,42 @@
       },
       "released": false,
       "frozen_source": false
+    },
+    "L17": {
+      "group": "three-phase-transformers",
+      "title_zh": "三相变压器 I",
+      "summary": {
+        "en": "Build three-phase banks and distinguish winding, line, and bank relationships.",
+        "zh": "建立三相变压器组，区分绕组量、线量与变压器组关系。"
+      },
+      "lab_focus": {
+        "en": "Switch bank connections and inspect winding versus line ratios.",
+        "zh": "切换变压器组接线，比较绕组比与线量比。"
+      },
+      "released": true,
+      "frozen_source": true,
+      "lesson": "integrated",
+      "interactive_model": "transformer-banks"
+    },
+    "L18": {
+      "group": "three-phase-transformers",
+      "title_zh": "三相变压器 II",
+      "summary": {
+        "en": "Apply phase conventions and delta–wye terminal relationships to transformer phasors.",
+        "zh": "应用相位约定和三角形—星形端口关系分析变压器相量。"
+      },
+      "lab_focus": {
+        "en": "Inspect terminal phasors under an explicit high-side/low-side phase convention.",
+        "zh": "在明确的高、低压侧相位约定下观察端口相量。"
+      },
+      "released": true,
+      "frozen_source": true,
+      "lesson": "integrated",
+      "interactive_model": "transformer-network"
     }
   },
   "excluded_lectures": [
     "L16",
-    "L17",
     "L30",
     "L41"
   ]
