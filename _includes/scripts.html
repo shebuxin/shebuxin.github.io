@@ -9,7 +9,7 @@
 {% endif %}
 
 {% if page.ece685 %}
-  <script defer src="{{ '/assets/js/ece685.js' | relative_url }}"></script>
+  <script defer src="{{ '/assets/js/ece685.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>
   {% if site.course_chat.enabled %}<script defer src="{{ '/assets/js/ece685-chat.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>{% endif %}
 {% endif %}
 {% if page.ece685_slides %}
