@@ -53,6 +53,9 @@
 .stage-plots figure { min-width: 0; background: #fff; border: 1px solid var(--ece-border); border-radius: 8px; padding: .7rem; margin: 0; }
 .stage-plots h3 { font-size: .78rem; margin: .3rem 0 .5rem; }
 .stage-plots figcaption { font-size: .62rem; line-height: 1.8; color: var(--ece-muted); margin-top: .5rem; }
+.stage-curve-key { display: inline-flex; align-items: center; gap: .35rem; margin-right: .9rem; }
+.stage-curve-key::before { content: ''; width: 1.25rem; border-top: 2px solid var(--curve-color); }
+.stage-curve-key--dashed::before { border-top-style: dashed; }
 .stage-checks pre { font: 12px/1.8 ui-monospace,SFMono-Regular,Consolas,monospace; white-space: pre-wrap; overflow-wrap: anywhere; background: #fff; padding: .6rem 0 0; margin-bottom: 0; }
 .ece-body .stage-note { color: var(--ece-muted); font-size: .68rem; line-height: 1.8; }
 .stage-code .bf-code { padding: 1.1rem; border: 1px solid var(--ece-border); border-radius: 10px; }

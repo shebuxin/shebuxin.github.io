@@ -83,7 +83,9 @@ jobs:
         run: node --test tests/l05_phasor_test.cjs
 
       - name: Verify ECE 685 seven-module models and Python parity
-        run: node --test tests/ece685_stage_test.cjs
+        run: |
+          node --test tests/ece685_stage_test.cjs tests/ece685_diagrams_test.cjs
+          node scripts/build_ece685_diagram_assets.cjs --check
 
       - name: Verify four-wire unbalanced power flow
         run: node --test tests/unbalanced_power_flow_test.cjs

@@ -38,89 +38,17 @@
     svg.setAttribute('viewBox','0 0 600 320');
     svg.innerHTML=`<title>${esc(p.y_unit)} ${words('随','versus')} ${esc(p.x_unit)}</title><g class="stage-svg-text">${grid}<text x="62" y="24">${esc(p.y_unit)}</text><text x="568" y="310" text-anchor="end">${esc(p.x_unit)}</text></g><path d="M62 46V263H568" class="stage-axis"/>${paths}`;
   }
-  function legend(el,p){el.textContent=p.curves.map((c,i)=>`${i+1}. ${c.name}`).join(' · ');}
-  function box(x,y,width,height,title,lines){return `<rect x="${x}" y="${y}" width="${width}" height="${height}" rx="9" fill="#f7f2fc" stroke="#d7c9e4"/><text x="${x+12}" y="${y+24}" class="stage-svg-title">${esc(title)}</text>${lines.map((line,i)=>`<text x="${x+12}" y="${y+48+i*22}" class="stage-svg-text">${esc(line)}</text>`).join('')}`;}
-  function transformerNetworkDiagram(svg,r){
-    const m=r.metrics,p=r.parameters;
-    const sub=(symbol,index)=>`${symbol}<tspan baseline-shift="sub" font-size="70%">${index}</tspan>`;
-    const value=(x,y,s)=>`<text x="${x}" y="${y}" text-anchor="middle" class="stage-circuit-value">${esc(s)}</text>`;
-    const symbol=(x,y,s)=>`<text x="${x}" y="${y}" text-anchor="middle" class="stage-circuit-symbol">${s}</text>`;
-    // L18 slide 14: H-side series impedance and separate ideal-transformer ports.
-    // The complex ratio is in pu on fixed bases, rather than the physical turns ratio.
-    svg.setAttribute('viewBox','0 0 800 365');
-    svg.innerHTML=`<title>${esc(words('Y–Δ 变压器正序等效电路','Y–Δ transformer positive-sequence equivalent circuit'))}</title>
-      <desc>${esc(words('高压侧串联等效阻抗连接理想变压器。高、低压侧回路彼此电气隔离。两侧电压上正下负，高压电流流入、低压电流流出。所有相量采用固定基准的标幺值，忽略励磁支路。','H-side series impedance feeds an ideal transformer with electrically separate H and L ports. Voltage references are positive at the top; H current enters and L current leaves. Phasors use fixed per-unit bases; excitation is neglected.'))}</desc>
-      <defs>
-        <marker id="stage-circuit-h-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0 0L10 5L0 10" fill="none" stroke="#a33e3e" stroke-width="1.5"/></marker>
-        <marker id="stage-circuit-l-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0 0L10 5L0 10" fill="none" stroke="#0877a0" stroke-width="1.5"/></marker>
-      </defs>
-      <text x="400" y="28" text-anchor="middle" class="stage-circuit-heading">${esc(words('Y–Δ 正序等效电路','Y–Δ positive-sequence equivalent circuit'))}</text>
-      <g class="stage-circuit-wire">
-        <path d="M115 140H250 M335 140H475V152 M475 252V265H115 M525 152V140H720 M525 252V265H720"/>
-        <rect x="250" y="127" width="85" height="26"/>
-        <path d="M475 152a12.5 12.5 0 0 1 0 25a12.5 12.5 0 0 1 0 25a12.5 12.5 0 0 1 0 25a12.5 12.5 0 0 1 0 25 M525 152a12.5 12.5 0 0 0 0 25a12.5 12.5 0 0 0 0 25a12.5 12.5 0 0 0 0 25a12.5 12.5 0 0 0 0 25"/>
-        <g fill="#fff"><circle cx="115" cy="140" r="3.5"/><circle cx="115" cy="265" r="3.5"/><circle cx="720" cy="140" r="3.5"/><circle cx="720" cy="265" r="3.5"/></g>
-      </g>
-      <path d="M497 151V253 M503 151V253" class="stage-circuit-core"/>
-      <path d="M145 76H215" fill="none" stroke="#a33e3e" stroke-width="2" marker-end="url(#stage-circuit-h-arrow)"/>
-      <path d="M615 76H685" fill="none" stroke="#0877a0" stroke-width="2" marker-end="url(#stage-circuit-l-arrow)"/>
-      ${symbol(180,57,sub('i','H'))}${symbol(650,57,sub('i','L'))}
-      ${value(180,101,fmt(r.phasors.IH_pu.rms)+' pu ('+fmt(m.h_line_a,1)+' A)')}
-      ${value(650,101,fmt(r.phasors.IL_pu.rms)+' pu ('+fmt(m.l_line_a,1)+' A)')}
-      ${symbol(293,113,sub('z','eq'))}
-      ${value(293,192,fmt(m.z_pu_re)+' + j'+fmt(m.z_pu_im)+' pu')}
-      ${value(293,215,words('折算至高压侧的串联阻抗','H-side series impedance'))}
-      ${symbol(500,65,'τe<tspan baseline-shift="super" font-size="70%">j30°</tspan> : 1')}
-      ${value(500,90,'τ = '+fmt(p.tap))}
-      ${value(500,113,words('标幺理想变压器','Per-unit ideal transformer'))}
-      ${symbol(82,149,'+')}${symbol(82,273,'−')}${symbol(82,207,sub('v','H'))}
-      ${symbol(751,149,'+')}${symbol(751,273,'−')}${symbol(751,207,sub('v','L'))}
-      ${value(225,298,'vH = 1.000∠0° pu')}
-      ${value(625,298,'vL = '+fmt(m.l_voltage_pu)+'∠'+fmt(m.l_angle_deg,1)+'° pu')}
-      ${value(225,320,words('高压线电压：','HV line voltage: ')+fmt(p.h_kv)+' kV')}
-      ${value(625,320,words('低压线电压：','LV line voltage: ')+fmt(m.l_line_kv)+' kV')}
-      ${value(400,351,words('平衡正序 · 忽略励磁支路 · 保持电压基准不变','Balanced positive sequence · excitation neglected · fixed voltage bases'))}`;
+  function legend(el,p){
+    el.replaceChildren(...p.curves.map((curve,i)=>{
+      const item=document.createElement('span');item.className='stage-curve-key';item.textContent=curve.name;
+      item.style.setProperty('--curve-color',curve.color||colors[i%colors.length]);
+      if(curve.dash)item.classList.add('stage-curve-key--dashed');
+      return item;
+    }));
   }
   function diagram(svg,r){
-    const m=r.metrics,p=r.parameters;let body='';
-    const label=(x,y,s)=>`<text x="${x}" y="${y}" text-anchor="middle" class="stage-svg-text">${esc(s)}</text>`;
-    const connector='<path d="M180 100H220 M380 100H420" stroke="#9581aa" stroke-width="2" marker-end="url(#stage-arrow)"/>';
-    if(kind==='overview'){
-      body=`<path d="M65 92H540 M300 72V112 M490 72V112 M490 92V175" class="stage-axis"/><circle cx="65" cy="92" r="23" fill="#fff" stroke="#67359b" stroke-width="2"/><path d="M50 92q8-20 15 0t15 0" fill="none" stroke="#67359b" stroke-width="2"/><circle cx="167" cy="92" r="18" fill="#fff" stroke="#67359b" stroke-width="2"/><circle cx="186" cy="92" r="18" fill="#fff" stroke="#67359b" stroke-width="2"/><path d="M528 74l18 18-18 18 M479 175h22 M479 183h22" stroke="#087e75" fill="none" stroke-width="3"/>`+label(65,40,words('发电机','Generator'))+label(180,40,words('变压器','Transformer'))+label(345,40,words('输电线路','Transmission'))+label(540,40,words('负荷','Load'))+label(65,140,fmt(m.generator_mw)+' MW')+label(65,164,fmt(m.generator_mvar)+' Mvar')+label(345,140,fmt(p.transmission_kv,0)+' kV')+label(345,164,fmt(m.transmission_current_a)+' A')+label(490,216,'Qc = '+fmt(p.shunt_mvar)+' Mvar')+label(540,140,fmt(p.load_mw)+' MW');
-    }else if(kind==='generation'){
-      body=box(20,25,180,175,words('日负荷 / 备用','Daily load / reserve'),[fmt(m.energy_mwh,0)+' MWh',fmt(m.daily_peak_mw,0)+' MW peak',fmt(m.capacity_gap_mw)+' MW gap'])+
-        box(220,25,160,175,words('年度净负荷组合','Annual net-load mix'),['CC: '+m.cc_units+' × 543 MW','GT: '+m.gt_units_load+' × 211 MW','PRM: +'+m.extra_gt_prm+' GT'])+
-        box(400,25,180,175,words('容量信用核查','Capacity credit check'),[fmt(m.mix_accredited_mw,0)+' MW',words('目标 ','Target ')+fmt(m.annual_target_mw,0)+' MW',words('按可信容量核对','Use accredited capacity')]);
-    }else if(kind==='single-phase'){
-      const scale=Math.min(210/(Math.abs(m.p_w)||1),85/(Math.abs(m.q_var)||1)),x=75+m.p_w*scale,y=130-m.q_var*scale;
-      body=`<path d="M40 130H345 M75 15V235" class="stage-axis"/><path d="M75 130H${x}V${y}" fill="none" stroke="#c26713" stroke-width="3"/><path d="M75 130L${x} ${y}" stroke="#67359b" stroke-width="3"/>`+label(185,160,'P = '+fmt(m.p_w)+' W')+label(190,22,'Q = '+fmt(m.q_var)+' var')+label(250,202,'|S| = '+fmt(m.s_va)+' VA')+
-        box(375,40,205,160,words('并联补偿','Shunt correction'),['Qc = '+fmt(m.capacitor_var)+' var','C = '+fmt(m.capacitance_uf)+' μF','Inew = '+fmt(m.current_after_a)+' A']);
-    }else if(kind==='three-phase'){
-      const bound=r.phasors.Va.rms,scale=87/(bound||1),vector=(z,color,name)=>`<path d="M165 125L${165+z.re*scale} ${125-z.im*scale}" stroke="${color}" stroke-width="3" marker-end="url(#stage-arrow)"/>`+label(165+z.re*scale*1.17,125-z.im*scale*1.17,name);
-      body='<path d="M35 125H305 M165 15V235" class="stage-axis"/>'+vector(r.phasors.Va,colors[0],'Va')+vector(r.phasors.Vb,colors[1],'Vb')+vector(r.phasors.Vc,colors[2],'Vc')+
-        box(340,25,240,180,p.connection==='wye'?'Y':'Δ',['Vbranch = '+fmt(m.branch_voltage)+' V','Ibranch = '+fmt(m.branch_current_a)+' A','Iline = '+fmt(m.line_current_a)+' A','VAB: '+fmt(r.phasors.Vab.angle_deg)+'°']);
-    }else if(kind==='transformers'){
-      body=box(20,20,175,180,'H: '+(p.h_connection==='wye'?'Y':'Δ'),['VLL = '+fmt(p.h_kv)+' kV','Vw = '+fmt(m.h_winding_kv)+' kV','IL = '+fmt(m.h_line_a)+' A'])+
-        box(215,55,165,120,'a = '+fmt(p.turns_ratio),[words('绕组比','Winding ratio'),words('线比 ','Line ratio ')+fmt(m.line_ratio)])+
-        box(400,20,180,180,'L: '+(p.l_connection==='wye'?'Y':'Δ'),['VLL = '+fmt(m.l_line_kv)+' kV','Vw = '+fmt(m.l_winding_kv)+' kV','IL = '+fmt(m.l_line_a)+' A'])+connector+label(300,232,words('相移方向需要端子与同名端约定','Phase displacement requires terminal/dot conventions'));
-    }else if(kind==='transformer-banks'){
-      const theta=m.delta_lh_deg*Math.PI/180;
-      body='<path d="M35 125H305 M165 20V230" class="stage-axis"/>'+`<path d="M165 125H250 M165 125L${165+85*Math.cos(theta)} ${125-85*Math.sin(theta)}" fill="none" stroke="#67359b" stroke-width="3" marker-end="url(#stage-arrow)"/>`+
-        label(225,75,'VAB,H: 0°')+label(165,222,'Vab,L: '+fmt(m.delta_lh_deg,0)+'°')+
-        box(330,20,255,180,(p.h_connection==='wye'?'Y':'Δ')+' – '+(p.l_connection==='wye'?'Y':'Δ'),['a = '+fmt(p.turns_ratio),'kLL = '+fmt(m.line_ratio),'LV line = '+fmt(m.l_line_kv)+' kV','LV coil = '+fmt(m.l_winding_kv)+' kV']);
-    }else if(kind==='transformer-network'){
-      transformerNetworkDiagram(svg,r);return;
-    }else if(kind==='per-unit'){
-      body=box(15,25,180,175,words('高压基准','HV bases'),[fmt(p.v_base_h_kv)+' kV',fmt(m.z_base_h_ohm)+' Ω','Zref = '+fmt(m.referred_z_re_ohm)+' Ω'])+
-        box(215,45,165,145,'Sb = '+fmt(p.s_base_mva,0)+' MVA',['a = '+fmt(p.turns_ratio),'Re(Zpu) = '+fmt(m.z_pu_re,5),'Im(Zpu) = '+fmt(m.z_pu_im,5)])+
-        box(400,25,185,175,words('低压基准与还原','LV bases / recovery'),[fmt(m.v_base_l_kv)+' kV',fmt(m.z_base_l_ohm,4)+' Ω','Zreal = '+fmt(m.recovered_z_re_ohm)+' Ω'])+connector;
-    }else if(kind==='exam-review'){
-      body=box(15,15,270,95,words('相量 → 功率','Phasors → power'),['P = '+fmt(m.p_w)+' W','Q = '+fmt(m.q_var)+' var'])+
-        box(315,15,270,95,words('Δ 支路 → 线电流','Δ branch → line current'),['IL = '+fmt(m.delta_line_a)+' A','P3 = '+fmt(m.delta_p_w)+' W'])+
-        box(15,130,270,95,words('单相基准 → 标幺','Single-phase bases → pu'),['Zpu = '+fmt(m.z_pu_re,6)+' + j'+fmt(m.z_pu_im,6)])+
-        box(315,130,270,95,words('经济性 → 可信容量','Cost → accredited capacity'),['T* = '+fmt(m.crossover_hours,0)+' h','Ctarget = '+fmt(m.required_capacity_mw)+' MW']);
-    }
-    svg.setAttribute('viewBox','0 0 600 250');svg.innerHTML=`<title>${esc(text(config.title))}</title><defs><marker id="stage-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#67359b"/></marker></defs>${body}`;
+    const d=window.ECE685StageDiagrams.render(kind,r,zh?'zh':'en');
+    svg.setAttribute('viewBox',d.viewBox);svg.innerHTML=d.markup;
   }
   function render(){
     all('[data-stage-param]').forEach(input=>{if(document.activeElement!==input)input.value=state[input.dataset.stageParam];});
