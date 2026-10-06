@@ -102,14 +102,43 @@ test('quota and authentication failures retain stable codes without showing raw 
 });
 
 class Element {
-  constructor(tag){this.tagName=tag;this.children=[];this.value='';}
+  constructor(tag){this.tagName=tag;this.children=[];this.value='';this.attributes={};}
   append(...nodes){this.children.push(...nodes);}
+  setAttribute(name,value){this.attributes[name]=String(value);}
   replaceChildren(){this.children=[];this.value='';}
   set textContent(value){this.value=String(value);this.children=[];}
   get textContent(){return this.value+this.children.map(node=>node.textContent).join('');}
 }
 const document={createElement(tag){return new Element(tag);},createTextNode(text){const node=new Element('#text');node.textContent=text;return node;}};
 function tags(node){return [node.tagName,...node.children.flatMap(tags)];}
+
+test('AI parameter tables retain math, escaped pipes and inert HTML in semantic cells', () => {
+  const body=new Element('div'),math=[];
+  chat.renderMarkdown(body,'Baseline values\n\n| Parameter | Value |\n|:---|---:|\n| **Series resistance** | $r=0.00088704$ |\n| `a|b` and $|I|$ | literal \\| and <img src=x onerror=alert(1)> |\n\nEach shunt gets half.',document,
+    {render(formula,node,options){math.push({formula,options});node.textContent='math';}});
+  const wrapper=body.children[1],table=wrapper.children[0];
+  assert.equal(wrapper.className,'ece-chat__table-wrap');
+  assert.equal(wrapper.tabIndex,0);
+  assert.deepEqual(table.children.map(node=>node.tagName),['thead','tbody']);
+  assert.equal(table.children[0].children[0].children[0].attributes.scope,'col');
+  assert.equal(table.children[1].children.length,2);
+  assert(table.children[1].children.every(row=>row.children.length===2));
+  assert.equal(table.children[1].children[0].children[1].className,'ece-chat__cell-right');
+  assert.deepEqual(math.map(item=>item.formula),['r=0.00088704','|I|']);
+  assert(math.every(item=>item.options.trust===false));
+  assert(body.textContent.includes('a|b'));
+  assert(body.textContent.includes('literal | and <img'));
+  assert(!tags(body).includes('img'));
+  assert.equal(body.children[2].tagName,'p');
+});
+
+test('unfinished streamed tables and fenced examples remain readable without a table separator', () => {
+  for(const answer of ['| Parameter | Value |\n|---','```text\n| Parameter | Value |\n|---|---|\n```','Pressure | Current\nNo separator']) {
+    const body=new Element('div');chat.renderMarkdown(body,answer,document,null);
+    assert(!tags(body).includes('table'));
+    assert(body.textContent.includes('|'));
+  }
+});
 
 test('live citation tokens stay hidden across streaming boundaries and final Markdown', () => {
   const token='fileciteturn0file1turn0file5';

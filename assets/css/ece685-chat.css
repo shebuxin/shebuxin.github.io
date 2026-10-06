@@ -37,6 +37,13 @@
 .ece-chat__message ul, .ece-chat__message ol { margin: .4rem 0; padding-left: 1.2rem; }
 .ece-chat__message pre { max-height: 260px; overflow: auto; background: #f5f3f7; border: 1px solid var(--chat-border); border-radius: 6px; padding: .65rem; font-size: 11px; white-space: pre; }
 .ece-chat__message code { font-size: .9em; }
+.ece-chat__table-wrap { max-width: 100%; overflow-x: auto; margin: .6rem 0; }
+.ece-chat__table-wrap table { width: 100%; min-width: 300px; border-collapse: collapse; font-size: 12px; }
+.ece-chat__table-wrap th, .ece-chat__table-wrap td { padding: .45rem .55rem; border: 1px solid var(--chat-border); vertical-align: top; }
+.ece-chat__table-wrap th { background: #f5f3f7; font-weight: 600; }
+.ece-chat__table-wrap .ece-chat__cell-left { text-align: left; }
+.ece-chat__table-wrap .ece-chat__cell-center { text-align: center; }
+.ece-chat__table-wrap .ece-chat__cell-right { text-align: right; }
 .ece-chat__message .katex-display { overflow: auto hidden; padding: .3rem 0; }
 .ece-chat__message .ece-chat__outcome { display: block; font-size: 11px; color: var(--chat-muted); margin-top: .4rem; }
 .ece-chat__sources { display: flex; flex-direction: column; gap: .3rem; font-size: 11px; margin: .5rem 0; padding-top: .45rem; border-top: 1px solid var(--chat-border); }
