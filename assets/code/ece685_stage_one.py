@@ -25,6 +25,19 @@ DEFAULTS = {
                              l_connection='delta', h_delta_order='abc', l_delta_order='abc'),
     'transformer-network': dict(h_kv=138, l_rated_kv=13.8, s_mva=60, s_base_mva=100,
                                r_pu=0.006, x_pu=0.09, tap=1, loading=0, power_factor=0.9),
+    'line-conductor': dict(area_mm2=500, radius_mm=14, spacing_m=6, length_km=120.7008,
+                           temperature_c=75, rho20=2.8264e-8, alpha20=.00403,
+                           path_factor=1.02, ac_factor=1.03, frequency_hz=60),
+    'line-inductance': dict(spacing_ab_m=4, spacing_bc_m=6, position_angle_deg=0,
+                            gmr_mm=10.9, length_km=120.7008, frequency_hz=60),
+    'line-capacitance': dict(spacing_ab_m=4, spacing_bc_m=6, position_angle_deg=0,
+                             radius_mm=14, length_km=120.7008, frequency_hz=60,
+                             voltage_ll_kv=138, epsilon_r=1),
+    'line-bundles': dict(spacing_ab_m=9.7536, spacing_bc_m=9.7536, position_angle_deg=0,
+                         bundle_count=2, bundle_spacing_m=.4572, gmr_mm=17.92224,
+                         radius_mm=22.3774, resistance_sub_ohm_km=.0344488188976378,
+                         length_km=128.74752, frequency_hz=60, voltage_ll_kv=500,
+                         voltage_base_kv=500, s_base_mva=100, circuits=1),
 }
 
 
@@ -66,6 +79,147 @@ def choice(p, key, choices):
 def plot(x, curves, x_unit, y_unit):
     return dict(x=x, curves=[dict(name=name, values=values) for name, values in curves.items()],
                 x_unit=x_unit, y_unit=y_unit)
+
+
+def line_geometry(p):
+    """Actual positions determine all three mutual distances; earth is omitted."""
+    positive(p, 'spacing_ab_m', 'spacing_bc_m')
+    bounded(p, 'position_angle_deg', 0, 150)
+    a, b = p['spacing_ab_m'], p['spacing_bc_m']
+    angle = math.radians(p['position_angle_deg'])
+    x, y = b * math.cos(angle), b * math.sin(angle)
+    ac = math.hypot(a + x, y)
+    return dict(positions=[dict(x=-a, y=0), dict(x=0, y=0), dict(x=x, y=y)],
+                distances=[a, b, ac], gmd_m=(a*b*ac)**(1/3))
+
+
+def line_rates(p, geometry, magnetic_m, electric_m):
+    positive(p, 'frequency_hz', 'length_km')
+    if min(geometry['distances']) <= 20 * max(magnetic_m, electric_m):
+        raise ValueError('Phase spacing must exceed 20 times the effective self radius')
+    inductance = 2e-7 * math.log(geometry['gmd_m']/magnetic_m) if magnetic_m else 0
+    capacitance = (2*math.pi*8.8541878e-12*p.get('epsilon_r', 1) /
+                   math.log(geometry['gmd_m']/electric_m)) if electric_m else 0
+    return dict(l_mh_km=inductance*1e6, x_ohm_km=2*math.pi*p['frequency_hz']*inductance*1000,
+                c_nf_km=capacitance*1e12, b_us_km=2*math.pi*p['frequency_hz']*capacitance*1e9)
+
+
+def line_conductor(p):
+    positive(p, 'area_mm2', 'radius_mm', 'spacing_m', 'length_km', 'rho20',
+             'path_factor', 'ac_factor', 'frequency_hz')
+    nonnegative(p, 'alpha20')
+    kt = 1+p['alpha20']*(p['temperature_c']-20)
+    if kt <= 0:
+        raise ValueError('Temperature correction must be positive')
+    radius = p['radius_mm']/1000
+    if p['spacing_m'] <= 20*radius:
+        raise ValueError('Return spacing must exceed 20 conductor radii')
+    dc = p['rho20']/(p['area_mm2']*1e-6)*1000
+    resistance = dc*kt*p['path_factor']*p['ac_factor']
+    internal, external = .05, .2*math.log(p['spacing_m']/radius)
+    inductance = internal+external
+    reactance = 2*math.pi*p['frequency_hz']*inductance/1000
+    temps = [20+i*2 for i in range(41)]
+    spacings = [max(.5, 25*radius)+i*.5 for i in range(41)]
+    return dict(metrics=dict(temperature_factor=kt, dc20_ohm_km=dc, resistance_ohm_km=resistance,
+                             resistance_ohm=resistance*p['length_km'], internal_mh_km=internal,
+                             external_mh_km=external, inductance_mh_km=inductance,
+                             inductance_h=inductance*p['length_km']/1000,
+                             reactance_ohm_km=reactance, reactance_ohm=reactance*p['length_km'],
+                             loop_resistance_ohm=2*resistance*p['length_km'],
+                             loop_reactance_ohm=2*reactance*p['length_km'],
+                             gmr_mm=p['radius_mm']*math.exp(-.25)),
+                checks=dict(loop_resistance_ratio=0,
+                            gmr_inductance_identity=inductance-.2*math.log(p['spacing_m']/(radius*math.exp(-.25)))),
+                plots=[plot(temps, {'Corrected AC resistance': [dc*(1+p['alpha20']*(t-20))*p['path_factor']*p['ac_factor'] for t in temps]}, 'temperature / °C', 'Ω/km'),
+                       plot(spacings, {'Internal': [internal for _ in spacings],
+                                       'External': [.2*math.log(d/radius) for d in spacings],
+                                       'Total': [internal+.2*math.log(d/radius) for d in spacings]}, 'return spacing / m', 'mH/km')])
+
+
+def line_inductance(p):
+    positive(p, 'gmr_mm')
+    geometry = line_geometry(p)
+    rates = line_rates(p, geometry, p['gmr_mm']/1000, 0)
+    inductance = rates['l_mh_km']*p['length_km']/1000
+    reactance = rates['x_ohm_km']*p['length_km']
+    average = sum(geometry['distances'])/3
+    wrong = 2*math.pi*p['frequency_hz']*2e-7*math.log(average/(p['gmr_mm']/1000))*p['length_km']*1000
+    scales, freq = [.5+i*.0375 for i in range(41)], list(range(40, 71))
+    return dict(geometry=geometry, metrics=dict(gmd_m=geometry['gmd_m'],
+                d_ab_m=geometry['distances'][0], d_bc_m=geometry['distances'][1], d_ca_m=geometry['distances'][2],
+                inductance_mh_km=rates['l_mh_km'], inductance_h=inductance,
+                reactance_ohm_km=rates['x_ohm_km'], reactance_ohm=reactance,
+                arithmetic_error_percent=100*(wrong/reactance-1)),
+                checks=dict(transposition_log_identity=math.log(geometry['gmd_m'])-sum(math.log(d) for d in geometry['distances'])/3,
+                            reactance_identity=reactance-2*math.pi*p['frequency_hz']*inductance),
+                plots=[plot(scales, {'Per-phase inductance': [.2*math.log(k*geometry['gmd_m']/(p['gmr_mm']/1000)) for k in scales]}, 'all phase spacings / baseline', 'mH/km'),
+                       plot(freq, {'Route phase reactance': [2*math.pi*f*inductance for f in freq]}, 'frequency / Hz', 'Ω')])
+
+
+def line_capacitance(p):
+    positive(p, 'radius_mm', 'voltage_ll_kv', 'epsilon_r')
+    geometry = line_geometry(p)
+    rates = line_rates(p, geometry, 0, p['radius_mm']/1000)
+    cap, susceptance = rates['c_nf_km']*p['length_km']/1000, rates['b_us_km']*p['length_km']/1000
+    current = susceptance*p['voltage_ll_kv']/math.sqrt(3)
+    power = susceptance*p['voltage_ll_kv']**2/1000
+    voltages = [p['voltage_ll_kv']*(.7+i*.01) for i in range(41)]
+    radii = [5+i*.625 for i in range(41)]
+    return dict(geometry=geometry, metrics=dict(gmd_m=geometry['gmd_m'], capacitance_nf_km=rates['c_nf_km'],
+                susceptance_us_km=rates['b_us_km'], capacitance_uf=cap, susceptance_ms=susceptance,
+                pi_end_ms=susceptance/2, phase_voltage_kv=p['voltage_ll_kv']/math.sqrt(3),
+                charging_current_a=current, capacitive_mvar=power, absorbed_mvar=-power),
+                checks=dict(three_phase_power_identity=power-math.sqrt(3)*p['voltage_ll_kv']*current/1000,
+                            pi_shunt_sum=0),
+                plots=[plot(voltages, {'Capacitive supply QC': [susceptance*v*v/1000 for v in voltages]}, 'line voltage / kV', 'Mvar'),
+                       plot(radii, {'Phase-to-neutral capacitance': [2*math.pi*8.8541878e-12*p['epsilon_r']/math.log(geometry['gmd_m']/(r/1000))*1e12 for r in radii]}, 'physical radius / mm', 'nF/km')])
+
+
+def bundle_self(radius, spacing, count):
+    if count == 1:
+        return radius
+    if count == 2:
+        return math.sqrt(radius*spacing)
+    if count == 3:
+        return (radius*spacing**2)**(1/3)
+    return (math.sqrt(2)*radius*spacing**3)**.25
+
+
+def line_bundles(p):
+    positive(p, 'gmr_mm', 'radius_mm', 'bundle_spacing_m', 'voltage_ll_kv', 'voltage_base_kv', 's_base_mva')
+    nonnegative(p, 'resistance_sub_ohm_km')
+    if p['bundle_count'] not in (1, 2, 3, 4) or int(p['bundle_count']) != p['bundle_count']:
+        raise ValueError('bundle_count must be an integer from 1 to 4')
+    if p['circuits'] not in (1, 2):
+        raise ValueError('circuits must be 1 or 2')
+    if p['bundle_spacing_m'] <= 2*p['radius_mm']/1000:
+        raise ValueError('Bundle members must not overlap')
+    geometry = line_geometry(p)
+    if p['bundle_spacing_m']*math.sqrt(2) >= min(geometry['distances'])/5:
+        raise ValueError('Bundle size must be small relative to phase spacing')
+    ds = bundle_self(p['gmr_mm']/1000, p['bundle_spacing_m'], p['bundle_count'])
+    rc = bundle_self(p['radius_mm']/1000, p['bundle_spacing_m'], p['bundle_count'])
+    rates = line_rates(p, geometry, ds, rc)
+    resistance = p['resistance_sub_ohm_km']/p['bundle_count']*p['length_km']
+    reactance, b = rates['x_ohm_km']*p['length_km'], rates['b_us_km']*p['length_km']/1000
+    zb, nc = p['voltage_base_kv']**2/p['s_base_mva'], p['circuits']
+    ns = [1, 2, 3, 4]
+    scans = [line_rates(p, geometry, bundle_self(p['gmr_mm']/1000, p['bundle_spacing_m'], n),
+                        bundle_self(p['radius_mm']/1000, p['bundle_spacing_m'], n)) for n in ns]
+    return dict(geometry=geometry, metrics=dict(gmd_m=geometry['gmd_m'], bundle_gmr_m=ds, bundle_radius_m=rc,
+                resistance_ohm_km=p['resistance_sub_ohm_km']/p['bundle_count'], reactance_ohm_km=rates['x_ohm_km'],
+                capacitance_nf_km=rates['c_nf_km'], inductance_mh_km=rates['l_mh_km'],
+                resistance_ohm=resistance, reactance_ohm=reactance, capacitance_uf=rates['c_nf_km']*p['length_km']/1000,
+                susceptance_ms=b, charging_current_a=b*p['voltage_ll_kv']/math.sqrt(3),
+                capacitive_mvar=b*p['voltage_ll_kv']**2/1000, z_base_ohm=zb,
+                resistance_pu=resistance/zb, reactance_pu=reactance/zb, susceptance_pu=b*zb/1000,
+                equivalent_r_ohm=resistance/nc, equivalent_x_ohm=reactance/nc, equivalent_b_ms=b*nc,
+                equivalent_r_pu=resistance/nc/zb, equivalent_x_pu=reactance/nc/zb, equivalent_b_pu=b*nc*zb/1000),
+                checks=dict(recover_resistance=resistance/zb*zb-resistance,
+                            recover_susceptance=b*zb/1000/zb*1000-b),
+                plots=[plot(ns, {'Per-phase series reactance': [s['x_ohm_km'] for s in scans]}, 'subconductors per phase', 'Ω/km'),
+                       plot(ns, {'Phase-to-neutral capacitance': [s['c_nf_km'] for s in scans]}, 'subconductors per phase', 'nF/km')])
 
 
 def screening(p):
@@ -333,6 +487,8 @@ def transformer_network(p):
 HANDLERS = dict(overview=overview,generation=generation,transformers=transformers)
 HANDLERS.update({'single-phase':single_phase,'three-phase':three_phase,'per-unit':per_unit})
 HANDLERS.update({'transformer-banks':transformer_banks,'transformer-network':transformer_network})
+HANDLERS.update({'line-conductor':line_conductor,'line-inductance':line_inductance,
+                 'line-capacitance':line_capacitance,'line-bundles':line_bundles})
 
 
 def solve(case):

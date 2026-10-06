@@ -1,5 +1,5 @@
 {
-  "status": "live run and criterion review completed 2026-10-04; see evaluation-review-2026-10-04.json",
+  "status": "Earlier cases reviewed 2026-10-04; L22–L25 release cases added 2026-10-06, live criterion review pending.",
   "cases": [
     {
       "id": "current-slide-clarification",
@@ -89,6 +89,86 @@
         "For a passive single-phase load with RMS phasors S=V I*.",
         "For a balanced three-phase load total power is three times per-phase power, and VLL=sqrt(3) VLN.",
         "Use sqrt(3) VLL IL cos(phi) for balanced active power, explain the assumptions and avoid mixing peak and RMS or phase and line quantities."
+      ]
+    },
+    {
+      "id": "line-conductor-units",
+      "lecture_id": "L22",
+      "language": "en",
+      "question": "The L22 baseline has 500 mm² aluminum area, 14 mm outside radius and a 75-mile route. Explain why we must not replace the metal area by πr². Calculate corrected one-conductor resistance and the two-wire loop resistance.",
+      "context": {
+        "kind": "lesson",
+        "section_id": "lecture-overview",
+        "slide_number": null,
+        "selection_text": ""
+      },
+      "expected_docs": [
+        "ECE685:L22:lesson:en:lecture-overview"
+      ],
+      "criteria": [
+        "Use conducting area separately from the ideal magnetic surrogate radius.",
+        "Convert 75 mi to 120.7008 km and mm² to m²; corrected R is about 8.75705 ohms per conductor.",
+        "An equal two-wire loop has about 17.5141 ohms; do not carry this doubling into balanced three-phase formulas."
+      ]
+    },
+    {
+      "id": "line-inductance-gmd",
+      "lecture_id": "L23",
+      "language": "en",
+      "question": "For the L23 baseline distances 4, 6, 10 m and catalog GMR 10.90 mm, calculate GMD and the 75-mile phase reactance at 60 Hz. Can I average the distances arithmetically or multiply the phase reactance by two?",
+      "context": {
+        "kind": "lesson",
+        "section_id": "lecture-overview",
+        "slide_number": null,
+        "selection_text": ""
+      },
+      "expected_docs": [
+        "ECE685:L23:lesson:en:lecture-overview"
+      ],
+      "criteria": [
+        "GMD is about 6.214465 m from the product cube root, explained by equal-length transposition of logarithmic distance terms.",
+        "Catalog GMR is used directly; L prime is about 1.269174 mH/km and route phase X about 57.7514 ohms.",
+        "No extra factor of two; balanced return is already included. Arithmetic averaging overestimates the result."
+      ]
+    },
+    {
+      "id": "line-capacitance-signs",
+      "lecture_id": "L24",
+      "language": "en",
+      "question": "In the L24 138 kV, 75-mile example, why does capacitance use 14 mm physical radius instead of 10.90 mm GMR? Calculate charging current and total capacitive Mvar, then explain the two π shunts and what happens at 95% voltage.",
+      "context": {
+        "kind": "lesson",
+        "section_id": "lecture-overview",
+        "slide_number": null,
+        "selection_text": ""
+      },
+      "expected_docs": [
+        "ECE685:L24:lesson:en:lecture-overview"
+      ],
+      "criteria": [
+        "Physical radius is the lower electrostatic potential-integration bound; magnetic internal-linkage GMR is inappropriate.",
+        "Total B about 0.415293 mS gives phase charging current about 33.0882 A and three-phase capacitive supply about 7.908847 Mvar; absorbed Q is negative.",
+        "Each pi end uses B/2 with its local phase voltage. Uniform-voltage estimate is stated; 95% voltage gives 0.9025 times QC."
+      ]
+    },
+    {
+      "id": "line-bundles-circuits",
+      "lecture_id": "L25",
+      "language": "en",
+      "question": "For L25, explain the square four-member bundle self-distance formula, distinguishing magnetic GMR and electric radius. Is a two-member bundle two physical circuits? For the baseline 500 kV circuit on 100 MVA, give r, x and total b in pu, then explain two parallel circuits and changing only Sbase to 200 MVA.",
+      "context": {
+        "kind": "lesson",
+        "section_id": "lecture-overview",
+        "slide_number": null,
+        "selection_text": ""
+      },
+      "expected_docs": [
+        "ECE685:L25:lesson:en:lecture-overview"
+      ],
+      "criteria": [
+        "Square self-distance includes sqrt(2) inside the fourth root, because of the diagonal; use supplied GMR for magnetics and physical radius for capacitance.",
+        "Bundle count is distinct from complete physical circuit count. Baseline r about 0.00088704 pu, x about 0.01906854 pu, total b about 1.40640538 pu.",
+        "Two identical uncoupled circuits halve series impedance and double shunt B on the same base. Doubling Sbase doubles series pu and halves shunt pu while physical circuit parameters remain fixed."
       ]
     }
   ]

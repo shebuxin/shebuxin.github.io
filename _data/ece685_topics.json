@@ -331,57 +331,65 @@
       "group": "line-parameters",
       "title_zh": "输电线路参数 I",
       "summary": {
-        "en": "Relate conductor geometry and series-line physics to per-length resistance and inductance.",
-        "zh": "从导线几何和线路物理关系推导单位长度的电阻与电感。"
+        "en": "Separate material area, temperature and return geometry, then recover one-conductor and loop impedance.",
+        "zh": "区分材料面积、温度和回流几何，计算单根导线与整个回路的阻抗。"
       },
       "lab_focus": {
-        "en": "Change conductor dimensions and compare the resulting series parameters.",
-        "zh": "改变导线尺寸，比较相应的串联参数。"
+        "en": "Conductor resistance and flux linkage",
+        "zh": "导线电阻与磁通链"
       },
-      "released": false,
-      "frozen_source": false
+      "released": true,
+      "frozen_source": true,
+      "lesson": "integrated",
+      "interactive_model": "line-conductor"
     },
     "L23": {
       "group": "line-parameters",
       "title_zh": "输电线路参数 II",
       "summary": {
-        "en": "Use conductor GMR, tower geometry, and phase spacing to calculate line inductance.",
-        "zh": "利用导线 GMR、杆塔几何和相间距离计算线路电感。"
+        "en": "Compute actual mutual distances and the geometric mean, then reproduce the transposed per-phase inductance.",
+        "zh": "计算实际互距和几何平均距离，复现换位线路的每相电感。"
       },
       "lab_focus": {
-        "en": "Adjust phase spacing and GMR while tracing the inductance calculation.",
-        "zh": "调整相间距和 GMR，跟踪电感的计算过程。"
+        "en": "Three-phase GMD, GMR and transposition",
+        "zh": "三相 GMD、GMR 与换位"
       },
-      "released": false,
-      "frozen_source": false
+      "released": true,
+      "frozen_source": true,
+      "lesson": "integrated",
+      "interactive_model": "line-inductance"
     },
     "L24": {
       "group": "line-parameters",
       "title_zh": "输电线路参数 III",
       "summary": {
-        "en": "Derive line capacitance from electric fields, potential difference, and conductor geometry.",
-        "zh": "从电场、电位差和导线几何推导线路电容。"
+        "en": "Use physical radius to find capacitance, split a nominal π shunt and check phase current against three-phase reactive supply.",
+        "zh": "用实际半径计算电容，拆分标称 π 的并联电纳，并核对相电流与三相无功供给。"
       },
       "lab_focus": {
-        "en": "Compare the role of physical radius in capacitance with GMR in inductance.",
-        "zh": "比较物理半径在电容计算中与 GMR 在电感计算中的作用。"
+        "en": "Capacitance and charging power",
+        "zh": "电容与充电功率"
       },
-      "released": false,
-      "frozen_source": false
+      "released": true,
+      "frozen_source": true,
+      "lesson": "integrated",
+      "interactive_model": "line-capacitance"
     },
     "L25": {
       "group": "line-parameters",
       "title_zh": "输电线路参数 IV",
       "summary": {
-        "en": "Calculate bundled-conductor parameters using bundle geometry and consistent line notation.",
-        "zh": "采用一致的线路符号，根据分裂导线的几何计算参数。"
+        "en": "Model one to four symmetric subconductors, distinguish magnetic/electric self radii and build the circuit branch on a stated system base.",
+        "zh": "模拟每相一至四根对称子导线，区分磁、电自半径，并按给定系统基准建立线路支路。"
       },
       "lab_focus": {
-        "en": "Change bundle spacing and subconductor count, then compare effective line parameters.",
-        "zh": "调整分裂间距与子导线数量，比较有效线路参数。"
+        "en": "Bundles, physical circuits and per-unit branches",
+        "zh": "分裂导线、物理回路与标幺支路"
       },
-      "released": false,
-      "frozen_source": false
+      "released": true,
+      "frozen_source": true,
+      "lesson": "integrated",
+      "interactive_model": "line-bundles"
     },
     "L26": {
       "group": "line-models",

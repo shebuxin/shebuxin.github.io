@@ -23,7 +23,9 @@ SECTIONS = ("lecture-overview", "lecture-experiment", "lecture-code", "lecture-p
 HANDLERS = {"overview": "overview", "generation": "generation",
             "single-phase": "single_phase", "three-phase": "three_phase",
             "transformers": "transformers", "per-unit": "per_unit",
-            "transformer-banks": "transformer_banks", "transformer-network": "transformer_network"}
+            "transformer-banks": "transformer_banks", "transformer-network": "transformer_network",
+            "line-conductor": "line_conductor", "line-inductance": "line_inductance",
+            "line-capacitance": "line_capacitance", "line-bundles": "line_bundles"}
 VOID = set("area base br col embed hr img input link meta param source track wbr".split())
 BLOCK = set("article section div p h1 h2 h3 h4 ul ol li figure figcaption pre details summary fieldset legend label".split())
 

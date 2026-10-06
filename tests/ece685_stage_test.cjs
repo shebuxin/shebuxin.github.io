@@ -63,7 +63,7 @@ test('coherent single/three-phase bases, referral, base changes, and physical re
 test('knowledge models retain their practice and exclude the removed assessment model',()=>{
   assert.throws(()=>model.solve('exam-review'),/Unknown teaching module/);
   const config=JSON.parse(fs.readFileSync(path.resolve(__dirname,'../_data/ece685_stage_one.json')));
-  assert.equal(config.modules.length,8);assert.deepEqual(config.modules.map(m=>m.id),Object.keys(model.defaults));
+  assert.equal(config.modules.length,12);assert.deepEqual(config.modules.map(m=>m.id),Object.keys(model.defaults));
   assert.deepEqual(config.modules[4].extension,['L17','L18']);
   for(const m of config.modules){const baseline=model.solve(m.id);for(const a of m.practice)assert.ok(Number.isFinite(baseline.metrics[a.key]));assert.equal(m.quiz.choices.length,3);}
 });

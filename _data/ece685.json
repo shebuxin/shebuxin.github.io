@@ -2909,15 +2909,15 @@
     {
       "group": "line-parameters",
       "summary": {
-        "en": "Relate conductor geometry and series-line physics to per-length resistance and inductance.",
-        "zh": "从导线几何和线路物理关系推导单位长度的电阻与电感。"
+        "en": "Separate material area, temperature and return geometry, then recover one-conductor and loop impedance.",
+        "zh": "区分材料面积、温度和回流几何，计算单根导线与整个回路的阻抗。"
       },
       "lab_focus": {
-        "en": "Change conductor dimensions and compare the resulting series parameters.",
-        "zh": "改变导线尺寸，比较相应的串联参数。"
+        "en": "Conductor resistance and flux linkage",
+        "zh": "导线电阻与磁通链"
       },
-      "released": false,
-      "frozen_source": false,
+      "released": true,
+      "frozen_source": true,
       "id": "L22",
       "slug": "l22-line-parameters-i",
       "title": {
@@ -2926,147 +2926,169 @@
       },
       "source_directory": "L22_line_parameters_i",
       "source_file": "L22_line_parameters_i.pdf",
-      "slide_count": 31,
+      "slide_count": 36,
       "slide_outline": [
         {
           "slide": 1,
-          "title": "Lecture outline"
+          "title": "Transmission-Line Parameters I"
         },
         {
           "slide": 2,
-          "title": "Starting problem"
+          "title": "Lectureoutline"
         },
         {
           "slide": 3,
-          "title": "Series-line physics"
+          "title": "PART 1 · Line configuration and units"
         },
         {
           "slide": 4,
-          "title": "Per-length quantities"
+          "title": "Overhead-lineconstruction"
         },
         {
           "slide": 5,
-          "title": "Area and outer radius"
+          "title": "Series-linephysics"
         },
         {
           "slide": 6,
-          "title": "Differential slice"
+          "title": "Areaand outer radius"
         },
         {
           "slide": 7,
-          "title": "Area"
+          "title": "Conductorquantities"
         },
         {
           "slide": 8,
-          "title": "Temperature"
+          "title": "Per-lengthparameters"
         },
         {
           "slide": 9,
-          "title": "Resistance factors"
+          "title": "Compatiblelength units"
         },
         {
           "slide": 10,
-          "title": "Unit ladder"
+          "title": "PART 2 · Resistance"
         },
         {
           "slide": 11,
-          "title": "Inductance"
+          "title": "Resistanceper unit length"
         },
         {
           "slide": 12,
-          "title": "Amp ere's law"
+          "title": "Temperature"
         },
         {
           "slide": 13,
-          "title": "Net gap field"
+          "title": "Resistancecorrections"
         },
         {
           "slide": 14,
-          "title": "External flux linkage"
+          "title": "Totalrouteresistance"
         },
         {
           "slide": 15,
-          "title": "Internal current distribution"
+          "title": "PART 3 · Inductance and reactance"
         },
         {
           "slide": 16,
-          "title": "Internal shells"
+          "title": "Currentpath and magneticfield"
         },
         {
           "slide": 17,
-          "title": "Ideal internal inductance"
+          "title": "Fluxlinkage defines inductance"
         },
         {
           "slide": 18,
-          "title": "Conductor and loop inductance"
+          "title": "Frominductance toACreactance"
         },
         {
           "slide": 19,
-          "title": "Example: data"
+          "title": "Whyboth internal andexternal flux?"
         },
         {
           "slide": 20,
-          "title": "Example: solution route"
+          "title": "Internallinkage: only part of the current"
         },
         {
           "slide": 21,
-          "title": "Example: resistance rate"
+          "title": "Externallinkage: why a logarithm?"
         },
         {
           "slide": 22,
-          "title": "Example: temperature correction"
+          "title": "GMRabsorbs the internalcontribution"
         },
         {
           "slide": 23,
-          "title": "Example: route resistance"
+          "title": "Reactanceand route totals"
         },
         {
           "slide": 24,
-          "title": "Example: magnetic components"
+          "title": "PART 4 · Exercises"
         },
         {
           "slide": 25,
-          "title": "Example: total inductance"
+          "title": "Exercise1: givenand find"
         },
         {
           "slide": 26,
-          "title": "Example: reactance"
+          "title": "Exercise1: solution"
         },
         {
           "slide": 27,
-          "title": "Example: conductor and loop"
+          "title": "Exercise2: given"
         },
         {
           "slide": 28,
-          "title": "Practice: model and calculation"
+          "title": "Exercise2: find"
         },
         {
           "slide": 29,
-          "title": "Practice: solution"
+          "title": "Ex. 2(a): resistance rate"
         },
         {
           "slide": 30,
-          "title": "Summary"
+          "title": "Ex. 2(a): operating resistance"
         },
         {
           "slide": 31,
-          "title": "Closing check"
+          "title": "Ex. 2(a): route resistance"
+        },
+        {
+          "slide": 32,
+          "title": "Ex. 2(b): magnetic components"
+        },
+        {
+          "slide": 33,
+          "title": "Ex. 2(b): magnetic rates"
+        },
+        {
+          "slide": 34,
+          "title": "Ex. 2(c): magnetic route totals"
+        },
+        {
+          "slide": 35,
+          "title": "Ex. 2(c): conductor and loop"
+        },
+        {
+          "slide": 36,
+          "title": "Summary"
         }
       ],
-      "status": "unreleased"
+      "status": "live",
+      "lesson": "integrated",
+      "interactive_model": "line-conductor"
     },
     {
       "group": "line-parameters",
       "summary": {
-        "en": "Use conductor GMR, tower geometry, and phase spacing to calculate line inductance.",
-        "zh": "利用导线 GMR、杆塔几何和相间距离计算线路电感。"
+        "en": "Compute actual mutual distances and the geometric mean, then reproduce the transposed per-phase inductance.",
+        "zh": "计算实际互距和几何平均距离，复现换位线路的每相电感。"
       },
       "lab_focus": {
-        "en": "Adjust phase spacing and GMR while tracing the inductance calculation.",
-        "zh": "调整相间距和 GMR，跟踪电感的计算过程。"
+        "en": "Three-phase GMD, GMR and transposition",
+        "zh": "三相 GMD、GMR 与换位"
       },
-      "released": false,
-      "frozen_source": false,
+      "released": true,
+      "frozen_source": true,
       "id": "L23",
       "slug": "l23-line-parameters-ii",
       "title": {
@@ -3075,135 +3097,149 @@
       },
       "source_directory": "L23_line_parameters_ii",
       "source_file": "L23_line_parameters_ii.pdf",
-      "slide_count": 28,
+      "slide_count": 31,
       "slide_outline": [
         {
           "slide": 1,
-          "title": "Lecture outline"
+          "title": "Transmission-Line Parameters II"
         },
         {
           "slide": 2,
-          "title": "Starting problem"
+          "title": "Lecture outline"
         },
         {
           "slide": 3,
-          "title": "Series-parameter carry-forward"
+          "title": "PART 1 · Three-phase configuration"
         },
         {
           "slide": 4,
-          "title": "GMR substitution"
+          "title": "Three-phase conductor arrangements"
         },
         {
           "slide": 5,
-          "title": "Conductor GMR"
+          "title": "T ower positions and phase labels"
         },
         {
           "slide": 6,
-          "title": "Tower geometry"
+          "title": "Three-phase current return"
         },
         {
           "slide": 7,
-          "title": "Equal spacing"
-        },
-        {
-          "slide": 8,
           "title": "Unequal spacing"
         },
         {
+          "slide": 8,
+          "title": "PART 2 · GMR and phase inductance"
+        },
+        {
           "slide": 9,
-          "title": "Complete transposition"
+          "title": "Conductor data for inductance"
         },
         {
           "slide": 10,
-          "title": "Phase rotation"
+          "title": "Magnetic self-distance"
         },
         {
           "slide": 11,
-          "title": "Distance table"
+          "title": "Conductor GMR"
         },
         {
           "slide": 12,
-          "title": "Why GMD is a geometric mean"
+          "title": "Three-phase flux linkage"
         },
         {
           "slide": 13,
-          "title": "Balanced-current simplification"
+          "title": "Equal spacing"
         },
         {
           "slide": 14,
-          "title": "Reactance formula"
+          "title": "PART 3 · Transposition and reactance"
         },
         {
           "slide": 15,
-          "title": "Example: data"
+          "title": "Conductor transposition"
         },
         {
           "slide": 16,
-          "title": "Example: solution route"
+          "title": "Complete transposition"
         },
         {
           "slide": 17,
-          "title": "Example: position spacings"
+          "title": "Geometric mean distance"
         },
         {
           "slide": 18,
-          "title": "Example: distance matrix"
+          "title": "Phase inductance rate"
         },
         {
           "slide": 19,
-          "title": "Example: transposition cycle"
+          "title": "Reactance rate and total"
         },
         {
           "slide": 20,
-          "title": "Example: geometric mean"
+          "title": "PART 4 · Exercises"
         },
         {
           "slide": 21,
-          "title": "Example: self-distance ratio"
+          "title": "Exercise 1: given and find"
         },
         {
           "slide": 22,
-          "title": "Example: phase inductance"
+          "title": "Exercise 1: solution"
         },
         {
           "slide": 23,
-          "title": "Example: route reactance"
+          "title": "Exercise 2: given"
         },
         {
           "slide": 24,
-          "title": "Example: independent checks"
+          "title": "Exercise 2: find"
         },
         {
           "slide": 25,
-          "title": "Practice: model and calculation"
+          "title": "Ex. 2(a): position spacings"
         },
         {
           "slide": 26,
-          "title": "Practice: solution"
+          "title": "Ex. 2(a): GMD"
         },
         {
           "slide": 27,
-          "title": "Summary"
+          "title": "Ex. 2(b): magnetic ratio"
         },
         {
           "slide": 28,
-          "title": "Closing check"
+          "title": "Ex. 2(b): parameter rates"
+        },
+        {
+          "slide": 29,
+          "title": "Ex. 2(c): route totals"
+        },
+        {
+          "slide": 30,
+          "title": "Ex. 2(d): comparisons"
+        },
+        {
+          "slide": 31,
+          "title": "Summary"
         }
       ],
-      "status": "unreleased"
+      "status": "live",
+      "lesson": "integrated",
+      "interactive_model": "line-inductance"
     },
     {
       "group": "line-parameters",
       "summary": {
-        "en": "Derive line capacitance from electric fields, potential difference, and conductor geometry.",
-        "zh": "从电场、电位差和导线几何推导线路电容。"
+        "en": "Use physical radius to find capacitance, split a nominal π shunt and check phase current against three-phase reactive supply.",
+        "zh": "用实际半径计算电容，拆分标称 π 的并联电纳，并核对相电流与三相无功供给。"
       },
       "lab_focus": {
-        "en": "Compare the role of physical radius in capacitance with GMR in inductance.",
-        "zh": "比较物理半径在电容计算中与 GMR 在电感计算中的作用。"
+        "en": "Capacitance and charging power",
+        "zh": "电容与充电功率"
       },
-      "released": false,
-      "frozen_source": false,
+      "released": true,
+      "frozen_source": true,
       "id": "L24",
       "slug": "l24-line-parameters-iii",
       "title": {
@@ -3212,35 +3248,35 @@
       },
       "source_directory": "L24_line_parameters_iii",
       "source_file": "L24_line_parameters_iii.pdf",
-      "slide_count": 28,
+      "slide_count": 32,
       "slide_outline": [
         {
           "slide": 1,
-          "title": "Lecture outline"
+          "title": "Transmission-Line Parameters III"
         },
         {
           "slide": 2,
-          "title": "Starting problem"
+          "title": "Lecture outline"
         },
         {
           "slide": 3,
-          "title": "Series and shunt line parameters"
+          "title": "PART 1 · Charge, field, and voltage"
         },
         {
           "slide": 4,
-          "title": "Gauss's law"
+          "title": "Charged conductor"
         },
         {
           "slide": 5,
-          "title": "Potential difference"
+          "title": "Electric-field quantities"
         },
         {
           "slide": 6,
-          "title": "Two-conductor capacitance"
+          "title": "Field and potential difference"
         },
         {
           "slide": 7,
-          "title": "Ideal pair"
+          "title": "PART 2 · Phase capacitance"
         },
         {
           "slide": 8,
@@ -3248,99 +3284,117 @@
         },
         {
           "slide": 9,
-          "title": "Complete transposition"
+          "title": "From individual charges to line voltage"
         },
         {
           "slide": 10,
-          "title": "Potential-reference cancellation"
+          "title": "From line voltage to phase capacitance"
         },
         {
           "slide": 11,
-          "title": "Phase capacitance"
+          "title": "Transposed phase spacing"
         },
         {
           "slide": 12,
-          "title": "Capacitance to susceptance"
+          "title": "Phase capacitance rate"
         },
         {
           "slide": 13,
-          "title": "Unit check"
+          "title": "Geometry and capacitance"
         },
         {
           "slide": 14,
-          "title": "Charging current"
+          "title": "PART 3 · Charging current and power"
         },
         {
           "slide": 15,
-          "title": "Capacitive reactive power"
+          "title": "Susceptance per unit length"
         },
         {
           "slide": 16,
-          "title": "Nominal-π shunt split"
+          "title": "Route shunt totals"
         },
         {
           "slide": 17,
-          "title": "Example: data"
+          "title": "Charging current"
         },
         {
           "slide": 18,
-          "title": "Example: solution route"
+          "title": "Capacitive reactive power"
         },
         {
           "slide": 19,
-          "title": "Example: electric distance ratio"
+          "title": "Nominal-𝜋 shunt split"
         },
         {
           "slide": 20,
-          "title": "Example: capacitance rate"
+          "title": "An unloaded energized line"
         },
         {
           "slide": 21,
-          "title": "Example: susceptance rate"
+          "title": "PART 4 · Exercises"
         },
         {
           "slide": 22,
-          "title": "Example: route shunt totals"
+          "title": "Exercise 1: given and find"
         },
         {
           "slide": 23,
-          "title": "Example: charging current and power"
+          "title": "Exercise 1: solution"
         },
         {
           "slide": 24,
-          "title": "Capacitance checks"
+          "title": "Exercise 2: given"
         },
         {
           "slide": 25,
-          "title": "Practice: model and calculation"
+          "title": "Exercise 2: find"
         },
         {
           "slide": 26,
-          "title": "Practice: solution"
+          "title": "Ex. 2(a): electric ratio"
         },
         {
           "slide": 27,
-          "title": "Summary"
+          "title": "Ex. 2(a): capacitance rate"
         },
         {
           "slide": 28,
-          "title": "Closing check"
+          "title": "Ex. 2(b): susceptance rate"
+        },
+        {
+          "slide": 29,
+          "title": "Ex. 2(b): route totals"
+        },
+        {
+          "slide": 30,
+          "title": "Ex. 2(c): charging quantities"
+        },
+        {
+          "slide": 31,
+          "title": "Ex. 2(d): comparisons"
+        },
+        {
+          "slide": 32,
+          "title": "Summary"
         }
       ],
-      "status": "unreleased"
+      "status": "live",
+      "lesson": "integrated",
+      "interactive_model": "line-capacitance"
     },
     {
       "group": "line-parameters",
       "summary": {
-        "en": "Calculate bundled-conductor parameters using bundle geometry and consistent line notation.",
-        "zh": "采用一致的线路符号，根据分裂导线的几何计算参数。"
+        "en": "Model one to four symmetric subconductors, distinguish magnetic/electric self radii and build the circuit branch on a stated system base.",
+        "zh": "模拟每相一至四根对称子导线，区分磁、电自半径，并按给定系统基准建立线路支路。"
       },
       "lab_focus": {
-        "en": "Change bundle spacing and subconductor count, then compare effective line parameters.",
-        "zh": "调整分裂间距与子导线数量，比较有效线路参数。"
+        "en": "Bundles, physical circuits and per-unit branches",
+        "zh": "分裂导线、物理回路与标幺支路"
       },
-      "released": false,
-      "frozen_source": false,
+      "released": true,
+      "frozen_source": true,
       "id": "L25",
       "slug": "l25-line-parameters-iv",
       "title": {
@@ -3349,122 +3403,168 @@
       },
       "source_directory": "L25_line_parameters_iv",
       "source_file": "L25_line_parameters_iv.pdf",
-      "slide_count": 28,
+      "slide_count": 39,
       "slide_outline": [
         {
           "slide": 1,
-          "title": "Lecture outline"
+          "title": "Transmission-Line Parameters IV"
         },
         {
           "slide": 2,
-          "title": "Starting problem"
+          "title": "Lecture outline"
         },
         {
           "slide": 3,
-          "title": "Carry-forward notation"
+          "title": "PART 1 · Tower, bundle configuration, and units"
         },
         {
           "slide": 4,
-          "title": "Phase bundle"
+          "title": "Reading a transmission tower"
         },
         {
           "slide": 5,
-          "title": "Equal bundle members"
+          "title": "One tower can carry two circuits"
         },
         {
           "slide": 6,
-          "title": "Two-subconductor bundle notation"
+          "title": "From tower geometry to model inputs"
         },
         {
           "slide": 7,
-          "title": "Bundle GMR"
+          "title": "Common configurations within one phase"
         },
         {
           "slide": 8,
-          "title": "Electric bundle radius"
+          "title": "Bundle input data"
         },
         {
           "slide": 9,
-          "title": "Physical totals"
+          "title": "Rates, totals, and per unit"
         },
         {
           "slide": 10,
-          "title": "Example setup"
+          "title": "PART 2 · Bundle resistance"
         },
         {
           "slide": 11,
-          "title": "Example: solution route"
+          "title": "Resistance per unit length"
         },
         {
           "slide": 12,
-          "title": "Example: phase-center GMD"
+          "title": "PART 3 · Bundle inductance and capacitance"
         },
         {
           "slide": 13,
-          "title": "Example: bundle GMR"
+          "title": "Magnetic bundle equivalent"
         },
         {
           "slide": 14,
-          "title": "Example: electric bundle radius"
+          "title": "Inductance and reactance rates"
         },
         {
           "slide": 15,
-          "title": "Example: bundle resistance"
+          "title": "Electric bundle equivalent"
         },
         {
           "slide": 16,
-          "title": "Example: phase reactance"
+          "title": "Same averaging, different bundle geometry"
         },
         {
           "slide": 17,
-          "title": "Example: phase capacitance"
+          "title": "Capacitance and susceptance rates"
         },
         {
           "slide": 18,
-          "title": "Example: shunt susceptance"
+          "title": "PART 4 · Route totals and per unit"
         },
         {
           "slide": 19,
-          "title": "Example: full circuit totals"
+          "title": "Physical route totals"
         },
         {
           "slide": 20,
-          "title": "Example: charging power"
+          "title": "Per-unit line record"
         },
         {
           "slide": 21,
-          "title": "Example: common-base record"
+          "title": "Charging quantities"
         },
         {
           "slide": 22,
-          "title": "Bundle effects"
+          "title": "Two parallel circuits"
         },
         {
           "slide": 23,
-          "title": "Double-circuit scaling"
+          "title": "PART 5 · Exercises"
         },
         {
           "slide": 24,
-          "title": "Verification checks"
+          "title": "Exercise 1: given and find"
         },
         {
           "slide": 25,
-          "title": "Practice: model and calculation"
+          "title": "Exercise 1: solution"
         },
         {
           "slide": 26,
-          "title": "Practice: solution"
+          "title": "Exercise 2: given"
         },
         {
           "slide": 27,
-          "title": "Summary"
+          "title": "Exercise 2: find"
         },
         {
           "slide": 28,
-          "title": "Closing check"
+          "title": "Ex. 2(a): phase GMD"
+        },
+        {
+          "slide": 29,
+          "title": "Ex. 2(a): resistance rate"
+        },
+        {
+          "slide": 30,
+          "title": "Ex. 2(b): magnetic self-distance"
+        },
+        {
+          "slide": 31,
+          "title": "Ex. 2(b): inductance and reactance"
+        },
+        {
+          "slide": 32,
+          "title": "Ex. 2(b): electric self-distance"
+        },
+        {
+          "slide": 33,
+          "title": "Ex. 2(b): capacitance and B rate"
+        },
+        {
+          "slide": 34,
+          "title": "Ex. 2(c): physical totals"
+        },
+        {
+          "slide": 35,
+          "title": "Ex. 2(c): charging quantities"
+        },
+        {
+          "slide": 36,
+          "title": "Ex. 2(d): per-unit record"
+        },
+        {
+          "slide": 37,
+          "title": "Ex. 2(d): bundle comparison"
+        },
+        {
+          "slide": 38,
+          "title": "Ex. 2(d): verification"
+        },
+        {
+          "slide": 39,
+          "title": "Summary"
         }
       ],
-      "status": "unreleased"
+      "status": "live",
+      "lesson": "integrated",
+      "interactive_model": "line-bundles"
     },
     {
       "group": "line-models",

@@ -20,6 +20,7 @@ def main():
     parser.add_argument('--model',default='gpt-6-astra')
     parser.add_argument('--reasoning',choices=['low','medium','high','xhigh','max'],default='medium')
     parser.add_argument('--limit',type=int,default=20)
+    parser.add_argument('--case',action='append',dest='case_ids',help='Run only these case IDs; repeat for a focused release evaluation.')
     parser.add_argument('--credentials-file',type=Path)
     parser.add_argument('--run',action='store_true',help='Explicit real model calls; default only validates case sources')
     parser.add_argument('--retry-failed',action='store_true',help='Explicitly retry previously failed paid requests')
@@ -30,6 +31,10 @@ def main():
         cases=[]
         for name in ['course-evaluation-cases.json','evaluation-cases.json']:
             cases.extend(json.loads((ROOT/'_source/ece685-rag'/name).read_text())['cases'])
+        if args.case_ids:
+            missing=set(args.case_ids)-{case['id'] for case in cases}
+            if missing: raise ValueError('Unknown evaluation case: '+', '.join(sorted(missing)))
+            cases=[case for case in cases if case['id'] in args.case_ids]
         cases=cases[:args.limit]
         for case in cases:
             if any(doc_id not in documents for doc_id in case['expected_docs']):

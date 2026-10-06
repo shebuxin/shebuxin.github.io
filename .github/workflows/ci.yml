@@ -86,7 +86,7 @@ jobs:
 
       - name: Verify ECE 685 knowledge models and Python parity
         run: |
-          node --test tests/ece685_stage_test.cjs tests/ece685_diagrams_test.cjs
+          node --test tests/ece685_stage_test.cjs tests/ece685_diagrams_test.cjs tests/ece685_line_parameters_test.cjs
           node scripts/build_ece685_diagram_assets.cjs --check
 
       - name: Verify ECE 685 slide citation navigation
