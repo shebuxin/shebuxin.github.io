@@ -6,5 +6,6 @@
     "dev":"wrangler dev --config wrangler.local.jsonc",
     "test":"node --test ../../tests/ece685_chat_backend_test.mjs"
   },
-  "devDependencies":{"wrangler":"4.147.0"}
+  "devDependencies":{"wrangler":"4.147.0"},
+  "overrides":{"miniflare":{"sharp":"0.35.5"}}
 }
