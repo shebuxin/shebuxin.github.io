@@ -203,5 +203,58 @@
       "en": "Three-phase transformer network and taps",
       "zh": "三相变压器网络与分接头"
     }
+  },
+  "L25": {
+    "concept_indices": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "focus": {
+      "en": "Bundles, physical circuits and per-unit branches",
+      "zh": "分裂导线、物理回路与标幺支路"
+    }
+  },
+  "L22": {
+    "concept_indices": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "focus": {
+      "en": "Conductor resistance and flux linkage",
+      "zh": "导线电阻与磁通链"
+    }
+  },
+  "L24": {
+    "concept_indices": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "focus": {
+      "en": "Capacitance and charging power",
+      "zh": "电容与充电功率"
+    }
+  },
+  "L23": {
+    "concept_indices": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "focus": {
+      "en": "Three-phase GMD, GMR and transposition",
+      "zh": "三相 GMD、GMR 与换位"
+    }
   }
 }

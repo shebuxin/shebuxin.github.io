@@ -9,6 +9,10 @@
     'per-unit':{system:'three-phase',s_base_mva:100,v_base_h_kv:138,turns_ratio:10,v_actual_l_kv:13.8,current_a:600,z_re_ohm:1,z_im_ohm:4,power_factor:0.9},
     'transformer-banks':{h_kv:138,turns_ratio:10,s_mva:60,h_connection:'wye',l_connection:'delta',h_delta_order:'abc',l_delta_order:'abc'},
     'transformer-network':{h_kv:138,l_rated_kv:13.8,s_mva:60,s_base_mva:100,r_pu:0.006,x_pu:0.09,tap:1,loading:0,power_factor:0.9},
+    'line-conductor':{area_mm2:500,radius_mm:14,spacing_m:6,length_km:120.7008,temperature_c:75,rho20:2.8264e-8,alpha20:.00403,path_factor:1.02,ac_factor:1.03,frequency_hz:60},
+    'line-inductance':{spacing_ab_m:4,spacing_bc_m:6,position_angle_deg:0,gmr_mm:10.9,length_km:120.7008,frequency_hz:60},
+    'line-capacitance':{spacing_ab_m:4,spacing_bc_m:6,position_angle_deg:0,radius_mm:14,length_km:120.7008,frequency_hz:60,voltage_ll_kv:138,epsilon_r:1},
+    'line-bundles':{spacing_ab_m:9.7536,spacing_bc_m:9.7536,position_angle_deg:0,bundle_count:2,bundle_spacing_m:.4572,gmr_mm:17.92224,radius_mm:22.3774,resistance_sub_ohm_km:.0344488188976378,length_km:128.74752,frequency_hz:60,voltage_ll_kv:500,voltage_base_kv:500,s_base_mva:100,circuits:1},
     'exam-review':{focus:'single-phase',voltage_rms:180,current_rms:12,v_phase_deg:-20,i_phase_deg:10,delta_voltage_ll:208,delta_r:8,delta_x:6,s_base_kva:30,v_base_h_v:1500,turns_ratio:10,z_h_re:1.5,z_h_im:3.4369,peak_mw:160,prm_percent:15,gt_fixed:75000,gt_variable:85,cc_fixed:195000,cc_variable:45,hours:2000}
   };
   Object.values(defaults).forEach(Object.freeze);Object.freeze(defaults);
@@ -23,6 +27,63 @@
   const range=(p,key,min,max)=>{if(p[key]<min||p[key]>max)throw Error(key+' must be in ['+min+', '+max+']');};
   const choice=(p,key,values)=>{if(!values.includes(p[key]))throw Error(key+' must be one of '+values.join(', '));};
   function plot(x,curves,x_unit,y_unit){return{x,curves:Object.entries(curves).map(([name,values])=>({name,values})),x_unit,y_unit};}
+  // Position 1 is (-a,0), position 2 (0,0), position 3 (b cos θ,b sin θ).
+  // Deriving distances from coordinates prevents impossible input triangles.
+  function lineGeometry(p){
+    positive(p,['spacing_ab_m','spacing_bc_m']);range(p,'position_angle_deg',0,150);
+    const a=p.spacing_ab_m,b=p.spacing_bc_m,x=b*Math.cos(rad(p.position_angle_deg)),y=b*Math.sin(rad(p.position_angle_deg));
+    const ac=Math.hypot(a+x,y),gmd=Math.cbrt(a*b*ac);
+    return{positions:[{x:-a,y:0},{x:0,y:0},{x,y}],distances:[a,b,ac],gmd_m:gmd};
+  }
+  function lineRates(p,geometry,magnetic_m,electric_m){
+    positive(p,['frequency_hz','length_km']);
+    // Guard the thin-conductor/phase-center approximation before taking logs.
+    if(Math.min(...geometry.distances)<=20*Math.max(magnetic_m||0,electric_m||0))throw Error('Phase spacing must exceed 20 times the effective self radius');
+    const l=magnetic_m?2e-7*Math.log(geometry.gmd_m/magnetic_m):0;
+    const cap=electric_m?2*Math.PI*8.8541878e-12*(p.epsilon_r||1)/Math.log(geometry.gmd_m/electric_m):0;
+    return{l_mh_km:l*1e6,x_ohm_km:2*Math.PI*p.frequency_hz*l*1000,c_nf_km:cap*1e12,b_us_km:2*Math.PI*p.frequency_hz*cap*1e9};
+  }
+  function lineConductor(p){
+    positive(p,['area_mm2','radius_mm','spacing_m','length_km','rho20','path_factor','ac_factor','frequency_hz']);nonnegative(p,['alpha20']);
+    const kt=1+p.alpha20*(p.temperature_c-20);if(kt<=0)throw Error('Temperature correction must be positive');
+    const r=p.radius_mm/1000;if(p.spacing_m<=20*r)throw Error('Return spacing must exceed 20 conductor radii');
+    const dc=p.rho20/(p.area_mm2*1e-6)*1000,R=dc*kt*p.path_factor*p.ac_factor;
+    const lint=.05,lext=.2*Math.log(p.spacing_m/r),L=lint+lext,X=2*Math.PI*p.frequency_hz*L/1000;
+    const temps=Array.from({length:41},(_,i)=>20+i*2),spacings=Array.from({length:41},(_,i)=>Math.max(.5,25*r)+i*.5);
+    return{metrics:{temperature_factor:kt,dc20_ohm_km:dc,resistance_ohm_km:R,resistance_ohm:R*p.length_km,internal_mh_km:lint,external_mh_km:lext,inductance_mh_km:L,inductance_h:L*p.length_km/1000,reactance_ohm_km:X,reactance_ohm:X*p.length_km,loop_resistance_ohm:2*R*p.length_km,loop_reactance_ohm:2*X*p.length_km,gmr_mm:p.radius_mm*Math.exp(-.25)},
+      checks:{loop_resistance_ratio:2*R*p.length_km-2*(R*p.length_km),gmr_inductance_identity:L-.2*Math.log(p.spacing_m/(r*Math.exp(-.25)))},
+      plots:[plot(temps,{'Corrected AC resistance':temps.map(T=>dc*(1+p.alpha20*(T-20))*p.path_factor*p.ac_factor)},'temperature / °C','Ω/km'),plot(spacings,{'Internal':spacings.map(()=>lint),'External':spacings.map(D=>.2*Math.log(D/r)),'Total':spacings.map(D=>lint+.2*Math.log(D/r))},'return spacing / m','mH/km')]};
+  }
+  function lineInductance(p){
+    positive(p,['gmr_mm']);const geometry=lineGeometry(p),s=lineRates(p,geometry,p.gmr_mm/1000,0),L=s.l_mh_km*p.length_km/1000,X=s.x_ohm_km*p.length_km;
+    const scales=Array.from({length:41},(_,i)=>.5+i*.0375),freq=Array.from({length:31},(_,i)=>40+i);
+    const avg=geometry.distances.reduce((a,b)=>a+b,0)/3,wrong=2*Math.PI*p.frequency_hz*2e-7*Math.log(avg/(p.gmr_mm/1000))*p.length_km*1000;
+    return{geometry,metrics:{gmd_m:geometry.gmd_m,d_ab_m:geometry.distances[0],d_bc_m:geometry.distances[1],d_ca_m:geometry.distances[2],inductance_mh_km:s.l_mh_km,inductance_h:L,reactance_ohm_km:s.x_ohm_km,reactance_ohm:X,arithmetic_error_percent:100*(wrong/X-1)},
+      checks:{transposition_log_identity:Math.log(geometry.gmd_m)-geometry.distances.reduce((v,d)=>v+Math.log(d),0)/3,reactance_identity:X-2*Math.PI*p.frequency_hz*L},
+      plots:[plot(scales,{'Per-phase inductance':scales.map(k=>.2*Math.log(k*geometry.gmd_m/(p.gmr_mm/1000)))},'all phase spacings / baseline','mH/km'),plot(freq,{'Route phase reactance':freq.map(f=>2*Math.PI*f*L)},'frequency / Hz','Ω')]};
+  }
+  function lineCapacitance(p){
+    positive(p,['radius_mm','voltage_ll_kv','epsilon_r']);const geometry=lineGeometry(p),s=lineRates(p,geometry,0,p.radius_mm/1000);
+    const C=s.c_nf_km*p.length_km/1000,B=s.b_us_km*p.length_km/1000,I=B*p.voltage_ll_kv/Math.sqrt(3),Q=B*p.voltage_ll_kv**2/1000;
+    const voltages=Array.from({length:41},(_,i)=>p.voltage_ll_kv*(.7+i*.01)),radii=Array.from({length:41},(_,i)=>5+i*.625);
+    return{geometry,metrics:{gmd_m:geometry.gmd_m,capacitance_nf_km:s.c_nf_km,susceptance_us_km:s.b_us_km,capacitance_uf:C,susceptance_ms:B,pi_end_ms:B/2,phase_voltage_kv:p.voltage_ll_kv/Math.sqrt(3),charging_current_a:I,capacitive_mvar:Q,absorbed_mvar:-Q},
+      checks:{three_phase_power_identity:Q-Math.sqrt(3)*p.voltage_ll_kv*I/1000,pi_shunt_sum:B/2+B/2-B},
+      plots:[plot(voltages,{'Capacitive supply QC':voltages.map(V=>B*V*V/1000)},'line voltage / kV','Mvar'),plot(radii,{'Phase-to-neutral capacitance':radii.map(r=>2*Math.PI*8.8541878e-12*p.epsilon_r/Math.log(geometry.gmd_m/(r/1000))*1e12)},'physical radius / mm','nF/km')]};
+  }
+  function bundleSelf(radius,d,n){return n===1?radius:n===2?Math.sqrt(radius*d):n===3?Math.cbrt(radius*d*d):(Math.SQRT2*radius*d**3)**.25;}
+  function lineBundles(p){
+    positive(p,['gmr_mm','radius_mm','bundle_spacing_m','voltage_ll_kv','voltage_base_kv','s_base_mva']);nonnegative(p,['resistance_sub_ohm_km']);
+    if(!Number.isInteger(p.bundle_count)||p.bundle_count<1||p.bundle_count>4)throw Error('bundle_count must be an integer from 1 to 4');
+    if(![1,2].includes(p.circuits))throw Error('circuits must be 1 or 2');
+    if(p.bundle_spacing_m<=2*p.radius_mm/1000)throw Error('Bundle members must not overlap');
+    const geometry=lineGeometry(p);if(p.bundle_spacing_m*Math.SQRT2>=Math.min(...geometry.distances)/5)throw Error('Bundle size must be small relative to phase spacing');
+    const ds=bundleSelf(p.gmr_mm/1000,p.bundle_spacing_m,p.bundle_count),rc=bundleSelf(p.radius_mm/1000,p.bundle_spacing_m,p.bundle_count),s=lineRates(p,geometry,ds,rc);
+    const R=p.resistance_sub_ohm_km/p.bundle_count*p.length_km,X=s.x_ohm_km*p.length_km,B=s.b_us_km*p.length_km/1000,zb=p.voltage_base_kv**2/p.s_base_mva,nc=p.circuits;
+    const ns=[1,2,3,4],rate=n=>lineRates(p,geometry,bundleSelf(p.gmr_mm/1000,p.bundle_spacing_m,n),bundleSelf(p.radius_mm/1000,p.bundle_spacing_m,n));
+    return{geometry,metrics:{gmd_m:geometry.gmd_m,bundle_gmr_m:ds,bundle_radius_m:rc,resistance_ohm_km:p.resistance_sub_ohm_km/p.bundle_count,reactance_ohm_km:s.x_ohm_km,capacitance_nf_km:s.c_nf_km,inductance_mh_km:s.l_mh_km,resistance_ohm:R,reactance_ohm:X,capacitance_uf:s.c_nf_km*p.length_km/1000,susceptance_ms:B,charging_current_a:B*p.voltage_ll_kv/Math.sqrt(3),capacitive_mvar:B*p.voltage_ll_kv**2/1000,z_base_ohm:zb,resistance_pu:R/zb,reactance_pu:X/zb,susceptance_pu:B*zb/1000,equivalent_r_ohm:R/nc,equivalent_x_ohm:X/nc,equivalent_b_ms:B*nc,equivalent_r_pu:R/nc/zb,equivalent_x_pu:X/nc/zb,equivalent_b_pu:B*nc*zb/1000},
+      checks:{recover_resistance:R/zb*zb-R,recover_susceptance:B*zb/1000/zb*1000-B},
+      plots:[plot(ns,{'Per-phase series reactance':ns.map(n=>rate(n).x_ohm_km)},'subconductors per phase','Ω/km'),plot(ns,{'Phase-to-neutral capacitance':ns.map(n=>rate(n).c_nf_km)},'subconductors per phase','nF/km')]};
+  }
   // Positive supply sequence and fixed paired dots. Delta order names coil
   // endpoint directions (ABC: AB,BC,CA; ACB: AC,BA,CB), not supply sequence.
   function transformerBanks(p){
@@ -95,6 +156,7 @@
       plots:[plot(x,{Va:vwave[0],Vb:vwave[1],Vc:vwave[2]},'ms','V'),plot(x,{Ia:iwave[0],Ib:iwave[1],Ic:iwave[2]},'ms','A')]};
   }
   const handlers={
+    'line-conductor':lineConductor,'line-inductance':lineInductance,'line-capacitance':lineCapacitance,'line-bundles':lineBundles,
     'exam-review'(p){
       positive(p,['voltage_rms','current_rms','delta_voltage_ll','s_base_kva','v_base_h_v','turns_ratio','peak_mw']);nonnegative(p,['delta_r','prm_percent','gt_fixed','gt_variable','cc_fixed','cc_variable','hours']);choice(p,'focus',['single-phase','three-phase','planning']);
       const delta=wrap(p.v_phase_deg-p.i_phase_deg),P=p.voltage_rms*p.current_rms*Math.cos(rad(delta)),Q=p.voltage_rms*p.current_rms*Math.sin(rad(delta));

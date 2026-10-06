@@ -29,7 +29,8 @@
     const pad=(high-low)*.08;high+=pad;if(low<0)low-=pad;
     const x=v=>62+(v-xMin)/(xMax-xMin||1)*506,y=v=>263-(v-low)/(high-low)*217;
     const number=v=>Math.abs(v)>=1e5?(v/1e3).toFixed(0)+'k':Math.abs(v)>=100?fmt(v,0):fmt(v,2);
-    const grid=[0,.25,.5,.75,1].map(a=>{const v=low+a*(high-low),t=xMin+a*(xMax-xMin);return `<path d="M62 ${y(v)}H568" class="stage-grid"/><text x="54" y="${y(v)+4}" text-anchor="end">${esc(number(v))}</text><text x="${x(t)}" y="284" text-anchor="middle">${esc(number(t))}</text>`;}).join('');
+    const ticks=kind==='line-bundles'?p.x:[0,.25,.5,.75,1].map(a=>xMin+a*(xMax-xMin));
+    const grid=[0,.25,.5,.75,1].map(a=>{const v=low+a*(high-low);return `<path d="M62 ${y(v)}H568" class="stage-grid"/><text x="54" y="${y(v)+4}" text-anchor="end">${esc(number(v))}</text>`;}).join('')+ticks.map(v=>`<text x="${x(v)}" y="284" text-anchor="middle">${esc(kind==='line-bundles'?fmt(v,0):number(v))}</text>`).join('');
     const paths=p.curves.map((c,index)=>{
       const xs=c.x||p.x,step=c.step===undefined?p.step:c.step;
       const d=c.values.map((v,i)=>i===0?`M${x(xs[i])} ${y(v)}`:step?`H${x(xs[i])}V${y(v)}`:`L${x(xs[i])} ${y(v)}`).join(' ');
@@ -52,7 +53,7 @@
   }
   function render(){
     all('[data-stage-param]').forEach(input=>{if(document.activeElement!==input)input.value=state[input.dataset.stageParam];});
-    all('[data-stage-value]').forEach(el=>{const c=config.controls.find(c=>c.key===el.dataset.stageValue);el.textContent=fmt(state[c.key],c.step<1?(String(c.step).split('.')[1]||'').length:0)+' '+c.unit;});
+    all('[data-stage-value]').forEach(el=>{const c=config.controls.find(c=>c.key===el.dataset.stageValue),[mantissa,exponent='0']=String(c.step||1).split('e'),digits=Math.max(0,(mantissa.split('.')[1]||'').length-Number(exponent));el.textContent=fmt(state[c.key],digits)+' '+c.unit;});
     try{
       result=model.solve(kind,state);find('.stage-live-results').hidden=false;find('[data-stage-status]').dataset.state='ready';
       find('[data-stage-status]').textContent=words('当前输入已计算。先解释变化，再展开中间量核查。','Calculated. Explain the change, then inspect intermediate values and checks.');
@@ -70,7 +71,7 @@
   }
   all('[data-stage-param]').forEach(input=>input.addEventListener('input',()=>{
     if(input.value===''){state[input.dataset.stageParam]=null;result=null;find('[data-stage-status]').textContent=words('请输入完整数值。','Enter a complete number.');find('.stage-live-results').hidden=true;if(runner){runner.markStale();runner.redraw();}return;}
-    state[input.dataset.stageParam]=input.tagName==='SELECT'?input.value:Number(input.value);render();
+    state[input.dataset.stageParam]=typeof model.defaults[kind][input.dataset.stageParam]==='number'?Number(input.value):input.value;render();
   }));
   find('[data-stage-reset]').addEventListener('click',()=>{state={...model.defaults[kind]};all('[data-stage-param]').forEach(input=>{input.value=state[input.dataset.stageParam];});render();});
   render();

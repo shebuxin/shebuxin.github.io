@@ -66,7 +66,7 @@ test('published L16 practice keeps its references and first-exam scope',()=>{
   near(r.metrics.z_pu_re,.02);near(r.metrics.z_pu_im,3.4369/75);near(r.metrics.ib_h_a,20);near(r.metrics.ib_l_a,200);
   near(r.metrics.required_capacity_mw,184);near(r.metrics.crossover_hours,3000);near(r.metrics.gt_cost,245000);
   const config=JSON.parse(fs.readFileSync(path.resolve(__dirname,'../_data/ece685_stage_one.json')));
-  assert.equal(config.modules.length,9);assert.deepEqual(config.modules[8].sources,['L16','L16b']);assert.deepEqual(config.modules[4].extension,['L17','L18']);
+  assert.equal(config.modules.length,13);assert.deepEqual(config.modules[8].sources,['L16','L16b']);assert.deepEqual(config.modules[4].extension,['L17','L18']);
   for(const m of config.modules){const baseline=model.solve(m.id);for(const a of m.practice)assert.ok(Number.isFinite(baseline.metrics[a.key]));assert.equal(m.quiz.choices.length,3);}
 });
 

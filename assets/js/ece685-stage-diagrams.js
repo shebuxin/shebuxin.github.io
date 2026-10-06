@@ -230,7 +230,99 @@
     b+=t(400,407,w('按运行时长比较成本；容量目标按峰值与规划备用率计算。','Compare costs at the operating duration; the capacity target includes planning reserve.'));
     return{height:435,body:b};
   }
-  const handlers={overview,generation,'single-phase':singlePhase,'three-phase':threePhase,transformers,'per-unit':perUnit,'transformer-banks':banks,'exam-review':review};
+  function phaseGeometry(r,c,box={x:50,y:65,w:390,h:180}){
+    const {t,line,f}=c,points=r.geometry.positions,xs=points.map(q=>q.x),ys=points.map(q=>q.y);
+    const xmin=Math.min(...xs),xmax=Math.max(...xs),ymin=Math.min(...ys),ymax=Math.max(...ys);
+    const scale=Math.min((box.w-50)/Math.max(xmax-xmin,1),(box.h-45)/Math.max(ymax-ymin,1));
+    const coords=points.map(q=>[box.x+box.w/2+(q.x-(xmin+xmax)/2)*scale,box.y+box.h/2-(q.y-(ymin+ymax)/2)*scale]);
+    let body='';for(const [i,j] of [[0,1],[1,2],[2,0]])body+=line(...coords[i],...coords[j],'#b9b1c3',1.3,'4 5');
+    coords.forEach(([x,y],i)=>{body+=`<circle cx="${x}" cy="${y}" r="9" fill="#fff" stroke="${[palette.red,palette.blue,palette.gold][i]}" stroke-width="2.5"/>`+t(x,y-20,'P'+(i+1),'ed-label');});
+    body+=t(box.x+box.w/2,box.y+box.h+15,c.w('相位置按距离比例绘制；导线尺寸放大。','Positions to scale; conductor sizes enlarged.'),'ed-small');
+    return body;
+  }
+  function piCircuit(c,{top=345,R=null,X=null,B=0,left='S',right='R',label='Zφ',neutral=true}={}){
+    const {t,line,node,component,arrow,f}=c,y=top,x1=140,x2=660,bottom=y+100;
+    let b=line(70,y,245,y)+line(555,y,730,y)+node(70,y,true)+node(730,y,true)+node(x1,y)+node(x2,y);
+    b+=component(245,y,375,y,'z')+line(375,y,415,y)+component(415,y,555,y,'coil');
+    for(const x of [x1,x2]){b+=line(x,y,x,y+43)+line(x-15,y+43,x+15,y+43)+line(x-15,y+54,x+15,y+54)+line(x,y+54,x,bottom)+node(x,bottom);}
+    b+=line(x1-30,bottom,x2+30,bottom,'#8b8691',1.7)+t(70,y-18,left,'ed-label')+t(730,y-18,right,'ed-label');
+    b+=t(310,y-25,R===null?'Rφ':f(R,3)+' Ω','ed-label')+t(485,y-25,X===null?'jXφ':'j'+f(X,3)+' Ω','ed-label');
+    b+=t(x1-22,y+77,'j'+f(B/2,4)+' mS','ed-text','end')+t(x2+22,y+77,'j'+f(B/2,4)+' mS','ed-text','start');
+    b+=arrow(x1+24,y+8,x1+24,y+39,'teal')+arrow(x2-24,y+8,x2-24,y+39,'teal');
+    b+=t(400,bottom+27,c.w('n：平衡三相中性参考','n: balanced three-phase neutral reference'),'ed-small');
+    return b;
+  }
+  function lineConductor(r,c){
+    const {w,f,t,line,path,arrow,component}=c,m=r.metrics,p=r.parameters;
+    let b=t(400,29,w('双线回路：电阻与磁通链','Two-wire loop: resistance and flux linkage'),'ed-heading');
+    for(const [x,sign,color] of [[190,'+I',palette.red],[590,'−I',palette.blue]]){
+      for(const rr of [52,78])b+=`<circle cx="${x}" cy="135" r="${rr}" fill="none" stroke="${color}" stroke-width="1" stroke-dasharray="3 5" opacity=".5"/>`;
+      b+=`<circle cx="${x}" cy="135" r="30" fill="#fff" stroke="${color}" stroke-width="2.5"/>`;
+      b+=sign==='+I'?`<circle cx="${x}" cy="135" r="4" fill="${color}"/>`:path(`M${x-6} 129l12 12 M${x-6} 141l12-12`,color);
+      b+=t(x,95,sign,'ed-label','middle',color);
+    }
+    b+=line(190,229,590,229)+line(190,220,190,238)+line(590,220,590,238)+t(390,252,'D = '+f(p.spacing_m,2)+' m','ed-label');
+    b+=arrow(190,135,219,135,'gold')+t(190,183,'r = '+f(p.radius_mm,2)+' mm');
+    b+=t(590,183,w('磁场环线示意','Magnetic field contours'),'ed-small');
+    b+=t(400,280,w('尺寸不按比例；D 是回流参考距离，磁场不会在 D 处截断。','Not to scale; D sets the return reference, not a field cutoff.'),'ed-small');
+    b+=line(60,300,740,300,'#e5dfec',1)+t(400,331,w('同一线路的串联电路（两根导线均计入）','Series circuit of the same loop (both conductors included)'),'ed-heading');
+    b+=path('M105 390H180 M430 390H695V485H430 M180 485H105V456 M105 419V390');
+    b+=`<circle cx="105" cy="437.5" r="18.5" fill="#fff" stroke="${palette.ink}" stroke-width="2.3"/>`+path('M93 437.5q6-13 12 0t12 0')+t(70,443,'Vs','ed-label');
+    b+=component(180,390,300,390)+component(300,390,430,390,'coil')+component(430,485,300,485,'coil')+component(300,485,180,485);
+    b+=arrow(115,364,166,364,'red')+arrow(685,508,634,508,'blue')+t(245,364,'R = '+f(m.resistance_ohm,3)+' Ω')+t(375,364,'X = '+f(m.reactance_ohm,3)+' Ω');
+    b+=t(245,519,'R = '+f(m.resistance_ohm,3)+' Ω')+t(375,519,'X = '+f(m.reactance_ohm,3)+' Ω');
+    b+=t(400,552,'Zloop = '+f(m.loop_resistance_ohm,3)+' + j'+f(m.loop_reactance_ohm,3)+' Ω','ed-label');
+    b+=t(400,579,'L′cond = '+f(m.internal_mh_km,3)+' + '+f(m.external_mh_km,3)+' = '+f(m.inductance_mh_km,3)+' mH/km');
+    return{height:605,body:b};
+  }
+  function lineInductance(r,c){
+    const {w,f,t,line,path}=c,m=r.metrics;
+    let b=t(400,29,w('三相位置与一个完整换位循环','Three phase positions and one complete transposition'),'ed-heading')+phaseGeometry(r,c);
+    b+=t(605,95,'D12 = '+f(m.d_ab_m,3)+' m','ed-label')+t(605,131,'D23 = '+f(m.d_bc_m,3)+' m','ed-label')+t(605,167,'D31 = '+f(m.d_ca_m,3)+' m','ed-label')+t(605,211,'GMD = '+f(m.gmd_m,4)+' m','ed-heading');
+    b+=t(400,284,'L′φ = 0.2 ln(GMD / GMR) = '+f(m.inductance_mh_km,5)+' mH/km','ed-label');
+    b+=line(45,309,755,309,'#e5dfec',1);
+    const columns=[140,390,640],orders=[['A','B','C'],['C','A','B'],['B','C','A']],ys=[380,425,470],colors=[palette.red,palette.blue,palette.gold];
+    columns.forEach((x,i)=>{b+=t(x,339,w('第 ','Section ')+(i+1)+' · ℓ/3','ed-label');orders[i].forEach((phase,j)=>b+=t(x,ys[j]-12,phase,'ed-label','middle',colors['ABC'.indexOf(phase)]));});
+    for(let k=0;k<3;k++){const phase='ABC'[k],route=columns.map((x,i)=>[x,ys[orders[i].indexOf(phase)]]);b+=path(`M70 ${route[0][1]}L${route[0][0]+50} ${route[0][1]}L${route[1][0]-50} ${route[1][1]}H${route[1][0]+50}L${route[2][0]-50} ${route[2][1]}H700`,colors[k],2.5);}
+    ys.forEach((y,i)=>b+=t(745,y+5,'P'+(i+1),'ed-small'));
+    b+=t(400,518,w('每相各占据每个位置 ℓ/3；图中交叉处没有电气连接。','Each phase occupies every position for ℓ/3; crossings are not connections.'),'ed-small');
+    b+=t(400,550,'GMD = (D12 D23 D31)⅓ · Xφ = '+f(m.reactance_ohm,4)+' Ω','ed-label');
+    b+=t(400,577,w('平衡回流已包含在每相公式中，无须再乘 2。','Balanced return is included in the phase formula; do not multiply by two.'),'ed-small');
+    return{height:600,body:b};
+  }
+  function lineCapacitance(r,c){
+    const {w,f,t,line,arrow,path}=c,m=r.metrics,p=r.parameters;
+    let b=t(400,29,w('物理半径决定电容，充电电流超前电压','Physical radius sets capacitance; charging current leads voltage'),'ed-heading')+phaseGeometry(r,c,{x:35,y:65,w:350,h:145});
+    b+=t(207,254,'r = '+f(p.radius_mm,2)+' mm · Dm = '+f(m.gmd_m,4)+' m','ed-label');
+    b+=line(495,213,705,213,'#b9b1c3',1)+line(525,85,525,230,'#b9b1c3',1)+arrow(525,213,670,213,'purple')+arrow(525,213,525,97,'teal')+path('M560 213 A35 35 0 0 0 525 178',palette.gold,1.5);
+    b+=t(605,241,'Vφ = '+f(m.phase_voltage_kv,2)+' kV')+t(590,95,'Ich = '+f(m.charging_current_a,2)+' A','ed-label','start',palette.teal)+t(552,166,'90°','ed-small');
+    b+=t(610,269,w('幅值分别归一化','Magnitudes normalized separately'),'ed-small');
+    b+=t(400,304,w('标称 π：总并联电纳平均分到两端','Nominal π: split total shunt susceptance between the ends'),'ed-heading');
+    b+=piCircuit(c,{top:365,B:m.susceptance_ms});
+    b+=t(400,526,'Btotal = '+f(m.susceptance_ms,6)+' mS · QC = '+f(m.capacitive_mvar,4)+' Mvar','ed-label');
+    b+=t(400,555,w('QC 为正的容性无功供给；吸收功率 Q = −QC。','QC is positive capacitive supply; absorbed reactive power Q = −QC.'),'ed-small');
+    b+=t(400,579,w('充电估算采用全线相同电压；两端实际电流应各使用本端电压。','Charging estimate uses uniform voltage; each end current uses its local voltage.'),'ed-small');
+    return{height:602,body:b};
+  }
+  function lineBundles(r,c){
+    const {w,f,t,line}=c,m=r.metrics,p=r.parameters,n=p.bundle_count;
+    let b=t(400,29,w('分裂导线：磁与电的两个等效半径','Bundled conductors: two different effective self radii'),'ed-heading')+phaseGeometry(r,c,{x:30,y:75,w:330,h:135});
+    b+=t(195,255,'Dm = '+f(m.gmd_m,4)+' m','ed-label');
+    const cx=560,cy=140,d=65,points=n===1?[[cx,cy]]:n===2?[[cx-d/2,cy],[cx+d/2,cy]]:n===3?[[cx-d/2,cy+d*Math.sqrt(3)/6],[cx+d/2,cy+d*Math.sqrt(3)/6],[cx,cy-d*Math.sqrt(3)/3]]:[[cx-d/2,cy-d/2],[cx+d/2,cy-d/2],[cx+d/2,cy+d/2],[cx-d/2,cy+d/2]];
+    if(n>1)for(let i=0;i<n;i++)b+=line(...points[i],...points[(i+1)%n],'#b9b1c3',1,'4 4');
+    if(n===4)b+=line(...points[0],...points[2],palette.gold,1,'4 5');
+    points.forEach(([x,y],i)=>b+=`<circle cx="${x}" cy="${y}" r="11" fill="#fff" stroke="${palette.purple}" stroke-width="2.5"/>`+t(x,y+5,String(i+1),'ed-small'));
+    b+=t(cx,73,n+w(' 根／相（局部放大）',' per phase (detail enlarged)'),'ed-label');
+    b+=t(cx,213,n===1?w('单根导线','Single conductor'):'d = '+f(p.bundle_spacing_m,4)+' m'+(n===4?w('；对角线 √2d','; diagonal √2d'):''));
+    b+=t(cx,244,'Ds,L = '+f(m.bundle_gmr_m,6)+' m','ed-label')+t(cx,272,'Ds,C = '+f(m.bundle_radius_m,6)+' m','ed-label');
+    b+=line(45,292,755,292,'#e5dfec',1)+t(400,321,p.circuits===1?w('一条物理回路的每相标称 π','Per-phase nominal π of one physical circuit'):w('两条相同且互不耦合回路的并联等效','Parallel equivalent of two identical uncoupled circuits'),'ed-heading');
+    b+=piCircuit(c,{top:378,R:m.equivalent_r_ohm,X:m.equivalent_x_ohm,B:m.equivalent_b_ms});
+    b+=t(400,534,'ZB = '+f(m.z_base_ohm,1)+' Ω · z = '+f(m.equivalent_r_pu,6)+' + j'+f(m.equivalent_x_pu,6)+' pu','ed-label');
+    b+=t(400,562,'btotal = '+f(m.equivalent_b_pu,5)+' pu · '+w('每端 b/2','b/2 at each end'),'ed-label');
+    b+=t(400,590,w('分裂导线数改变每相参数；物理回路数改变支路并联关系。','Bundle count changes phase parameters; circuit count changes parallel branches.'),'ed-small');
+    return{height:613,body:b};
+  }
+  const handlers={overview,generation,'single-phase':singlePhase,'three-phase':threePhase,transformers,'per-unit':perUnit,'transformer-banks':banks,'exam-review':review,'line-conductor':lineConductor,'line-inductance':lineInductance,'line-capacitance':lineCapacitance,'line-bundles':lineBundles};
   function render(kind,r,lang='en'){
     const c=context(kind,lang);
     if(kind==='transformer-network'){

@@ -54,7 +54,7 @@ class LectureShellTest(unittest.TestCase):
         ids = [lecture["id"] for lecture in MANIFEST["lectures"]]
         released = [lecture for lecture in MANIFEST["lectures"] if lecture["status"] == "live"]
         self.assertEqual(len(ids), 34)
-        self.assertEqual(len(released), 20)
+        self.assertEqual(len(released), 24)
         self.assertEqual(set(SLIDES), {lecture["id"] for lecture in released})
         for prefix in ("", "zh/"):
             course = SITE / prefix / "teaching/ece685"

@@ -4011,6 +4011,1780 @@
         "zh": "使用上文原 L16 四个例题的固定数据：V=180∠−20°、I=12∠10°；Δ 支路 8+j6 Ω、VAB=208∠0°；单相 Sb=30 kVA、VH=1500 V、ZH=1.5+j3.4369 Ω；规划峰值 160 MW、PRM 15%。",
         "en": "Use the fixed original L16 data above: V=180∠−20°, I=12∠10°; Δ branch 8+j6 Ω, VAB=208∠0°; single-phase Sb=30 kVA, VH=1500 V, ZH=1.5+j3.4369 Ω; planning peak 160 MW, PRM 15%."
       }
+    },
+    {
+      "id": "line-conductor",
+      "number": 10,
+      "title": {
+        "en": "Conductor resistance and flux linkage",
+        "zh": "导线电阻与磁通链"
+      },
+      "summary": {
+        "en": "Separate material area, temperature and return geometry, then recover one-conductor and loop impedance.",
+        "zh": "区分材料面积、温度和回流几何，计算单根导线与整个回路的阻抗。"
+      },
+      "sources": [
+        "L22"
+      ],
+      "extension": [],
+      "opening": {
+        "en": "A 75-mile line has 500 mm² of aluminum and a 14 mm outside radius. Why do resistance and inductance need different geometric information, and when should the answer be doubled?",
+        "zh": "一条 75 英里线路的铝面积为 500 mm²，外半径为 14 mm。为什么电阻和电感需要不同的几何信息？什么时候才应该将结果乘 2？"
+      },
+      "goals": [
+        {
+          "en": "Correct resistance for temperature and supplied conductor factors.",
+          "zh": "按温度和给定导线修正系数计算电阻。"
+        },
+        {
+          "en": "Separate internal and external flux linkage under stated assumptions.",
+          "zh": "在明确假设下区分内部与外部磁通链。"
+        },
+        {
+          "en": "Convert per-length rates to one-conductor and two-wire loop values.",
+          "zh": "将单位长度参数换算为单根导线与双线回路参数。"
+        }
+      ],
+      "concepts": [
+        {
+          "title": {
+            "en": "Metal area is not outer area",
+            "zh": "金属面积不等于外圆面积"
+          },
+          "body": {
+            "en": "Use the conducting aluminum area in ρℓ/A. Voids, strands and a steel core mean πr² need not equal the aluminum area. The radius in the magnetic example belongs to a separate ideal solid, nonmagnetic surrogate.",
+            "zh": "ρℓ/A 使用导电铝材面积。间隙、绞线和钢芯使 πr² 不一定等于铝材面积。磁场例题中的半径用于另一个理想实心、非磁性导线近似。"
+          },
+          "formula": "R'_{dc,20}=\\rho_{20}/A_{Al}"
+        },
+        {
+          "title": {
+            "en": "Temperature and supplied factors",
+            "zh": "温度与给定修正系数"
+          },
+          "body": {
+            "en": "The path and AC factors are supplied empirical inputs, not a skin-effect solver. The default AC factor is specified at 60 Hz; if frequency changes in edited code, a matching factor must be supplied.",
+            "zh": "绞线长度系数和 AC 系数是给定经验值，并非集肤效应求解。默认 AC 系数在 60 Hz 给定；修改代码改变频率时应提供相应系数。"
+          },
+          "formula": "R'_{ac,T}=R'_{dc,20}[1+\\alpha_{20}(T-20)]k_{path}k_{ac}"
+        },
+        {
+          "title": {
+            "en": "Internal flux linkage",
+            "zh": "内部磁通链"
+          },
+          "body": {
+            "en": "For a nonmagnetic solid conductor with uniform current density, a shell links only the enclosed current fraction. Integrating gives 0.05 mH/km. This ideal term is not a catalog model for a stranded steel-core conductor.",
+            "zh": "非磁性实心导线电流密度均匀时，环形磁通只链接所包围的电流比例。积分得到 0.05 mH/km。该理想项不是钢芯绞线的目录模型。"
+          },
+          "formula": "L'_{int}=\\mu_0/(8\\pi)=5\\times10^{-8}\\ \\mathrm{H/m}"
+        },
+        {
+          "title": {
+            "en": "External linkage and ideal GMR",
+            "zh": "外部磁通链与理想 GMR"
+          },
+          "body": {
+            "en": "D is the equal-return spacing with D≫r, not a boundary where the field vanishes. Combining internal and external linkage gives the ideal solid-conductor GMR r exp(−1/4). Later lectures use supplied conductor GMR directly.",
+            "zh": "D 为等量反向回流间距，要求 D≫r，并不意味着磁场在 D 处消失。内外磁通链合并后得到理想实心导线 GMR=r exp(−1/4)。后续讲次直接使用给定目录 GMR。"
+          },
+          "formula": "L'_{cond}=2\\times10^{-7}\\ln\\frac{D}{r e^{-1/4}}\\ \\mathrm{H/m}"
+        },
+        {
+          "title": {
+            "en": "Conductor versus loop",
+            "zh": "单根导线与回路"
+          },
+          "body": {
+            "en": "Multiply rates by route length once. An equal two-wire loop includes both conductors, so its R and X are twice the one-conductor values. This factor does not carry into the balanced three-phase formula in L23.",
+            "zh": "单位长度参数只乘一次线路长度。等量双线回路包含两根导线，因此 R、X 均为单根值的两倍。这一系数不能用于 L23 的平衡三相每相公式。"
+          },
+          "formula": "Z_{loop}=2(R_{cond}+j\\omega L_{cond})"
+        }
+      ],
+      "controls": [
+        {
+          "key": "temperature_c",
+          "label": {
+            "en": "Conductor temperature",
+            "zh": "导线温度"
+          },
+          "unit": "°C",
+          "min": 20,
+          "max": 100,
+          "step": 1,
+          "advanced": false,
+          "type": "range"
+        },
+        {
+          "key": "area_mm2",
+          "label": {
+            "en": "Conducting aluminum area",
+            "zh": "导电铝材面积"
+          },
+          "unit": "mm²",
+          "min": 100,
+          "max": 1000,
+          "step": 10,
+          "advanced": false,
+          "type": "range"
+        },
+        {
+          "key": "spacing_m",
+          "label": {
+            "en": "Equal-return conductor spacing",
+            "zh": "等量回流导线间距"
+          },
+          "unit": "m",
+          "min": 1,
+          "max": 20,
+          "step": 0.1,
+          "advanced": false,
+          "type": "range"
+        },
+        {
+          "key": "radius_mm",
+          "label": {
+            "en": "Ideal magnetic-surrogate radius",
+            "zh": "理想磁场近似导线半径"
+          },
+          "unit": "mm",
+          "min": 5,
+          "max": 30,
+          "step": 0.5,
+          "advanced": false,
+          "type": "range"
+        },
+        {
+          "key": "length_km",
+          "label": {
+            "en": "Route length",
+            "zh": "线路长度"
+          },
+          "unit": "km",
+          "min": 10,
+          "max": 300,
+          "step": 0.1,
+          "advanced": true,
+          "type": "range"
+        },
+        {
+          "key": "rho20",
+          "label": {
+            "en": "Resistivity at 20 °C",
+            "zh": "20 °C 电阻率"
+          },
+          "unit": "Ω·m",
+          "min": 1e-08,
+          "max": 4e-08,
+          "step": 1e-10,
+          "advanced": true,
+          "type": "range"
+        },
+        {
+          "key": "alpha20",
+          "label": {
+            "en": "Temperature coefficient at 20 °C",
+            "zh": "20 °C 温度系数"
+          },
+          "unit": "1/°C",
+          "min": 0.001,
+          "max": 0.006,
+          "step": 1e-05,
+          "advanced": true,
+          "type": "range"
+        },
+        {
+          "key": "path_factor",
+          "label": {
+            "en": "Supplied strand-path factor",
+            "zh": "给定绞线长度系数"
+          },
+          "unit": "",
+          "min": 1,
+          "max": 1.1,
+          "step": 0.001,
+          "advanced": true,
+          "type": "range"
+        },
+        {
+          "key": "ac_factor",
+          "label": {
+            "en": "Supplied AC factor at 60 Hz",
+            "zh": "60 Hz 给定 AC 修正系数"
+          },
+          "unit": "",
+          "min": 1,
+          "max": 1.2,
+          "step": 0.001,
+          "advanced": true,
+          "type": "range"
+        }
+      ],
+      "metrics": [
+        {
+          "key": "resistance_ohm_km",
+          "label": {
+            "en": "Corrected AC resistance rate",
+            "zh": "修正后 AC 电阻率"
+          },
+          "unit": "Ω/km",
+          "digits": 6
+        },
+        {
+          "key": "resistance_ohm",
+          "label": {
+            "en": "One-conductor route resistance",
+            "zh": "单根导线线路电阻"
+          },
+          "unit": "Ω",
+          "digits": 4
+        },
+        {
+          "key": "internal_mh_km",
+          "label": {
+            "en": "Ideal internal inductance",
+            "zh": "理想内部电感"
+          },
+          "unit": "mH/km",
+          "digits": 4
+        },
+        {
+          "key": "external_mh_km",
+          "label": {
+            "en": "External inductance",
+            "zh": "外部电感"
+          },
+          "unit": "mH/km",
+          "digits": 4
+        },
+        {
+          "key": "inductance_mh_km",
+          "label": {
+            "en": "One-conductor inductance rate",
+            "zh": "单根导线电感率"
+          },
+          "unit": "mH/km",
+          "digits": 4
+        },
+        {
+          "key": "reactance_ohm",
+          "label": {
+            "en": "One-conductor route reactance",
+            "zh": "单根导线线路电抗"
+          },
+          "unit": "Ω",
+          "digits": 4
+        },
+        {
+          "key": "loop_resistance_ohm",
+          "label": {
+            "en": "Two-wire loop resistance",
+            "zh": "双线回路电阻"
+          },
+          "unit": "Ω",
+          "digits": 4
+        },
+        {
+          "key": "loop_reactance_ohm",
+          "label": {
+            "en": "Two-wire loop reactance",
+            "zh": "双线回路电抗"
+          },
+          "unit": "Ω",
+          "digits": 4
+        }
+      ],
+      "given": {
+        "en": "L22 worked example: 75 mi=120.7008 km; ρ20=2.8264×10⁻⁸ Ω·m; AAl=500 mm²; α20=0.00403/°C; T=75 °C; kpath=1.020; kac,60=1.030. The separate solid magnetic surrogate has r=14 mm, D=6 m, f=60 Hz.",
+        "zh": "L22 例题：75 mi=120.7008 km；ρ20=2.8264×10⁻⁸ Ω·m；AAl=500 mm²；α20=0.00403/°C；T=75 °C；kpath=1.020；kac,60=1.030。另一个实心磁场近似模型采用 r=14 mm、D=6 m、f=60 Hz。"
+      },
+      "worked": [
+        {
+          "en": "Convert area: 500 mm²=500×10⁻⁶ m². R′dc,20=0.056528 Ω/km; the km conversion contributes a factor of 1000.",
+          "zh": "面积换算：500 mm²=500×10⁻⁶ m²。R′dc,20=0.056528 Ω/km；从 m 到 km 需要乘 1000。"
+        },
+        {
+          "en": "kT=1+0.00403×55=1.22165. R′ac,75=0.056528×1.22165×1.020×1.030=0.0725517 Ω/km.",
+          "zh": "kT=1+0.00403×55=1.22165。R′ac,75=0.056528×1.22165×1.020×1.030=0.0725517 Ω/km。"
+        },
+        {
+          "en": "Rcond=0.0725517×120.7008=8.75705 Ω. Area scaling affects this resistance without redefining the independent magnetic radius.",
+          "zh": "Rcond=0.0725517×120.7008=8.75705 Ω。改变铝材面积影响电阻，不会自动重定义独立的磁场近似半径。"
+        },
+        {
+          "en": "L′int=0.05000 and L′ext=0.2 ln(6/0.014)=1.21209 mH/km; total L′cond=1.26209 mH/km.",
+          "zh": "L′int=0.05000，L′ext=0.2 ln(6/0.014)=1.21209 mH/km；L′cond=1.26209 mH/km。"
+        },
+        {
+          "en": "Lcond=0.152335 H and Xcond=2π60Lcond=57.4291 Ω. The equal two-wire loop is 17.5141+j114.8582 Ω.",
+          "zh": "Lcond=0.152335 H，Xcond=2π60Lcond=57.4291 Ω。等量双线回路为 17.5141+j114.8582 Ω。"
+        }
+      ],
+      "practice": [
+        {
+          "key": "resistance_ohm_km",
+          "label": {
+            "en": "Corrected resistance rate",
+            "zh": "修正后的电阻率"
+          },
+          "unit": "Ω/km",
+          "hint": {
+            "en": "Apply the temperature, path and AC factors to 0.056528 Ω/km.",
+            "zh": "对 0.056528 Ω/km 依次应用温度、绞线长度和 AC 系数。"
+          },
+          "tolerance": 0.0001
+        },
+        {
+          "key": "reactance_ohm",
+          "label": {
+            "en": "One-conductor route reactance",
+            "zh": "单根导线线路电抗"
+          },
+          "unit": "Ω",
+          "hint": {
+            "en": "Use L′=1.26209 mH/km, route length 120.7008 km and 2π60.",
+            "zh": "使用 L′=1.26209 mH/km、120.7008 km 和 2π60。"
+          },
+          "tolerance": 0.002
+        },
+        {
+          "key": "loop_resistance_ohm",
+          "label": {
+            "en": "Two-wire loop resistance",
+            "zh": "双线回路电阻"
+          },
+          "unit": "Ω",
+          "hint": {
+            "en": "Two equal conductors each contribute 8.75705 Ω.",
+            "zh": "两根相同导线分别贡献 8.75705 Ω。"
+          },
+          "tolerance": 0.002
+        }
+      ],
+      "quiz": {
+        "question": {
+          "en": "Which area belongs in the resistance formula for a stranded conductor?",
+          "zh": "绞线导线的电阻公式应采用哪个面积？"
+        },
+        "choices": [
+          {
+            "value": "0",
+            "label": {
+              "en": "The outer-circle area πr² in every case",
+              "zh": "任何情况下均为外圆面积 πr²"
+            }
+          },
+          {
+            "value": "1",
+            "label": {
+              "en": "The actual conducting material area supplied for the conductor",
+              "zh": "给定导线的实际导电材料面积"
+            }
+          },
+          {
+            "value": "2",
+            "label": {
+              "en": "The magnetic GMR squared",
+              "zh": "磁 GMR 的平方"
+            }
+          }
+        ],
+        "correct": "1",
+        "feedback": [
+          {
+            "en": "Strands, voids and a core can make outer area different from metal area.",
+            "zh": "绞线、间隙和芯材使外圆面积不同于金属面积。"
+          },
+          {
+            "en": "Correct. Resistance uses conducting area; the magnetic surrogate uses its separately stated radius.",
+            "zh": "正确：电阻使用导电面积；磁场近似模型使用另行给定的半径。"
+          },
+          {
+            "en": "GMR summarizes magnetic self linkage, not metal area.",
+            "zh": "GMR 描述磁自磁通链，并非金属面积。"
+          }
+        ]
+      },
+      "challenge": {
+        "en": "Double AAl, then double D. Explain why resistance halves while inductance changes logarithmically. Compare one-conductor and loop answers.",
+        "zh": "将 AAl 加倍，再将 D 加倍。解释电阻减半而电感呈对数变化的原因，并比较单根导线与回路的结果。"
+      },
+      "limits": {
+        "en": "Resistance factors are supplied at 60 Hz. The magnetic calculation assumes nonmagnetic solid conductors, uniform current density and equal opposite currents with D≫r. Aluminum area and magnetic radius are independent inputs; this is not a detailed stranded/steel-core or skin-effect model.",
+        "zh": "电阻修正系数在 60 Hz 给定。磁场计算假设非磁性实心导线、电流密度均匀、等量反向电流且 D≫r。铝材面积与磁场半径是独立输入；此模型不求解绞线、钢芯或集肤效应细节。"
+      },
+      "code_key": "temperature_c",
+      "code_values": [
+        20,
+        40,
+        60,
+        75,
+        100
+      ],
+      "plot_titles": [
+        {
+          "en": "Resistance versus temperature",
+          "zh": "电阻与温度"
+        },
+        {
+          "en": "Internal and external inductance versus spacing",
+          "zh": "内部、外部电感与间距"
+        }
+      ]
+    },
+    {
+      "id": "line-inductance",
+      "number": 11,
+      "title": {
+        "en": "Three-phase GMD, GMR and transposition",
+        "zh": "三相 GMD、GMR 与换位"
+      },
+      "summary": {
+        "en": "Compute actual mutual distances and the geometric mean, then reproduce the transposed per-phase inductance.",
+        "zh": "计算实际互距和几何平均距离，复现换位线路的每相电感。"
+      },
+      "sources": [
+        "L23"
+      ],
+      "extension": [],
+      "opening": {
+        "en": "Three positions are at x=−4, 0 and +6 m. Which single spacing can represent their unequal magnetic coupling after complete transposition?",
+        "zh": "三根导线位置为 x=−4、0、+6 m。完整换位后，应使用什么单一间距表示这些不等的磁耦合？"
+      },
+      "goals": [
+        {
+          "en": "Derive all mutual distances from physical positions.",
+          "zh": "由实际位置计算全部互距。"
+        },
+        {
+          "en": "Explain geometric averaging through one full transposition cycle.",
+          "zh": "用完整换位循环解释几何平均。"
+        },
+        {
+          "en": "Use catalog GMR directly and retain the per-phase interpretation.",
+          "zh": "直接使用目录 GMR，保持每相量的物理意义。"
+        }
+      ],
+      "concepts": [
+        {
+          "title": {
+            "en": "Positions determine the three distances",
+            "zh": "位置决定三个互距"
+          },
+          "body": {
+            "en": "P1=(−a,0), P2=(0,0), P3=(b cosθ,b sinθ). At θ=0, the arrangement is horizontal and D31=a+b. With a=b and θ=120°, it is equilateral. The angle is measured from +x, not the included P1–P2–P3 angle.",
+            "zh": "P1=(−a,0)、P2=(0,0)、P3=(b cosθ,b sinθ)。θ=0 为水平排列，D31=a+b；a=b 且 θ=120° 时为等边三角形。θ 相对 +x 方向测量，不是 P1–P2–P3 的内角。"
+          },
+          "formula": "D_{ij}=\\sqrt{(x_i-x_j)^2+(y_i-y_j)^2}"
+        },
+        {
+          "title": {
+            "en": "Why a geometric mean?",
+            "zh": "为什么使用几何平均？"
+          },
+          "body": {
+            "en": "Magnetic terms depend on logarithms of distance. Equal-length transposition averages those logarithms. Every phase occupies every position for one third of the route; an arithmetic mean does not preserve the linkage.",
+            "zh": "磁场项取决于距离的对数。等长度换位对这些对数取平均，每相在每个位置占线路的三分之一；算术平均不能保持磁通链。"
+          },
+          "formula": "\\ln D_m=\\tfrac13(\\ln D_{12}+\\ln D_{23}+\\ln D_{31})"
+        },
+        {
+          "title": {
+            "en": "GMR is supplied self-distance",
+            "zh": "GMR 是给定的自距离"
+          },
+          "body": {
+            "en": "Use the conductor GMR Ds from its data. The 0.7788r expression applies only to the ideal solid nonmagnetic conductor of L22; do not multiply a catalog GMR by 0.7788 again.",
+            "zh": "采用导线资料给定的 GMR Ds。0.7788r 只适用于 L22 的理想非磁性实心导线；不要对目录 GMR 再乘一次 0.7788。"
+          },
+          "formula": "L'_{\\phi}=2\\times10^{-7}\\ln(D_m/D_s)\\ \\mathrm{H/m}"
+        },
+        {
+          "title": {
+            "en": "Balanced return and route reactance",
+            "zh": "平衡回流与线路电抗"
+          },
+          "body": {
+            "en": "The other two phase currents sum to the negative of the selected phase current. This is already included in the balanced per-phase formula. Multiply by route length once and by ω to obtain one phase branch reactance.",
+            "zh": "另外两相电流之和等于所选相电流的负值，该平衡回流已包含在每相公式中。只乘一次线路长度，再乘 ω 得到一相支路电抗。"
+          },
+          "formula": "I_a+I_b+I_c=0,\\quad X_{\\phi}=2\\pi f L'_{\\phi}\\ell"
+        },
+        {
+          "title": {
+            "en": "Averaged model has a scope",
+            "zh": "平均模型有适用范围"
+          },
+          "body": {
+            "en": "This scalar positive-sequence rate assumes complete equal-length transposition, identical conductors and balanced operation. Earth and shield wires are omitted. An untransposed line generally requires phase-domain coupling information.",
+            "zh": "该标量正序参数假设完整等长度换位、相同导线和平衡运行，忽略大地与地线。未换位线路通常需要相域耦合信息。"
+          },
+          "formula": "D_m=(D_{12}D_{23}D_{31})^{1/3}"
+        }
+      ],
+      "controls": [
+        {
+          "key": "spacing_ab_m",
+          "label": {
+            "en": "Position spacing P1–P2",
+            "zh": "位置间距 P1–P2"
+          },
+          "unit": "m",
+          "min": 2,
+          "max": 12,
+          "step": 0.1,
+          "advanced": false,
+          "type": "range"
+        },
+        {
+          "key": "spacing_bc_m",
+          "label": {
+            "en": "Position spacing P2–P3",
+            "zh": "位置间距 P2–P3"
+          },
+          "unit": "m",
+          "min": 2,
+          "max": 12,
+          "step": 0.1,
+          "advanced": false,
+          "type": "range"
+        },
+        {
+          "key": "position_angle_deg",
+          "label": {
+            "en": "P2→P3 angle from the +x direction",
+            "zh": "P2→P3 相对 +x 方向的夹角"
+          },
+          "unit": "°",
+          "min": 0,
+          "max": 120,
+          "step": 5,
+          "advanced": false,
+          "type": "range"
+        },
+        {
+          "key": "gmr_mm",
+          "label": {
+            "en": "Supplied conductor GMR",
+            "zh": "给定导线 GMR"
+          },
+          "unit": "mm",
+          "min": 5,
+          "max": 30,
+          "step": 0.1,
+          "advanced": false,
+          "type": "range"
+        },
+        {
+          "key": "length_km",
+          "label": {
+            "en": "Route length",
+            "zh": "线路长度"
+          },
+          "unit": "km",
+          "min": 10,
+          "max": 300,
+          "step": 0.1,
+          "advanced": true,
+          "type": "range"
+        },
+        {
+          "key": "frequency_hz",
+          "label": {
+            "en": "Frequency",
+            "zh": "频率"
+          },
+          "unit": "Hz",
+          "min": 40,
+          "max": 70,
+          "step": 1,
+          "advanced": true,
+          "type": "range"
+        }
+      ],
+      "metrics": [
+        {
+          "key": "d_ab_m",
+          "label": {
+            "en": "Position distance D12",
+            "zh": "位置互距 D12"
+          },
+          "unit": "m",
+          "digits": 4
+        },
+        {
+          "key": "d_bc_m",
+          "label": {
+            "en": "Position distance D23",
+            "zh": "位置互距 D23"
+          },
+          "unit": "m",
+          "digits": 4
+        },
+        {
+          "key": "d_ca_m",
+          "label": {
+            "en": "Position distance D31",
+            "zh": "位置互距 D31"
+          },
+          "unit": "m",
+          "digits": 4
+        },
+        {
+          "key": "gmd_m",
+          "label": {
+            "en": "Geometric mean distance",
+            "zh": "几何平均距离"
+          },
+          "unit": "m",
+          "digits": 4
+        },
+        {
+          "key": "inductance_mh_km",
+          "label": {
+            "en": "Per-phase inductance rate",
+            "zh": "每相电感率"
+          },
+          "unit": "mH/km",
+          "digits": 6
+        },
+        {
+          "key": "reactance_ohm_km",
+          "label": {
+            "en": "Per-phase reactance rate",
+            "zh": "每相电抗率"
+          },
+          "unit": "Ω/km",
+          "digits": 6
+        },
+        {
+          "key": "reactance_ohm",
+          "label": {
+            "en": "Route phase reactance",
+            "zh": "线路每相电抗"
+          },
+          "unit": "Ω",
+          "digits": 4
+        },
+        {
+          "key": "arithmetic_error_percent",
+          "label": {
+            "en": "Error from using arithmetic mean",
+            "zh": "误用算术平均的误差"
+          },
+          "unit": "%",
+          "digits": 4
+        }
+      ],
+      "given": {
+        "en": "L23 example: positions (−4,25), (0,25), (+6,25) m; GMR=10.90 mm; 75 mi=120.7008 km; f=60 Hz. The common height cancels in mutual distances because this model omits earth.",
+        "zh": "L23 例题：位置为 (−4,25)、(0,25)、(+6,25) m；GMR=10.90 mm；75 mi=120.7008 km；f=60 Hz。此模型忽略大地，因此共同高度在互距计算中抵消。"
+      },
+      "worked": [
+        {
+          "en": "D12=4 m, D23=6 m, D31=10 m. Dm=(4×6×10)⅓=6.214465 m.",
+          "zh": "D12=4 m、D23=6 m、D31=10 m。Dm=(4×6×10)⅓=6.214465 m。"
+        },
+        {
+          "en": "GMR=0.01090 m. ln(Dm/Ds)=6.345872; L′φ=1.269174 mH/km.",
+          "zh": "GMR=0.01090 m。ln(Dm/Ds)=6.345872；L′φ=1.269174 mH/km。"
+        },
+        {
+          "en": "X′φ=2π60×1.269174×10⁻³=0.4784675 Ω/km. Lφ=0.153190 H and Xφ=57.7514 Ω.",
+          "zh": "X′φ=2π60×1.269174×10⁻³=0.4784675 Ω/km。Lφ=0.153190 H，Xφ=57.7514 Ω。"
+        },
+        {
+          "en": "Using the arithmetic mean 6.6667 m gives about 58.3906 Ω, 1.107% too high. Substituting a 14 mm physical radius for GMR gives about 55.4736 Ω, 3.944% too low.",
+          "zh": "误用算术平均 6.6667 m 得到约 58.3906 Ω，高估 1.107%。用 14 mm 实际半径代替 GMR 得到约 55.4736 Ω，低估 3.944%。"
+        }
+      ],
+      "practice": [
+        {
+          "key": "gmd_m",
+          "label": {
+            "en": "Geometric mean distance",
+            "zh": "几何平均距离"
+          },
+          "unit": "m",
+          "hint": {
+            "en": "Take the cube root of 4×6×10.",
+            "zh": "计算 4×6×10 的立方根。"
+          },
+          "tolerance": 0.001
+        },
+        {
+          "key": "inductance_mh_km",
+          "label": {
+            "en": "Per-phase inductance rate",
+            "zh": "每相电感率"
+          },
+          "unit": "mH/km",
+          "hint": {
+            "en": "Use 0.2 ln(6.214465/0.01090).",
+            "zh": "计算 0.2 ln(6.214465/0.01090)。"
+          },
+          "tolerance": 0.001
+        },
+        {
+          "key": "reactance_ohm",
+          "label": {
+            "en": "Route phase reactance",
+            "zh": "线路每相电抗"
+          },
+          "unit": "Ω",
+          "hint": {
+            "en": "Multiply the per-km reactance by 120.7008, without an extra factor of two.",
+            "zh": "将每 km 电抗乘 120.7008，不要额外乘 2。"
+          },
+          "tolerance": 0.002
+        }
+      ],
+      "quiz": {
+        "question": {
+          "en": "Why is GMD geometric rather than arithmetic?",
+          "zh": "为什么 GMD 使用几何平均而非算术平均？"
+        },
+        "choices": [
+          {
+            "value": "0",
+            "label": {
+              "en": "The three phase currents are always equal in phase",
+              "zh": "三相电流总是同相"
+            }
+          },
+          {
+            "value": "1",
+            "label": {
+              "en": "Equal-length transposition averages logarithmic distance terms",
+              "zh": "等长度换位对距离的对数项取平均"
+            }
+          },
+          {
+            "value": "2",
+            "label": {
+              "en": "The largest spacing can always be discarded",
+              "zh": "总可以丢弃最大互距"
+            }
+          }
+        ],
+        "correct": "1",
+        "feedback": [
+          {
+            "en": "Balanced phase currents are 120° apart, not equal in phase.",
+            "zh": "平衡相电流相差 120°，不是同相。"
+          },
+          {
+            "en": "Correct. Averaging ln D gives the logarithm of the geometric mean.",
+            "zh": "正确：ln D 的平均等于几何平均距离的对数。"
+          },
+          {
+            "en": "All three pair distances enter the transposed model.",
+            "zh": "换位模型必须包含三个互距。"
+          }
+        ]
+      },
+      "challenge": {
+        "en": "Set both position spacings to 6 m and the +x angle to 120°. Verify that all distances and GMD are 6 m. Then double only frequency and explain which quantities change.",
+        "zh": "将两个位置间距均设为 6 m，+x 夹角设为 120°。验证三个互距及 GMD 均为 6 m。然后只将频率加倍，解释哪些量会变化。"
+      },
+      "limits": {
+        "en": "One conductor per phase, identical supplied GMR, complete equal-length transposition and balanced currents; earth and shield wires omitted. The position diagram depicts the geometry that is averaged, not three permanently fixed phase identities.",
+        "zh": "每相一根导线，使用相同给定 GMR，完整等长度换位和平衡电流；忽略大地与地线。位置图展示被平均的几何，而非三相始终固定的位置身份。"
+      },
+      "code_key": "position_angle_deg",
+      "code_values": [
+        0,
+        30,
+        60,
+        90,
+        120
+      ],
+      "plot_titles": [
+        {
+          "en": "Inductance versus uniform spacing scale",
+          "zh": "电感与整体间距比例"
+        },
+        {
+          "en": "Route reactance versus frequency",
+          "zh": "线路电抗与频率"
+        }
+      ]
+    },
+    {
+      "id": "line-capacitance",
+      "number": 12,
+      "title": {
+        "en": "Capacitance and charging power",
+        "zh": "电容与充电功率"
+      },
+      "summary": {
+        "en": "Use physical radius to find capacitance, split a nominal π shunt and check phase current against three-phase reactive supply.",
+        "zh": "用实际半径计算电容，拆分标称 π 的并联电纳，并核对相电流与三相无功供给。"
+      },
+      "sources": [
+        "L24"
+      ],
+      "extension": [],
+      "opening": {
+        "en": "A 138 kV line can draw current even with no receiving-end load. How does conductor geometry create this charging current, and where does it appear in a π circuit?",
+        "zh": "138 kV 线路即使受端无负荷也会有电流。导线几何如何产生充电电流？它在 π 型电路中位于哪里？"
+      },
+      "goals": [
+        {
+          "en": "Use physical radius rather than magnetic GMR in electrostatic calculations.",
+          "zh": "静电计算使用实际半径而非磁 GMR。"
+        },
+        {
+          "en": "Relate C, B, phase current and total three-phase reactive power.",
+          "zh": "联系 C、B、相电流与三相总无功功率。"
+        },
+        {
+          "en": "Interpret the two shunt branches and reactive power sign.",
+          "zh": "解释两个并联支路与无功功率符号。"
+        }
+      ],
+      "concepts": [
+        {
+          "title": {
+            "en": "Potential outside a conducting cylinder",
+            "zh": "导电圆柱外的电势"
+          },
+          "body": {
+            "en": "An ideal conductor has zero electric field inside its metal. Integrating the outside field uses the physical surface radius r; the internal magnetic-linkage correction does not apply to electric potential.",
+            "zh": "理想导体金属内部电场为零。积分外部电场应从实际表面半径 r 开始；内部磁通链修正不适用于电势。"
+          },
+          "formula": "E(x)=q'/(2\\pi\\epsilon x),\\quad x\\ge r"
+        },
+        {
+          "title": {
+            "en": "Phase-to-neutral capacitance",
+            "zh": "相对中性参考的电容"
+          },
+          "body": {
+            "en": "Balanced charges sum to zero. For equal spacing or a fully transposed arrangement, the mutual-distance terms reduce to GMD. The neutral is an electrical reference, not an added physical conductor.",
+            "zh": "平衡电荷之和为零。等间距或完整换位时，互距项归并为 GMD。中性点是电气参考，不表示额外实际导线。"
+          },
+          "formula": "C'_n=\\frac{2\\pi\\epsilon}{\\ln(D_m/r)}\\ \\mathrm{F/m}"
+        },
+        {
+          "title": {
+            "en": "From a rate to a route shunt",
+            "zh": "从单位长度参数到线路并联支路"
+          },
+          "body": {
+            "en": "Ctotal=C′ℓ and Btotal=ωCtotal. Unit conversions matter: nF/km multiplied by km gives nF, then divide by 1000 for μF. B is positive capacitive susceptance in Y=jB.",
+            "zh": "Ctotal=C′ℓ，Btotal=ωCtotal。注意单位：nF/km 乘 km 得 nF，再除以 1000 得 μF。Y=jB 中 B 为正的容性电纳。"
+          },
+          "formula": "Y_{sh}=jB_{total}=j\\omega C'_n\\ell"
+        },
+        {
+          "title": {
+            "en": "Current and three-phase reactive supply",
+            "zh": "电流与三相无功供给"
+          },
+          "body": {
+            "en": "The phase charging current leads phase voltage by 90°. Under the uniform-voltage estimate, QC is positive capacitive supply; the absorbed complex reactive power is −QC. The line-voltage formula already includes all three phases.",
+            "zh": "相充电电流超前相电压 90°。全线等电压估算中 QC 为正的容性无功供给，吸收无功功率为 −QC。线电压公式已包含三相。"
+          },
+          "formula": "|I_{ch,\\phi}|=B_{total}\\frac{V_{LL}}{\\sqrt3},\\quad Q_C=B_{total}V_{LL}^2"
+        },
+        {
+          "title": {
+            "en": "Nominal π and local terminal voltage",
+            "zh": "标称 π 与本端电压"
+          },
+          "body": {
+            "en": "Each π end has jBtotal/2. Its current uses the local phase voltage. With equal terminal magnitudes, each end supplies half QC; otherwise compute each end separately. IR=0 means no receiving load, not zero sending charging current.",
+            "zh": "π 型每端为 jBtotal/2，支路电流使用本端相电压。两端幅值相同时各提供 QC/2，否则需分别计算。IR=0 表示受端无负荷，不代表送端充电电流为零。"
+          },
+          "formula": "I_{sh,S}=j\\frac{B_{total}}2 V_S,\\quad I_{sh,R}=j\\frac{B_{total}}2 V_R"
+        }
+      ],
+      "controls": [
+        {
+          "key": "voltage_ll_kv",
+          "label": {
+            "en": "Line-to-line voltage",
+            "zh": "线电压"
+          },
+          "unit": "kV",
+          "min": 69,
+          "max": 230,
+          "step": 1,
+          "advanced": false,
+          "type": "range"
+        },
+        {
+          "key": "radius_mm",
+          "label": {
+            "en": "Physical conductor radius",
+            "zh": "实际导线半径"
+          },
+          "unit": "mm",
+          "min": 5,
+          "max": 30,
+          "step": 0.5,
+          "advanced": false,
+          "type": "range"
+        },
+        {
+          "key": "spacing_ab_m",
+          "label": {
+            "en": "Position spacing P1–P2",
+            "zh": "位置间距 P1–P2"
+          },
+          "unit": "m",
+          "min": 2,
+          "max": 12,
+          "step": 0.1,
+          "advanced": true,
+          "type": "range"
+        },
+        {
+          "key": "spacing_bc_m",
+          "label": {
+            "en": "Position spacing P2–P3",
+            "zh": "位置间距 P2–P3"
+          },
+          "unit": "m",
+          "min": 2,
+          "max": 12,
+          "step": 0.1,
+          "advanced": true,
+          "type": "range"
+        },
+        {
+          "key": "position_angle_deg",
+          "label": {
+            "en": "P2→P3 angle from the +x direction",
+            "zh": "P2→P3 相对 +x 方向的夹角"
+          },
+          "unit": "°",
+          "min": 0,
+          "max": 120,
+          "step": 5,
+          "advanced": true,
+          "type": "range"
+        },
+        {
+          "key": "length_km",
+          "label": {
+            "en": "Route length",
+            "zh": "线路长度"
+          },
+          "unit": "km",
+          "min": 10,
+          "max": 300,
+          "step": 0.1,
+          "advanced": true,
+          "type": "range"
+        },
+        {
+          "key": "frequency_hz",
+          "label": {
+            "en": "Frequency",
+            "zh": "频率"
+          },
+          "unit": "Hz",
+          "min": 40,
+          "max": 70,
+          "step": 1,
+          "advanced": true,
+          "type": "range"
+        },
+        {
+          "key": "epsilon_r",
+          "label": {
+            "en": "Relative permittivity",
+            "zh": "相对介电常数"
+          },
+          "unit": "",
+          "min": 1,
+          "max": 1.1,
+          "step": 0.001,
+          "advanced": true,
+          "type": "range"
+        }
+      ],
+      "metrics": [
+        {
+          "key": "gmd_m",
+          "label": {
+            "en": "Geometric mean distance",
+            "zh": "几何平均距离"
+          },
+          "unit": "m",
+          "digits": 4
+        },
+        {
+          "key": "capacitance_nf_km",
+          "label": {
+            "en": "Phase-to-neutral capacitance rate",
+            "zh": "相对中性参考电容率"
+          },
+          "unit": "nF/km",
+          "digits": 4
+        },
+        {
+          "key": "capacitance_uf",
+          "label": {
+            "en": "Total route phase capacitance",
+            "zh": "线路每相总电容"
+          },
+          "unit": "μF",
+          "digits": 4
+        },
+        {
+          "key": "susceptance_ms",
+          "label": {
+            "en": "Total phase shunt susceptance",
+            "zh": "每相总并联电纳"
+          },
+          "unit": "mS",
+          "digits": 6
+        },
+        {
+          "key": "pi_end_ms",
+          "label": {
+            "en": "Shunt susceptance at each π end",
+            "zh": "π 型每端并联电纳"
+          },
+          "unit": "mS",
+          "digits": 6
+        },
+        {
+          "key": "charging_current_a",
+          "label": {
+            "en": "Uniform-voltage phase charging current",
+            "zh": "等电压估算的相充电电流"
+          },
+          "unit": "A",
+          "digits": 4
+        },
+        {
+          "key": "capacitive_mvar",
+          "label": {
+            "en": "Three-phase capacitive supply",
+            "zh": "三相容性无功供给"
+          },
+          "unit": "Mvar",
+          "digits": 4
+        },
+        {
+          "key": "absorbed_mvar",
+          "label": {
+            "en": "Three-phase absorbed reactive power",
+            "zh": "三相吸收无功功率"
+          },
+          "unit": "Mvar",
+          "digits": 4
+        }
+      ],
+      "given": {
+        "en": "L24 example: distances 4, 6 and 10 m; physical radius 14 mm; air ε=ε0=8.8541878×10⁻¹² F/m; f=60 Hz; length 75 mi=120.7008 km; VLL=138 kV. GMR=10.90 mm is supplied only for a deliberate comparison.",
+        "zh": "L24 例题：互距 4、6、10 m；实际半径 14 mm；空气 ε=ε0=8.8541878×10⁻¹² F/m；f=60 Hz；长度 75 mi=120.7008 km；VLL=138 kV。GMR=10.90 mm 仅用于故意错误的对比。"
+      },
+      "worked": [
+        {
+          "en": "Dm=(4×6×10)⅓=6.214465 m. ln(Dm/r)=6.09557759, using r=0.014 m.",
+          "zh": "Dm=(4×6×10)⅓=6.214465 m。使用 r=0.014 m，ln(Dm/r)=6.09557759。"
+        },
+        {
+          "en": "C′n=9.126699 nF/km; Ctotal=9.126699×120.7008/1000=1.1015999 μF.",
+          "zh": "C′n=9.126699 nF/km；Ctotal=9.126699×120.7008/1000=1.1015999 μF。"
+        },
+        {
+          "en": "B′=3.4406845 μS/km; Btotal=0.41529337 mS. Each π-end shunt is 0.20764669 mS.",
+          "zh": "B′=3.4406845 μS/km；Btotal=0.41529337 mS。π 型每端并联电纳为 0.20764669 mS。"
+        },
+        {
+          "en": "Vphase=138/√3=79.67434 kV; |Ich|=33.08822 A. QC=0.41529337×138²/1000=7.908847 Mvar; absorbed Q=−7.908847 Mvar.",
+          "zh": "Vphase=138/√3=79.67434 kV；|Ich|=33.08822 A。QC=0.41529337×138²/1000=7.908847 Mvar；吸收 Q=−7.908847 Mvar。"
+        },
+        {
+          "en": "Using magnetic GMR as r underestimates C′ by 3.944%. At 0.95 times voltage, QC becomes 0.95² times its original value, while C and B stay unchanged.",
+          "zh": "用磁 GMR 代替 r 会使 C′ 低估 3.944%。电压降为 0.95 倍时，QC 变为原来的 0.95² 倍，而 C、B 不变。"
+        }
+      ],
+      "practice": [
+        {
+          "key": "capacitance_nf_km",
+          "label": {
+            "en": "Phase capacitance rate",
+            "zh": "每相电容率"
+          },
+          "unit": "nF/km",
+          "hint": {
+            "en": "Use physical radius 0.014 m and GMD 6.214465 m.",
+            "zh": "采用实际半径 0.014 m 和 GMD 6.214465 m。"
+          },
+          "tolerance": 0.002
+        },
+        {
+          "key": "charging_current_a",
+          "label": {
+            "en": "Phase charging current",
+            "zh": "相充电电流"
+          },
+          "unit": "A",
+          "hint": {
+            "en": "Use total B=0.41529337 mS and phase voltage 138/√3 kV.",
+            "zh": "使用总 B=0.41529337 mS 与相电压 138/√3 kV。"
+          },
+          "tolerance": 0.002
+        },
+        {
+          "key": "capacitive_mvar",
+          "label": {
+            "en": "Total three-phase capacitive supply",
+            "zh": "三相总容性无功供给"
+          },
+          "unit": "Mvar",
+          "hint": {
+            "en": "Compute B VLL²; do not add another factor of three.",
+            "zh": "计算 B VLL²，不要再乘 3。"
+          },
+          "tolerance": 0.002
+        }
+      ],
+      "quiz": {
+        "question": {
+          "en": "Which radius enters the capacitance formula?",
+          "zh": "电容公式应使用哪个半径？"
+        },
+        "choices": [
+          {
+            "value": "0",
+            "label": {
+              "en": "Catalog magnetic GMR",
+              "zh": "目录磁 GMR"
+            }
+          },
+          {
+            "value": "1",
+            "label": {
+              "en": "Physical outside radius of the conductor",
+              "zh": "导线的实际外半径"
+            }
+          },
+          {
+            "value": "2",
+            "label": {
+              "en": "Outside diameter without dividing by two",
+              "zh": "不除以 2 的外径"
+            }
+          }
+        ],
+        "correct": "1",
+        "feedback": [
+          {
+            "en": "GMR includes internal magnetic-linkage effects, which do not belong in electrostatics.",
+            "zh": "GMR 包含内部磁通链效应，不适用于静电计算。"
+          },
+          {
+            "en": "Correct. The potential integral starts at the physical conductor surface.",
+            "zh": "正确：电势积分从实际导线表面开始。"
+          },
+          {
+            "en": "The formula requires radius; using diameter overestimates capacitance.",
+            "zh": "公式需要半径，使用直径会高估电容。"
+          }
+        ]
+      },
+      "challenge": {
+        "en": "Reduce line voltage by 5% and predict QC before changing the slider. Then double length in Python: C, B, I and QC should double, while C′ stays fixed.",
+        "zh": "先预测线电压降低 5% 后的 QC，再移动滑块。然后在 Python 中将长度加倍：C、B、I、QC 应加倍，C′ 保持不变。"
+      },
+      "limits": {
+        "en": "Balanced, equal-spacing or fully transposed overhead line in a uniform dielectric; earth and shield wires omitted. Charging uses uniform line voltage and does not solve sending/receiving voltage rise. The π diagram shows parameter placement; R and X are symbolic in this capacitance-only experiment.",
+        "zh": "平衡、等间距或完整换位的架空线路，均匀介质，忽略大地与地线。充电估算采用全线等电压，不求解送受端电压升高。π 图展示参数位置；本电容实验中的 R、X 为符号量。"
+      },
+      "code_key": "voltage_ll_kv",
+      "code_values": [
+        100,
+        120,
+        131.1,
+        138,
+        160
+      ],
+      "plot_titles": [
+        {
+          "en": "Charging reactive supply versus voltage",
+          "zh": "充电无功供给与电压"
+        },
+        {
+          "en": "Capacitance versus physical radius",
+          "zh": "电容与实际半径"
+        }
+      ]
+    },
+    {
+      "id": "line-bundles",
+      "number": 13,
+      "title": {
+        "en": "Bundles, physical circuits and per-unit branches",
+        "zh": "分裂导线、物理回路与标幺支路"
+      },
+      "summary": {
+        "en": "Model one to four symmetric subconductors, distinguish magnetic/electric self radii and build the circuit branch on a stated system base.",
+        "zh": "模拟每相一至四根对称子导线，区分磁、电自半径，并按给定系统基准建立线路支路。"
+      },
+      "sources": [
+        "L25"
+      ],
+      "extension": [],
+      "opening": {
+        "en": "The 500 kV example has two subconductors per phase. Is that two transmission circuits? Why do resistance, reactance and charging change by different factors?",
+        "zh": "500 kV 例题每相包含两根子导线。这是否表示两条输电回路？为什么电阻、电抗和充电参数的变化比例不同？"
+      },
+      "goals": [
+        {
+          "en": "Compute magnetic and electric bundle self distances for 1–4 members.",
+          "zh": "计算 1–4 根子导线的磁、电分裂自距离。"
+        },
+        {
+          "en": "Recover one physical circuit’s phase R, X and total B.",
+          "zh": "计算一条物理回路的每相 R、X 与总 B。"
+        },
+        {
+          "en": "Change the system base and distinguish a parallel-circuit equivalent.",
+          "zh": "改变系统基准，并区分多回路并联等效。"
+        }
+      ],
+      "concepts": [
+        {
+          "title": {
+            "en": "One phase contains the whole bundle",
+            "zh": "整个分裂导线组属于一相"
+          },
+          "body": {
+            "en": "Symmetric identical members share phase current and charge equally. R′phase=R′sub/n. Mutual magnetic coupling means inductance cannot be divided by n as if the members were independent inductors.",
+            "zh": "对称且相同的子导线均分相电流和电荷，R′phase=R′sub/n。子导线存在磁互耦，不能将它们视为独立电感并把电感除以 n。"
+          },
+          "formula": "R'_{\\phi}=R'_{sub}/n"
+        },
+        {
+          "title": {
+            "en": "Two self-distance calculations",
+            "zh": "两套自距离计算"
+          },
+          "body": {
+            "en": "Use the same symmetric bundle geometry twice: magnetic self terms start with supplied GMR Ds, electric self terms start with physical radius r. For three members the arrangement is equilateral; for four it is a square whose side spacing is d.",
+            "zh": "同一对称分裂几何计算两次：磁自项从给定 GMR Ds 开始，电自项从实际半径 r 开始。三分裂为等边三角形，四分裂为边长 d 的正方形。"
+          },
+          "formula": "D_{s,b}=\\begin{cases}D_s&n=1\\\\(D_s d)^{1/2}&n=2\\\\(D_s d^2)^{1/3}&n=3\\\\(\\sqrt2D_s d^3)^{1/4}&n=4\\end{cases}"
+        },
+        {
+          "title": {
+            "en": "The square diagonal matters",
+            "zh": "正方形对角线不可忽略"
+          },
+          "body": {
+            "en": "A square member has two neighbors at d and one at √2d. The √2 factor inside the fourth root belongs in both the magnetic and electric bundle radius. The phase-center GMD approximation requires a bundle much smaller than phase spacing.",
+            "zh": "正方形的一根子导线有两个距离 d 的邻居和一个距离 √2d 的邻居。磁、电分裂半径的四次根号内都必须包含 √2。相中心 GMD 近似要求分裂尺寸远小于相间距。"
+          },
+          "formula": "D_{s,b,4}=(\\sqrt2D_s d^3)^{1/4},\\quad r_{b,4}=(\\sqrt2r d^3)^{1/4}"
+        },
+        {
+          "title": {
+            "en": "One circuit’s physical parameters",
+            "zh": "一条回路的实际参数"
+          },
+          "body": {
+            "en": "Calculate per-phase L and C using phase-center GMD and the respective bundle self radii. Multiply each rate by route length once. Three phases are represented by one balanced phase branch, not an extra factor of three in R, X or B.",
+            "zh": "使用相中心 GMD 和各自分裂自半径计算每相 L、C；各单位长度参数只乘一次线路长度。三相采用一条平衡相支路表示，R、X、B 不额外乘 3。"
+          },
+          "formula": "L'_\\phi=2\\times10^{-7}\\ln(D_m/D_{s,b}),\\quad C'_n=2\\pi\\epsilon/\\ln(D_m/r_b)"
+        },
+        {
+          "title": {
+            "en": "Series and shunt use reciprocal bases",
+            "zh": "串联与并联采用互为倒数的基准"
+          },
+          "body": {
+            "en": "Use line-to-line kV and total three-phase MVA for ZB in ohms. Divide series ohms by ZB; multiply shunt siemens by ZB. bpu is the total shunt, split into bpu/2 at each π end.",
+            "zh": "使用线电压 kV 和三相总容量 MVA 得到 Ω 单位的 ZB。串联欧姆值除以 ZB，并联西门子值乘 ZB。bpu 是总并联电纳，π 型每端为 bpu/2。"
+          },
+          "formula": "Z_B=V_{B,LL}^2/S_{B,3\\phi},\\quad z_{pu}=Z_\\phi/Z_B,\\quad b_{pu}=B_{total}Z_B"
+        },
+        {
+          "title": {
+            "en": "Bundle count is not circuit count",
+            "zh": "分裂数不等于回路数"
+          },
+          "body": {
+            "en": "Two identical uncoupled circuits connected to the same buses give Zeq=Z/2 and Beq=2B. The individual circuit records remain unchanged. This approximation omits inter-circuit coupling and says nothing about thermal MVA limits.",
+            "zh": "两条相同且互不耦合的回路连接同一对母线时，Zeq=Z/2、Beq=2B，单条回路记录不变。该近似忽略回路间耦合，不能据此推断热稳定 MVA 限额。"
+          },
+          "formula": "Z_{eq}=Z_{circuit}/N_c,\\quad B_{eq}=N_c B_{circuit}"
+        }
+      ],
+      "controls": [
+        {
+          "key": "bundle_count",
+          "label": {
+            "en": "Subconductors per phase",
+            "zh": "每相子导线数"
+          },
+          "unit": "",
+          "advanced": false,
+          "type": "select",
+          "options": [
+            {
+              "value": "1",
+              "label": {
+                "en": "1 · single",
+                "zh": "1 · 单根"
+              }
+            },
+            {
+              "value": "2",
+              "label": {
+                "en": "2 · pair",
+                "zh": "2 · 双分裂"
+              }
+            },
+            {
+              "value": "3",
+              "label": {
+                "en": "3 · equilateral",
+                "zh": "3 · 等边三角形"
+              }
+            },
+            {
+              "value": "4",
+              "label": {
+                "en": "4 · square",
+                "zh": "4 · 正方形"
+              }
+            }
+          ]
+        },
+        {
+          "key": "bundle_spacing_m",
+          "label": {
+            "en": "Adjacent member center spacing d",
+            "zh": "相邻子导线中心间距 d"
+          },
+          "unit": "m",
+          "min": 0.2,
+          "max": 0.8,
+          "step": 0.0001,
+          "advanced": false,
+          "type": "range"
+        },
+        {
+          "key": "s_base_mva",
+          "label": {
+            "en": "Three-phase system power base",
+            "zh": "三相系统容量基准"
+          },
+          "unit": "MVA",
+          "min": 50,
+          "max": 1000,
+          "step": 10,
+          "advanced": false,
+          "type": "range"
+        },
+        {
+          "key": "circuits",
+          "label": {
+            "en": "Identical uncoupled physical circuits",
+            "zh": "相同且互不耦合的物理回路数"
+          },
+          "unit": "",
+          "advanced": false,
+          "type": "select",
+          "options": [
+            {
+              "value": "1",
+              "label": {
+                "en": "1 physical circuit",
+                "zh": "1 条物理回路"
+              }
+            },
+            {
+              "value": "2",
+              "label": {
+                "en": "2 parallel circuits",
+                "zh": "2 条并联回路"
+              }
+            }
+          ]
+        },
+        {
+          "key": "spacing_ab_m",
+          "label": {
+            "en": "Position spacing P1–P2",
+            "zh": "位置间距 P1–P2"
+          },
+          "unit": "m",
+          "min": 8,
+          "max": 30,
+          "step": 0.0001,
+          "advanced": true,
+          "type": "range"
+        },
+        {
+          "key": "spacing_bc_m",
+          "label": {
+            "en": "Position spacing P2–P3",
+            "zh": "位置间距 P2–P3"
+          },
+          "unit": "m",
+          "min": 8,
+          "max": 30,
+          "step": 0.0001,
+          "advanced": true,
+          "type": "range"
+        },
+        {
+          "key": "position_angle_deg",
+          "label": {
+            "en": "P2→P3 angle from the +x direction",
+            "zh": "P2→P3 相对 +x 方向的夹角"
+          },
+          "unit": "°",
+          "min": 0,
+          "max": 120,
+          "step": 5,
+          "advanced": true,
+          "type": "range"
+        },
+        {
+          "key": "length_km",
+          "label": {
+            "en": "Route length",
+            "zh": "线路长度"
+          },
+          "unit": "km",
+          "min": 10,
+          "max": 300,
+          "step": 1e-05,
+          "advanced": true,
+          "type": "range"
+        },
+        {
+          "key": "frequency_hz",
+          "label": {
+            "en": "Frequency",
+            "zh": "频率"
+          },
+          "unit": "Hz",
+          "min": 40,
+          "max": 70,
+          "step": 1,
+          "advanced": true,
+          "type": "range"
+        },
+        {
+          "key": "gmr_mm",
+          "label": {
+            "en": "Subconductor supplied GMR",
+            "zh": "子导线给定 GMR"
+          },
+          "unit": "mm",
+          "min": 10,
+          "max": 25,
+          "step": 1e-05,
+          "advanced": true,
+          "type": "range"
+        },
+        {
+          "key": "radius_mm",
+          "label": {
+            "en": "Subconductor physical radius",
+            "zh": "子导线实际半径"
+          },
+          "unit": "mm",
+          "min": 15,
+          "max": 30,
+          "step": 0.0001,
+          "advanced": true,
+          "type": "range"
+        },
+        {
+          "key": "resistance_sub_ohm_km",
+          "label": {
+            "en": "Supplied AC subconductor resistance",
+            "zh": "给定子导线 AC 电阻率"
+          },
+          "unit": "Ω/km",
+          "min": 0.01,
+          "max": 0.1,
+          "step": 1e-06,
+          "advanced": true,
+          "type": "number"
+        },
+        {
+          "key": "voltage_ll_kv",
+          "label": {
+            "en": "Operating line voltage",
+            "zh": "运行线电压"
+          },
+          "unit": "kV",
+          "min": 230,
+          "max": 765,
+          "step": 1,
+          "advanced": true,
+          "type": "range"
+        },
+        {
+          "key": "voltage_base_kv",
+          "label": {
+            "en": "Line-voltage base",
+            "zh": "线电压基准"
+          },
+          "unit": "kV",
+          "min": 230,
+          "max": 765,
+          "step": 1,
+          "advanced": true,
+          "type": "range"
+        }
+      ],
+      "metrics": [
+        {
+          "key": "bundle_gmr_m",
+          "label": {
+            "en": "Magnetic bundle self distance",
+            "zh": "磁分裂自距离"
+          },
+          "unit": "m",
+          "digits": 6
+        },
+        {
+          "key": "bundle_radius_m",
+          "label": {
+            "en": "Electric bundle self radius",
+            "zh": "电分裂自半径"
+          },
+          "unit": "m",
+          "digits": 6
+        },
+        {
+          "key": "resistance_ohm",
+          "label": {
+            "en": "One-circuit phase resistance",
+            "zh": "单回路每相电阻"
+          },
+          "unit": "Ω",
+          "digits": 4
+        },
+        {
+          "key": "reactance_ohm",
+          "label": {
+            "en": "One-circuit phase reactance",
+            "zh": "单回路每相电抗"
+          },
+          "unit": "Ω",
+          "digits": 4
+        },
+        {
+          "key": "capacitance_nf_km",
+          "label": {
+            "en": "One-circuit phase capacitance rate",
+            "zh": "单回路每相电容率"
+          },
+          "unit": "nF/km",
+          "digits": 4
+        },
+        {
+          "key": "susceptance_ms",
+          "label": {
+            "en": "One-circuit total phase shunt",
+            "zh": "单回路每相总并联电纳"
+          },
+          "unit": "mS",
+          "digits": 6
+        },
+        {
+          "key": "capacitive_mvar",
+          "label": {
+            "en": "One-circuit three-phase capacitive supply",
+            "zh": "单回路三相容性无功供给"
+          },
+          "unit": "Mvar",
+          "digits": 4
+        },
+        {
+          "key": "z_base_ohm",
+          "label": {
+            "en": "System impedance base",
+            "zh": "系统阻抗基准"
+          },
+          "unit": "Ω",
+          "digits": 2
+        },
+        {
+          "key": "equivalent_r_pu",
+          "label": {
+            "en": "Equivalent branch resistance",
+            "zh": "等效支路电阻"
+          },
+          "unit": "pu",
+          "digits": 7
+        },
+        {
+          "key": "equivalent_x_pu",
+          "label": {
+            "en": "Equivalent branch reactance",
+            "zh": "等效支路电抗"
+          },
+          "unit": "pu",
+          "digits": 7
+        },
+        {
+          "key": "equivalent_b_pu",
+          "label": {
+            "en": "Equivalent branch total shunt",
+            "zh": "等效支路总并联电纳"
+          },
+          "unit": "pu",
+          "digits": 6
+        }
+      ],
+      "given": {
+        "en": "L25 example: one 500 kV, 60 Hz circuit; length 80 mi=128.74752 km; phase spacings 32,32,64 ft; two members per phase, d=1.50 ft. Member GMR=0.0588 ft; outside diameter=1.762 in; supplied AC resistance at 25 °C=0.0105 Ω/kft. Base: 500 kV, 100 MVA.",
+        "zh": "L25 例题：一条 500 kV、60 Hz 回路；长度 80 mi=128.74752 km；相间距 32、32、64 ft；每相两根子导线，d=1.50 ft。子导线 GMR=0.0588 ft；外径=1.762 in；25 °C 给定 AC 电阻率=0.0105 Ω/kft。基准：500 kV、100 MVA。"
+      },
+      "worked": [
+        {
+          "en": "Convert: 32 ft=9.7536 m, d=0.4572 m, GMR=0.01792224 m, radius=(1.762/2) in=0.0223774 m. 0.0105 Ω/kft=0.03444882 Ω/km.",
+          "zh": "单位换算：32 ft=9.7536 m，d=0.4572 m，GMR=0.01792224 m，半径=(1.762/2) in=0.0223774 m。0.0105 Ω/kft=0.03444882 Ω/km。"
+        },
+        {
+          "en": "Dm=(32×32×64)⅓=40.3175 ft. Magnetic bundle GMR=√(0.0588×1.50)=0.296985 ft; electric bundle radius=√(0.0734167×1.50)=0.331851 ft.",
+          "zh": "Dm=(32×32×64)⅓=40.3175 ft。磁分裂 GMR=√(0.0588×1.50)=0.296985 ft；电分裂半径=√(0.0734167×1.50)=0.331851 ft。"
+        },
+        {
+          "en": "R′phase=0.01722441 Ω/km; L′phase=0.98217182 mH/km; X′phase=0.37027005 Ω/km. The 80-mile circuit has R=2.2176 Ω and X≈47.67135 Ω per phase.",
+          "zh": "R′phase=0.01722441 Ω/km；L′phase=0.98217182 mH/km；X′phase=0.37027005 Ω/km。80 英里回路每相 R=2.2176 Ω，X≈47.67135 Ω。"
+        },
+        {
+          "en": "C′n=11.590456 nF/km; Ctotal≈1.492242 μF; Btotal≈0.56256215 mS. At 500 kV, QC≈140.640538 Mvar.",
+          "zh": "C′n=11.590456 nF/km；Ctotal≈1.492242 μF；Btotal≈0.56256215 mS。500 kV 时 QC≈140.640538 Mvar。"
+        },
+        {
+          "en": "ZB=500²/100=2500 Ω. rpu=0.00088704; xpu≈0.01906854; bpu≈1.40640538. Each π end gets bpu/2.",
+          "zh": "ZB=500²/100=2500 Ω。rpu=0.00088704；xpu≈0.01906854；bpu≈1.40640538。π 型每端为 bpu/2。"
+        },
+        {
+          "en": "For two identical uncoupled circuits on the same base, divide r and x by two and multiply total b by two. Changing only Sbase changes pu values while physical circuit ohms and siemens stay fixed.",
+          "zh": "同一基准上，两条相同且互不耦合回路使 r、x 除以 2，总 b 乘 2。只改变 Sbase 会改变标幺值，但单回路实际欧姆值和西门子值保持不变。"
+        }
+      ],
+      "practice": [
+        {
+          "key": "resistance_ohm",
+          "label": {
+            "en": "One-circuit phase resistance",
+            "zh": "单回路每相电阻"
+          },
+          "unit": "Ω",
+          "hint": {
+            "en": "Divide the member rate by 2, then multiply by 128.74752 km.",
+            "zh": "子导线电阻率除以 2，再乘 128.74752 km。"
+          },
+          "tolerance": 0.001
+        },
+        {
+          "key": "reactance_pu",
+          "label": {
+            "en": "One-circuit reactance on the baseline",
+            "zh": "原基准上的单回路电抗"
+          },
+          "unit": "pu",
+          "hint": {
+            "en": "Divide the route phase reactance by 2500 Ω.",
+            "zh": "线路每相电抗除以 2500 Ω。"
+          },
+          "tolerance": 0.0001
+        },
+        {
+          "key": "susceptance_pu",
+          "label": {
+            "en": "One-circuit total shunt on the baseline",
+            "zh": "原基准上的单回路总并联电纳"
+          },
+          "unit": "pu",
+          "hint": {
+            "en": "Convert mS to S, then multiply by 2500 Ω.",
+            "zh": "将 mS 换算为 S，再乘 2500 Ω。"
+          },
+          "tolerance": 0.002
+        }
+      ],
+      "quiz": {
+        "question": {
+          "en": "Two subconductors per phase and one three-phase line represent how many physical circuits?",
+          "zh": "每相两根子导线的一条三相线路，表示多少条物理回路？"
+        },
+        "choices": [
+          {
+            "value": "0",
+            "label": {
+              "en": "Two circuits, so divide route impedance again by two",
+              "zh": "两条回路，应将线路阻抗再除以 2"
+            }
+          },
+          {
+            "value": "1",
+            "label": {
+              "en": "One circuit; bundle effects are already in the per-phase parameters",
+              "zh": "一条回路，分裂影响已经包含在每相参数中"
+            }
+          },
+          {
+            "value": "2",
+            "label": {
+              "en": "Six circuits, one for every visible wire",
+              "zh": "六条回路，每根可见导线各算一条"
+            }
+          }
+        ],
+        "correct": "1",
+        "feedback": [
+          {
+            "en": "Bundle count changes the phase geometry, not the number of network branches.",
+            "zh": "分裂数改变相几何，不改变网络支路数。"
+          },
+          {
+            "en": "Correct. A second physical circuit is a separate complete three-phase branch.",
+            "zh": "正确：第二条物理回路是另一条完整三相支路。"
+          },
+          {
+            "en": "A complete three-phase circuit can contain multiple members in each phase.",
+            "zh": "一条完整三相回路的每相可以包含多根子导线。"
+          }
+        ]
+      },
+      "challenge": {
+        "en": "Compare 1, 2, 3 and 4 members. Explain the square-diagonal factor. Then select two physical circuits and change Sbase: distinguish physical equivalencing from changing units.",
+        "zh": "比较 1、2、3、4 根子导线，解释正方形对角线系数。然后选择两条物理回路并改变 Sbase，区分实际并联等效与表示单位变化。"
+      },
+      "limits": {
+        "en": "Symmetric identical bundles with equal member sharing; complete transposition, balanced operation and phase-center mutual-distance approximation. Air dielectric, no earth/shield wires, corona or inter-circuit mutual coupling. Resistance is supplied AC data at 25 °C. Charging uses uniform voltage. Parameters do not determine a thermal MVA rating.",
+        "zh": "对称相同分裂导线且子导线均分电流、电荷；完整换位、平衡运行、相中心互距近似。空气介质，忽略大地、地线、电晕和回路间互耦。电阻采用 25 °C 给定 AC 数据。充电采用全线等电压。参数本身不能确定热稳定 MVA 额定值。"
+      },
+      "code_key": "bundle_count",
+      "code_values": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "plot_titles": [
+        {
+          "en": "Reactance versus bundle count",
+          "zh": "电抗与分裂数"
+        },
+        {
+          "en": "Capacitance versus bundle count",
+          "zh": "电容与分裂数"
+        }
+      ]
     }
   ]
 }
