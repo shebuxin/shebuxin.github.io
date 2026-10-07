@@ -159,26 +159,6 @@
     "pages_json": "/assets/slides/ece685/l15/pages.json",
     "source": "01_lectures/L15_per_unit_iii/L15_per_unit_iii.pdf"
   },
-  "L16": {
-    "pdf": "/assets/slides/ece685/l16/L16_exam1_practice.pdf",
-    "sha256": "11de1a9aa2a1d8ccb162043bda7750c1e2b16c0cdf6164808fe91535450f4965",
-    "page_count": 42,
-    "width": 1600,
-    "height": 901,
-    "first_page": "/assets/slides/ece685/l16/page-001.webp",
-    "pages_json": "/assets/slides/ece685/l16/pages.json",
-    "source": "01_lectures/L16_exam1_practice/L16_exam1_practice.pdf"
-  },
-  "L16b": {
-    "pdf": "/assets/slides/ece685/l16b/L17_exam1_review.pdf",
-    "sha256": "19960dcf30da0bf052dc859c17ba225dca4fba9dc8e667b74a2b56a1631dd6ba",
-    "page_count": 44,
-    "width": 1600,
-    "height": 901,
-    "first_page": "/assets/slides/ece685/l16b/page-001.webp",
-    "pages_json": "/assets/slides/ece685/l16b/pages.json",
-    "source": "01_lectures/L17_exam1_review/L17_exam1_review.pdf"
-  },
   "L17": {
     "pdf": "/assets/slides/ece685/l17/L17_three_phase_transformers_i.pdf",
     "sha256": "083b9b8ae8ec8eb683cf98c5a92d560d22981008d8e72a531d89998f9a4864bb",
@@ -199,16 +179,6 @@
     "pages_json": "/assets/slides/ece685/l18/pages.json",
     "source": "01_lectures/L18_three_phase_transformers_ii/L18_three_phase_transformers_ii.pdf"
   },
-  "L25": {
-    "pdf": "/assets/slides/ece685/l25/L25_line_parameters_iv.pdf",
-    "sha256": "dcdef47f5bda10c61ba85ffe51cda9abd45f3f182fd3bc3702bfd1e305bf0ab5",
-    "page_count": 39,
-    "width": 1600,
-    "height": 901,
-    "first_page": "/assets/slides/ece685/l25/page-001.webp",
-    "pages_json": "/assets/slides/ece685/l25/pages.json",
-    "source": "01_lectures/L25_line_parameters_iv/L25_line_parameters_iv.pdf"
-  },
   "L22": {
     "pdf": "/assets/slides/ece685/l22/L22_line_parameters_i.pdf",
     "sha256": "3c6b6cd368bb914101194b887278d929c05f0c6b5613d7596a47685ed51f9448",
@@ -218,6 +188,16 @@
     "first_page": "/assets/slides/ece685/l22/page-001.webp",
     "pages_json": "/assets/slides/ece685/l22/pages.json",
     "source": "01_lectures/L22_line_parameters_i/L22_line_parameters_i.pdf"
+  },
+  "L23": {
+    "pdf": "/assets/slides/ece685/l23/L23_line_parameters_ii.pdf",
+    "sha256": "eb26229788f4480cde0b2704251feea04471196c27b92222a24d8f00654e2ee9",
+    "page_count": 31,
+    "width": 1600,
+    "height": 901,
+    "first_page": "/assets/slides/ece685/l23/page-001.webp",
+    "pages_json": "/assets/slides/ece685/l23/pages.json",
+    "source": "01_lectures/L23_line_parameters_ii/L23_line_parameters_ii.pdf"
   },
   "L24": {
     "pdf": "/assets/slides/ece685/l24/L24_line_parameters_iii.pdf",
@@ -229,14 +209,14 @@
     "pages_json": "/assets/slides/ece685/l24/pages.json",
     "source": "01_lectures/L24_line_parameters_iii/L24_line_parameters_iii.pdf"
   },
-  "L23": {
-    "pdf": "/assets/slides/ece685/l23/L23_line_parameters_ii.pdf",
-    "sha256": "eb26229788f4480cde0b2704251feea04471196c27b92222a24d8f00654e2ee9",
-    "page_count": 31,
+  "L25": {
+    "pdf": "/assets/slides/ece685/l25/L25_line_parameters_iv.pdf",
+    "sha256": "dcdef47f5bda10c61ba85ffe51cda9abd45f3f182fd3bc3702bfd1e305bf0ab5",
+    "page_count": 39,
     "width": 1600,
     "height": 901,
-    "first_page": "/assets/slides/ece685/l23/page-001.webp",
-    "pages_json": "/assets/slides/ece685/l23/pages.json",
-    "source": "01_lectures/L23_line_parameters_ii/L23_line_parameters_ii.pdf"
+    "first_page": "/assets/slides/ece685/l25/page-001.webp",
+    "pages_json": "/assets/slides/ece685/l25/pages.json",
+    "source": "01_lectures/L25_line_parameters_iv/L25_line_parameters_iv.pdf"
   }
 }

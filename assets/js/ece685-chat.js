@@ -148,8 +148,9 @@
   function renderMarkdown(container, text, document, katex) {
     text = visibleAnswer(text);
     container.replaceChildren();
+    const inlineTokens = /\$\$[\s\S]*?\$\$|\\\[[\s\S]*?\\\]|\\\([\s\S]*?\\\)|(?<!\\)\$[^\n$]+(?<!\\)\$|`[^`\n]+`|\*\*[^*\n]+\*\*|\*[^*\n]+\*/g;
     function inline(node, content) {
-      const pattern = /\$\$[\s\S]*?\$\$|\\\[[\s\S]*?\\\]|\\\([\s\S]*?\\\)|(?<!\\)\$[^\n$]+(?<!\\)\$|`[^`\n]+`|\*\*[^*\n]+\*\*|\*[^*\n]+\*/g;
+      const pattern = new RegExp(inlineTokens);
       let position = 0, match;
       while ((match = pattern.exec(content))) {
         node.append(document.createTextNode(content.slice(position, match.index)));
@@ -172,11 +173,31 @@
       }
       node.append(document.createTextNode(content.slice(position)));
     }
+    function tableCells(line) {
+      const content = line.trim();
+      // Math, code, emphasis and escaped pipes cannot introduce a new column.
+      const pattern = new RegExp(inlineTokens.source + "|\\\\\\||\\|", "g");
+      const cells = [];
+      let position = 0, match, separators = 0;
+      while ((match = pattern.exec(content))) {
+        if (match[0] !== "|") continue;
+        cells.push(content.slice(position, match.index).trim());
+        position = match.index + 1;
+        separators++;
+      }
+      if (!separators) return null;
+      cells.push(content.slice(position).trim());
+      if (content.startsWith("|")) cells.shift();
+      if (content.endsWith("|") && !content.endsWith("\\|")) cells.pop();
+      return cells.map(cell => cell.replace(/\\\|/g, "|"));
+    }
     let paragraph = [], code = null, list = null;
     function flush() {
       if (paragraph.length) { const p = document.createElement("p"); inline(p, paragraph.join("\n")); container.append(p); paragraph = []; }
     }
-    for (const line of text.split("\n")) {
+    const lines = text.split("\n");
+    for (let index = 0; index < lines.length; index++) {
+      const line = lines[index];
       if (/^\s*```/.test(line)) {
         flush(); list = null;
         if (code !== null) { const pre = document.createElement("pre"), element = document.createElement("code"); element.textContent = code.join("\n"); pre.append(element); container.append(pre); code = null; }
@@ -184,6 +205,31 @@
       } else if (code !== null) code.push(line);
       else if (!line.trim()) { flush(); list = null; }
       else {
+        const headings = tableCells(line), separators = tableCells(lines[index + 1] || "");
+        if (headings && headings.length > 1 && separators?.length === headings.length && separators.every(cell => /^:?-{3,}:?$/.test(cell))) {
+          flush(); list = null;
+          const wrapper = document.createElement("div"), table = document.createElement("table"), head = document.createElement("thead"), body = document.createElement("tbody");
+          wrapper.className = "ece-chat__table-wrap";
+          wrapper.tabIndex = 0;
+          function row(cells, header) {
+            const tr = document.createElement("tr");
+            headings.forEach((_, column) => {
+              const cell = document.createElement(header ? "th" : "td"), alignment = separators[column];
+              if (header) cell.setAttribute("scope", "col");
+              cell.className = alignment.endsWith(":") ? (alignment.startsWith(":") ? "ece-chat__cell-center" : "ece-chat__cell-right") : "ece-chat__cell-left";
+              inline(cell, cells[column] || ""); tr.append(cell);
+            });
+            return tr;
+          }
+          head.append(row(headings, true));
+          index += 1;
+          let cells;
+          while (index + 1 < lines.length && (cells = tableCells(lines[index + 1]))) {
+            body.append(row(cells, false)); index++;
+          }
+          table.append(head, body); wrapper.append(table); container.append(wrapper);
+          continue;
+        }
         const item = /^\s*(?:([-*])|\d+[.)])\s+(.+)$/.exec(line);
         if (item) {
           flush();

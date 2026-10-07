@@ -2,7 +2,7 @@
 layout: default
 ---
 {% include ece685-context.html %}
-<div id="main" class="ece-platform" data-ece-platform data-lang="{{ ece_lang }}" data-lecture-id="{{ page.lecture_id }}"{% if lecture.lesson %} data-continuous="true"{% endif %}>
+<div id="main" class="ece-platform" data-ece-platform data-lang="{{ ece_lang }}" data-lecture-id="{{ page.lecture_id }}" data-progress-version="{{ site.ece685_progress_version | default: 'transformers' }}"{% if lecture.lesson %} data-continuous="true"{% endif %}>
   <div class="ece-topbar">
     <a href="{{ ece_prefix | append: '/teaching/' | relative_url }}#courses">← {% if ece_lang == 'zh' %}全部课程{% else %}All courses{% endif %}</a>
     <span>KANSAS STATE UNIVERSITY <span class="ece-topbar__separator">/</span> ECE 685</span>

@@ -13,7 +13,6 @@
     'line-inductance':{spacing_ab_m:4,spacing_bc_m:6,position_angle_deg:0,gmr_mm:10.9,length_km:120.7008,frequency_hz:60},
     'line-capacitance':{spacing_ab_m:4,spacing_bc_m:6,position_angle_deg:0,radius_mm:14,length_km:120.7008,frequency_hz:60,voltage_ll_kv:138,epsilon_r:1},
     'line-bundles':{spacing_ab_m:9.7536,spacing_bc_m:9.7536,position_angle_deg:0,bundle_count:2,bundle_spacing_m:.4572,gmr_mm:17.92224,radius_mm:22.3774,resistance_sub_ohm_km:.0344488188976378,length_km:128.74752,frequency_hz:60,voltage_ll_kv:500,voltage_base_kv:500,s_base_mva:100,circuits:1},
-    'exam-review':{focus:'single-phase',voltage_rms:180,current_rms:12,v_phase_deg:-20,i_phase_deg:10,delta_voltage_ll:208,delta_r:8,delta_x:6,s_base_kva:30,v_base_h_v:1500,turns_ratio:10,z_h_re:1.5,z_h_im:3.4369,peak_mw:160,prm_percent:15,gt_fixed:75000,gt_variable:85,cc_fixed:195000,cc_variable:45,hours:2000}
   };
   Object.values(defaults).forEach(Object.freeze);Object.freeze(defaults);
   const rad=x=>x*Math.PI/180, wrap=x=>((x+180)%360+360)%360-180;
@@ -157,17 +156,6 @@
   }
   const handlers={
     'line-conductor':lineConductor,'line-inductance':lineInductance,'line-capacitance':lineCapacitance,'line-bundles':lineBundles,
-    'exam-review'(p){
-      positive(p,['voltage_rms','current_rms','delta_voltage_ll','s_base_kva','v_base_h_v','turns_ratio','peak_mw']);nonnegative(p,['delta_r','prm_percent','gt_fixed','gt_variable','cc_fixed','cc_variable','hours']);choice(p,'focus',['single-phase','three-phase','planning']);
-      const delta=wrap(p.v_phase_deg-p.i_phase_deg),P=p.voltage_rms*p.current_rms*Math.cos(rad(delta)),Q=p.voltage_rms*p.current_rms*Math.sin(rad(delta));
-      const three=threePhase({...defaults['three-phase'],voltage_ll:p.delta_voltage_ll,resistance:p.delta_r,reactance:p.delta_x,connection:'delta',phase_ref_deg:-30});
-      const zb=p.v_base_h_v**2/(p.s_base_kva*1000),vl=p.v_base_h_v/p.turns_ratio,zbl=vl*vl/(p.s_base_kva*1000),screen=screening(p),hours=Array.from({length:45},(_,i)=>8760*i/44);
-      const singleX=Array.from({length:241},(_,i)=>i/240*4*Math.PI/377*1000);
-      const singlePlot=plot(singleX,{'v / peak':singleX.map(t=>Math.cos(377*t/1000+rad(p.v_phase_deg))),'i / peak':singleX.map(t=>Math.cos(377*t/1000+rad(p.i_phase_deg)))},'ms','normalized');
-      return{metrics:{p_w:P,q_var:Q,pf:Math.abs(Math.cos(rad(delta))),delta_line_a:three.metrics.line_current_a,delta_p_w:three.metrics.p_w,delta_q_var:three.metrics.q_var,z_pu_re:p.z_h_re/zb,z_pu_im:p.z_h_im/zb,ib_h_a:p.s_base_kva*1000/p.v_base_h_v,ib_l_a:p.s_base_kva*1000/vl,required_capacity_mw:p.peak_mw*(1+p.prm_percent/100),...screen},
-        checks:{per_unit_referral:p.z_h_re/(p.turns_ratio**2)/zbl-p.z_h_re/zb},phasors:three.phasors,
-        plots:p.focus==='single-phase'?[singlePlot]:p.focus==='three-phase'?three.plots:[plot(hours,{GT:hours.map(t=>p.gt_fixed+p.gt_variable*t),CC:hours.map(t=>p.cc_fixed+p.cc_variable*t)},'h/year','$/MW-year')]};
-    },
     'transformer-banks':transformerBanks,
     'transformer-network':transformerNetwork,
     overview(p){

@@ -38,11 +38,6 @@ DEFAULTS = {
                          radius_mm=22.3774, resistance_sub_ohm_km=.0344488188976378,
                          length_km=128.74752, frequency_hz=60, voltage_ll_kv=500,
                          voltage_base_kv=500, s_base_mva=100, circuits=1),
-    'exam-review': dict(focus='single-phase', voltage_rms=180, current_rms=12, v_phase_deg=-20,
-                        i_phase_deg=10, delta_voltage_ll=208, delta_r=8, delta_x=6, s_base_kva=30,
-                        v_base_h_v=1500, turns_ratio=10, z_h_re=1.5, z_h_im=3.4369, peak_mw=160,
-                        prm_percent=15, gt_fixed=75000, gt_variable=85, cc_fixed=195000,
-                        cc_variable=45, hours=2000),
 }
 
 
@@ -489,41 +484,11 @@ def transformer_network(p):
                        plot(loading,{'LV terminal voltage':[load_v(k) for k in loading]},'rated input-current loading','pu')])
 
 
-def exam_review(p):
-    positive(p,'voltage_rms','current_rms','delta_voltage_ll','s_base_kva','v_base_h_v','turns_ratio','peak_mw')
-    nonnegative(p,'delta_r','prm_percent','gt_fixed','gt_variable','cc_fixed','cc_variable','hours')
-    choice(p,'focus',('single-phase','three-phase','planning'))
-    delta = wrap(p['v_phase_deg']-p['i_phase_deg'])
-    power = p['voltage_rms']*p['current_rms']*math.cos(math.radians(delta))
-    reactive = p['voltage_rms']*p['current_rms']*math.sin(math.radians(delta))
-    three = three_phase(dict(DEFAULTS['three-phase'],voltage_ll=p['delta_voltage_ll'],resistance=p['delta_r'],
-                             reactance=p['delta_x'],connection='delta',phase_ref_deg=-30))
-    zb = p['v_base_h_v']**2/(p['s_base_kva']*1000)
-    low_v = p['v_base_h_v']/p['turns_ratio']
-    zbl = low_v**2/(p['s_base_kva']*1000)
-    times = [i/240*4*math.pi/377*1000 for i in range(241)]
-    hours = [8760*i/44 for i in range(45)]
-    single_plot = plot(times,{'v / peak':[math.cos(377*t/1000+math.radians(p['v_phase_deg'])) for t in times],
-                             'i / peak':[math.cos(377*t/1000+math.radians(p['i_phase_deg'])) for t in times]},'ms','normalized')
-    plots = [single_plot] if p['focus']=='single-phase' else three['plots'] if p['focus']=='three-phase' else [
-        plot(hours,dict(GT=[p['gt_fixed']+p['gt_variable']*t for t in hours],
-                        CC=[p['cc_fixed']+p['cc_variable']*t for t in hours]),'h/year','$/MW-year')]
-    return dict(metrics=dict(p_w=power,q_var=reactive,pf=abs(math.cos(math.radians(delta))),delta_line_a=three['metrics']['line_current_a'],
-                             delta_p_w=three['metrics']['p_w'],delta_q_var=three['metrics']['q_var'],z_pu_re=p['z_h_re']/zb,z_pu_im=p['z_h_im']/zb,
-                             ib_h_a=p['s_base_kva']*1000/p['v_base_h_v'],ib_l_a=p['s_base_kva']*1000/low_v,
-                             required_capacity_mw=p['peak_mw']*(1+p['prm_percent']/100),**screening(p)),
-                checks=dict(per_unit_referral=p['z_h_re']/p['turns_ratio']**2/zbl-p['z_h_re']/zb),
-                phasors=three['phasors'],plots=plots)
-
-
 HANDLERS = dict(overview=overview,generation=generation,transformers=transformers)
 HANDLERS.update({'single-phase':single_phase,'three-phase':three_phase,'per-unit':per_unit})
 HANDLERS.update({'transformer-banks':transformer_banks,'transformer-network':transformer_network})
 HANDLERS.update({'line-conductor':line_conductor,'line-inductance':line_inductance,
                  'line-capacitance':line_capacitance,'line-bundles':line_bundles})
-
-
-HANDLERS['exam-review'] = exam_review
 
 
 def solve(case):

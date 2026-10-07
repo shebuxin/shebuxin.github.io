@@ -4,7 +4,8 @@
   if(!model||!root)return;
   const zh=document.documentElement.lang.startsWith('zh'),words=(cn,en)=>zh?cn:en;
   const practiceId=root.dataset.practiceLecture;
-  const key='ece685-lecture-practice-v2-transformers';
+  const knowledgeProgress=document.querySelector('[data-ece-platform]')?.dataset.progressVersion==='knowledge';
+  const key=knowledgeProgress?'ece685-lecture-practice-v1':'ece685-lecture-practice-v2-transformers';
   const known=new Set([...document.querySelectorAll('[data-reviewed-dot]')].map(el=>el.dataset.reviewedDot));
   let passed=[],canSave=true;
   try{const data=JSON.parse(localStorage.getItem(key));if(Array.isArray(data))passed=[...new Set(data.filter(id=>known.has(id)))];}catch(_){canSave=false;}

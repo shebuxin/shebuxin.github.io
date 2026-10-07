@@ -60,18 +60,16 @@ test('coherent single/three-phase bases, referral, base changes, and physical re
   near(a.metrics.physical_s_mva,b.metrics.physical_s_mva);near(a.metrics.physical_s_mva,c.metrics.physical_s_mva);
 });
 
-test('published L16 practice keeps its references and first-exam scope',()=>{
-  const r=model.solve('exam-review');near(r.metrics.p_w,2160*Math.sqrt(3)/2);near(r.metrics.q_var,-1080);
-  near(r.metrics.delta_line_a,20.8*Math.sqrt(3));near(r.phasors.Vab.angle_deg,0);near(r.phasors.Ia.angle_deg,-66.86989764584402);
-  near(r.metrics.z_pu_re,.02);near(r.metrics.z_pu_im,3.4369/75);near(r.metrics.ib_h_a,20);near(r.metrics.ib_l_a,200);
-  near(r.metrics.required_capacity_mw,184);near(r.metrics.crossover_hours,3000);near(r.metrics.gt_cost,245000);
+test('knowledge models retain their practice and exclude the removed assessment model',()=>{
+  assert.throws(()=>model.solve('exam-review'),/Unknown teaching module/);
   const config=JSON.parse(fs.readFileSync(path.resolve(__dirname,'../_data/ece685_stage_one.json')));
-  assert.equal(config.modules.length,13);assert.deepEqual(config.modules[8].sources,['L16','L16b']);assert.deepEqual(config.modules[4].extension,['L17','L18']);
+  assert.equal(config.modules.length,12);assert.deepEqual(config.modules.map(m=>m.id),Object.keys(model.defaults));
+  assert.deepEqual(config.modules[4].extension,['L17','L18']);
   for(const m of config.modules){const baseline=model.solve(m.id);for(const a of m.practice)assert.ok(Number.isFinite(baseline.metrics[a.key]));assert.equal(m.quiz.choices.length,3);}
 });
 
 test('invalid input and incompatible type choices are rejected',()=>{
-  for(const [id,p] of [['overview',{transmission_kv:0}],['generation',{hours:9000}],['generation',{wind_credit:2}],['single-phase',{target_pf:1.1}],['three-phase',{resistance:0,reactance:0}],['three-phase',{connection:'bad'}],['transformers',{turns_ratio:0}],['per-unit',{system:'bad'}],['exam-review',{s_base_kva:0}]])assert.throws(()=>model.solve(id,p));
+  for(const [id,p] of [['overview',{transmission_kv:0}],['generation',{hours:9000}],['generation',{wind_credit:2}],['single-phase',{target_pf:1.1}],['three-phase',{resistance:0,reactance:0}],['three-phase',{connection:'bad'}],['transformers',{turns_ratio:0}],['per-unit',{system:'bad'}]])assert.throws(()=>model.solve(id,p));
   for(const id of Object.keys(model.defaults)){const number=Object.keys(model.defaults[id]).find(k=>typeof model.defaults[id][k]==='number');for(const value of [NaN,Infinity,'10',true])assert.throws(()=>model.solve(id,{[number]:value}));}
 });
 
@@ -110,11 +108,21 @@ test('standard-library Python matches every module, its plots, and boundary case
   cases.push({module:'overview',shunt_mvar:80,transmission_kv:69},{module:'generation',cc_fixed:1,cc_variable:100},{module:'generation',gt_variable:26.05},
     {module:'single-phase',delta_deg:-50},{module:'single-phase',current_rms:0},{module:'three-phase',connection:'delta',sequence:'acb'},
     {module:'transformers',h_connection:'delta',l_connection:'wye'},{module:'transformers',loading:0,core_kw:0},
-    {module:'per-unit',system:'single-phase',s_base_mva:50},{module:'exam-review',focus:'planning'},{module:'exam-review',focus:'three-phase'},{module:'transformer-banks',l_delta_order:'acb'},{module:'transformer-network',tap:1.05,loading:1});
+    {module:'per-unit',system:'single-phase',s_base_mva:50},
+    {module:'transformer-banks',h_connection:'delta',l_connection:'delta',h_delta_order:'acb',l_delta_order:'abc'},
+    {module:'transformer-banks',l_delta_order:'acb'},
+    {module:'transformer-network',tap:1.05,loading:1},
+    {module:'transformer-network',tap:.9,loading:1.2,power_factor:.6,s_base_mva:50});
   const program=`import sys, json, importlib.util
 sys.dont_write_bytecode = True
 s=importlib.util.spec_from_file_location('models',sys.argv[1])
 m=importlib.util.module_from_spec(s);s.loader.exec_module(m)
+try:
+    m.solve({'module':'exam-review'})
+except ValueError:
+    pass
+else:
+    raise AssertionError('Removed assessment model is still available')
 print(json.dumps([m.solve(c) for c in json.load(sys.stdin)],allow_nan=False))
 `;
   const py=spawnSync(process.env.PYTHON||'python3',['-c',program,path.resolve(__dirname,'../assets/code/ece685_stage_one.py')],{input:JSON.stringify(cases),encoding:'utf8',maxBuffer:6*1024*1024});

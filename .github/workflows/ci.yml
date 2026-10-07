@@ -82,7 +82,7 @@ jobs:
       - name: Verify ECE 685 phasors and editable Python model
         run: node --test tests/l05_phasor_test.cjs
 
-      - name: Verify ECE 685 seven-module models and Python parity
+      - name: Verify ECE 685 knowledge models and Python parity
         run: |
           node --test tests/ece685_stage_test.cjs tests/ece685_diagrams_test.cjs tests/ece685_line_parameters_test.cjs
           node scripts/build_ece685_diagram_assets.cjs --check
@@ -122,6 +122,14 @@ jobs:
         run: |
           python tests/ece685_rendered_test.py
           python tests/course_urls_rendered_test.py
+
+      - name: Verify Cloudflare mirror matches GitHub Pages
+        env:
+          JEKYLL_ENV: production
+        run: |
+          bash -n scripts/build_shebuxin_pages.sh
+          bundle exec jekyll build --strict_front_matter --config _config.yml,services/course-chat/shebuxin.yml --destination tmp/ece685-chat/named-site
+          python tests/ece685_mirrors_test.py
 
       - name: Validate IBR modeling lessons and physics
         run: python tests/ibr_modeling_test.py
