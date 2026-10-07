@@ -170,12 +170,14 @@
     "concept_indices": [
       0,
       1,
-      2,
-      3
+      4,
+      5,
+      3,
+      2
     ],
     "focus": {
-      "en": "Three-phase transformer network and taps",
-      "zh": "三相变压器网络与分接头"
+      "en": "From actual quantities to the per-unit transformer branch",
+      "zh": "从实际量推导标幺变压器支路"
     }
   },
   "L22": {

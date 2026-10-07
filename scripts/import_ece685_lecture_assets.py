@@ -57,6 +57,10 @@ def main():
                               "text": reader.pages[index].extract_text() or ""})
         text_path = folder / "pages.json"
         text_path.write_text(json.dumps(pages, ensure_ascii=False) + "\n")
+        expected_pages = {Path(page["src"]).name for page in pages}
+        for old_page in folder.glob("page-[0-9][0-9][0-9].webp"):
+            if old_page.name not in expected_pages:
+                old_page.unlink()
         result[lecture["id"]] = {"pdf": "/" + str(destination.relative_to(ROOT)),
                                   "sha256": digest, "page_count": len(pages),
                                   "width": width, "height": height,

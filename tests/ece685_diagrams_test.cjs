@@ -48,3 +48,11 @@ test('all modules render finite, self-contained English and Chinese SVGs, includ
     for(const m of svg.matchAll(/url\(#([^)]+)\)/g))assert.ok(ids.has(m[1]),'Unresolved arrow marker '+m[1]);
   }
 });
+test('L18 distinguishes its nominal slide-17 ratio from the web tap extension',()=>{
+  const nominal=diagrams.standalone('transformer-network',model.solve('transformer-network'),'en');
+  assert.match(nominal,/Nominal: τ = 1 · slide 17/);
+  assert.doesNotMatch(nominal,/τe<tspan/);
+  const tapped=diagrams.standalone('transformer-network',model.solve('transformer-network',{tap:1.05}),'en');
+  assert.match(tapped,/Tap extension: τ = 1\.050/);
+  assert.match(tapped,/τe<tspan/);
+});

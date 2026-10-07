@@ -4,22 +4,23 @@ const vm = require('node:vm');
 const fs = require('node:fs');
 const source = fs.readFileSync('assets/js/ece685-slides.js', 'utf8');
 
-async function reader(url, data) {
+async function reader(url, data, version) {
   const elements = new Map();
   const events = [];
+  const fetches = [];
   function element() {
     const listeners = {};
     return { listeners, hidden: true, addEventListener(name, fn) { listeners[name] = fn; } };
   }
-  const root = Object.assign(element(), { dataset: { lang: 'en', total: '3', lecture: 'L05', pages: '/pages.json' },
+  const root = Object.assign(element(), { dataset: { lang: 'en', total: '3', lecture: 'L05', pages: '/pages.json', version },
     querySelector(selector) { if (!elements.has(selector)) elements.set(selector, element()); return elements.get(selector); },
     dispatchEvent(event) { events.push(event); } });
   const window = { location: { href: url }, listeners: {}, addEventListener(name, fn) { this.listeners[name] = fn; } };
   vm.runInNewContext(source, { document: { querySelector: () => root }, window, URL,
     CustomEvent: class { constructor(type, options) { this.type = type; Object.assign(this, options); } },
-    fetch: async () => ({ ok: true, json: async () => data || [1, 2, 3].map(n => ({ src: `/assets/slides/ece685/l05/page-${n}.webp`, text: `Page ${n}` })) }) });
+    fetch: async url => { fetches.push(url); return { ok: true, json: async () => data || [1, 2, 3].map(n => ({ src: `/assets/slides/ece685/l05/page-${n}.webp`, text: `Page ${n}` })) }; } });
   await new Promise(resolve => setImmediate(resolve));
-  return { root, elements, events, window, get: selector => root.querySelector(`[data-slide-${selector}]`) };
+  return { root, elements, events, window, fetches, get: selector => root.querySelector(`[data-slide-${selector}]`) };
 }
 
 test('citation opens the exact physical page and publishes its context', async () => {
@@ -79,4 +80,14 @@ test('invalid page data never publishes a misleading context', async () => {
   assert.equal(r.events.length, 0);
   assert.equal(r.get('controls').hidden, true);
   assert.match(r.get('status').textContent, /could not load/);
+});
+test('replacing a deck changes metadata and every slide-image cache key', async () => {
+  const old = await reader('https://example.com/lesson/?slide=2', null, 'a'.repeat(64));
+  const fresh = await reader('https://example.com/lesson/?slide=2', null, 'b'.repeat(64));
+  assert.notEqual(old.fetches[0], fresh.fetches[0]);
+  assert.equal(fresh.fetches[0], '/pages.json?v=' + 'b'.repeat(64));
+  assert.equal(fresh.get('image').src, '/assets/slides/ece685/l05/page-2.webp?v=' + 'b'.repeat(64));
+  fresh.get('next').listeners.click();
+  assert.equal(fresh.get('image').src, '/assets/slides/ece685/l05/page-3.webp?v=' + 'b'.repeat(64));
+  assert.equal(fresh.events.at(-1).detail.slide_number, 3);
 });

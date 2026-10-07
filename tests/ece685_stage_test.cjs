@@ -89,6 +89,19 @@ test('L17 reproduces the source example and fixed-dot delta joining displacement
   assert.throws(()=>model.solve('transformer-banks',{h_delta_order:'invalid'}));
 });
 
+test('revised L17 slide 26 standard connections preserve voltage/current ratios and both mixed banks lag',()=>{
+  for(const [h_connection,l_connection,h_delta_order,l_delta_order,ratio,angle] of [
+    ['wye','wye','abc','abc',10,0],
+    ['wye','delta','abc','abc',10*Math.sqrt(3),-30],
+    ['delta','wye','acb','abc',10/Math.sqrt(3),-30],
+    ['delta','delta','acb','acb',10,0]
+  ]){
+    const r=model.solve('transformer-banks',{h_connection,l_connection,h_delta_order,l_delta_order});
+    near(r.metrics.line_ratio,ratio);near(r.metrics.h_line_a/r.metrics.l_line_a,1/ratio);
+    near(r.metrics.delta_lh_deg,angle);Object.values(r.checks).forEach(value=>near(value,0));
+  }
+});
+
 test('L18 preserves ohms across bases and conserves complex power with directional taps',()=>{
   const r=model.solve('transformer-network');near(r.metrics.winding_ratio,10/Math.sqrt(3));
   near(r.metrics.z_pu_re,.01);near(r.metrics.z_pu_im,.15);near(r.metrics.z_h_re_ohm,1.9044);

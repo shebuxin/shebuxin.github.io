@@ -2595,8 +2595,8 @@
             "zh": "三角形连接方向与相移"
           },
           "body": {
-            "en": "Supply sequence is positive on both sides. ABC names coil directions AB, BC, CA; ACB names AC, BA, CB. Keep the paired dots fixed. Y–Δ with low abc gives δLH=−30°; switching low joining to acb gives +30°. These joining names do not reverse the supply sequence.",
-            "zh": "两侧均为正相序。ABC 表示线圈方向 AB、BC、CA；ACB 表示 AC、BA、CB。对应同名端保持不变。Y–Δ 的低压 abc 接法给出 δLH=−30°；切换为 acb 给出 +30°。这些连接名称并不改变电源相序。"
+            "en": "Supply sequence is positive on both sides. ABC names coil directions AB, BC, CA; ACB names AC, BA, CB. Keep paired dots fixed. The revised L17 table uses Y–Δ with low abc, Δ–Y with high ACB, and Δ–Δ with high ACB/low acb. Both mixed standard connections give δLH=−30°. Other joining choices can change the displacement without changing supply sequence or magnitude ratios.",
+            "zh": "两侧均为正相序。ABC 表示线圈方向 AB、BC、CA；ACB 表示 AC、BA、CB，对应同名端保持不变。新版 L17 表格采用低压 abc 的 Y–Δ、高压 ACB 的 Δ–Y，以及高压 ACB／低压 acb 的 Δ–Δ。两种混合标准接法均给出 δLH=−30°。其他连接选择可以改变相移，但不改变电源相序或幅值比。"
           },
           "formula": "\\delta_{LH}=\\angle V_{ab,L}-\\angle V_{AB,H},\\quad V_{AB,H}=\\sqrt3e^{j30^\\circ}V_{AN,H}"
         },
@@ -2951,8 +2951,8 @@
         ]
       },
       "challenge": {
-        "en": "Compare all four bank connections. Then change a delta joining order: explain the phase displacement from the paired red coils while checking unchanged voltage and current magnitudes.",
-        "zh": "比较四种接线，再改变 Δ 线圈方向。从对应红色线圈解释相移，并核查电压、电流幅值比保持不变。"
+        "en": "Reproduce slide 26: Y–Y; Y–Δ with low abc; Δ–Y with high ACB; Δ–Δ with high ACB and low acb. Verify 0°, −30°, −30°, 0° respectively. Then change one delta joining order and trace the paired red coils to explain the new displacement.",
+        "zh": "复现第 26 页：Y–Y；低压 abc 的 Y–Δ；高压 ACB 的 Δ–Y；高压 ACB、低压 acb 的 Δ–Δ。分别核查 0°、−30°、−30°、0°，再改变一个 Δ 的连接方向，从对应红色线圈解释新的相移。"
       },
       "limits": {
         "en": "Ideal balanced positive-sequence bank, with fixed dot correspondence and no impedance, excitation or grounding-current calculation. Delta joining order follows the L17 diagrams. Diagram arrows compare normalized line-voltage directions, not magnitudes.",
@@ -3013,34 +3013,34 @@
       "concepts": [
         {
           "title": {
-            "en": "Balanced branch with phase shift",
-            "zh": "含相移的平衡支路"
+            "en": "Actual series impedances and terminal-phase model",
+            "zh": "实际串联阻抗与端口相等效模型"
           },
           "body": {
-            "en": "Use a positive-sequence model, retaining series resistance and leakage and neglecting excitation. The L-side physical delta becomes an equivalent Y impedance ZΔ/3. That equivalent neutral is a reference, not a grounding claim.",
-            "zh": "采用正相序模型，保留串联电阻和漏抗，忽略励磁。低压侧实际 Δ 转换为等效 Y 阻抗 ZΔ/3；等效中性点只是参考，不表示接地。"
+            "en": "Retain both winding resistances and leakage reactances; neglect excitation for the loaded approximation. Refer both winding series effects to H or L, then replace the physical L delta impedance with its equivalent Y value. The transformer remains Y–Δ; the equivalent L neutral is a voltage reference, not a grounding connection.",
+            "zh": "保留两侧绕组电阻和漏抗，在带载近似中忽略励磁。将两侧绕组串联效应折算至高压或低压侧，再将低压实际 Δ 阻抗换成等效 Y 值。变压器仍为 Y–Δ；低压等效中性点只是电压参考，不表示接地连接。"
           },
-          "formula": "Z_{Y,L}=Z_{\\Delta,L}/3,\\quad Z_{Y,H}/Z_{Y,L}=k_{LL}^2"
+          "formula": "Z_{Y,H}=Z_H+a^2Z_L,\\quad Z_{Y,L}=\\frac{Z_L+Z_H/a^2}{3},\\quad Z_{Y,H}=3a^2Z_{Y,L}"
         },
         {
           "title": {
-            "en": "Bank bases and physical impedance",
-            "zh": "变压器组基准与实际阻抗"
+            "en": "Define the bases before normalizing",
+            "zh": "先定义基准，再进行归一化"
           },
           "body": {
-            "en": "Use total three-phase Sbase and line-to-line Vbase. The L18 rated voltage bases stay fixed when Sbase changes. The two compatible side bases give the same pu impedance; a delta winding has three times the equivalent Y impedance.",
-            "zh": "使用三相总容量 Sbase 和线电压 Vbase。改变 Sbase 时，L18 的额定电压基准保持固定。两侧相容基准给出相同的标幺阻抗；Δ 绕组阻抗是等效 Y 阻抗的三倍。"
+            "en": "Choose one total three-phase power base and the H line-voltage base. The rated Y–Δ terminal ratio gives VB,L=VB,H/(√3a). Derive both terminal-phase voltage bases, line-current bases and phase-impedance bases from these choices. Bases are positive real magnitudes and contain no connection angle.",
+            "zh": "选定共同的三相总容量基准与高压线电压基准。额定 Y–Δ 端口变比给出 VB,L=VB,H/(√3a)，据此分别推导两侧端口相电压、线电流和相阻抗基准。基准均为正实数幅值，不包含接线相角。"
           },
-          "formula": "Z_B=V_{B,LL}^2/S_B,\\quad z_{new}=z_{old}\\frac{S_{B,new}}{S_{B,old}}\\left(\\frac{V_{B,old}}{V_{B,new}}\\right)^2"
+          "formula": "V_{B,\\phi}=V_{B,LL}/\\sqrt3,\\quad I_B=\\frac{S_B}{\\sqrt3V_{B,LL}},\\quad Z_B=\\frac{V_{B,LL}^2}{S_B}"
         },
         {
           "title": {
-            "en": "Directional complex tap",
-            "zh": "有方向的复变比"
+            "en": "Tap extension with fixed bases",
+            "zh": "固定基准下的分接扩展"
           },
           "body": {
-            "en": "For the L18 Y–Δ abc connection δLH=−30°, so θHL=+30°. H current enters and L current leaves. Fix the voltage bases and define tHL=τexp(jθHL); then iL=tHL* iH. Increasing active H turns increases τ and reduces ideal LV voltage at fixed HV voltage.",
-            "zh": "L18 的 Y–Δ abc 接法给出 δLH=−30°，因此 θHL=+30°。高压电流流入、低压电流流出。固定电压基准，定义 tHL=τexp(jθHL)，则 iL=tHL 的共轭乘 iH。高压有效匝数增加会增大 τ，使固定高压电压下的理想低压电压降低。"
+            "en": "Slides 33–35 introduce physical taps and the off-nominal magnitude τ. This web experiment extends the nominal branch of slide 17 to τ≠1. For Y–Δ abc, δLH=−30° and θHL=+30°. Keep voltage bases fixed, set tHL=τexp(jθHL), and use iL=tHL* iH. Increasing active H turns raises τ and reduces ideal LV voltage at fixed HV voltage.",
+            "zh": "第 33–35 页介绍实际分接头与非额定幅值 τ。网页实验将第 17 页的额定支路扩展至 τ≠1。对于 Y–Δ abc，δLH=−30°、θHL=+30°。保持电压基准固定，令 tHL=τexp(jθHL)，使用 iL=tHL 的共轭乘 iH。增加高压有效匝数会增大 τ，使固定高压电压下的理想低压电压降低。"
           },
           "formula": "v_H=z_{eq}i_H+t_{HL}v_L,\\quad i_L=t_{HL}^*i_H,\\quad t_{HL}=\\tau e^{j\\theta_{HL}}"
         },
@@ -3054,6 +3054,28 @@
             "zh": "原始课件展示串联助磁的降压自耦变压器：VH=(Ns+Nc)×每匝电压，VL=Nc×每匝电压。功率同时经直接电气通路和磁耦合传递。公共电气连接意味着没有电气隔离；普通双绕组组模型不能描述这种隔离差别。"
           },
           "formula": "S_{magnetic}/S_{terminal}=(V_H-V_L)/V_H"
+        },
+        {
+          "title": {
+            "en": "Compatible bases cancel the magnitude ratio",
+            "zh": "相容基准约去幅值变比"
+          },
+          "body": {
+            "en": "Across the nominal ideal element, divide actual RMS voltages by terminal-phase bases and line currents by line-current bases. The same real √3a factor occurs in each actual ratio and base ratio, so it cancels. The connection displacement δLH=−30° remains. With loading, retain the H series drop before transferring the voltage.",
+            "zh": "对额定理想元件，用端口相电压基准归一化实际 RMS 电压，用线电流基准归一化线电流。实际变比和基准比中具有相同的实数因子 √3a，因此能够约消；接线相移 δLH=−30° 仍然保留。带载时，传递电压前需要计入高压串联压降。"
+          },
+          "formula": "\\frac{V_{B,\\phi,H}}{V_{B,\\phi,L}}=\\frac{I_{B,L}}{I_{B,H}}=\\sqrt3a,\\quad v_H=e^{-j\\delta_{LH}}v_L,\\quad i_L=e^{j\\delta_{LH}}i_H"
+        },
+        {
+          "title": {
+            "en": "Assemble the nominal per-unit branch",
+            "zh": "组装额定标幺支路"
+          },
+          "body": {
+            "en": "Compatible voltage bases give the same combined per-unit series impedance on either side. Normalizing total three-phase power by the common SB removes the factor 3: s=vi*. H current enters and L current leaves. The ideal element conserves complex power; the full branch input minus output equals its series complex-power loss.",
+            "zh": "相容电压基准使两侧折算后的串联标幺阻抗相同。三相总功率除以共同 SB 后，因子 3 被约去，得到 s=vi*。高压电流流入、低压电流流出。理想元件守恒复功率，完整支路的输入减输出则等于串联复功率损耗。"
+          },
+          "formula": "v_H=z_{eq}i_H+e^{-j\\delta_{LH}}v_L,\\quad i_L=e^{j\\delta_{LH}}i_H,\\quad s_H-s_L=z_{eq}|i_H|^2"
         }
       ],
       "controls": [

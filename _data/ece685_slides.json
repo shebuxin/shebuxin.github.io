@@ -161,7 +161,7 @@
   },
   "L17": {
     "pdf": "/assets/slides/ece685/l17/L17_three_phase_transformers_i.pdf",
-    "sha256": "083b9b8ae8ec8eb683cf98c5a92d560d22981008d8e72a531d89998f9a4864bb",
+    "sha256": "fac70d37d4325edef856b96342489f65de5d0d3d631eaa3bf479c0a5350d44b1",
     "page_count": 38,
     "width": 1600,
     "height": 901,
@@ -171,8 +171,8 @@
   },
   "L18": {
     "pdf": "/assets/slides/ece685/l18/L18_three_phase_transformers_ii.pdf",
-    "sha256": "38776b195122e5931d5a1216aad77c7ed5a42a174ea6fc0f153c42684ae2c890",
-    "page_count": 37,
+    "sha256": "818d0304f7f04b973be2636872d1103e6e4bbc812e50243d40b64a4093d3047f",
+    "page_count": 36,
     "width": 1600,
     "height": 901,
     "first_page": "/assets/slides/ece685/l18/page-001.webp",

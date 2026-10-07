@@ -179,7 +179,7 @@
     const sub=(symbol,index)=>`${symbol}<tspan baseline-shift="sub" font-size="70%">${index}</tspan>`;
     const value=(x,y,s)=>`<text x="${x}" y="${y}" text-anchor="middle" class="stage-circuit-value">${esc(s)}</text>`;
     const symbol=(x,y,s)=>`<text x="${x}" y="${y}" text-anchor="middle" class="stage-circuit-symbol">${s}</text>`;
-    // L18 slide 14: H-side series impedance and separate ideal-transformer ports.
+    // Revised L18 slide 17: H-side series impedance and separate ideal-transformer ports.
     // The complex ratio is in pu on fixed bases, rather than the physical turns ratio.
     svg.setAttribute('viewBox','0 0 800 365');
     svg.innerHTML=`<title>${esc(words('Y–Δ 变压器正序等效电路','Y–Δ transformer positive-sequence equivalent circuit'))}</title>
@@ -204,8 +204,8 @@
       ${symbol(293,113,sub('z','eq'))}
       ${value(293,192,fmt(m.z_pu_re)+' + j'+fmt(m.z_pu_im)+' pu')}
       ${value(293,215,words('折算至高压侧的串联阻抗','H-side series impedance'))}
-      ${symbol(500,65,'τe<tspan baseline-shift="super" font-size="70%">j30°</tspan> : 1')}
-      ${value(500,90,'τ = '+fmt(p.tap))}
+      ${symbol(500,65,(p.tap===1?'':'τ')+'e<tspan baseline-shift="super" font-size="70%">j30°</tspan> : 1')}
+      ${value(500,90,p.tap===1?words('额定：τ = 1 · 第 17 页','Nominal: τ = 1 · slide 17'):words('分接扩展：τ = ','Tap extension: τ = ')+fmt(p.tap))}
       ${value(500,113,words('标幺理想变压器','Per-unit ideal transformer'))}
       ${symbol(82,149,'+')}${symbol(82,273,'−')}${symbol(82,207,sub('v','H'))}
       ${symbol(751,149,'+')}${symbol(751,273,'−')}${symbol(751,207,sub('v','L'))}

@@ -2580,7 +2580,7 @@
         },
         {
           "slide": 2,
-          "title": "Lectureoutline"
+          "title": "Lecture outline"
         },
         {
           "slide": 3,
@@ -2588,27 +2588,27 @@
         },
         {
           "slide": 4,
-          "title": "Windingand magnetic coupling"
+          "title": "Winding and magnetic coupling"
         },
         {
           "slide": 5,
-          "title": "Two-windingand three-winding"
+          "title": "Two-winding and three-winding"
         },
         {
           "slide": 6,
-          "title": "Phaseand phase systems"
+          "title": "Phase and phase systems"
         },
         {
           "slide": 7,
-          "title": "Windingcount and phasecount"
+          "title": "Winding count and phase count"
         },
         {
           "slide": 8,
-          "title": "Single-phaseand three-phase"
+          "title": "Single-phase and three-phase"
         },
         {
           "slide": 9,
-          "title": "Bankand common core"
+          "title": "Bank and common core"
         },
         {
           "slide": 10,
@@ -2616,83 +2616,83 @@
         },
         {
           "slide": 11,
-          "title": "Terminaland phase conventions"
+          "title": "Terminal and phase conventions"
         },
         {
           "slide": 12,
-          "title": "Dotsand matching coils"
+          "title": "Dots and matching coils"
         },
         {
           "slide": 13,
-          "title": "Y:line and coilquantities"
+          "title": "Y: line and coil quantities"
         },
         {
           "slide": 14,
-          "title": "Δ:line and coilquantities"
+          "title": "Δ: line and coil quantities"
         },
         {
           "slide": 15,
-          "title": "Fromcoils to bank terminals"
+          "title": "From coils to bank terminals"
         },
         {
           "slide": 16,
-          "title": "Y–Y:physical connection"
+          "title": "Y–Y: physical connection"
         },
         {
           "slide": 17,
-          "title": "Y–Y:terminal relations"
+          "title": "Y–Y: terminal relations"
         },
         {
           "slide": 18,
-          "title": "Y–Δ:physical connection"
+          "title": "Y–Δ: physical connection"
         },
         {
           "slide": 19,
-          "title": "Y–Δ:terminal relations"
+          "title": "Y–Δ: terminal relations"
         },
         {
           "slide": 20,
-          "title": "Y–Δ:terminal phase shift"
+          "title": "Y–Δ: terminal phase shift"
         },
         {
           "slide": 21,
-          "title": "Δ–Y:physical connection"
+          "title": "Δ–Y: physical connection"
         },
         {
           "slide": 22,
-          "title": "Δ–Y:terminal relations"
+          "title": "Δ–Y: terminal relations"
         },
         {
           "slide": 23,
-          "title": "Δ–Y:terminal phaseshift"
+          "title": "Δ–Y: terminal phase shift"
         },
         {
           "slide": 24,
-          "title": "Δ–Δ:physical connection"
+          "title": "Δ–Δ: physical connection"
         },
         {
           "slide": 25,
-          "title": "Δ–Δ:terminal relations"
+          "title": "Δ–Δ: terminal relations"
         },
         {
           "slide": 26,
-          "title": "Fourconnections: summary"
+          "title": "Four connections: summary"
         },
         {
           "slide": 27,
-          "title": "Industrynotation: vectorgroups"
+          "title": "Industry notation: vector groups"
         },
         {
           "slide": 28,
-          "title": "Y:neutral grounding"
+          "title": "Y: neutral grounding"
         },
         {
           "slide": 29,
-          "title": "Δ:grounding choices"
+          "title": "Δ: grounding choices"
         },
         {
           "slide": 30,
-          "title": "Single-linesymbols andgrounding"
+          "title": "Single-line symbols and grounding"
         },
         {
           "slide": 31,
@@ -2704,23 +2704,23 @@
         },
         {
           "slide": 33,
-          "title": "Example: find andverify"
+          "title": "Example: find and verify"
         },
         {
           "slide": 34,
-          "title": "Solution(a): ratingsand line voltages"
+          "title": "Solution (a): ratings and line voltages"
         },
         {
           "slide": 35,
-          "title": "Solution(b): voltagephasors"
+          "title": "Solution (b): voltage phasors"
         },
         {
           "slide": 36,
-          "title": "Solution(c): ratedcurrents"
+          "title": "Solution (c): rated currents"
         },
         {
           "slide": 37,
-          "title": "Solution(d): reconnectthe coils"
+          "title": "Solution (d): reconnect the coils"
         },
         {
           "slide": 38,
@@ -2734,12 +2734,12 @@
     {
       "group": "three-phase-transformers",
       "summary": {
-        "en": "Apply phase conventions and delta–wye terminal relationships to transformer phasors.",
-        "zh": "应用相位约定和三角形—星形端口关系分析变压器相量。"
+        "en": "Derive a balanced Y–Δ branch from actual terminal quantities and system bases; distinguish bank, autotransformer and tap ratios.",
+        "zh": "以实际端口量与系统基准推导平衡 Y–Δ 支路，区分变压器组、自耦与分接变比。"
       },
       "lab_focus": {
-        "en": "Inspect terminal phasors under an explicit high-side/low-side phase convention.",
-        "zh": "在明确的高、低压侧相位约定下观察端口相量。"
+        "en": "Check base cancellation, physical impedance and connection displacement, then explore tap changes.",
+        "zh": "检查基准约消、实际阻抗与接线相移，再探索分接变化。"
       },
       "released": true,
       "frozen_source": true,
@@ -2751,7 +2751,7 @@
       },
       "source_directory": "L18_three_phase_transformers_ii",
       "source_file": "L18_three_phase_transformers_ii.pdf",
-      "slide_count": 37,
+      "slide_count": 36,
       "slide_outline": [
         {
           "slide": 1,
@@ -2759,7 +2759,7 @@
         },
         {
           "slide": 2,
-          "title": "Lectureoutline"
+          "title": "Lecture outline"
         },
         {
           "slide": 3,
@@ -2767,138 +2767,134 @@
         },
         {
           "slide": 4,
-          "title": "Quickrecap: single-phasetransformer"
+          "title": "Quick recap: single-phase transformer"
         },
         {
           "slide": 5,
-          "title": "Quickrecap: reducedseries model"
+          "title": "Quick recap: reduced series model"
         },
         {
           "slide": 6,
-          "title": "Three-phaseY–Δconnection"
+          "title": "Three-phase Y–Δ connection"
         },
         {
           "slide": 7,
-          "title": "Seriesimpedance on Hor L"
+          "title": "Series impedance on H or L"
         },
         {
           "slide": 8,
-          "title": "L-sideΔ→Yequivalent"
+          "title": "L-side Δ→Y equivalent"
         },
         {
           "slide": 9,
-          "title": "Phasevoltages and displacement"
+          "title": "Phase voltages and displacement"
         },
         {
           "slide": 10,
-          "title": "Voltagenormalization"
+          "title": "Actual terminal-phase voltages"
         },
         {
           "slide": 11,
-          "title": "Phaseimpedance normalization"
+          "title": "Actual terminal currents"
         },
         {
           "slide": 12,
-          "title": "Currentnormalization"
+          "title": "Actual impedance and branch equation"
         },
         {
           "slide": 13,
-          "title": "Powernormalization"
+          "title": "Define all system bases"
         },
         {
           "slide": 14,
-          "title": "Assemblethe balancedY–Δbranch"
+          "title": "Relations between H and L bases"
         },
         {
           "slide": 15,
-          "title": "Fourconnections: networksummary"
+          "title": "Normalize voltage and current"
         },
         {
           "slide": 16,
-          "title": "PART 2 Bank example and checks"
+          "title": "Normalize impedance and power"
         },
         {
           "slide": 17,
-          "title": "Bankexample: data"
+          "title": "Assemble the balanced Y–Δ branch"
         },
         {
           "slide": 18,
-          "title": "Bankexample: solutionroute"
+          "title": "PART 2 Bank example and checks"
         },
         {
           "slide": 19,
-          "title": "Bankexample: voltageratios"
+          "title": "Bank example: data"
         },
         {
           "slide": 20,
-          "title": "Bankexample: no-loadphasor"
+          "title": "Bank example: solution route"
         },
         {
           "slide": 21,
-          "title": "Bankexample: changeof base"
+          "title": "Bank example: voltage ratios"
         },
         {
           "slide": 22,
-          "title": "Bankexample: recoverohms"
+          "title": "Bank example: no-load phasor"
         },
         {
           "slide": 23,
-          "title": "Bankexample: ratedcurrents"
+          "title": "Bank example: change of base"
         },
         {
           "slide": 24,
-          "title": "PART 3 Autotransformer concept"
+          "title": "Bank example: recover ohms"
         },
         {
           "slide": 25,
-          "title": "Two-windingand autotransformer"
+          "title": "Bank example: rated currents"
         },
         {
           "slide": 26,
-          "title": "Seriesand common sections"
+          "title": "PART 3 Autotransformer concept"
         },
         {
           "slide": 27,
-          "title": "Autotransformerpower paths"
+          "title": "Two-winding and autotransformer"
         },
         {
           "slide": 28,
-          "title": "Autotransformerapplications"
+          "title": "Series and common sections"
         },
         {
           "slide": 29,
-          "title": "Three-phaseautotransformer"
+          "title": "Autotransformer power paths"
         },
         {
           "slide": 30,
-          "title": "PART 4 Tap ratio concept"
+          "title": "Autotransformer applications"
         },
         {
           "slide": 31,
-          "title": "Tappedwinding construction"
+          "title": "Three-phase autotransformer"
         },
         {
           "slide": 32,
-          "title": "Threedifferentratios"
+          "title": "PART 4 Tap ratio concept"
         },
         {
           "slide": 33,
-          "title": "Off-nominalmodel"
+          "title": "Tapped winding construction"
         },
         {
           "slide": 34,
-          "title": "Tapmagnitudeand voltage"
+          "title": "Three different ratios"
         },
         {
           "slide": 35,
-          "title": "Tap-changingequipment"
+          "title": "Tap-changing equipment"
         },
         {
           "slide": 36,
-          "title": "Magnitudeand phasein one model"
-        },
-        {
-          "slide": 37,
           "title": "Summary"
         }
       ],

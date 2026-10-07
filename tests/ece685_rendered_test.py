@@ -116,6 +116,20 @@ class LectureShellTest(unittest.TestCase):
                         self.assertNotIn('data-stage-module=', html)
                         self.assertNotIn('stage-navigation', html)
 
+    def test_l18_derivation_precedes_autotransformer_and_tap_extensions(self):
+        titles = {
+            '': ['Actual series impedances and terminal-phase model', 'Define the bases before normalizing',
+                 'Compatible bases cancel the magnitude ratio', 'Assemble the nominal per-unit branch',
+                 'Autotransformer power paths', 'Tap extension with fixed bases'],
+            'zh/': ['实际串联阻抗与端口相等效模型', '先定义基准，再进行归一化', '相容基准约去幅值变比',
+                    '组装额定标幺支路', '自耦变压器功率路径', '固定基准下的分接扩展']
+        }
+        for prefix, ordered in titles.items():
+            html = (SITE / prefix / 'teaching/ece685/l18-three-phase-transformers-ii/index.html').read_text()
+            positions = [html.index('<h3>' + title + '</h3>') for title in ordered]
+            self.assertEqual(positions, sorted(positions))
+            self.assertIn('data-total="36"', html)
+
     def test_original_student_pdf_fidelity_and_complete_web_pages(self):
         for lecture_id, slides in SLIDES.items():
             with self.subTest(lecture=lecture_id):
@@ -124,6 +138,8 @@ class LectureShellTest(unittest.TestCase):
                 self.assertNotIn('narration', str(pdf))
                 pages = json.loads((ROOT / slides["pages_json"].lstrip("/")).read_text())
                 self.assertEqual(len(pages), slides["page_count"])
+                self.assertEqual({path.name for path in pdf.parent.glob("page-[0-9][0-9][0-9].webp")},
+                                 {Path(page["src"]).name for page in pages})
                 self.assertEqual(pages[0]["src"], slides["first_page"])
                 self.assertGreater(slides["width"], 1000)
                 for index, page in enumerate(pages, 1):

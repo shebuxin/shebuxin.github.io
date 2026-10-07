@@ -5,7 +5,7 @@ ece685_slides: true
 ece685_lab: true
 lang: en
 title: "L18 · Three-Phase Transformers II"
-description: "Apply phase conventions and delta–wye terminal relationships to transformer phasors."
+description: "Derive a balanced Y–Δ branch from actual terminal quantities and system bases; distinguish bank, autotransformer and tap ratios."
 lecture_id: L18
 permalink: /teaching/ece685/l18-three-phase-transformers-ii/
 redirect_from:

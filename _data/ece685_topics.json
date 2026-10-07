@@ -523,12 +523,12 @@
       "group": "three-phase-transformers",
       "title_zh": "三相变压器 II",
       "summary": {
-        "en": "Apply phase conventions and delta–wye terminal relationships to transformer phasors.",
-        "zh": "应用相位约定和三角形—星形端口关系分析变压器相量。"
+        "en": "Derive a balanced Y–Δ branch from actual terminal quantities and system bases; distinguish bank, autotransformer and tap ratios.",
+        "zh": "以实际端口量与系统基准推导平衡 Y–Δ 支路，区分变压器组、自耦与分接变比。"
       },
       "lab_focus": {
-        "en": "Inspect terminal phasors under an explicit high-side/low-side phase convention.",
-        "zh": "在明确的高、低压侧相位约定下观察端口相量。"
+        "en": "Check base cancellation, physical impedance and connection displacement, then explore tap changes.",
+        "zh": "检查基准约消、实际阻抗与接线相移，再探索分接变化。"
       },
       "released": true,
       "frozen_source": true,

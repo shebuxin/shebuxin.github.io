@@ -20,8 +20,8 @@
       <text x="293" y="113" text-anchor="middle" class="stage-circuit-symbol">z<tspan baseline-shift="sub" font-size="70%">eq</tspan></text>
       <text x="293" y="192" text-anchor="middle" class="stage-circuit-value">0.010 + j0.150 pu</text>
       <text x="293" y="215" text-anchor="middle" class="stage-circuit-value">折算至高压侧的串联阻抗</text>
-      <text x="500" y="65" text-anchor="middle" class="stage-circuit-symbol">τe<tspan baseline-shift="super" font-size="70%">j30°</tspan> : 1</text>
-      <text x="500" y="90" text-anchor="middle" class="stage-circuit-value">τ = 1.000</text>
+      <text x="500" y="65" text-anchor="middle" class="stage-circuit-symbol">e<tspan baseline-shift="super" font-size="70%">j30°</tspan> : 1</text>
+      <text x="500" y="90" text-anchor="middle" class="stage-circuit-value">额定：τ = 1 · 第 17 页</text>
       <text x="500" y="113" text-anchor="middle" class="stage-circuit-value">标幺理想变压器</text>
       <text x="82" y="149" text-anchor="middle" class="stage-circuit-symbol">+</text><text x="82" y="273" text-anchor="middle" class="stage-circuit-symbol">−</text><text x="82" y="207" text-anchor="middle" class="stage-circuit-symbol">v<tspan baseline-shift="sub" font-size="70%">H</tspan></text>
       <text x="751" y="149" text-anchor="middle" class="stage-circuit-symbol">+</text><text x="751" y="273" text-anchor="middle" class="stage-circuit-symbol">−</text><text x="751" y="207" text-anchor="middle" class="stage-circuit-symbol">v<tspan baseline-shift="sub" font-size="70%">L</tspan></text>

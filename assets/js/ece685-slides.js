@@ -7,6 +7,9 @@
   const previous = root.querySelector('[data-slide-prev]'), next = root.querySelector('[data-slide-next]');
   const status = root.querySelector('[data-slide-status]');
   let pages, current = 1;
+  function versionedAsset(path) {
+    return root.dataset.version ? path + (path.includes('?') ? '&' : '?') + 'v=' + encodeURIComponent(root.dataset.version) : path;
+  }
   function requestedPage() {
     const value = new URL(window.location.href).searchParams.get('slide');
     const number = Number(value);
@@ -16,7 +19,7 @@
     if (!pages) return;
     current = Math.max(1, Math.min(total, Number.isFinite(number) ? Math.round(number) : 1));
     const page = pages[current - 1];
-    image.src = page.src;
+    image.src = versionedAsset(page.src);
     image.alt = `${root.dataset.lecture} ` + (zh ? `原课件第 ${current} 页，共 ${total} 页` : `original slide ${current} of ${total}`);
     select.value = String(current);
     previous.disabled = current === 1;
@@ -38,7 +41,7 @@
     event.preventDefault(); show(current + (event.key === 'ArrowRight' ? 1 : -1));
   });
   image.addEventListener('error', () => { status.textContent = zh ? '课件图片暂时无法加载，请打开原 PDF。' : 'The slide image could not load; open the original PDF.'; });
-  fetch(root.dataset.pages).then(response => {
+  fetch(versionedAsset(root.dataset.pages)).then(response => {
     if (!response.ok) throw new Error('Slide data unavailable');
     return response.json();
   }).then(data => {

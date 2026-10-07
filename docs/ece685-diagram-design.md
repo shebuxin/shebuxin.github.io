@@ -16,7 +16,7 @@ The course diagrams show the modeled electrical connection or a quantitative rel
 | L10–L12 | Ideal paired windings, winding-current directions and distinct winding/line quantities | Transformer modeling I–III |
 | L13–L15 | Physical impedance referral through an ideal transformer, corresponding bases and invariant recovery | Per-unit I–III |
 | L17 | Three paired, dotted coils with directed Y/Δ endpoints and a separate terminal-angle comparison | Three-phase transformers I, physical connection and rated-current diagrams |
-| L18 | H-side series impedance and electrically separate transformer ports | Three-phase transformers II, slide 14 |
+| L18 | H-side series impedance and electrically separate transformer ports; nominal phase ratio and labeled tap extension | Three-phase transformers II, revised slide 17; tap concept on slides 33–35 |
 | L22 | Opposite-current conductor cross sections and an explicit two-conductor series loop | Line parameters I, internal/external flux linkage and route example |
 | L23 | Phase positions drawn to scale and three equal-length transposition sections | Line parameters II, complete transposition and GMD |
 | L24 | Leading charging-current phasor and nominal π with both capacitive shunts | Line parameters III, local terminal voltage and shunt splitting |
