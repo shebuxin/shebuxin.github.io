@@ -90,7 +90,7 @@ For a complete list, see the [publications page](/publications/).
 ## Awards
 {: #award}
 
-* [Best Oral Presentation Award, North American Power Symposium (NAPS)](/talks/#2026-naps-presentation), shared with Md. Sajid Hasan for "Drift-Aware False-Secure Mitigation in DNN-Assisted Virtual Inertia Scheduling (VIS) of PV-Dominated Microgrids", 2026.
+* [Best Oral Presentation Award, North American Power Symposium (NAPS)](/talks/#2026-naps-presentation) for "Drift-Aware False-Secure Mitigation in DNN-Assisted Virtual Inertia Scheduling (VIS) of PV-Dominated Microgrids", 2026.
 * [IEEE PES Prize Paper Award](https://ieee-pes.org/news/just-announced-2026-ieee-power-energy-society-award-recipients/) for "Virtual Inertia Scheduling (VIS) for Real-Time Economic Dispatch of IBR-Penetrated Power Systems", 2026.
 * K-State ADVANCE Distinguished Lecture Series Award, 2026.
 * PNNL Outstanding Performance Award for leadership of the DOE OE Energy Storage program, 2025.
