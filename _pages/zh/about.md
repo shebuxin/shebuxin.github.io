@@ -88,6 +88,7 @@ author_profile: true
 ## 荣誉
 {: #award}
 
+* [北美电力研讨会（NAPS）最佳口头报告奖](/zh/talks/#2026-naps-学术报告)，与 Md. Sajid Hasan 凭论文 “Drift-Aware False-Secure Mitigation in DNN-Assisted Virtual Inertia Scheduling (VIS) of PV-Dominated Microgrids” 共同获得，2026 年。
 * [IEEE PES Prize Paper Award](https://ieee-pes.org/news/just-announced-2026-ieee-power-energy-society-award-recipients/)，获奖论文为 “Virtual Inertia Scheduling (VIS) for Real-Time Economic Dispatch of IBR-Penetrated Power Systems”，2026 年。
 * K-State ADVANCE Distinguished Lecture Series Award，2026 年。
 * PNNL Outstanding Performance Award（表彰其在美国能源部电力办公室储能项目中的领导工作），2025 年。
