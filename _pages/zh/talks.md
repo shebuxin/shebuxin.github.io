@@ -10,6 +10,14 @@ description: "佘步鑫的特邀报告、专题讨论与学术会议报告。"
 
 ---
 
+## 2026 NAPS 学术报告
+
+* **报告题目**：Drift-Aware False-Secure Mitigation in DNN-Assisted Virtual Inertia Scheduling (VIS) of PV-Dominated Microgrids
+* **日期**：2026 年 10 月 12 日
+* **幻灯片**：[查看 PDF](/files/pdf/Drift_Aware_VIS_NAPS_2026.pdf)
+
+---
+
 ## 2026 KSU Department Retreat
 
 * **报告题目**：Research, Teaching, and AI in Power Systems Engineering

@@ -8,6 +8,14 @@ Selected invited talks, panels, and conference presentations.
 
 ---
 
+## 2026 NAPS Presentation
+
+* **Presentation Title**: Drift-Aware False-Secure Mitigation in DNN-Assisted Virtual Inertia Scheduling (VIS) of PV-Dominated Microgrids
+* **Date**: October 12, 2026
+* **Slides**: [View PDF](/files/pdf/Drift_Aware_VIS_NAPS_2026.pdf)
+
+---
+
 ## 2026 KSU Department Retreat
 
 * **Presentation Title**: Research, Teaching, and AI in Power Systems Engineering
