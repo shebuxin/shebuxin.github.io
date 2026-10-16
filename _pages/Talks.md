@@ -8,6 +8,16 @@ Selected invited talks, panels, and conference presentations.
 
 ---
 
+## 2026 KSU ECE Advisory Council Annual Meeting
+
+* **Presentation Title**: Small Modular Reactors for Hyperscale Data Centers
+* **Institution**: Kansas State University
+* **Date**: October 16, 2026
+* **Duration**: 15 minutes
+* **Slides**: [View PDF](/files/pdf/Nuclear_DC_Buxin.pdf)
+
+---
+
 ## 2026 NAPS Presentation
 
 * **Presentation Title**: Drift-Aware False-Secure Mitigation in DNN-Assisted Virtual Inertia Scheduling (VIS) of PV-Dominated Microgrids

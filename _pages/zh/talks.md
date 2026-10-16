@@ -10,6 +10,16 @@ description: "佘步鑫的特邀报告、专题讨论与学术会议报告。"
 
 ---
 
+## 2026 KSU ECE 咨询委员会年会
+
+* **报告题目**：Small Modular Reactors for Hyperscale Data Centers
+* **学校**：堪萨斯州立大学（Kansas State University）
+* **日期**：2026 年 10 月 16 日
+* **时长**：15 分钟
+* **幻灯片**：[查看 PDF](/files/pdf/Nuclear_DC_Buxin.pdf)
+
+---
+
 ## 2026 NAPS 学术报告
 
 * **报告题目**：Drift-Aware False-Secure Mitigation in DNN-Assisted Virtual Inertia Scheduling (VIS) of PV-Dominated Microgrids
