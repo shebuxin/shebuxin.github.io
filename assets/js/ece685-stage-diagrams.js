@@ -306,8 +306,10 @@
   }
   function lineBundles(r,c){
     const {w,f,t,line}=c,m=r.metrics,p=r.parameters,n=p.bundle_count;
-    let b=t(400,29,w('分裂导线：磁与电的两个等效半径','Bundled conductors: two different effective self radii'),'ed-heading')+phaseGeometry(r,c,{x:30,y:75,w:330,h:135});
+    let b=t(400,29,w('一个相间 GMD，与磁、电两套分裂自距离','One phase GMD and two bundle self-distances'),'ed-heading')+phaseGeometry(r,c,{x:30,y:75,w:330,h:135});
+    b+=t(195,61,w('相束中心：相间互距','Phase-bundle centers: mutual geometry'),'ed-small');
     b+=t(195,255,'Dm = '+f(m.gmd_m,4)+' m','ed-label');
+    b+=t(195,278,w('同一 Dm 用于电感与电容','Same Dm for inductance and capacitance'),'ed-small');
     const cx=560,cy=140,d=65,points=n===1?[[cx,cy]]:n===2?[[cx-d/2,cy],[cx+d/2,cy]]:n===3?[[cx-d/2,cy+d*Math.sqrt(3)/6],[cx+d/2,cy+d*Math.sqrt(3)/6],[cx,cy-d*Math.sqrt(3)/3]]:[[cx-d/2,cy-d/2],[cx+d/2,cy-d/2],[cx+d/2,cy+d/2],[cx-d/2,cy+d/2]];
     if(n>1)for(let i=0;i<n;i++)b+=line(...points[i],...points[(i+1)%n],'#b9b1c3',1,'4 4');
     if(n===4)b+=line(...points[0],...points[2],palette.gold,1,'4 5');

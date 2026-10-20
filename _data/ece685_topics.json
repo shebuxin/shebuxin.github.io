@@ -379,12 +379,12 @@
       "group": "line-parameters",
       "title_zh": "输电线路参数 IV",
       "summary": {
-        "en": "Model one to four symmetric subconductors, distinguish magnetic/electric self radii and build the circuit branch on a stated system base.",
-        "zh": "模拟每相一至四根对称子导线，区分磁、电自半径，并按给定系统基准建立线路支路。"
+        "en": "Prepare one phase GMD and two bundle self-distances, then calculate parameter rates, route totals and a per-unit line branch.",
+        "zh": "先确定共同的相间 GMD 与磁、电分裂自距离，再计算单位长度参数、全线总量和标幺线路支路。"
       },
       "lab_focus": {
-        "en": "Bundles, physical circuits and per-unit branches",
-        "zh": "分裂导线、物理回路与标幺支路"
+        "en": "One phase GMD, two bundle self-distances",
+        "zh": "一个相间 GMD，两套分裂自距离"
       },
       "released": true,
       "frozen_source": true,

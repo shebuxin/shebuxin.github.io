@@ -20,7 +20,7 @@ The course diagrams show the modeled electrical connection or a quantitative rel
 | L22 | Opposite-current conductor cross sections and an explicit two-conductor series loop | Line parameters I, internal/external flux linkage and route example |
 | L23 | Phase positions drawn to scale and three equal-length transposition sections | Line parameters II, complete transposition and GMD |
 | L24 | Leading charging-current phasor and nominal π with both capacitive shunts | Line parameters III, local terminal voltage and shunt splitting |
-| L25 | Actual 1–4 member bundle geometry, square diagonal, and calculated per-phase π branch | Line parameters IV, separate magnetic/electric self radii and system bases |
+| L25 | Common phase-center GMD for L/C, separate magnetic/electric bundle self-distances, square diagonal, and calculated per-phase π branch | Revised Line parameters IV, slides 6–13 and 20–23 |
 
 The renderer is `assets/js/ece685-stage-diagrams.js`. The live experiments and the static baseline illustrations use that same renderer. Static illustrations contain their own styles and arrow definitions, work without JavaScript, and have separate English and Chinese labels.
 

@@ -221,16 +221,18 @@
   },
   "L25": {
     "concept_indices": [
-      0,
+      6,
+      7,
       1,
       2,
+      0,
       3,
       4,
       5
     ],
     "focus": {
-      "en": "Bundles, physical circuits and per-unit branches",
-      "zh": "分裂导线、物理回路与标幺支路"
+      "en": "One phase GMD, two bundle self-distances",
+      "zh": "一个相间 GMD，两套分裂自距离"
     }
   }
 }

@@ -2930,7 +2930,7 @@
         },
         {
           "slide": 2,
-          "title": "Lectureoutline"
+          "title": "Lecture outline"
         },
         {
           "slide": 3,
@@ -2938,27 +2938,27 @@
         },
         {
           "slide": 4,
-          "title": "Overhead-lineconstruction"
+          "title": "Overhead-line construction"
         },
         {
           "slide": 5,
-          "title": "Series-linephysics"
+          "title": "Series-line physics"
         },
         {
           "slide": 6,
-          "title": "Areaand outer radius"
+          "title": "Area and outer radius"
         },
         {
           "slide": 7,
-          "title": "Conductorquantities"
+          "title": "Conductor quantities"
         },
         {
           "slide": 8,
-          "title": "Per-lengthparameters"
+          "title": "Per-length parameters"
         },
         {
           "slide": 9,
-          "title": "Compatiblelength units"
+          "title": "Compatible length units"
         },
         {
           "slide": 10,
@@ -2966,7 +2966,7 @@
         },
         {
           "slide": 11,
-          "title": "Resistanceper unit length"
+          "title": "Resistance per unit length"
         },
         {
           "slide": 12,
@@ -2974,11 +2974,11 @@
         },
         {
           "slide": 13,
-          "title": "Resistancecorrections"
+          "title": "Resistance corrections"
         },
         {
           "slide": 14,
-          "title": "Totalrouteresistance"
+          "title": "Total route resistance"
         },
         {
           "slide": 15,
@@ -2986,35 +2986,35 @@
         },
         {
           "slide": 16,
-          "title": "Currentpath and magneticfield"
+          "title": "Current path and magnetic field"
         },
         {
           "slide": 17,
-          "title": "Fluxlinkage defines inductance"
+          "title": "Flux linkage defines inductance"
         },
         {
           "slide": 18,
-          "title": "Frominductance toACreactance"
+          "title": "From inductance to AC reactance"
         },
         {
           "slide": 19,
-          "title": "Whyboth internal andexternal flux?"
+          "title": "Why both internal and external flux?"
         },
         {
           "slide": 20,
-          "title": "Internallinkage: only part of the current"
+          "title": "Internal linkage: only part of the current"
         },
         {
           "slide": 21,
-          "title": "Externallinkage: why a logarithm?"
+          "title": "External linkage: why a logarithm?"
         },
         {
           "slide": 22,
-          "title": "GMRabsorbs the internalcontribution"
+          "title": "GMR absorbs the internal contribution"
         },
         {
           "slide": 23,
-          "title": "Reactanceand route totals"
+          "title": "Reactance and route totals"
         },
         {
           "slide": 24,
@@ -3022,19 +3022,19 @@
         },
         {
           "slide": 25,
-          "title": "Exercise1: givenand find"
+          "title": "Exercise 1: given and find"
         },
         {
           "slide": 26,
-          "title": "Exercise1: solution"
+          "title": "Exercise 1: solution"
         },
         {
           "slide": 27,
-          "title": "Exercise2: given"
+          "title": "Exercise 2: given"
         },
         {
           "slide": 28,
-          "title": "Exercise2: find"
+          "title": "Exercise 2: find"
         },
         {
           "slide": 29,
@@ -3113,7 +3113,7 @@
         },
         {
           "slide": 5,
-          "title": "T ower positions and phase labels"
+          "title": "Tower positions and phase labels"
         },
         {
           "slide": 6,
@@ -3320,7 +3320,7 @@
         },
         {
           "slide": 19,
-          "title": "Nominal-𝜋 shunt split"
+          "title": "Nominal-π shunt split"
         },
         {
           "slide": 20,
@@ -3382,12 +3382,12 @@
     {
       "group": "line-parameters",
       "summary": {
-        "en": "Model one to four symmetric subconductors, distinguish magnetic/electric self radii and build the circuit branch on a stated system base.",
-        "zh": "模拟每相一至四根对称子导线，区分磁、电自半径，并按给定系统基准建立线路支路。"
+        "en": "Prepare one phase GMD and two bundle self-distances, then calculate parameter rates, route totals and a per-unit line branch.",
+        "zh": "先确定共同的相间 GMD 与磁、电分裂自距离，再计算单位长度参数、全线总量和标幺线路支路。"
       },
       "lab_focus": {
-        "en": "Bundles, physical circuits and per-unit branches",
-        "zh": "分裂导线、物理回路与标幺支路"
+        "en": "One phase GMD, two bundle self-distances",
+        "zh": "一个相间 GMD，两套分裂自距离"
       },
       "released": true,
       "frozen_source": true,
@@ -3399,7 +3399,7 @@
       },
       "source_directory": "L25_line_parameters_iv",
       "source_file": "L25_line_parameters_iv.pdf",
-      "slide_count": 39,
+      "slide_count": 40,
       "slide_outline": [
         {
           "slide": 1,
@@ -3411,7 +3411,7 @@
         },
         {
           "slide": 3,
-          "title": "PART 1 · Tower, bundle configuration, and units"
+          "title": "PART 1 · Geometry and equivalent distances"
         },
         {
           "slide": 4,
@@ -3423,138 +3423,142 @@
         },
         {
           "slide": 6,
-          "title": "From tower geometry to model inputs"
+          "title": "The physical distances"
         },
         {
           "slide": 7,
-          "title": "Common configurations within one phase"
+          "title": "Where equivalent distances enter"
         },
         {
           "slide": 8,
-          "title": "Bundle input data"
+          "title": "Geometric mean distance (GMD)"
         },
         {
           "slide": 9,
-          "title": "Rates, totals, and per unit"
+          "title": "One GMD for inductance and capacitance"
         },
         {
           "slide": 10,
-          "title": "PART 2 · Bundle resistance"
+          "title": "The self term of one subconductor"
         },
         {
           "slide": 11,
-          "title": "Resistance per unit length"
+          "title": "Two-member bundle self-distances"
         },
         {
           "slide": 12,
-          "title": "PART 3 · Bundle inductance and capacitance"
+          "title": "The distance products for common bundles"
         },
         {
           "slide": 13,
-          "title": "Magnetic bundle equivalent"
+          "title": "Prepared distances for the phase formulas"
         },
         {
           "slide": 14,
-          "title": "Inductance and reactance rates"
+          "title": "PART 2 · Resistance, inductance, and capacitance"
         },
         {
           "slide": 15,
-          "title": "Electric bundle equivalent"
+          "title": "Rates, totals, and per unit"
         },
         {
           "slide": 16,
-          "title": "Same averaging, different bundle geometry"
+          "title": "Resistance of a two-member bundle"
         },
         {
           "slide": 17,
-          "title": "Capacitance and susceptance rates"
+          "title": "Resistance of a general bundle"
         },
         {
           "slide": 18,
-          "title": "PART 4 · Route totals and per unit"
+          "title": "Inductance and capacitance rates"
         },
         {
           "slide": 19,
-          "title": "Physical route totals"
+          "title": "PART 3 · Route totals and per unit"
         },
         {
           "slide": 20,
-          "title": "Per-unit line record"
+          "title": "Physical route totals"
         },
         {
           "slide": 21,
-          "title": "Charging quantities"
+          "title": "Per-unit line record"
         },
         {
           "slide": 22,
-          "title": "Two parallel circuits"
+          "title": "Charging quantities"
         },
         {
           "slide": 23,
-          "title": "PART 5 · Exercises"
+          "title": "Two parallel circuits"
         },
         {
           "slide": 24,
-          "title": "Exercise 1: given and find"
+          "title": "PART 4 · Exercises"
         },
         {
           "slide": 25,
-          "title": "Exercise 1: solution"
+          "title": "Exercise 1: given and find"
         },
         {
           "slide": 26,
-          "title": "Exercise 2: given"
+          "title": "Exercise 1: solution"
         },
         {
           "slide": 27,
-          "title": "Exercise 2: find"
+          "title": "Exercise 2: given"
         },
         {
           "slide": 28,
-          "title": "Ex. 2(a): phase GMD"
+          "title": "Exercise 2: find"
         },
         {
           "slide": 29,
-          "title": "Ex. 2(a): resistance rate"
+          "title": "Ex. 2(a): phase GMD"
         },
         {
           "slide": 30,
-          "title": "Ex. 2(b): magnetic self-distance"
+          "title": "Ex. 2(a): member radius"
         },
         {
           "slide": 31,
-          "title": "Ex. 2(b): inductance and reactance"
+          "title": "Ex. 2(a): bundle self-distances"
         },
         {
           "slide": 32,
-          "title": "Ex. 2(b): electric self-distance"
+          "title": "Ex. 2(b): resistance rate"
         },
         {
           "slide": 33,
-          "title": "Ex. 2(b): capacitance and B rate"
+          "title": "Ex. 2(b): inductance and reactance"
         },
         {
           "slide": 34,
-          "title": "Ex. 2(c): physical totals"
+          "title": "Ex. 2(b): capacitance and B rate"
         },
         {
           "slide": 35,
-          "title": "Ex. 2(c): charging quantities"
+          "title": "Ex. 2(c): physical totals"
         },
         {
           "slide": 36,
-          "title": "Ex. 2(d): per-unit record"
+          "title": "Ex. 2(c): charging quantities"
         },
         {
           "slide": 37,
-          "title": "Ex. 2(d): bundle comparison"
+          "title": "Ex. 2(d): per-unit record"
         },
         {
           "slide": 38,
-          "title": "Ex. 2(d): verification"
+          "title": "Ex. 2(d): bundle comparison"
         },
         {
           "slide": 39,
+          "title": "Ex. 2(d): verification"
+        },
+        {
+          "slide": 40,
           "title": "Summary"
         }
       ],

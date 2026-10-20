@@ -191,7 +191,7 @@
   },
   "L23": {
     "pdf": "/assets/slides/ece685/l23/L23_line_parameters_ii.pdf",
-    "sha256": "eb26229788f4480cde0b2704251feea04471196c27b92222a24d8f00654e2ee9",
+    "sha256": "e07395efcda17d5ea19dd1c656484e182ca43e6231d864f60ce831589ce2d651",
     "page_count": 31,
     "width": 1600,
     "height": 901,
@@ -201,7 +201,7 @@
   },
   "L24": {
     "pdf": "/assets/slides/ece685/l24/L24_line_parameters_iii.pdf",
-    "sha256": "a630e108cc8417659ecffbd661bbca0879d892b00c692ea48087444d82c0ad33",
+    "sha256": "dbf6d56ebc5ebffda2c47871a285b83ea0015a2186e8bc32a26ea6b7a124fccd",
     "page_count": 32,
     "width": 1600,
     "height": 901,
@@ -211,8 +211,8 @@
   },
   "L25": {
     "pdf": "/assets/slides/ece685/l25/L25_line_parameters_iv.pdf",
-    "sha256": "dcdef47f5bda10c61ba85ffe51cda9abd45f3f182fd3bc3702bfd1e305bf0ab5",
-    "page_count": 39,
+    "sha256": "1c74b4300580ec0942e268aaf528a18ebe51eea98f78368223ccca6b69f2f0ab",
+    "page_count": 40,
     "width": 1600,
     "height": 901,
     "first_page": "/assets/slides/ece685/l25/page-001.webp",

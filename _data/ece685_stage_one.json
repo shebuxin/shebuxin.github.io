@@ -4632,21 +4632,21 @@
       ],
       "extension": [],
       "opening": {
-        "en": "The 500 kV example has two subconductors per phase. Is that two transmission circuits? Why do resistance, reactance and charging change by different factors?",
-        "zh": "500 kV 例题每相包含两根子导线。这是否表示两条输电回路？为什么电阻、电抗和充电参数的变化比例不同？"
+        "en": "The 500 kV example has two members in each phase bundle. Which distances describe the phase positions, and which describe one bundle? Prepare the common GMD and the magnetic/electric self-distances before calculating R, X and B.",
+        "zh": "500 kV 例题每相有两根子导线。哪些距离描述相束的位置，哪些距离描述一相内部的分裂几何？先确定共同 GMD 和磁、电自距离，再计算 R、X、B。"
       },
       "goals": [
         {
-          "en": "Compute magnetic and electric bundle self distances for 1–4 members.",
-          "zh": "计算 1–4 根子导线的磁、电分裂自距离。"
+          "en": "Derive the common phase GMD from equal transposition sections.",
+          "zh": "由等长换位段推导电感、电容共用的相间 GMD。"
         },
         {
-          "en": "Recover one physical circuit’s phase R, X and total B.",
-          "zh": "计算一条物理回路的每相 R、X 与总 B。"
+          "en": "Distinguish member GMR, outside radius and the two bundle self-distances.",
+          "zh": "区分单根 GMR、实际外半径与磁、电两套分裂自距离。"
         },
         {
-          "en": "Change the system base and distinguish a parallel-circuit equivalent.",
-          "zh": "改变系统基准，并区分多回路并联等效。"
+          "en": "Build one circuit’s R/X/B record, then compare base changes and parallel circuits.",
+          "zh": "建立单回路 R/X/B 记录，再比较基准变化与回路并联。"
         }
       ],
       "concepts": [
@@ -4663,14 +4663,14 @@
         },
         {
           "title": {
-            "en": "Two self-distance calculations",
-            "zh": "两套自距离计算"
+            "en": "The same bundle geometry, two self-distances",
+            "zh": "同一分裂几何，两套自距离"
           },
           "body": {
-            "en": "Use the same symmetric bundle geometry twice: magnetic self terms start with supplied GMR Ds, electric self terms start with physical radius r. For three members the arrangement is equilateral; for four it is a square whose side spacing is d.",
-            "zh": "同一对称分裂几何计算两次：磁自项从给定 GMR Ds 开始，电自项从实际半径 r 开始。三分裂为等边三角形，四分裂为边长 d 的正方形。"
+            "en": "For a two-member phase, equal sharing averages ln(Dm/s) and ln(Dm/d), giving the equivalent self-distance √(sd). Use s=Ds for magnetic flux and s=r for electric potential. The same distance product extends to equilateral triples and square quadruples; d is the adjacent member-center spacing.",
+            "zh": "双分裂均分电流和电荷，因此对 ln(Dm/s) 与 ln(Dm/d) 取平均，得到等效自距离 √(sd)。磁通采用 s=Ds，电势采用 s=r。同一距离乘积法可扩展至等边三分裂与正方形四分裂；d 为相邻子导线中心间距。"
           },
-          "formula": "D_{s,b}=\\begin{cases}D_s&n=1\\\\(D_s d)^{1/2}&n=2\\\\(D_s d^2)^{1/3}&n=3\\\\(\\sqrt2D_s d^3)^{1/4}&n=4\\end{cases}"
+          "formula": "\\begin{gathered}F_n(s)=\\begin{cases}s&n=1\\\\(sd)^{1/2}&n=2\\\\(sd^2)^{1/3}&n=3\\\\(\\sqrt2sd^3)^{1/4}&n=4\\end{cases}\\\\D_{sL}=F_n(D_s),\\quad D_{sC}=F_n(r)\\end{gathered}"
         },
         {
           "title": {
@@ -4681,7 +4681,7 @@
             "en": "A square member has two neighbors at d and one at √2d. The √2 factor inside the fourth root belongs in both the magnetic and electric bundle radius. The phase-center GMD approximation requires a bundle much smaller than phase spacing.",
             "zh": "正方形的一根子导线有两个距离 d 的邻居和一个距离 √2d 的邻居。磁、电分裂半径的四次根号内都必须包含 √2。相中心 GMD 近似要求分裂尺寸远小于相间距。"
           },
-          "formula": "D_{s,b,4}=(\\sqrt2D_s d^3)^{1/4},\\quad r_{b,4}=(\\sqrt2r d^3)^{1/4}"
+          "formula": "D_{sL,4}=(\\sqrt2D_s d^3)^{1/4},\\quad D_{sC,4}=(\\sqrt2r d^3)^{1/4}"
         },
         {
           "title": {
@@ -4692,7 +4692,7 @@
             "en": "Calculate per-phase L and C using phase-center GMD and the respective bundle self radii. Multiply each rate by route length once. Three phases are represented by one balanced phase branch, not an extra factor of three in R, X or B.",
             "zh": "使用相中心 GMD 和各自分裂自半径计算每相 L、C；各单位长度参数只乘一次线路长度。三相采用一条平衡相支路表示，R、X、B 不额外乘 3。"
           },
-          "formula": "L'_\\phi=2\\times10^{-7}\\ln(D_m/D_{s,b}),\\quad C'_n=2\\pi\\epsilon/\\ln(D_m/r_b)"
+          "formula": "L'_\\phi=2\\times10^{-7}\\ln(D_m/D_{sL}),\\quad C'_n=2\\pi\\epsilon/\\ln(D_m/D_{sC})"
         },
         {
           "title": {
@@ -4715,6 +4715,28 @@
             "zh": "两条相同且互不耦合的回路连接同一对母线时，Zeq=Z/2、Beq=2B，单条回路记录不变。该近似忽略回路间耦合，不能据此推断热稳定 MVA 限额。"
           },
           "formula": "Z_{eq}=Z_{circuit}/N_c,\\quad B_{eq}=N_c B_{circuit}"
+        },
+        {
+          "title": {
+            "en": "One mutual distance for inductance and capacitance",
+            "zh": "电感与电容共用一个互距"
+          },
+          "body": {
+            "en": "D12, D23 and D31 describe fixed phase-bundle positions. In three equal transposition sections, a phase pair experiences each spacing once. Average the logarithmic effects, rather than the distances. Magnetic linkage and electric potential have the same mutual-distance logarithm, so both use the same Dm. The phase-center approximation requires the bundle to be small relative to phase spacing.",
+            "zh": "D12、D23、D31 描述固定相束位置。三个等长换位段使每对相依次经历三个间距。应平均对数效应，而不是直接平均距离。磁通链与电势具有相同的互距对数项，因此共用 Dm；相束中心近似要求分裂尺寸远小于相间距。"
+          },
+          "formula": "\\ln D_m=\\frac{\\ln D_{12}+\\ln D_{23}+\\ln D_{31}}{3},\\quad D_m=(D_{12}D_{23}D_{31})^{1/3}"
+        },
+        {
+          "title": {
+            "en": "Start with the self term of one member",
+            "zh": "从单根子导线的自项开始"
+          },
+          "body": {
+            "en": "A member’s magnetic self-distance is its supplied GMR Ds. The relation Ds=re^(−1/4) applies to a solid round nonmagnetic conductor with uniform current; use supplied GMR for stranded conductors. Electric potential is evaluated at the surface, so its self term is the physical radius r=Dout/2. Neither member input is yet the whole bundle’s self-distance.",
+            "zh": "单根的磁自距离为给定 GMR Ds。Ds=re^(−1/4) 只适用于电流均匀分布的非磁性实心圆导线；绞线应使用给定 GMR。电势在导线表面取值，因此电自项是实际半径 r=Dout/2。两项输入都还不是整个分裂导线组的自距离。"
+          },
+          "formula": "\\begin{gathered}s_L=D_s,\\quad s_C=r=\\frac{D_{out}}{2}\\\\D_s=re^{-1/4}\\ \\text{(solid, uniform current)}\\end{gathered}"
         }
       ],
       "controls": [
@@ -4905,7 +4927,7 @@
           "key": "resistance_sub_ohm_km",
           "label": {
             "en": "Supplied AC subconductor resistance",
-            "zh": "给定子导线 AC 电阻率"
+            "zh": "给定子导线单位长度 AC 电阻"
           },
           "unit": "Ω/km",
           "min": 0.01,
@@ -4943,10 +4965,19 @@
       ],
       "metrics": [
         {
+          "key": "gmd_m",
+          "label": {
+            "en": "Common phase GMD for L and C",
+            "zh": "L、C 共用的相间 GMD"
+          },
+          "unit": "m",
+          "digits": 4
+        },
+        {
           "key": "bundle_gmr_m",
           "label": {
-            "en": "Magnetic bundle self distance",
-            "zh": "磁分裂自距离"
+            "en": "Magnetic bundle self-distance DsL",
+            "zh": "磁分裂自距离 DsL"
           },
           "unit": "m",
           "digits": 6
@@ -4954,8 +4985,8 @@
         {
           "key": "bundle_radius_m",
           "label": {
-            "en": "Electric bundle self radius",
-            "zh": "电分裂自半径"
+            "en": "Electric bundle self-distance DsC",
+            "zh": "电分裂自距离 DsC"
           },
           "unit": "m",
           "digits": 6
@@ -5043,17 +5074,17 @@
         }
       ],
       "given": {
-        "en": "L25 example: one 500 kV, 60 Hz circuit; length 80 mi=128.74752 km; phase spacings 32,32,64 ft; two members per phase, d=1.50 ft. Member GMR=0.0588 ft; outside diameter=1.762 in; supplied AC resistance at 25 °C=0.0105 Ω/kft. Base: 500 kV, 100 MVA.",
-        "zh": "L25 例题：一条 500 kV、60 Hz 回路；长度 80 mi=128.74752 km；相间距 32、32、64 ft；每相两根子导线，d=1.50 ft。子导线 GMR=0.0588 ft；外径=1.762 in；25 °C 给定 AC 电阻率=0.0105 Ω/kft。基准：500 kV、100 MVA。"
+        "en": "Revised L25 example: one 500 kV, 60 Hz circuit, 128.74752 km long; phase-bundle center spacings 9.7536, 9.7536 and 19.5072 m. Two members per phase with d=0.4572 m; member GMR Ds=0.01792224 m; outside diameter Dout=44.7548 mm. Supplied member AC resistance rate at 25 °C is 0.0344488189 Ω/km. Bases: 500 kV and 100 MVA.",
+        "zh": "新版 L25 例题：一条 500 kV、60 Hz 回路，长度 128.74752 km；相束中心间距 9.7536、9.7536、19.5072 m。每相两根子导线，d=0.4572 m；单根 GMR Ds=0.01792224 m，外径 Dout=44.7548 mm。25 °C 给定子导线单位长度 AC 电阻为 0.0344488189 Ω/km。基准：500 kV、100 MVA。"
       },
       "worked": [
         {
-          "en": "Convert: 32 ft=9.7536 m, d=0.4572 m, GMR=0.01792224 m, radius=(1.762/2) in=0.0223774 m. 0.0105 Ω/kft=0.03444882 Ω/km.",
-          "zh": "单位换算：32 ft=9.7536 m，d=0.4572 m，GMR=0.01792224 m，半径=(1.762/2) in=0.0223774 m。0.0105 Ω/kft=0.03444882 Ω/km。"
+          "en": "Use the revised slide data in SI: phase spacings 9.7536, 9.7536 and 19.5072 m; d=0.4572 m; member Ds=0.01792224 m; r=44.7548/2 mm=0.0223774 m. Member AC resistance rate is 0.0344488189 Ω/km.",
+          "zh": "采用新版课件的 SI 数据：相间距为 9.7536、9.7536、19.5072 m，d=0.4572 m，单根 Ds=0.01792224 m，r=44.7548/2 mm=0.0223774 m。子导线单位长度 AC 电阻为 0.0344488189 Ω/km。"
         },
         {
-          "en": "Dm=(32×32×64)⅓=40.3175 ft. Magnetic bundle GMR=√(0.0588×1.50)=0.296985 ft; electric bundle radius=√(0.0734167×1.50)=0.331851 ft.",
-          "zh": "Dm=(32×32×64)⅓=40.3175 ft。磁分裂 GMR=√(0.0588×1.50)=0.296985 ft；电分裂半径=√(0.0734167×1.50)=0.331851 ft。"
+          "en": "Prepare the geometry: Dm=(9.7536²×19.5072)^(1/3)≈12.2888 m; DsL=√(0.01792224×0.4572)≈0.0905210 m; DsC=√(0.0223774×0.4572)≈0.101148 m. Use the same Dm for L and C, but different self-distances.",
+          "zh": "先确定几何量：Dm=(9.7536²×19.5072)^(1/3)≈12.2888 m；DsL=√(0.01792224×0.4572)≈0.0905210 m；DsC=√(0.0223774×0.4572)≈0.101148 m。L、C 共用 Dm，但采用不同的自距离。"
         },
         {
           "en": "R′phase=0.01722441 Ω/km; L′phase=0.98217182 mH/km; X′phase=0.37027005 Ω/km. The 80-mile circuit has R=2.2176 Ω and X≈47.67135 Ω per phase.",
@@ -5082,7 +5113,7 @@
           "unit": "Ω",
           "hint": {
             "en": "Divide the member rate by 2, then multiply by 128.74752 km.",
-            "zh": "子导线电阻率除以 2，再乘 128.74752 km。"
+            "zh": "子导线单位长度电阻除以 2，再乘 128.74752 km。"
           },
           "tolerance": 0.001
         },
@@ -5158,8 +5189,8 @@
         ]
       },
       "challenge": {
-        "en": "Compare 1, 2, 3 and 4 members. Explain the square-diagonal factor. Then select two physical circuits and change Sbase: distinguish physical equivalencing from changing units.",
-        "zh": "比较 1、2、3、4 根子导线，解释正方形对角线系数。然后选择两条物理回路并改变 Sbase，区分实际并联等效与表示单位变化。"
+        "en": "Compare 1–4 members while keeping phase positions fixed: which self-distances change and why does Dm stay fixed? Then change a phase-position spacing and compare the L/C response. Finally select two physical circuits and change Sbase, distinguishing parallel equivalencing from a base change.",
+        "zh": "保持相束位置不变，比较 1–4 根子导线：哪些自距离改变，为什么 Dm 不变？再改变一个相位置间距，比较 L、C 的响应。最后选择两条物理回路并改变 Sbase，区分并联等效与基准变化。"
       },
       "limits": {
         "en": "Symmetric identical bundles with equal member sharing; complete transposition, balanced operation and phase-center mutual-distance approximation. Air dielectric, no earth/shield wires, corona or inter-circuit mutual coupling. Resistance is supplied AC data at 25 °C. Charging uses uniform voltage. Parameters do not determine a thermal MVA rating.",
