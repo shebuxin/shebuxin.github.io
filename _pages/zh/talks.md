@@ -10,6 +10,14 @@ description: "佘步鑫的特邀报告、专题讨论与学术会议报告。"
 
 ---
 
+## 2026 KSU ECE 学术讲座
+
+* **报告题目**：SMR Cogeneration for Hyperscale Data Centers: A Techno-Economic Boundary Analysis of Power and Cooling
+* **学校**：堪萨斯州立大学（Kansas State University）
+* **幻灯片**：[查看 PDF](/files/pdf/nuclear_dc_45min.pdf)
+
+---
+
 ## 2026 KSU ECE 咨询委员会年会
 
 * **报告题目**：Small Modular Reactors for Hyperscale Data Centers

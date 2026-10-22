@@ -8,6 +8,14 @@ Selected invited talks, panels, and conference presentations.
 
 ---
 
+## 2026 KSU ECE Seminar
+
+* **Presentation Title**: SMR Cogeneration for Hyperscale Data Centers: A Techno-Economic Boundary Analysis of Power and Cooling
+* **Institution**: Kansas State University
+* **Slides**: [View PDF](/files/pdf/nuclear_dc_45min.pdf)
+
+---
+
 ## 2026 KSU ECE Advisory Council Annual Meeting
 
 * **Presentation Title**: Small Modular Reactors for Hyperscale Data Centers
