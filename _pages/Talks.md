@@ -12,6 +12,8 @@ Selected invited talks, panels, and conference presentations.
 
 * **Presentation Title**: SMR Cogeneration for Hyperscale Data Centers: A Techno-Economic Boundary Analysis of Power and Cooling
 * **Institution**: Kansas State University
+* **Date**: October 22, 2026
+* **Duration**: 45 minutes
 * **Slides**: [View PDF](/files/pdf/nuclear_dc_45min.pdf)
 
 ---
