@@ -97,7 +97,7 @@ author_profile: true
 
 ### 会议服务
 
-* **专题主席**，2027 年 IEEE 电力与综合能源系统国际会议（ICPIES）：[Special Session 11, “Capacity, Flexibility, and Ancillary Service Markets for Low-Carbon Power Systems”](https://icpies.org/ss11.html)。
+* **专题主席**，2026 年 IEEE 电力与综合能源系统国际会议（ICPIES）：[Special Session 11, “Capacity, Flexibility, and Ancillary Service Markets for Low-Carbon Power Systems”](https://icpies.org/ss11.html)。
 * **评委**，2026 年北美电力研讨会（NAPS）：“Grid Integration of Large Loads I” 专场，2026 年 10 月 12 日。
 * **专题讨论主席（Panel Chair）**，2025 年 IEEE PES General Meeting：[“Virtual Inertia Scheduling and Control (VISC) for IBR-Penetrated Power Systems”](https://cmte.ieee.org/pes-visc/activities/)。
 

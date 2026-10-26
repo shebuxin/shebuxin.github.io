@@ -99,7 +99,7 @@ For a complete list, see the [publications page](/publications/).
 
 ### Conference Roles
 
-* **Special Session Chair**, IEEE International Conference on Power and Integrated Energy Systems (ICPIES), 2027: [Special Session 11, "Capacity, Flexibility, and Ancillary Service Markets for Low-Carbon Power Systems"](https://icpies.org/ss11.html).
+* **Special Session Chair**, IEEE International Conference on Power and Integrated Energy Systems (ICPIES), 2026: [Special Session 11, "Capacity, Flexibility, and Ancillary Service Markets for Low-Carbon Power Systems"](https://icpies.org/ss11.html).
 * **Judge**, North American Power Symposium (NAPS), 2026: "Grid Integration of Large Loads I," October 12, 2026.
 * **Panel Chair**, IEEE PES General Meeting, 2025: ["Virtual Inertia Scheduling and Control (VISC) for IBR-Penetrated Power Systems"](https://cmte.ieee.org/pes-visc/activities/).
 
