@@ -34,7 +34,7 @@ description: "佘步鑫的特邀报告、专题讨论与学术会议报告。"
 
 * **报告题目**：Drift-Aware False-Secure Mitigation in DNN-Assisted Virtual Inertia Scheduling (VIS) of PV-Dominated Microgrids
 * **日期**：2026 年 10 月 12 日
-* **奖项**：Best Oral Presentation Award（最佳口头报告奖），2026 年 10 月 15 日公布。
+* **奖项**：Best Oral Presentation Award（最佳口头报告奖），2026 年 10 月 15 日公布。[查看证书](/files/certificates/NAPS_2026_Oral_Award_Paper_266.pdf)
 * **幻灯片**：[查看 PDF](/files/pdf/Drift_Aware_VIS_NAPS_2026.pdf)
 
 ---

@@ -100,7 +100,7 @@ For a complete list, see the [publications page](/publications/).
 ### Conference Roles
 
 * **Special Session Chair**, IEEE International Conference on Power and Integrated Energy Systems (ICPIES), 2026: [Special Session 11, "Capacity, Flexibility, and Ancillary Service Markets for Low-Carbon Power Systems"](https://icpies.org/ss11.html).
-* **Judge**, North American Power Symposium (NAPS), 2026: "Grid Integration of Large Loads I," October 12, 2026.
+* **Judge**, North American Power Symposium (NAPS), 2026: "Grid Integration of Large Loads I," October 12, 2026. [Certificate](/files/certificates/NAPS_2026_Session_A1_Appreciation.pdf)
 * **Panel Chair**, IEEE PES General Meeting, 2025: ["Virtual Inertia Scheduling and Control (VISC) for IBR-Penetrated Power Systems"](https://cmte.ieee.org/pes-visc/activities/).
 
 ### Editorial Roles
@@ -117,8 +117,8 @@ For a complete list, see the [publications page](/publications/).
 ## Awards
 {: #award}
 
-* [Best Oral Presentation Award, North American Power Symposium (NAPS)](/talks/#2026-naps-presentation) for "Drift-Aware False-Secure Mitigation in DNN-Assisted Virtual Inertia Scheduling (VIS) of PV-Dominated Microgrids", 2026.
-* [IEEE PES Prize Paper Award](https://ieee-pes.org/news/just-announced-2026-ieee-power-energy-society-award-recipients/) for "Virtual Inertia Scheduling (VIS) for Real-Time Economic Dispatch of IBR-Penetrated Power Systems", 2026.
+* **[IEEE PES Prize Paper Award](https://ieee-pes.org/news/just-announced-2026-ieee-power-energy-society-award-recipients/)** for "Virtual Inertia Scheduling (VIS) for Real-Time Economic Dispatch of IBR-Penetrated Power Systems", 2026. [Certificate](/files/certificates/PES_Prize_Paper_Award_2026.jpg)
+* [Best Oral Presentation Award, North American Power Symposium (NAPS)](/talks/#2026-naps-presentation) for "Drift-Aware False-Secure Mitigation in DNN-Assisted Virtual Inertia Scheduling (VIS) of PV-Dominated Microgrids", 2026. [Certificate](/files/certificates/NAPS_2026_Oral_Award_Paper_266.pdf)
 * K-State ADVANCE Distinguished Lecture Series Award, 2026.
 * PNNL Outstanding Performance Award for leadership of the DOE OE Energy Storage program, 2025.
 * Excellent Reviewer of *IEEE Transactions on Sustainable Energy*, 2025.

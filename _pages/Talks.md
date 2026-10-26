@@ -32,7 +32,7 @@ Selected invited talks, panels, and conference presentations.
 
 * **Presentation Title**: Drift-Aware False-Secure Mitigation in DNN-Assisted Virtual Inertia Scheduling (VIS) of PV-Dominated Microgrids
 * **Date**: October 12, 2026
-* **Award**: Best Oral Presentation Award (announced October 15, 2026).
+* **Award**: Best Oral Presentation Award (announced October 15, 2026). [Certificate](/files/certificates/NAPS_2026_Oral_Award_Paper_266.pdf)
 * **Slides**: [View PDF](/files/pdf/Drift_Aware_VIS_NAPS_2026.pdf)
 
 ---

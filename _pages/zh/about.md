@@ -98,7 +98,7 @@ author_profile: true
 ### 会议服务
 
 * **专题主席**，2026 年 IEEE 电力与综合能源系统国际会议（ICPIES）：[Special Session 11, “Capacity, Flexibility, and Ancillary Service Markets for Low-Carbon Power Systems”](https://icpies.org/ss11.html)。
-* **评委**，2026 年北美电力研讨会（NAPS）：“Grid Integration of Large Loads I” 专场，2026 年 10 月 12 日。
+* **评委**，2026 年北美电力研讨会（NAPS）：“Grid Integration of Large Loads I” 专场，2026 年 10 月 12 日。[查看证书](/files/certificates/NAPS_2026_Session_A1_Appreciation.pdf)
 * **专题讨论主席（Panel Chair）**，2025 年 IEEE PES General Meeting：[“Virtual Inertia Scheduling and Control (VISC) for IBR-Penetrated Power Systems”](https://cmte.ieee.org/pes-visc/activities/)。
 
 ### 期刊任职
@@ -115,8 +115,8 @@ author_profile: true
 ## 荣誉
 {: #award}
 
-* [北美电力研讨会（NAPS）最佳口头报告奖](/zh/talks/#2026-naps-学术报告)，获奖论文为 “Drift-Aware False-Secure Mitigation in DNN-Assisted Virtual Inertia Scheduling (VIS) of PV-Dominated Microgrids”，2026 年。
-* [IEEE PES Prize Paper Award](https://ieee-pes.org/news/just-announced-2026-ieee-power-energy-society-award-recipients/)，获奖论文为 “Virtual Inertia Scheduling (VIS) for Real-Time Economic Dispatch of IBR-Penetrated Power Systems”，2026 年。
+* **[IEEE PES Prize Paper Award](https://ieee-pes.org/news/just-announced-2026-ieee-power-energy-society-award-recipients/)**，获奖论文为 “Virtual Inertia Scheduling (VIS) for Real-Time Economic Dispatch of IBR-Penetrated Power Systems”，2026 年。[查看证书](/files/certificates/PES_Prize_Paper_Award_2026.jpg)
+* [北美电力研讨会（NAPS）最佳口头报告奖](/zh/talks/#2026-naps-学术报告)，获奖论文为 “Drift-Aware False-Secure Mitigation in DNN-Assisted Virtual Inertia Scheduling (VIS) of PV-Dominated Microgrids”，2026 年。[查看证书](/files/certificates/NAPS_2026_Oral_Award_Paper_266.pdf)
 * K-State ADVANCE Distinguished Lecture Series Award，2026 年。
 * PNNL Outstanding Performance Award（表彰其在美国能源部电力办公室储能项目中的领导工作），2025 年。
 * *IEEE Transactions on Sustainable Energy* 优秀审稿人，2025 年。
