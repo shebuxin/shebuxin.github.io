@@ -11,6 +11,7 @@ author_profile: true
 * [工作经历](#work)
 * [教育背景](#edu)
 * [代表性论文](#pub)
+* [学术服务](#service)
 * [荣誉](#award)
 * [全球合作](#connections)
 
@@ -85,6 +86,32 @@ author_profile: true
 
 ---
 
+## 学术服务
+{: #service}
+
+### 学术组织任职
+
+* **主席**，IEEE PES [Virtual Inertia Scheduling and Control (VISC) for IBR-Dominant Power Systems](https://cmte.ieee.org/pes-visc/) 专项工作组。
+* **分组负责人**，ESIG [大型负荷工作组（Large Loads Task Force）](https://www.esig.energy/large-loads-task-force/)建模需求与数据采集分组（Modeling Requirements and Data Collection Subteam）。
+* **领域专家**，IEEE PES 教育委员会；参与开发 [Artificial Intelligence for Power and Energy Systems](https://iln.ieee.org/public/contentdetails.aspx?id=48A92EF8188E4D2E8331E1381CAF98E7) 系列课程。
+
+### 会议服务
+
+* **专题主席**，2027 年 IEEE 电力与综合能源系统国际会议（ICPIES）：[Special Session 11, “Capacity, Flexibility, and Ancillary Service Markets for Low-Carbon Power Systems”](https://icpies.org/ss11.html)。
+* **评委**，2026 年北美电力研讨会（NAPS）：“Grid Integration of Large Loads I” 专场，2026 年 10 月 12 日。
+* **专题讨论主席（Panel Chair）**，2025 年 IEEE PES General Meeting：[“Virtual Inertia Scheduling and Control (VISC) for IBR-Penetrated Power Systems”](https://cmte.ieee.org/pes-visc/activities/)。
+
+### 期刊任职
+
+* **副编辑**，[*IEEE Data Descriptions*](https://www.ieee-data.org/)。
+* **副编辑**，[*Unconventional Resources*](https://www.sciencedirect.com/journal/unconventional-resources)。
+* **副编辑**，[*Chinese Journal of Electrical Engineering*](https://ieeexplore.ieee.org/xpl/RecentIssue.jsp?punumber=7873788)。
+* **客座编辑**，*International Journal of Electrical Power & Energy Systems*。
+* **客座编辑**，*IET Renewable Power Generation*。
+* **青年顾问委员会委员**，*Energy Conversion and Economics*。
+
+---
+
 ## 荣誉
 {: #award}
 
@@ -93,12 +120,12 @@ author_profile: true
 * K-State ADVANCE Distinguished Lecture Series Award，2026 年。
 * PNNL Outstanding Performance Award（表彰其在美国能源部电力办公室储能项目中的领导工作），2025 年。
 * *IEEE Transactions on Sustainable Energy* 优秀审稿人，2025 年。
+* *IEEE Open Access Journal of Power and Energy* 杰出审稿人，2020 年、[2025 年](https://ieeexplore.ieee.org/document/11355900)。
 * *Energy Conversion and Economics* 杰出审稿人，2025 年。
 * PNNL Exceptional Contribution Award，2024 年。
 * 田纳西大学 [Volunteer of Distinction](https://provost.utk.edu/volunteer-of-distinction-winners/) 荣誉，2024 年。
 * *Journal of Modern Power Systems and Clean Energy* 优秀审稿人，2022、2023 和 2025 年。
 * 田纳西大学研究生奖学金，2022–2024 年。
-* *IEEE Open Access Journal of Power and Energy* 杰出审稿人，2020 年。
 
 ---
 

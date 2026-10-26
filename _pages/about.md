@@ -12,6 +12,7 @@ redirect_from:
 * [Professional Experience](#work)
 * [Education](#edu)
 * [Selected Publications](#pub)
+* [Service](#service)
 * [Awards](#award)
 * [Global Collaborations](#connections)
 
@@ -87,6 +88,32 @@ For a complete list, see the [publications page](/publications/).
 
 ---
 
+## Service
+{: #service}
+
+### Professional Leadership
+
+* **Chair**, IEEE PES Task Force on [Virtual Inertia Scheduling and Control (VISC) for IBR-Dominant Power Systems](https://cmte.ieee.org/pes-visc/).
+* **Sub-Team Lead**, Modeling Requirements and Data Collection Subteam, [ESIG Large Loads Task Force](https://www.esig.energy/large-loads-task-force/).
+* **Subject-Matter Expert**, IEEE PES Education Committee; contributor to the [Artificial Intelligence for Power and Energy Systems](https://iln.ieee.org/public/contentdetails.aspx?id=48A92EF8188E4D2E8331E1381CAF98E7) course series.
+
+### Conference Roles
+
+* **Special Session Chair**, IEEE International Conference on Power and Integrated Energy Systems (ICPIES), 2027: [Special Session 11, "Capacity, Flexibility, and Ancillary Service Markets for Low-Carbon Power Systems"](https://icpies.org/ss11.html).
+* **Judge**, North American Power Symposium (NAPS), 2026: "Grid Integration of Large Loads I," October 12, 2026.
+* **Panel Chair**, IEEE PES General Meeting, 2025: ["Virtual Inertia Scheduling and Control (VISC) for IBR-Penetrated Power Systems"](https://cmte.ieee.org/pes-visc/activities/).
+
+### Editorial Roles
+
+* **Associate Editor**, [*IEEE Data Descriptions*](https://www.ieee-data.org/).
+* **Associate Editor**, [*Unconventional Resources*](https://www.sciencedirect.com/journal/unconventional-resources).
+* **Associate Editor**, [*Chinese Journal of Electrical Engineering*](https://ieeexplore.ieee.org/xpl/RecentIssue.jsp?punumber=7873788).
+* **Guest Editor**, *International Journal of Electrical Power & Energy Systems*.
+* **Guest Editor**, *IET Renewable Power Generation*.
+* **Young Advisory Board Member**, *Energy Conversion and Economics*.
+
+---
+
 ## Awards
 {: #award}
 
@@ -95,12 +122,12 @@ For a complete list, see the [publications page](/publications/).
 * K-State ADVANCE Distinguished Lecture Series Award, 2026.
 * PNNL Outstanding Performance Award for leadership of the DOE OE Energy Storage program, 2025.
 * Excellent Reviewer of *IEEE Transactions on Sustainable Energy*, 2025.
+* Outstanding Reviewer of *IEEE Open Access Journal of Power and Energy*, 2020 and [2025](https://ieeexplore.ieee.org/document/11355900).
 * Outstanding Reviewer of *Energy Conversion and Economics*, 2025.
 * PNNL Exceptional Contribution Award, 2024.
 * UT [Volunteer of Distinction](https://provost.utk.edu/volunteer-of-distinction-winners/) honor, 2024.
 * Excellent Reviewer of *Journal of Modern Power Systems and Clean Energy*, 2022, 2023, and 2025.
 * UT Graduate Fellowship, 2022-2024.
-* Outstanding Reviewer of *IEEE Open Access Journal of Power and Energy*, 2020.
 
 ---
 
