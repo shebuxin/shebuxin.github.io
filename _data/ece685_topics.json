@@ -437,29 +437,33 @@
       "group": "power-flow",
       "title_zh": "潮流分析 I",
       "summary": {
-        "en": "Identify power-flow inputs, bus types, unknowns, net injections, topology, and operating limits.",
-        "zh": "识别潮流输入、节点类型、未知量、净注入、拓扑与运行限值。"
+        "en": "Connect devices, terminal directions, complex power and KCL before assigning generator controls.",
+        "zh": "先连接设备、端口方向、复功率与 KCL，再引入发电机控制。"
       },
       "lab_focus": {
-        "en": "Classify buses and inspect the known quantities, unknowns, and net injections of a network.",
-        "zh": "分类网络节点，检查各节点的已知量、未知量和净注入。"
+        "en": "Change Im(V3) and predict P3 before moving the control. Then change the specified load: which network quantities stay fixed at the same voltages? Finally rotate every voltage angle together and explain why powers do not change. The curves change one trial voltage coordinate at a time; they do not find a simultaneous P/Q solution.",
+        "zh": "先预测再改变 Im(V3)，观察 P3。随后只改变指定负荷：固定电压下，哪些网络量不会改变？最后统一旋转所有电压相角，解释功率为何不变。两幅曲线各自扫描一个试探电压坐标，并不求解同时满足 P、Q 的运行点。"
       },
-      "released": false,
-      "frozen_source": false
+      "released": true,
+      "frozen_source": true,
+      "interactive_model": "power-flow-balance",
+      "lesson": "integrated"
     },
     "L33": {
       "group": "power-flow",
       "title_zh": "潮流分析 II",
       "summary": {
-        "en": "Assemble Y-bus from series branches, line charging, fixed shunts, and transformer taps.",
-        "zh": "由串联支路、线路充电、固定并联元件和变压器分接头组装节点导纳矩阵。"
+        "en": "Collect KCL coefficients into Y-bus, then calculate currents and powers at a trial voltage vector.",
+        "zh": "将 KCL 的电压系数组装为 Y-bus，再在试探电压下计算电流与功率。"
       },
       "lab_focus": {
-        "en": "Build branch stamps and inspect how charging, taps, and outages change Y-bus.",
-        "zh": "建立支路矩阵，观察充电、分接头与支路断开如何改变节点导纳矩阵。"
+        "en": "First reproduce the original matrix. Add bc23=0.04 and Bsh3=0.12, then the optional t12=1.05. Observe which entries change. Open branch 2–3 and verify its charging also disappears. Use the backup phase control to test why Y12 and Y21 then differ. The two curves evaluate trial voltages; crossing one specified-power line does not solve both P and Q.",
+        "zh": "先复现原矩阵；加入 bc23=0.04、Bsh3=0.12，再设可选 t12=1.05，观察哪些元素改变。断开支路 2–3，确认其充电也移除。用备份移相控件检查 Y12、Y21 为什么不再相同。两幅曲线用于试探电压求值；仅穿过一条指定功率线并不代表同时求解 P、Q。"
       },
-      "released": false,
-      "frozen_source": false
+      "released": true,
+      "frozen_source": true,
+      "interactive_model": "power-flow-ybus",
+      "lesson": "integrated"
     },
     "L34": {
       "group": "power-flow",

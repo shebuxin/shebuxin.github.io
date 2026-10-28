@@ -1,9 +1,11 @@
 ---
 layout: ece685
 ece685: true
+ece685_slides: true
+ece685_lab: true
 lang: en
 title: "L32 · Power Flow I"
-description: "Identify power-flow inputs, bus types, unknowns, net injections, topology, and operating limits."
+description: "Connect devices, terminal directions, complex power and KCL before assigning generator controls."
 lecture_id: L32
 permalink: /teaching/ece685/l32-power-flow-i/
 redirect_from:

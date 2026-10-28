@@ -218,5 +218,25 @@
     "first_page": "/assets/slides/ece685/l25/page-001.webp",
     "pages_json": "/assets/slides/ece685/l25/pages.json",
     "source": "01_lectures/L25_line_parameters_iv/L25_line_parameters_iv.pdf"
+  },
+  "L32": {
+    "pdf": "/assets/slides/ece685/l32/L32_power_flow_i.pdf",
+    "sha256": "b1c7ab997e54f15dfcade2eea75a15139975f3960198f3393537bee3fae9c3bb",
+    "page_count": 25,
+    "width": 1600,
+    "height": 901,
+    "first_page": "/assets/slides/ece685/l32/page-001.webp",
+    "pages_json": "/assets/slides/ece685/l32/pages.json",
+    "source": "01_lectures/L32_power_flow_i/L32_power_flow_i.pdf"
+  },
+  "L33": {
+    "pdf": "/assets/slides/ece685/l33/L33_power_flow_ii.pdf",
+    "sha256": "4b38946fda04007a9c6e3a0bef3691568cee36fb26fb8ae5d2b414538dd2ecf3",
+    "page_count": 40,
+    "width": 1600,
+    "height": 901,
+    "first_page": "/assets/slides/ece685/l33/page-001.webp",
+    "pages_json": "/assets/slides/ece685/l33/pages.json",
+    "source": "01_lectures/L33_power_flow_ii/L33_power_flow_ii.pdf"
   }
 }

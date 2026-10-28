@@ -66,6 +66,12 @@
       rows.push('\n'+words('数值核查','Numerical checks'));
       Object.entries(result.checks).forEach(([name,value])=>rows.push(`${name} = ${Number(value).toExponential(3)}`));
       if(result.annual)rows.push('\n'+words('L04 年曲线边界 h','L04 annual curve boundaries h')+': '+result.annual.hours.join(', '),'net load MW: '+result.annual.net_load.join(', '));
+      if(result.network){
+        const z=value=>`${fmt(value.re,9)} ${value.im<0?'-':'+'} j${fmt(Math.abs(value.im),9)}`;
+        rows.push('\nYbus / pu (bus order 1, 2, 3)',...result.network.ybus.map(row=>row.map(z).join(' | ')));
+        result.network.currents.forEach((value,i)=>rows.push(`I${i+1} = ${z(value)} pu; S${i+1} = ${z(result.network.powers[i])} pu`));
+        rows.push(words('试探电压求值；指定功率不平衡量尚未求解。','Trial-voltage evaluation; specified power mismatches have not been solved.'));
+      }
       find('[data-stage-checks]').textContent=rows.join('\n');
       if(runner){runner.markStale();runner.redraw();}
     }catch(error){result=null;find('.stage-live-results').hidden=true;find('[data-stage-status]').dataset.state='error';find('[data-stage-status]').textContent=words('输入尚不相容，请核对读数：','Inconsistent inputs; check the readings: ')+error.message;if(runner){runner.markStale();runner.redraw();}}
@@ -83,7 +89,7 @@
     return r.plots.every(p=>Array.isArray(p.x)&&p.x.length>=2&&p.x.length<=10000&&p.x.every((v,i)=>Number.isFinite(v)&&(i===0||v>p.x[i-1]))&&
       Array.isArray(p.curves)&&p.curves.length>0&&p.curves.length<=8&&p.curves.every(c=>Array.isArray(c.values)&&c.values.length===p.x.length&&c.values.every(Number.isFinite))&&typeof p.x_unit==='string'&&typeof p.y_unit==='string');
   }
-  const baseline=`# ${practiceId} companion model: ${kind}. case contains a fresh control snapshot.\n# Edit an input before solve(case), then inspect the checks.\nresult = solve(case)\nimport json\nprint(json.dumps(result["metrics"], indent=2, ensure_ascii=False))\nprint("Numerical checks:", result["checks"])`;
+  const baseline=`# ${practiceId} companion model: ${kind}. case contains a fresh control snapshot.\n# Edit an input before solve(case), then inspect the checks.\nresult = solve(case)\nimport json\nprint(json.dumps(result["metrics"], indent=2, ensure_ascii=False))\nprint("Numerical checks:", result["checks"])`+(kind.startsWith('power-flow-')?'\nprint("Ybus / pu; bus order 1, 2, 3:")\nfor row in result["network"]["ybus"]:\n    print([complex(z["re"], z["im"]) for z in row])\nprint("Trial-voltage evaluation; not a solved operating point.")':'');
   const scan=`# Vary one parameter; retain the original control case.\nscan_case = dict(case)\nfor value in ${JSON.stringify(config.code_values)}:\n    scan_case["${config.code_key}"] = value\n    result = solve(scan_case)\n    print("${config.code_key} =", value)\n    print(result["metrics"])\n    print("Checks:", result["checks"])\n# The figure shows the last scanned case, alongside current controls.`;
   if(window.CoursePythonRunner){
     const codeRoot=find('#stage-python'),summary=find('[data-stage-code-summary]');
@@ -118,7 +124,9 @@
   const expected=model.solve(kind).metrics;
   find('[data-stage-practice]').addEventListener('submit',event=>{
     event.preventDefault();const form=event.currentTarget,data=new FormData(form);let count=0;
-    config.practice.forEach(item=>{const raw=data.get(item.key),value=Number(raw),ok=raw!==null&&raw.trim()!==''&&Number.isFinite(value)&&Math.abs(value-expected[item.key])<=item.tolerance+1e-12;if(ok)count++;
+    // Jekyll reads JSON data through YAML; a value such as 1e-05 can reach
+    // the rendered config as a string. Normalize before adding roundoff slack.
+    config.practice.forEach(item=>{const raw=data.get(item.key),value=Number(raw),tolerance=Number(item.tolerance),ok=raw!==null&&raw.trim()!==''&&Number.isFinite(value)&&Number.isFinite(tolerance)&&tolerance>=0&&Math.abs(value-expected[item.key])<=tolerance+1e-12;if(ok)count++;
       form.querySelector(`[name="${item.key}"]`).setAttribute('aria-invalid',String(!ok));
       find(`[data-stage-answer-feedback="${item.key}"]`).textContent=ok?words('正确','Correct'):text(item.hint);});
     numericPassed=count===config.practice.length;feedback(form,`${count} / ${config.practice.length} `+words('正确。','correct. ')+(numericPassed?words('再完成理解检查。','Complete the understanding check.'):words('按提示修正；分步解答已解锁。','Revise using the hints; worked steps are available.')),numericPassed);

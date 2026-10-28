@@ -13,6 +13,8 @@
     'line-inductance':{spacing_ab_m:4,spacing_bc_m:6,position_angle_deg:0,gmr_mm:10.9,length_km:120.7008,frequency_hz:60},
     'line-capacitance':{spacing_ab_m:4,spacing_bc_m:6,position_angle_deg:0,radius_mm:14,length_km:120.7008,frequency_hz:60,voltage_ll_kv:138,epsilon_r:1},
     'line-bundles':{spacing_ab_m:9.7536,spacing_bc_m:9.7536,position_angle_deg:0,bundle_count:2,bundle_spacing_m:.4572,gmr_mm:17.92224,radius_mm:22.3774,resistance_sub_ohm_km:.0344488188976378,length_km:128.74752,frequency_hz:60,voltage_ll_kv:500,voltage_base_kv:500,s_base_mva:100,circuits:1},
+    'power-flow-balance':{v1_re:1.02,v2_re:1,v3_re:.98,v3_im:-.02,angle_ref_deg:0,impedance_scale:1,branch23:1,charging23_pu:0,shunt3_pu:0,tap12:1,shift12_deg:0,load_p_mw:90,load_q_mvar:30},
+    'power-flow-ybus':{v1_re:1.02,v2_re:1,v3_re:.98,v3_im:-.02,angle_ref_deg:0,impedance_scale:1,branch23:1,charging23_pu:0,shunt3_pu:0,tap12:1,shift12_deg:0,load_p_mw:90,load_q_mvar:30},
   };
   Object.values(defaults).forEach(Object.freeze);Object.freeze(defaults);
   const rad=x=>x*Math.PI/180, wrap=x=>((x+180)%360+360)%360-180;
@@ -119,6 +121,55 @@
       checks:{voltage_equation:Math.hypot(...Object.values(sub({re:1,im:0},add(mul(z,ih),mul(t,vl))))),real_power_balance:sh.re-sl.re-loss.re,reactive_power_balance:sh.im-sl.im-loss.im,ohmic_base_invariance:z.re*zbH-p.r_pu*p.h_kv**2/p.s_mva},
       plots:[plot(taps,{'LV line voltage':taps.map(tau=>Math.hypot(drop.re,drop.im)/tau*p.l_rated_kv)},'H-side tap magnitude tau','kV'),plot(loading,{'LV terminal voltage':loading.map(loadV)},'rated input-current loading','pu')]};
   }
+  // L32/L33: evaluate the physical network at trial voltages. No bus control
+  // specification or nonlinear voltage solve is implied. All data use 100 MVA.
+  function powerFlowState(p){
+    const zero=()=>({re:0,im:0}),scale=(z,k)=>({re:z.re*k,im:z.im*k});
+    const rotation=polar(1,p.angle_ref_deg),v=[{re:p.v1_re,im:0},{re:p.v2_re,im:0},{re:p.v3_re,im:p.v3_im}].map(z=>mul(z,rotation));
+    const Y=Array.from({length:3},()=>Array.from({length:3},zero)),currents=Array.from({length:3},zero),branches=[];
+    for(const [i,k,R,X] of [[0,1,.018,.060],[0,2,.070,.210],[1,2,.045,.135]]){
+      if(i===1&&!p.branch23)continue;
+      const z={re:R*p.impedance_scale,im:X*p.impedance_scale},y=div({re:1,im:0},z);
+      const tap=i===0&&k===1?polar(p.tap12,p.shift12_deg):{re:1,im:0},tap2=tap.re**2+tap.im**2;
+      const bc=i===1?p.charging23_pu:0,h={re:0,im:bc/2};
+      // Complex tap is at the from bus; charging exists only on untapped 2–3.
+      Y[i][i]=add(Y[i][i],add(scale(y,1/tap2),h));Y[k][k]=add(Y[k][k],add(y,h));
+      Y[i][k]=sub(Y[i][k],div(y,conj(tap)));Y[k][i]=sub(Y[k][i],div(y,tap));
+      const series=mul(y,sub(div(v[i],tap),v[k]));
+      const iFrom=add(div(series,conj(tap)),mul(h,v[i])),iTo=add(scale(series,-1),mul(h,v[k]));
+      currents[i]=add(currents[i],iFrom);currents[k]=add(currents[k],iTo);
+      branches.push({from:i+1,to:k+1,z:describe(z),tap:describe(tap),charging_b:bc,
+        i_from:describe(iFrom),i_to:describe(iTo),s_from:describe(mul(v[i],conj(iFrom))),s_to:describe(mul(v[k],conj(iTo))),
+        series_loss:describe(scale(z,series.re**2+series.im**2))});
+    }
+    const sh={re:0,im:p.shunt3_pu};Y[2][2]=add(Y[2][2],sh);currents[2]=add(currents[2],mul(sh,v[2]));
+    const matrixCurrent=Y.map(row=>row.map((y,k)=>mul(y,v[k])).reduce(add,zero()));
+    const S=v.map((voltage,i)=>mul(voltage,conj(matrixCurrent[i]))),total=S.reduce(add,zero());
+    const loss=branches.map(b=>b.series_loss).reduce(add,zero());
+    const charging=(p.branch23?p.charging23_pu/2*(v[1].re**2+v[1].im**2+v[2].re**2+v[2].im**2):0)+p.shunt3_pu*(v[2].re**2+v[2].im**2);
+    const metrics={p3_pu:S[2].re,q3_pu:S[2].im,p3_mw:100*S[2].re,q3_mvar:100*S[2].im,
+      mismatch_p_pu:-p.load_p_mw/100-S[2].re,mismatch_q_pu:-p.load_q_mvar/100-S[2].im,
+      real_loss_mw:100*loss.re,reactive_absorption_mvar:100*total.im,
+      symmetry_max:Math.max(...Y.flatMap((row,i)=>row.map((value,k)=>Math.hypot(...Object.values(sub(value,Y[k][i])))))),
+      row_sum_max:Math.max(...Y.map(row=>Math.hypot(...Object.values(row.reduce(add,zero())))))};
+    S.forEach((s,i)=>{metrics['p'+(i+1)+'_pu']=s.re;metrics['q'+(i+1)+'_pu']=s.im;});
+    Y.forEach((row,i)=>row.forEach((y,k)=>{metrics['y'+(i+1)+(k+1)+'_re']=y.re;metrics['y'+(i+1)+(k+1)+'_im']=y.im;}));
+    return{metrics,network:{ybus:Y.map(row=>row.map(describe)),voltages:v.map(describe),currents:matrixCurrent.map(describe),powers:S.map(describe),branches},
+      checks:{matrix_kcl_residual:Math.max(...matrixCurrent.map((z,i)=>Math.hypot(...Object.values(sub(z,currents[i]))))),
+        real_power_balance:total.re-loss.re,reactive_power_balance:total.im-loss.im+charging}};
+  }
+  function powerFlow(p){
+    positive(p,['v1_re','v2_re','impedance_scale','tap12']);
+    range(p,'v3_re',.5,1.5);range(p,'v3_im',-.5,.5);
+    range(p,'tap12',.8,1.2);range(p,'shift12_deg',-30,30);
+    range(p,'charging23_pu',0,.5);range(p,'shunt3_pu',-.5,.5);
+    choice(p,'branch23',[0,1]);nonnegative(p,['load_p_mw','load_q_mvar']);
+    const r=powerFlowState(p),angles=Array.from({length:41},(_,i)=>-12+i*.4),volts=Array.from({length:41},(_,i)=>.9+i*.005),magnitude=Math.hypot(p.v3_re,p.v3_im),angle=Math.atan2(p.v3_im,p.v3_re);
+    const samples=angles.map(a=>powerFlowState({...p,v3_re:magnitude*Math.cos(rad(a)),v3_im:magnitude*Math.sin(rad(a))}).metrics);
+    const q=volts.map(v=>powerFlowState({...p,v3_re:v*Math.cos(angle),v3_im:v*Math.sin(angle)}).metrics.q3_pu);
+    return{...r,plots:[plot(angles,{'Calculated P3':samples.map(m=>m.p3_pu),'Specified P3':angles.map(()=>-p.load_p_mw/100)},'trial V3 angle / deg','pu'),
+      plot(volts,{'Calculated Q3':q,'Specified Q3':volts.map(()=>-p.load_q_mvar/100)},'trial |V3| / pu','pu')]};
+  }
   function screening(p){
     const difference=p.gt_variable-p.cc_variable, fixedDifference=p.cc_fixed-p.gt_fixed;
     const crossover=difference===0?null:fixedDifference/difference;
@@ -155,6 +206,7 @@
       plots:[plot(x,{Va:vwave[0],Vb:vwave[1],Vc:vwave[2]},'ms','V'),plot(x,{Ia:iwave[0],Ib:iwave[1],Ic:iwave[2]},'ms','A')]};
   }
   const handlers={
+    'power-flow-balance':powerFlow,'power-flow-ybus':powerFlow,
     'line-conductor':lineConductor,'line-inductance':lineInductance,'line-capacitance':lineCapacitance,'line-bundles':lineBundles,
     'transformer-banks':transformerBanks,
     'transformer-network':transformerNetwork,

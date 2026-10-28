@@ -5213,6 +5213,942 @@
           "zh": "电容与分裂数"
         }
       ]
+    },
+    {
+      "id": "power-flow-balance",
+      "number": 13,
+      "title": {
+        "en": "Physical network equations and bus balance",
+        "zh": "网络物理方程与母线平衡"
+      },
+      "summary": {
+        "en": "Connect devices, terminal directions, complex power and KCL before assigning generator controls.",
+        "zh": "先连接设备、端口方向、复功率与 KCL，再引入发电机控制。"
+      },
+      "sources": [
+        "L32"
+      ],
+      "extension": [],
+      "opening": {
+        "en": "A 90 MW + j30 Mvar load means a negative net injection. If we choose a plausible voltage vector, will the network automatically supply that load? Write the physical equations first, then inspect the mismatch.",
+        "zh": "90 MW+j30 Mvar 负荷对应负的净注入。随手选一组看起来合理的电压，网络就一定能供上该负荷吗？先写物理方程，再检查不平衡量。"
+      },
+      "goals": [
+        {
+          "en": "Identify bus voltage, device power, and the two terminal currents and powers of a branch.",
+          "zh": "识别母线电压、设备功率与支路两端的电流和功率。"
+        },
+        {
+          "en": "Derive bus power balance from branch equations and KCL with consistent reference directions.",
+          "zh": "用统一参考方向从支路方程和 KCL 推导母线功率平衡。"
+        },
+        {
+          "en": "Distinguish evaluating trial voltages from solving the operating point.",
+          "zh": "区分试探电压下的求值与运行点求解。"
+        }
+      ],
+      "concepts": [
+        {
+          "title": {
+            "en": "1. Devices share a bus voltage",
+            "zh": "1. 同一母线共享电压"
+          },
+          "body": {
+            "en": "A one-line retains the physical bus and branch connections of a balanced three-phase network. A bus has one complex RMS voltage. Generator power supplied to a bus and load power withdrawn from it are separately defined; neither is a branch parameter.",
+            "zh": "单线图保留平衡三相网络的母线和支路连接。每条母线有一个复数 RMS 电压。发电机向母线提供的功率与负荷从母线取走的功率分别定义；它们都不是支路参数。"
+          },
+          "formula": "V_i=|V_i|e^{j\\theta_i}"
+        },
+        {
+          "title": {
+            "en": "2. Generation minus load is net injection",
+            "zh": "2. 发电减负荷得到净注入"
+          },
+          "body": {
+            "en": "Positive net injection supplies the passive network. At bus 3 there is no generation, so a 90 MW, 30 Mvar load on 100 MVA gives S3=−0.90−j0.30 pu. Powers are total three-phase quantities on the common base; the per-unit S=VI* equation needs no extra factor of three.",
+            "zh": "正净注入表示向无源网络供能。母线 3 没有发电机，因此 100 MVA 基准下的 90 MW、30 Mvar 负荷给出 S3=−0.90−j0.30 pu。功率采用公共基准上的三相总量，标幺 S=VI* 无须再乘 3。"
+          },
+          "formula": "S_i=(P_{G,i}-P_{L,i})+j(Q_{G,i}-Q_{L,i})"
+        },
+        {
+          "title": {
+            "en": "3. Two terminal currents, both directed into the branch",
+            "zh": "3. 两端电流均以进入支路为正"
+          },
+          "body": {
+            "en": "For a unity-tap nominal pi line, add each end charging current to its series current. Without charging, the currents at the two ends are negatives. With charging, they generally are not. The L32 three-bus exercise uses the series-only form.",
+            "zh": "对分接为 1 的标称 π 线路，将本端充电电流加入串联电流。没有充电时，两端电流互为相反数；有充电时一般不再成立。L32 三母线练习使用纯串联形式。"
+          },
+          "formula": "\\begin{gathered}I_{ik}=y_{ik}(V_i-V_k)+j\\frac{b_c}{2}V_i\\\\I_{ki}=y_{ik}(V_k-V_i)+j\\frac{b_c}{2}V_k\\end{gathered}"
+        },
+        {
+          "title": {
+            "en": "4. Terminal power and branch absorption",
+            "zh": "4. 端口功率与支路吸收"
+          },
+          "body": {
+            "en": "Use the voltage at the same terminal and conjugate its current. For transfer i to k, sent power is Sik and delivered power is −Ski. Their real parts sum to the resistive loss. Net reactive absorption can be negative when line charging supplies more than the series reactance absorbs.",
+            "zh": "使用同一端口的电压，并对该端电流取共轭。对 i→k 的传输，送出功率是 Sik，交付功率是 −Ski。两端有功之和为电阻损耗；若充电提供的无功超过串联电抗吸收，无功净吸收可以为负。"
+          },
+          "formula": "\\begin{gathered}S_{ik}=V_iI_{ik}^{*},\\quad S_{ki}=V_kI_{ki}^{*}\\\\P_{\\rm loss}=\\Re(S_{ik}+S_{ki})\\end{gathered}"
+        },
+        {
+          "title": {
+            "en": "5. KCL connects the branch and device powers",
+            "zh": "5. KCL 连接支路与设备功率"
+          },
+          "body": {
+            "en": "Sum only the terminal currents connected to the bus. Include a separate bus shunt once; line charging is already inside the line terminal currents. Conjugate KCL and multiply by the common bus voltage to obtain the complex power balance.",
+            "zh": "只求和连接该母线的端口电流。独立母线并联元件计入一次；线路充电已包含在线路端口电流中。对 KCL 取共轭并乘以共同母线电压，即得到复功率平衡。"
+          },
+          "formula": "\\begin{gathered}I_i(V)=\\sum_{k\\in\\mathcal N_i}I_{ik}+y_{{\\rm sh},i}V_i\\\\S_{G,i}-S_{L,i}=V_i[I_i(V)]^{*}\\end{gathered}"
+        },
+        {
+          "title": {
+            "en": "6. Physical equations precede operating specifications",
+            "zh": "6. 先有物理方程，再给运行约束"
+          },
+          "body": {
+            "en": "The source exercise asks for symbolic relations, not solved voltages. Generator powers and bus voltages remain symbolic until later operating controls are supplied. The web experiment evaluates the later L33 trial vector only to make the physical equations visible. A mismatch is an unmet specification, not a KCL failure.",
+            "zh": "原课件练习要求符号关系，不要求求解电压。在后续补充运行控制前，发电机功率和母线电压保持符号形式。网页借用后续 L33 的试探电压来展示物理方程的求值。不平衡量表示指定条件尚未满足，并不表示 KCL 失效。"
+          },
+          "formula": "\\begin{gathered}\\Delta P_3=P_{3,\\rm spec}-P_3(V)\\\\\\Delta Q_3=Q_{3,\\rm spec}-Q_3(V)\\end{gathered}"
+        }
+      ],
+      "controls": [
+        {
+          "key": "v3_re",
+          "label": {
+            "en": "Trial Re(V3)",
+            "zh": "试探电压 Re(V3)"
+          },
+          "min": 0.9,
+          "max": 1.1,
+          "step": 0.001,
+          "unit": "pu",
+          "type": "range",
+          "advanced": false
+        },
+        {
+          "key": "v3_im",
+          "label": {
+            "en": "Trial Im(V3)",
+            "zh": "试探电压 Im(V3)"
+          },
+          "min": -0.15,
+          "max": 0.08,
+          "step": 0.001,
+          "unit": "pu",
+          "type": "range",
+          "advanced": false
+        },
+        {
+          "key": "load_p_mw",
+          "label": {
+            "en": "Specified bus 3 load P",
+            "zh": "母线 3 指定负荷 P"
+          },
+          "min": 0,
+          "max": 150,
+          "step": 1,
+          "unit": "MW",
+          "type": "range",
+          "advanced": false
+        },
+        {
+          "key": "load_q_mvar",
+          "label": {
+            "en": "Specified bus 3 load Q",
+            "zh": "母线 3 指定负荷 Q"
+          },
+          "min": 0,
+          "max": 80,
+          "step": 1,
+          "unit": "Mvar",
+          "type": "range",
+          "advanced": false
+        },
+        {
+          "key": "v1_re",
+          "label": {
+            "en": "Trial V1 before reference rotation",
+            "zh": "参考旋转前的试探 V1"
+          },
+          "min": 0.95,
+          "max": 1.1,
+          "step": 0.001,
+          "unit": "pu",
+          "type": "range",
+          "advanced": true
+        },
+        {
+          "key": "v2_re",
+          "label": {
+            "en": "Trial V2 before reference rotation",
+            "zh": "参考旋转前的试探 V2"
+          },
+          "min": 0.95,
+          "max": 1.1,
+          "step": 0.001,
+          "unit": "pu",
+          "type": "range",
+          "advanced": true
+        },
+        {
+          "key": "angle_ref_deg",
+          "label": {
+            "en": "Common rotation of all bus angles",
+            "zh": "所有母线相角统一旋转"
+          },
+          "min": -180,
+          "max": 180,
+          "step": 5,
+          "unit": "°",
+          "type": "range",
+          "advanced": true
+        },
+        {
+          "key": "impedance_scale",
+          "label": {
+            "en": "Scale all three given impedances",
+            "zh": "给定支路阻抗统一倍率"
+          },
+          "min": 0.5,
+          "max": 2,
+          "step": 0.05,
+          "unit": "×",
+          "type": "range",
+          "advanced": true
+        },
+        {
+          "key": "branch23",
+          "label": {
+            "en": "Branch 2–3 status (topology extension)",
+            "zh": "支路 2–3 状态（拓扑扩展）"
+          },
+          "unit": "",
+          "advanced": true,
+          "type": "select",
+          "options": [
+            {
+              "value": "1",
+              "label": {
+                "en": "In service",
+                "zh": "投入"
+              }
+            },
+            {
+              "value": "0",
+              "label": {
+                "en": "Open; remove its charging too",
+                "zh": "断开，同时移除该线充电"
+              }
+            }
+          ]
+        }
+      ],
+      "metrics": [
+        {
+          "key": "p3_pu",
+          "label": {
+            "en": "Calculated bus 3 P",
+            "zh": "母线 3 计算 P"
+          },
+          "unit": "pu",
+          "digits": 6
+        },
+        {
+          "key": "q3_pu",
+          "label": {
+            "en": "Calculated bus 3 Q",
+            "zh": "母线 3 计算 Q"
+          },
+          "unit": "pu",
+          "digits": 6
+        },
+        {
+          "key": "mismatch_p_pu",
+          "label": {
+            "en": "Specified minus calculated P3",
+            "zh": "指定减计算 ΔP3"
+          },
+          "unit": "pu",
+          "digits": 6
+        },
+        {
+          "key": "mismatch_q_pu",
+          "label": {
+            "en": "Specified minus calculated Q3",
+            "zh": "指定减计算 ΔQ3"
+          },
+          "unit": "pu",
+          "digits": 6
+        },
+        {
+          "key": "real_loss_mw",
+          "label": {
+            "en": "Total branch real loss",
+            "zh": "支路总有功损耗"
+          },
+          "unit": "MW",
+          "digits": 6
+        },
+        {
+          "key": "reactive_absorption_mvar",
+          "label": {
+            "en": "Network reactive absorption",
+            "zh": "网络无功净吸收"
+          },
+          "unit": "Mvar",
+          "digits": 6
+        }
+      ],
+      "worked": [
+        {
+          "en": "Convert the load to a net injection: S3,spec=−90/100−j30/100=−0.90−j0.30 pu.",
+          "zh": "将负荷换为净注入：S3,spec=−90/100−j30/100=−0.90−j0.30 pu。"
+        },
+        {
+          "en": "Write I3=y13(V3−V1)+y23(V3−V2); use exactly the two connected terminal currents.",
+          "zh": "写 I3=y13(V3−V1)+y23(V3−V2)，只使用相连的两条支路端口电流。"
+        },
+        {
+          "en": "At the stated trial vector, I3=−0.320634921+j0.231746032 pu. Use S3=V3 I3*, not V3 I3.",
+          "zh": "给定试探电压下，I3=−0.320634921+j0.231746032 pu。使用 S3=V3 I3*，不能漏掉共轭。"
+        },
+        {
+          "en": "S3(V)=−0.318857143−j0.220698413 pu, so ΔP3=−0.581142857 and ΔQ3=−0.079301587 pu. The 90 MW load is not served at these trial voltages.",
+          "zh": "S3(V)=−0.318857143−j0.220698413 pu，因此 ΔP3=−0.581142857、ΔQ3=−0.079301587 pu。这组试探电压尚未满足 90 MW 负荷。"
+        },
+        {
+          "en": "The total branch real loss is 0.646978302 MW. Sum all bus P injections and compare with that loss, without requiring each bus to match its specified device power.",
+          "zh": "支路总有功损耗为 0.646978302 MW。将各母线 P 注入相加，与该损耗比较；这与逐母线满足指定设备功率是两种不同的核查。"
+        }
+      ],
+      "given": {
+        "en": "Common 100 MVA base; z12=0.018+j0.060, z13=0.070+j0.210, z23=0.045+j0.135 pu. Unity taps; no charging or shunts; all three branches in service. Trial V=(1.02, 1.00, 0.98−j0.02) pu is borrowed from L33 for numerical evaluation. The L32 bus 3 load target is 90 MW + j30 Mvar; it is not satisfied by these trial voltages.",
+        "zh": "公共基准 100 MVA；z12=0.018+j0.060、z13=0.070+j0.210、z23=0.045+j0.135 pu。分接为 1，无充电或并联元件，三条支路均投入。借用 L33 的试探 V=(1.02, 1.00, 0.98−j0.02) pu 作数值演示。L32 母线 3 的负荷目标是 90 MW+j30 Mvar；这组试探电压不满足它。"
+      },
+      "practice": [
+        {
+          "key": "p3_pu",
+          "label": {
+            "en": "Calculated P3",
+            "zh": "计算 P3"
+          },
+          "hint": {
+            "en": "Conjugate I3 and multiply by V3. A load bus has negative net injection.",
+            "zh": "对 I3 取共轭后乘 V3；负荷母线的净注入为负。"
+          },
+          "unit": "pu",
+          "tolerance": 1e-05
+        },
+        {
+          "key": "q3_pu",
+          "label": {
+            "en": "Calculated Q3",
+            "zh": "计算 Q3"
+          },
+          "hint": {
+            "en": "Take Im(V3 I3*), including the imaginary part of V3.",
+            "zh": "取 Im(V3 I3*)，保留 V3 的虚部。"
+          },
+          "unit": "pu",
+          "tolerance": 1e-05
+        },
+        {
+          "key": "mismatch_p_pu",
+          "label": {
+            "en": "P3 specification mismatch",
+            "zh": "P3 指定条件不平衡量"
+          },
+          "hint": {
+            "en": "Use −0.90−P3(V), not P3(V)−0.90.",
+            "zh": "使用 −0.90−P3(V)，不能写成 P3(V)−0.90。"
+          },
+          "unit": "pu",
+          "tolerance": 1e-05
+        }
+      ],
+      "quiz": {
+        "question": {
+          "en": "The branch/KCL residual is near zero, but ΔP3 is −0.581143 pu. What does this mean?",
+          "zh": "支路/KCL 核查接近零，但 ΔP3=−0.581143 pu。这说明什么？"
+        },
+        "choices": [
+          {
+            "value": "0",
+            "label": {
+              "en": "The trial vector is a solved operating point",
+              "zh": "试探电压已经是潮流解"
+            }
+          },
+          {
+            "value": "1",
+            "label": {
+              "en": "Physical equations are consistent, but the specified load is not matched",
+              "zh": "物理求值自洽，但尚未满足指定负荷"
+            }
+          },
+          {
+            "value": "2",
+            "label": {
+              "en": "A missing factor of three must be added to per-unit power",
+              "zh": "标幺功率必须补乘 3"
+            }
+          }
+        ],
+        "correct": "1",
+        "feedback": [
+          {
+            "en": "Zero KCL residual checks assembly, not device specifications.",
+            "zh": "KCL 残差为零验证组装，不等于满足设备指定条件。"
+          },
+          {
+            "en": "Correct. A later voltage solve must also drive the specified power mismatches to zero.",
+            "zh": "正确。后续电压求解还需使指定功率的不平衡量趋于零。"
+          },
+          {
+            "en": "The matched voltage/current bases already account for three-phase total power.",
+            "zh": "相容的电压、电流基准已计入三相总功率关系。"
+          }
+        ]
+      },
+      "challenge": {
+        "en": "Change Im(V3) and predict P3 before moving the control. Then change the specified load: which network quantities stay fixed at the same voltages? Finally rotate every voltage angle together and explain why powers do not change. The curves change one trial voltage coordinate at a time; they do not find a simultaneous P/Q solution.",
+        "zh": "先预测再改变 Im(V3)，观察 P3。随后只改变指定负荷：固定电压下，哪些网络量不会改变？最后统一旋转所有电压相角，解释功率为何不变。两幅曲线各自扫描一个试探电压坐标，并不求解同时满足 P、Q 的运行点。"
+      },
+      "limits": {
+        "en": "Balanced positive-sequence steady-state model on the fixed common 100 MVA base. Voltages are trial inputs, not a nonlinear power-flow solution. Generator operating controls, PV/PQ/slack assignments, limits and voltage iteration belong to later lectures. The series exercise has no charging or bus shunts; L33 adds these explicitly. The optional tap is on the bus 1 side of branch 1–2, neglecting excitation. Every terminal current points into its passive branch.",
+        "zh": "采用固定公共 100 MVA 基准的平衡正序稳态模型。电压是试探输入，不是非线性潮流解。发电机运行控制、PV/PQ/平衡节点分类、限值和电压迭代留待后续课。原串联例题没有充电或独立并联元件；L33 才显式增加这些设备。可选分接位于支路 1–2 的母线 1 侧，忽略励磁。各端口电流参考方向均指向无源支路内部。"
+      },
+      "code_key": "v3_im",
+      "code_values": [
+        -0.08,
+        -0.04,
+        -0.02,
+        0
+      ],
+      "plot_titles": [
+        {
+          "en": "Trial voltage angle: calculated and specified P3",
+          "zh": "试探相角：计算 P3 与指定 P3"
+        },
+        {
+          "en": "Trial voltage magnitude: calculated and specified Q3",
+          "zh": "试探幅值：计算 Q3 与指定 Q3"
+        }
+      ]
+    },
+    {
+      "id": "power-flow-ybus",
+      "number": 14,
+      "title": {
+        "en": "Y-bus assembly and equipment updates",
+        "zh": "Y-bus 组装与设备更新"
+      },
+      "summary": {
+        "en": "Collect KCL coefficients into Y-bus, then calculate currents and powers at a trial voltage vector.",
+        "zh": "将 KCL 的电压系数组装为 Y-bus，再在试探电压下计算电流与功率。"
+      },
+      "sources": [
+        "L33"
+      ],
+      "extension": [],
+      "opening": {
+        "en": "A branch connects buses 1 and 2. Which four matrix entries change? Assemble the original three-bus network, then add the charging, shunt and optional tap from the revised lecture.",
+        "zh": "支路连接母线 1、2，会改变矩阵的哪四个位置？先组装原三母线网络，再加入新版课件的充电、并联元件与可选分接。"
+      },
+      "goals": [
+        {
+          "en": "Read diagonal and off-diagonal entries directly from KCL voltage coefficients.",
+          "zh": "从 KCL 的电压系数理解对角与非对角元素。"
+        },
+        {
+          "en": "Evaluate I=Ybus V and S=diag(V)I*, keeping each bus distinct.",
+          "zh": "计算 I=Ybus V 与 S=diag(V)I*，保持逐母线对应。"
+        },
+        {
+          "en": "Update only the contributions of the changed equipment and verify the result against port currents.",
+          "zh": "只更新被修改设备的贡献，并用端口电流独立核查。"
+        }
+      ],
+      "concepts": [
+        {
+          "title": {
+            "en": "1. Each KCL equation becomes one matrix row",
+            "zh": "1. 每条 KCL 方程变为矩阵一行"
+          },
+          "body": {
+            "en": "Fix the same bus ordering for rows, columns and vectors. Yik is the coefficient of Vk in the equation for Ii. Bus powers are evaluated only after the current vector is known.",
+            "zh": "矩阵行、列及向量采用相同母线顺序。Yik 是 Ii 方程中 Vk 的系数。先算电流向量，再逐母线求功率。"
+          },
+          "formula": "\\mathbf I=\\mathbf Y_{\\rm bus}\\mathbf V"
+        },
+        {
+          "title": {
+            "en": "2. Series branches contribute four entries",
+            "zh": "2. 每条串联支路贡献四个元素"
+          },
+          "body": {
+            "en": "For a unity-tap series branch, add y to both endpoint diagonals and −y to both mutual entries. Parallel branches add their admittances. A path through another bus is not a direct off-diagonal connection. Opening a branch removes its entire contribution.",
+            "zh": "对分接为 1 的串联支路，两端对角元素各加 y，两个互元素各加 −y。并联支路的导纳相加。经其他母线连通并不构成直接非对角连接。断开支路需移除它的全部贡献。"
+          },
+          "formula": "\\begin{gathered}Y_{ii}=\\sum_{k\\in\\mathcal N_i}y_{ik},\\quad Y_{ik}=-y_{ik}\\\\\\Delta\\mathbf Y_{ik}=y_{ik}\\begin{bmatrix}1&-1\\\\-1&1\\end{bmatrix}\\end{gathered}"
+        },
+        {
+          "title": {
+            "en": "3. Current and complex power are different operations",
+            "zh": "3. 电流与复功率使用不同运算"
+          },
+          "body": {
+            "en": "Matrix multiplication sums voltage contributions for each current. For power, conjugate each current and multiply by that same bus voltage. Do not sum powers across buses during this elementwise operation. With three-phase per-unit bases, no extra factor of three is needed.",
+            "zh": "矩阵乘法将各电压贡献求和，得到逐母线电流。求功率时，对电流逐元素取共轭，并乘同一母线的电压；此处不能跨母线求和。采用三相标幺基准时不再额外乘 3。"
+          },
+          "formula": "\\mathbf S=\\operatorname{diag}(\\mathbf V)(\\mathbf Y_{\\rm bus}\\mathbf V)^{*}"
+        },
+        {
+          "title": {
+            "en": "4. Charging and bus shunts change the diagonals",
+            "zh": "4. 充电与母线并联元件只改变对角项"
+          },
+          "body": {
+            "en": "The example adds total line 2–3 charging bc23=0.04 pu: j0.02 goes to each of Y22 and Y33. A separate bus 3 capacitive shunt j0.12 adds only to Y33. Together the changes are j0.02 and j0.14; do not add charging again when using the assembled matrix.",
+            "zh": "例题给线路 2–3 增加总充电 bc23=0.04 pu，Y22、Y33 各加 j0.02。母线 3 的独立容性并联元件 j0.12 仅加到 Y33。因此两处总变化为 j0.02、j0.14；使用组装后的矩阵时不能再计一次充电。"
+          },
+          "formula": "\\Delta\\mathbf Y_{\\rm sh}=\\operatorname{diag}(0,j0.02,j0.14)"
+        },
+        {
+          "title": {
+            "en": "5. Optional real tap: replace this branch only",
+            "zh": "5. 可选实分接：只替换本支路贡献"
+          },
+          "body": {
+            "en": "Place a real tap t on the bus 1 side of branch 1–2. Replace its bus 1 self contribution by y12/t² and both mutual contributions by −y12/t. The bus 2 self contribution stays y12. Keep all other branch and shunt contributions. The example uses t=1.05.",
+            "zh": "支路 1–2 的实分接 t 位于母线 1 侧。其母线 1 自导纳贡献改为 y12/t²，两个互导纳贡献改为 −y12/t；母线 2 的自导纳贡献仍为 y12。保留所有其他支路及并联贡献。例题取 t=1.05。"
+          },
+          "formula": "\\Delta Y_{11}=y_{12}(t^{-2}-1),\\quad\\Delta Y_{12}=\\Delta Y_{21}=y_{12}(1-t^{-1})"
+        },
+        {
+          "title": {
+            "en": "6. Backup: complex tap needs the correct conjugate",
+            "zh": "6. 备份拓展：复分接必须放对共轭"
+          },
+          "body": {
+            "en": "For t=τ exp(jθt) on the from side, the internal voltage is Vi/t and the external current is the internal current divided by t*. The mutual entries generally differ for phase shifting. The internal point adds no network bus. Ordinary reciprocal series networks are complex symmetric, not generally Hermitian.",
+            "zh": "当首端分接 t=τ exp(jθt) 时，内部电压为 Vi/t，外部电流为内部电流除以 t*。有移相时，两个互元素一般不相同。内部点不增加网络母线。普通互易串联网络是复对称矩阵，一般不是 Hermitian 矩阵。"
+          },
+          "formula": "\\begin{gathered}Y_{ii}^{(ik)}=y/|t|^2,\\quad Y_{kk}^{(ik)}=y\\\\Y_{ik}^{(ik)}=-y/t^{*},\\quad Y_{ki}^{(ik)}=-y/t\\end{gathered}"
+        },
+        {
+          "title": {
+            "en": "7. Use structural checks with their assumptions",
+            "zh": "7. 结构核查须满足其适用条件"
+          },
+          "body": {
+            "en": "Without shunts or non-unity taps, each row sum is zero and Ybus is singular before imposing a reference. Shunts or taps can make row sums nonzero; a phase shift can break symmetry. These are expected model changes. In every case compare Ybus V with independently summed physical port currents and reconcile total complex power.",
+            "zh": "没有并联元件或非额定分接时，各行和为零，施加参考条件前 Ybus 奇异。并联元件或分接可使行和非零，移相可破坏对称性；这属于预期模型变化。所有情形都应比较 Ybus V 与独立端口电流之和，并核对总复功率。"
+          },
+          "formula": "\\sum_i P_i=\\sum_{(i,k)}R_{ik}|I_{\\rm series,ik}|^2"
+        }
+      ],
+      "controls": [
+        {
+          "key": "v3_re",
+          "label": {
+            "en": "Trial Re(V3)",
+            "zh": "试探电压 Re(V3)"
+          },
+          "min": 0.9,
+          "max": 1.1,
+          "step": 0.001,
+          "unit": "pu",
+          "type": "range",
+          "advanced": false
+        },
+        {
+          "key": "v3_im",
+          "label": {
+            "en": "Trial Im(V3)",
+            "zh": "试探电压 Im(V3)"
+          },
+          "min": -0.15,
+          "max": 0.08,
+          "step": 0.001,
+          "unit": "pu",
+          "type": "range",
+          "advanced": false
+        },
+        {
+          "key": "charging23_pu",
+          "label": {
+            "en": "Line 2–3 total charging bc",
+            "zh": "线路 2–3 总充电 bc"
+          },
+          "min": 0,
+          "max": 0.12,
+          "step": 0.002,
+          "unit": "pu",
+          "type": "range",
+          "advanced": false
+        },
+        {
+          "key": "shunt3_pu",
+          "label": {
+            "en": "Bus 3 shunt B (+ capacitive)",
+            "zh": "母线 3 并联 B（正值为容性）"
+          },
+          "min": -0.2,
+          "max": 0.2,
+          "step": 0.005,
+          "unit": "pu",
+          "type": "range",
+          "advanced": false
+        },
+        {
+          "key": "tap12",
+          "label": {
+            "en": "Optional real tap on bus 1 side",
+            "zh": "母线 1 侧可选实分接"
+          },
+          "min": 0.9,
+          "max": 1.1,
+          "step": 0.005,
+          "unit": "pu",
+          "type": "range",
+          "advanced": false
+        },
+        {
+          "key": "shift12_deg",
+          "label": {
+            "en": "Backup: tap phase angle",
+            "zh": "备份拓展：分接相角"
+          },
+          "min": -20,
+          "max": 20,
+          "step": 1,
+          "unit": "°",
+          "type": "range",
+          "advanced": true
+        },
+        {
+          "key": "v1_re",
+          "label": {
+            "en": "Trial V1 before reference rotation",
+            "zh": "参考旋转前的试探 V1"
+          },
+          "min": 0.95,
+          "max": 1.1,
+          "step": 0.001,
+          "unit": "pu",
+          "type": "range",
+          "advanced": true
+        },
+        {
+          "key": "v2_re",
+          "label": {
+            "en": "Trial V2 before reference rotation",
+            "zh": "参考旋转前的试探 V2"
+          },
+          "min": 0.95,
+          "max": 1.1,
+          "step": 0.001,
+          "unit": "pu",
+          "type": "range",
+          "advanced": true
+        },
+        {
+          "key": "angle_ref_deg",
+          "label": {
+            "en": "Common rotation of all bus angles",
+            "zh": "所有母线相角统一旋转"
+          },
+          "min": -180,
+          "max": 180,
+          "step": 5,
+          "unit": "°",
+          "type": "range",
+          "advanced": true
+        },
+        {
+          "key": "impedance_scale",
+          "label": {
+            "en": "Scale all three given impedances",
+            "zh": "给定支路阻抗统一倍率"
+          },
+          "min": 0.5,
+          "max": 2,
+          "step": 0.05,
+          "unit": "×",
+          "type": "range",
+          "advanced": true
+        },
+        {
+          "key": "branch23",
+          "label": {
+            "en": "Branch 2–3 status (topology extension)",
+            "zh": "支路 2–3 状态（拓扑扩展）"
+          },
+          "unit": "",
+          "advanced": true,
+          "type": "select",
+          "options": [
+            {
+              "value": "1",
+              "label": {
+                "en": "In service",
+                "zh": "投入"
+              }
+            },
+            {
+              "value": "0",
+              "label": {
+                "en": "Open; remove its charging too",
+                "zh": "断开，同时移除该线充电"
+              }
+            }
+          ]
+        },
+        {
+          "key": "load_p_mw",
+          "label": {
+            "en": "Specified bus 3 load P",
+            "zh": "母线 3 指定负荷 P"
+          },
+          "min": 0,
+          "max": 150,
+          "step": 1,
+          "unit": "MW",
+          "type": "range",
+          "advanced": true
+        },
+        {
+          "key": "load_q_mvar",
+          "label": {
+            "en": "Specified bus 3 load Q",
+            "zh": "母线 3 指定负荷 Q"
+          },
+          "min": 0,
+          "max": 80,
+          "step": 1,
+          "unit": "Mvar",
+          "type": "range",
+          "advanced": true
+        }
+      ],
+      "metrics": [
+        {
+          "key": "y11_re",
+          "label": {
+            "en": "Re(Y11)",
+            "zh": "Re(Y11)"
+          },
+          "unit": "pu",
+          "digits": 6
+        },
+        {
+          "key": "y11_im",
+          "label": {
+            "en": "Im(Y11)",
+            "zh": "Im(Y11)"
+          },
+          "unit": "pu",
+          "digits": 6
+        },
+        {
+          "key": "y12_re",
+          "label": {
+            "en": "Re(Y12)",
+            "zh": "Re(Y12)"
+          },
+          "unit": "pu",
+          "digits": 6
+        },
+        {
+          "key": "y12_im",
+          "label": {
+            "en": "Im(Y12)",
+            "zh": "Im(Y12)"
+          },
+          "unit": "pu",
+          "digits": 6
+        },
+        {
+          "key": "p3_pu",
+          "label": {
+            "en": "Calculated P3",
+            "zh": "计算 P3"
+          },
+          "unit": "pu",
+          "digits": 6
+        },
+        {
+          "key": "q3_pu",
+          "label": {
+            "en": "Calculated Q3",
+            "zh": "计算 Q3"
+          },
+          "unit": "pu",
+          "digits": 6
+        },
+        {
+          "key": "row_sum_max",
+          "label": {
+            "en": "Largest row-sum magnitude",
+            "zh": "最大行和幅值"
+          },
+          "unit": "pu",
+          "digits": 6
+        },
+        {
+          "key": "symmetry_max",
+          "label": {
+            "en": "Largest transpose difference",
+            "zh": "最大转置差值"
+          },
+          "unit": "pu",
+          "digits": 6
+        }
+      ],
+      "worked": [
+        {
+          "en": "Keep the original reciprocals: y12=4.587155963−j15.290519878, y13=1.428571429−j4.285714286, y23=2.222222222−j6.666666667 pu.",
+          "zh": "保留原始倒数：y12=4.587155963−j15.290519878、y13=1.428571429−j4.285714286、y23=2.222222222−j6.666666667 pu。"
+        },
+        {
+          "en": "Add incident admittances: Y11=6.015727392−j19.576234163; use −y12 for Y12 and Y21.",
+          "zh": "对角项相加：Y11=6.015727392−j19.576234163；Y12、Y21 使用 −y12。"
+        },
+        {
+          "en": "With trial V=(1.02,1.00,0.98−j0.02), I=(0.234600262−j0.448667540, 0.086034659+j0.216921509, −0.320634921+j0.231746032) pu.",
+          "zh": "试探 V=(1.02,1.00,0.98−j0.02) 下，I=(0.234600262−j0.448667540, 0.086034659+j0.216921509, −0.320634921+j0.231746032) pu。"
+        },
+        {
+          "en": "Multiply each voltage by its conjugated current: S=(0.239292267+j0.457640891, 0.086034659−j0.216921509, −0.318857143−j0.220698413) pu. These are calculated injections, not a solved load schedule.",
+          "zh": "各电压乘本母线电流的共轭：S=(0.239292267+j0.457640891, 0.086034659−j0.216921509, −0.318857143−j0.220698413) pu。这是计算注入，不是已满足负荷计划的解。"
+        },
+        {
+          "en": "To reproduce Example 2, set bc23=0.04, Bsh3=0.12, t12=1.05 and phase angle 0°. Only Y22 and Y33 get shunt additions; replace the three affected tap contributions.",
+          "zh": "复现例题 2 时，设 bc23=0.04、Bsh3=0.12、t12=1.05、移相 0°。只有 Y22、Y33 增加并联项；替换分接涉及的三处矩阵贡献。"
+        },
+        {
+          "en": "The updated Y11≈5.589257109−j18.154666556, Y12=Y21≈−4.368719965+j14.562399884, Y22≈6.809378186−j21.937186544 and Y33≈3.650793651−j10.812380952 pu.",
+          "zh": "更新后 Y11≈5.589257109−j18.154666556、Y12=Y21≈−4.368719965+j14.562399884、Y22≈6.809378186−j21.937186544、Y33≈3.650793651−j10.812380952 pu。"
+        }
+      ],
+      "given": {
+        "en": "Common 100 MVA base; z12=0.018+j0.060, z13=0.070+j0.210, z23=0.045+j0.135 pu. Unity taps; no charging or shunts; all three branches in service. Trial V=(1.02, 1.00, 0.98−j0.02) pu is borrowed from L33 for numerical evaluation. The L32 bus 3 load target is 90 MW + j30 Mvar; it is not satisfied by these trial voltages.",
+        "zh": "公共基准 100 MVA；z12=0.018+j0.060、z13=0.070+j0.210、z23=0.045+j0.135 pu。分接为 1，无充电或并联元件，三条支路均投入。借用 L33 的试探 V=(1.02, 1.00, 0.98−j0.02) pu 作数值演示。L32 母线 3 的负荷目标是 90 MW+j30 Mvar；这组试探电压不满足它。"
+      },
+      "practice": [
+        {
+          "key": "y11_re",
+          "label": {
+            "en": "Re(Y11)",
+            "zh": "Re(Y11)"
+          },
+          "hint": {
+            "en": "Add Re(1/z12+1/z13).",
+            "zh": "求 Re(1/z12+1/z13)。"
+          },
+          "unit": "pu",
+          "tolerance": 1e-05
+        },
+        {
+          "key": "y12_im",
+          "label": {
+            "en": "Im(Y12)",
+            "zh": "Im(Y12)"
+          },
+          "hint": {
+            "en": "Use the negative of y12, not its complex conjugate.",
+            "zh": "使用 y12 的负值，而不是共轭。"
+          },
+          "unit": "pu",
+          "tolerance": 1e-05
+        },
+        {
+          "key": "p3_pu",
+          "label": {
+            "en": "Calculated P3 at the fixed trial vector",
+            "zh": "固定试探电压下的计算 P3"
+          },
+          "hint": {
+            "en": "Compute I=YV then Re(V3 I3*).",
+            "zh": "先求 I=YV，再算 Re(V3 I3*)。"
+          },
+          "unit": "pu",
+          "tolerance": 1e-05
+        }
+      ],
+      "quiz": {
+        "question": {
+          "en": "Add total charging bc23=0.04 pu and bus shunt j0.12 at bus 3. Which matrix changes occur before adding a tap?",
+          "zh": "增加线路总充电 bc23=0.04 pu，以及母线 3 并联 j0.12。加分接前，矩阵如何改变？"
+        },
+        "choices": [
+          {
+            "value": "0",
+            "label": {
+              "en": "Add j0.04 to all entries",
+              "zh": "所有元素都加 j0.04"
+            }
+          },
+          {
+            "value": "1",
+            "label": {
+              "en": "Add j0.02 to Y22 and j0.14 to Y33 only",
+              "zh": "仅 Y22 加 j0.02，Y33 加 j0.14"
+            }
+          },
+          {
+            "value": "2",
+            "label": {
+              "en": "Add j0.12 to Y23 and Y32",
+              "zh": "Y23、Y32 加 j0.12"
+            }
+          }
+        ],
+        "correct": "1",
+        "feedback": [
+          {
+            "en": "Charging is split between its two endpoint diagonals; it is not added to every entry.",
+            "zh": "充电分到两端对角项，不能加到所有元素。"
+          },
+          {
+            "en": "Correct. Each line end gets j0.02, and bus 3 gets another j0.12.",
+            "zh": "正确。线路两端各 j0.02，母线 3 再加 j0.12。"
+          },
+          {
+            "en": "A separate bus shunt does not couple two bus voltages and changes only its diagonal.",
+            "zh": "独立母线并联元件不耦合两个母线电压，只改变本端对角项。"
+          }
+        ]
+      },
+      "challenge": {
+        "en": "First reproduce the original matrix. Add bc23=0.04 and Bsh3=0.12, then the optional t12=1.05. Observe which entries change. Open branch 2–3 and verify its charging also disappears. Use the backup phase control to test why Y12 and Y21 then differ. The two curves evaluate trial voltages; crossing one specified-power line does not solve both P and Q.",
+        "zh": "先复现原矩阵；加入 bc23=0.04、Bsh3=0.12，再设可选 t12=1.05，观察哪些元素改变。断开支路 2–3，确认其充电也移除。用备份移相控件检查 Y12、Y21 为什么不再相同。两幅曲线用于试探电压求值；仅穿过一条指定功率线并不代表同时求解 P、Q。"
+      },
+      "limits": {
+        "en": "Balanced positive-sequence steady-state model on the fixed common 100 MVA base. Voltages are trial inputs, not a nonlinear power-flow solution. Generator operating controls, PV/PQ/slack assignments, limits and voltage iteration belong to later lectures. The series exercise has no charging or bus shunts; L33 adds these explicitly. The optional tap is on the bus 1 side of branch 1–2, neglecting excitation. Every terminal current points into its passive branch.",
+        "zh": "采用固定公共 100 MVA 基准的平衡正序稳态模型。电压是试探输入，不是非线性潮流解。发电机运行控制、PV/PQ/平衡节点分类、限值和电压迭代留待后续课。原串联例题没有充电或独立并联元件；L33 才显式增加这些设备。可选分接位于支路 1–2 的母线 1 侧，忽略励磁。各端口电流参考方向均指向无源支路内部。"
+      },
+      "code_key": "tap12",
+      "code_values": [
+        1,
+        1.025,
+        1.05
+      ],
+      "plot_titles": [
+        {
+          "en": "Trial voltage angle: calculated and specified P3",
+          "zh": "试探相角：计算 P3 与指定 P3"
+        },
+        {
+          "en": "Trial voltage magnitude: calculated and specified Q3",
+          "zh": "试探幅值：计算 Q3 与指定 Q3"
+        }
+      ]
     }
   ]
 }

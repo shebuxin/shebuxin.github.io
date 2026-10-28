@@ -3992,15 +3992,15 @@
     {
       "group": "power-flow",
       "summary": {
-        "en": "Identify power-flow inputs, bus types, unknowns, net injections, topology, and operating limits.",
-        "zh": "识别潮流输入、节点类型、未知量、净注入、拓扑与运行限值。"
+        "en": "Connect devices, terminal directions, complex power and KCL before assigning generator controls.",
+        "zh": "先连接设备、端口方向、复功率与 KCL，再引入发电机控制。"
       },
       "lab_focus": {
-        "en": "Classify buses and inspect the known quantities, unknowns, and net injections of a network.",
-        "zh": "分类网络节点，检查各节点的已知量、未知量和净注入。"
+        "en": "Change Im(V3) and predict P3 before moving the control. Then change the specified load: which network quantities stay fixed at the same voltages? Finally rotate every voltage angle together and explain why powers do not change. The curves change one trial voltage coordinate at a time; they do not find a simultaneous P/Q solution.",
+        "zh": "先预测再改变 Im(V3)，观察 P3。随后只改变指定负荷：固定电压下，哪些网络量不会改变？最后统一旋转所有电压相角，解释功率为何不变。两幅曲线各自扫描一个试探电压坐标，并不求解同时满足 P、Q 的运行点。"
       },
-      "released": false,
-      "frozen_source": false,
+      "released": true,
+      "frozen_source": true,
       "id": "L32",
       "slug": "l32-power-flow-i",
       "title": {
@@ -4009,139 +4009,125 @@
       },
       "source_directory": "L32_power_flow_i",
       "source_file": "L32_power_flow_i.pdf",
-      "slide_count": 29,
+      "slide_count": 25,
       "slide_outline": [
         {
           "slide": 1,
-          "title": "Lecture outline"
+          "title": "Power Flow I"
         },
         {
           "slide": 2,
-          "title": "Starting problem"
+          "title": "Lecture outline"
         },
         {
           "slide": 3,
-          "title": "Models already established"
+          "title": "PART 1: System components and quantities"
         },
         {
           "slide": 4,
-          "title": "Inputs and outputs"
+          "title": "Three-machine, nine-bus single-line diagram"
         },
         {
           "slide": 5,
-          "title": "Specifications and limits"
+          "title": "Generator and load powers"
         },
         {
           "slide": 6,
-          "title": "Topology and status"
+          "title": "Voltage at a bus"
         },
         {
           "slide": 7,
-          "title": "Scope of the study"
+          "title": "Transmission line quantities"
         },
         {
           "slide": 8,
-          "title": "Bus type"
+          "title": "Transformer quantities"
         },
         {
           "slide": 9,
-          "title": "Net bus injection"
+          "title": "Quantities in the network model"
         },
         {
           "slide": 10,
-          "title": "Slack bus"
+          "title": "PART 2: Physical equations"
         },
         {
           "slide": 11,
-          "title": "Slack real-power balance"
+          "title": "Net bus injection"
         },
         {
           "slide": 12,
-          "title": "PV bus"
+          "title": "Branch current from endpoint voltages"
         },
         {
           "slide": 13,
-          "title": "PQ bus"
+          "title": "Branch powers and losses"
         },
         {
           "slide": 14,
-          "title": "Zero-injection junction"
+          "title": "From current balance to power balance"
         },
         {
           "slide": 15,
-          "title": "Bus-type reference table"
+          "title": "The equations connect devices to the network"
         },
         {
           "slide": 16,
-          "title": "Reactive capability"
+          "title": "PART 3: Write the physical equations"
         },
         {
           "slide": 17,
-          "title": "Example: network and schedules"
+          "title": "Exercise: given network"
         },
         {
           "slide": 18,
-          "title": "Example: branch models"
+          "title": "Exercise: branch data"
         },
         {
           "slide": 19,
-          "title": "Example: bus data and limits"
+          "title": "Exercise: device powers"
         },
         {
           "slide": 20,
-          "title": "Example: solution workflow"
+          "title": "Exercise: write the equations"
         },
         {
           "slide": 21,
-          "title": "Example: known and unknown"
+          "title": "Reference: branch and bus currents"
         },
         {
           "slide": 22,
-          "title": "Example: voltage unknowns"
+          "title": "Reference: power balance at every bus"
         },
         {
           "slide": 23,
-          "title": "Preview: solved bus quantities"
+          "title": "Reference: branch powers"
         },
         {
           "slide": 24,
-          "title": "Preview: real-power balance"
+          "title": "From a network to physical equations"
         },
         {
           "slide": 25,
-          "title": "Practice: bus classification"
-        },
-        {
-          "slide": 26,
-          "title": "Practice: classification answers"
-        },
-        {
-          "slide": 27,
-          "title": "Practice: a PV limit"
-        },
-        {
-          "slide": 28,
-          "title": "Practice: limit answer"
-        },
-        {
-          "slide": 29,
           "title": "Summary"
         }
       ],
-      "status": "unreleased"
+      "status": "live",
+      "interactive_model": "power-flow-balance",
+      "lesson": "integrated"
     },
     {
       "group": "power-flow",
       "summary": {
-        "en": "Assemble Y-bus from series branches, line charging, fixed shunts, and transformer taps.",
-        "zh": "由串联支路、线路充电、固定并联元件和变压器分接头组装节点导纳矩阵。"
+        "en": "Collect KCL coefficients into Y-bus, then calculate currents and powers at a trial voltage vector.",
+        "zh": "将 KCL 的电压系数组装为 Y-bus，再在试探电压下计算电流与功率。"
       },
       "lab_focus": {
-        "en": "Build branch stamps and inspect how charging, taps, and outages change Y-bus.",
-        "zh": "建立支路矩阵，观察充电、分接头与支路断开如何改变节点导纳矩阵。"
+        "en": "First reproduce the original matrix. Add bc23=0.04 and Bsh3=0.12, then the optional t12=1.05. Observe which entries change. Open branch 2–3 and verify its charging also disappears. Use the backup phase control to test why Y12 and Y21 then differ. The two curves evaluate trial voltages; crossing one specified-power line does not solve both P and Q.",
+        "zh": "先复现原矩阵；加入 bc23=0.04、Bsh3=0.12，再设可选 t12=1.05，观察哪些元素改变。断开支路 2–3，确认其充电也移除。用备份移相控件检查 Y12、Y21 为什么不再相同。两幅曲线用于试探电压求值；仅穿过一条指定功率线并不代表同时求解 P、Q。"
       },
-      "released": false,
-      "frozen_source": false,
+      "released": true,
+      "frozen_source": true,
       "id": "L33",
       "slug": "l33-power-flow-ii",
       "title": {
@@ -4150,138 +4136,172 @@
       },
       "source_directory": "L33_power_flow_ii",
       "source_file": "L33_power_flow_ii.pdf",
-      "slide_count": 32,
+      "slide_count": 40,
       "slide_outline": [
         {
           "slide": 1,
-          "title": "Lecture outline"
+          "title": "Power Flow II"
         },
         {
           "slide": 2,
-          "title": "Starting problem"
+          "title": "Lecture outline"
         },
         {
           "slide": 3,
-          "title": "Bus 1 current balance"
+          "title": "PART 1: Building Y-bus from the network"
         },
         {
           "slide": 4,
-          "title": "Collecting the voltage terms"
+          "title": "Why use matrix form?"
         },
         {
           "slide": 5,
-          "title": "The bus-admittance equation"
+          "title": "Current equations at the three buses"
         },
         {
           "slide": 6,
-          "title": "Series-branch terminal currents"
+          "title": "Collect the voltage coefficients"
         },
         {
           "slide": 7,
-          "title": "Series-branch stamp"
+          "title": "Arrange the equations in matrix form"
         },
         {
           "slide": 8,
-          "title": "Impedance to admittance"
+          "title": "Self and mutual admittances"
         },
         {
           "slide": 9,
-          "title": "Nominal-pi line"
+          "title": "The matrix for a general network"
         },
         {
           "slide": 10,
-          "title": "Fixed bus shunt"
+          "title": "Diagonal entries in a general network"
         },
         {
           "slide": 11,
-          "title": "Transformer tap convention"
+          "title": "Off-diagonal entries in a general network"
         },
         {
           "slide": 12,
-          "title": "Tap current referral"
+          "title": "Construct Y-bus: diagonal, then off-diagonal"
         },
         {
           "slide": 13,
-          "title": "Transformer branch stamp"
+          "title": "Calculate the bus current vector"
         },
         {
           "slide": 14,
-          "title": "Matrix checks"
+          "title": "Calculate the bus power vector"
         },
         {
           "slide": 15,
-          "title": "Example: network data"
+          "title": "PART 2: Extending an existing Y-bus"
         },
         {
           "slide": 16,
-          "title": "Example: assembly workflow"
+          "title": "Add one shunt at bus 2"
         },
         {
           "slide": 17,
-          "title": "Example: admittance 1–2"
+          "title": "Add shunts to a general network"
         },
         {
           "slide": 18,
-          "title": "Example: stamp 1–2"
+          "title": "Transformer tap: matrix coefficients (optional)"
         },
         {
           "slide": 19,
-          "title": "Example: admittance 1–3"
+          "title": "Extended Y-bus (optional)"
         },
         {
           "slide": 20,
-          "title": "Example: add branch 1–3"
+          "title": "Updating an existing Y-bus"
         },
         {
           "slide": 21,
-          "title": "Example: add branch 2–3"
+          "title": "PART 3: Numerical example and extension"
         },
         {
           "slide": 22,
-          "title": "Example: symbolic Y-bus"
+          "title": "Example 1: original network"
         },
         {
           "slide": 23,
-          "title": "Example: conductance and susceptance"
+          "title": "Example 1: branch admittances"
         },
         {
           "slide": 24,
-          "title": "Example: independent row check"
+          "title": "Example 1: diagonal entries"
         },
         {
           "slide": 25,
-          "title": "Example: zero row sum"
+          "title": "Example 1: off-diagonal entries"
         },
         {
           "slide": 26,
-          "title": "Practice: line charging"
+          "title": "Example 1: complete Y-bus"
         },
         {
           "slide": 27,
-          "title": "Practice: charging answer"
+          "title": "Example 1: calculate the current vector"
         },
         {
           "slide": 28,
-          "title": "Practice: line 2–3 outage"
+          "title": "Example 1: power injections in matrix form"
         },
         {
           "slide": 29,
-          "title": "Practice: outage answer"
+          "title": "Example 2: equipment additions"
         },
         {
           "slide": 30,
-          "title": "A diagonal-only difference"
+          "title": "Example 2: charging and bus shunt"
         },
         {
           "slide": 31,
-          "title": "Angle reference"
+          "title": "Example 2: tap diagonal entries (optional)"
         },
         {
           "slide": 32,
+          "title": "Example 2: tap mutual entries (optional)"
+        },
+        {
+          "slide": 33,
+          "title": "Example 2: updated Y-bus (optional)"
+        },
+        {
+          "slide": 34,
           "title": "Summary"
+        },
+        {
+          "slide": 35,
+          "title": "Backup slides"
+        },
+        {
+          "slide": 36,
+          "title": "Backup: complex tap and port relations"
+        },
+        {
+          "slide": 37,
+          "title": "Backup: diagonal coefficients"
+        },
+        {
+          "slide": 38,
+          "title": "Backup: off-diagonal coefficients"
+        },
+        {
+          "slide": 39,
+          "title": "Backup: general diagonal update"
+        },
+        {
+          "slide": 40,
+          "title": "Backup: general off-diagonal update"
         }
       ],
-      "status": "unreleased"
+      "status": "live",
+      "interactive_model": "power-flow-ybus",
+      "lesson": "integrated"
     },
     {
       "group": "power-flow",

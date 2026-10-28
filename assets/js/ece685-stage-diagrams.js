@@ -325,6 +325,78 @@
     return{height:613,body:b};
   }
   const handlers={overview,generation,'single-phase':singlePhase,'three-phase':threePhase,transformers,'per-unit':perUnit,'transformer-banks':banks,'exam-review':review,'line-conductor':lineConductor,'line-inductance':lineInductance,'line-capacitance':lineCapacitance,'line-bundles':lineBundles};
+  function powerFlowNetwork(r,c){
+    const {w,f,t,line,path,arrow,node,component,complex}=c,p=r.parameters,n=r.network;
+    let b=t(400,28,w('三母线网络：端点、设备与参考方向','Three-bus network: terminals, devices and references'),'ed-heading');
+    b+=t(400,53,w('试探电压求值 · 尚未求解指定负荷','Trial-voltage evaluation · specified load is not solved'),'ed-small');
+    const label=(x,y,i)=>t(x,y,'V'+i+' = '+complex(n.voltages[i-1].re,n.voltages[i-1].im,3),'ed-small');
+    // Actual electrical connections: paired generator terminals, series
+    // impedances, three busbars and separately connected shunt devices.
+    for(const [x,cx,name] of [[140,65,'G1'],[660,735,'G2']]){
+      b+=`<circle cx="${cx}" cy="140" r="22" fill="#fff" stroke="${palette.ink}" stroke-width="2"/>`;
+      b+=path(`M${cx-12} 140q6-14 12 0t12 0`)+line(cx+(x>cx?22:-22),140,x,140)+t(cx,181,name,'ed-label');
+      b+=line(x,121,x,159,palette.purple,5);
+    }
+    b+=label(140,83,1)+label(660,83,2)+t(140,115,'1','ed-label')+t(660,115,'2','ed-label');
+    const tapped=p.tap12!==1||p.shift12_deg!==0;
+    if(tapped){
+      b+=line(140,140,195,140)+`<circle cx="211" cy="140" r="16" fill="#fff" stroke="${palette.ink}" stroke-width="2"/><circle cx="231" cy="140" r="16" fill="#fff" stroke="${palette.ink}" stroke-width="2"/>`+line(247,140,300,140);
+      b+=t(248,108,'t12 = '+f(p.tap12,3)+' ∠ '+f(p.shift12_deg,0)+'°','ed-small');
+    }else b+=line(140,140,300,140);
+    b+=component(300,140,550,140)+line(550,140,660,140)+t(430,119,'z12 = '+complex(n.branches[0].z.re,n.branches[0].z.im),'ed-small');
+    b+=`<g data-network-branch="1-3">${component(140,140,400,345)}</g>`;
+    b+=t(164,258,'z13 = '+complex(n.branches[1].z.re,n.branches[1].z.im),'ed-small');
+    if(p.branch23){
+      const z=n.branches.find(v=>v.from===2&&v.to===3).z;
+      b+=`<g data-network-branch="2-3">${component(660,140,400,345)}</g>`+t(636,258,'z23 = '+complex(z.re,z.im),'ed-small');
+    }else b+=`<g data-network-open="2-3">${path('M660 140L547 229 M521 250L400 345','#aaa',2,'5 5')+node(547,229,true)+node(521,250,true)}</g>`+t(640,258,w('2–3 断开','2–3 open'),'ed-small');
+    b+=arrow(340,176,390,176,'purple')+t(365,199,'I12, S12','ed-small');
+    b+=arrow(520,176,470,176,'teal')+t(495,199,'I21, S21','ed-small');
+    b+=line(380,345,420,345,palette.purple,5)+t(400,329,'3','ed-label')+node(400,345);
+    b+=arrow(400,348,400,418,'red')+t(400,444,w('指定负荷：','Specified load: ')+f(p.load_p_mw,0)+' MW + j'+f(p.load_q_mvar,0)+' Mvar','ed-label');
+    b+=label(400,470,3);
+    function shunt(x,y,bs,label,captionX){
+      let s=line(x,y,x,y+28,palette.teal);
+      if(bs>=0)s+=line(x-12,y+28,x+12,y+28,palette.teal)+line(x-12,y+38,x+12,y+38,palette.teal)+line(x,y+38,x,y+66,palette.teal);
+      else s+=component(x,y+28,x,y+58,'coil',palette.teal)+line(x,y+58,x,y+66,palette.teal);
+      s+=line(x-12,y+66,x+12,y+66,palette.teal)+line(x-8,y+72,x+8,y+72,palette.teal)+line(x-4,y+78,x+4,y+78,palette.teal);
+      return s+t(captionX,y+57,label,'ed-small');
+    }
+    if(p.branch23&&p.charging23_pu){
+      b+=line(660,140,680,140)+shunt(680,140,p.charging23_pu/2,'jbc/2 = j'+f(p.charging23_pu/2,3),739);
+      b+=line(400,345,550,345,palette.teal)+shunt(550,345,p.charging23_pu/2,'jbc/2 = j'+f(p.charging23_pu/2,3),650);
+    }
+    if(p.shunt3_pu)b+=line(400,345,250,345,palette.teal)+shunt(250,345,p.shunt3_pu,'y3,sh = j'+f(p.shunt3_pu,3),150);
+    return b;
+  }
+  function powerFlowBalance(r,c){
+    const {w,f,t,line,complex}=c,m=r.metrics,branch=r.network.branches[0];
+    let b=powerFlowNetwork(r,c)+line(40,491,760,491,'#e5dfec',1);
+    b+=t(400,523,w('同一支路两端：均以进入支路为正','Two ports of one branch: both references enter the branch'),'ed-heading');
+    b+=t(225,558,'I12 = '+complex(branch.i_from.re,branch.i_from.im,6),'ed-label');
+    b+=t(575,558,'I21 = '+complex(branch.i_to.re,branch.i_to.im,6),'ed-label');
+    b+=t(225,588,'S12 = '+complex(branch.s_from.re,branch.s_from.im,6),'ed-label');
+    b+=t(575,588,'S21 = '+complex(branch.s_to.re,branch.s_to.im,6),'ed-label');
+    b+=t(400,628,w('母线 3 的计算注入：','Calculated bus 3 injection: ')+complex(m.p3_pu,m.q3_pu,6)+' pu','ed-label');
+    b+=t(400,660,'ΔP3 = '+f(m.mismatch_p_pu,6)+' pu · ΔQ3 = '+f(m.mismatch_q_pu,6)+' pu','ed-label');
+    b+=t(400,697,w('Δ = 指定注入 − 计算注入；KCL 自洽并不意味着负荷条件已满足。','Δ = specified − calculated injection; consistent KCL does not establish load matching.'),'ed-small');
+    b+=t(400,723,w('端口功率由本端电压与电流共轭计算；交付功率为 −S21。','Each port power uses its own voltage and conjugated current; delivered power is −S21.'),'ed-small');
+    return{height:744,body:b};
+  }
+  function powerFlowYbus(r,c){
+    const {w,f,t,line,path,complex}=c,n=r.network;
+    let b=powerFlowNetwork(r,c)+line(40,491,760,491,'#e5dfec',1);
+    b+=t(400,521,w('Y-bus · 行、列顺序均为母线 1、2、3','Y-bus · row and column order: buses 1, 2, 3'),'ed-heading');
+    [1,2,3].forEach((i,k)=>{b+=t(177+224*k,553,String(i),'ed-small');b+=t(38,587+43*k,String(i),'ed-small');});
+    b+=path('M67 566H57V685H67 M733 566H743V685H733',palette.purple,1.8);
+    n.ybus.forEach((row,i)=>row.forEach((z,k)=>{b+=`<g data-ybus-entry="${i+1}${k+1}">${t(177+224*k,587+43*i,complex(z.re,z.im,5),'ed-text')}</g>`;}));
+    b+=t(400,716,'I = Ybus V · S = diag(V) I* · '+w('均为标幺值','all quantities in pu'),'ed-label');
+    b+=t(193,751,w('母线','Bus'),'ed-small')+t(385,751,w('注入电流 I','Current injection I'),'ed-small')+t(650,751,w('注入功率 S','Power injection S'),'ed-small');
+    n.currents.forEach((z,i)=>{b+=t(193,781+30*i,String(i+1),'ed-label')+t(385,781+30*i,complex(z.re,z.im,5),'ed-text')+t(650,781+30*i,complex(n.powers[i].re,n.powers[i].im,5),'ed-text');});
+    b+=t(400,878,w('有并联或非额定分接时行和可非零；移相时互元素可不对称。','Shunts or taps can change row sums; phase shifting can make mutual entries asymmetric.'),'ed-small');
+    return{height:900,body:b};
+  }
+  handlers['power-flow-balance']=powerFlowBalance;handlers['power-flow-ybus']=powerFlowYbus;
   function render(kind,r,lang='en'){
     const c=context(kind,lang);
     if(kind==='transformer-network'){

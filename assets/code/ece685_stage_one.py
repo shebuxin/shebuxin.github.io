@@ -38,6 +38,12 @@ DEFAULTS = {
                          radius_mm=22.3774, resistance_sub_ohm_km=.0344488188976378,
                          length_km=128.74752, frequency_hz=60, voltage_ll_kv=500,
                          voltage_base_kv=500, s_base_mva=100, circuits=1),
+    'power-flow-balance': dict(v1_re=1.02, v2_re=1, v3_re=.98, v3_im=-.02, angle_ref_deg=0,
+                              impedance_scale=1, branch23=1, charging23_pu=0, shunt3_pu=0,
+                              tap12=1, shift12_deg=0, load_p_mw=90, load_q_mvar=30),
+    'power-flow-ybus': dict(v1_re=1.02, v2_re=1, v3_re=.98, v3_im=-.02, angle_ref_deg=0,
+                           impedance_scale=1, branch23=1, charging23_pu=0, shunt3_pu=0,
+                           tap12=1, shift12_deg=0, load_p_mw=90, load_q_mvar=30),
 }
 
 
@@ -484,7 +490,90 @@ def transformer_network(p):
                        plot(loading,{'LV terminal voltage':[load_v(k) for k in loading]},'rated input-current loading','pu')])
 
 
+def power_flow_state(p):
+    """Assemble a network and independently sum physical port currents.
+
+    Trial voltages are inputs, not a solved PQ/PV/slack operating point.
+    All quantities use the lecture's fixed common 100-MVA base.
+    """
+    rotation = phasor(1, p['angle_ref_deg'])
+    v = [z*rotation for z in [complex(p['v1_re']), complex(p['v2_re']), complex(p['v3_re'], p['v3_im'])]]
+    ybus, physical, branches = [[0j]*3 for _ in range(3)], [0j]*3, []
+    for i, k, resistance, reactance in [(0, 1, .018, .060), (0, 2, .070, .210), (1, 2, .045, .135)]:
+        if i == 1 and not p['branch23']:
+            continue
+        z = complex(resistance, reactance)*p['impedance_scale']
+        y = 1/z
+        tap = phasor(p['tap12'], p['shift12_deg']) if (i, k) == (0, 1) else 1+0j
+        bc = p['charging23_pu'] if i == 1 else 0
+        h = .5j*bc
+        ybus[i][i] += y/abs(tap)**2+h
+        ybus[k][k] += y+h
+        ybus[i][k] -= y/tap.conjugate()
+        ybus[k][i] -= y/tap
+        series = y*(v[i]/tap-v[k])
+        i_from, i_to = series/tap.conjugate()+h*v[i], -series+h*v[k]
+        physical[i] += i_from
+        physical[k] += i_to
+        branches.append(dict(from_bus=i+1, to_bus=k+1, z=describe(z), tap=describe(tap), charging_b=bc,
+                             i_from=describe(i_from), i_to=describe(i_to),
+                             s_from=describe(v[i]*i_from.conjugate()), s_to=describe(v[k]*i_to.conjugate()),
+                             series_loss=describe(z*abs(series)**2)))
+    ybus[2][2] += 1j*p['shunt3_pu']
+    physical[2] += 1j*p['shunt3_pu']*v[2]
+    current = [sum(y*voltage for y, voltage in zip(row, v)) for row in ybus]
+    powers = [voltage*amp.conjugate() for voltage, amp in zip(v, current)]
+    total = sum(powers)
+    loss = sum(complex(b['series_loss']['re'], b['series_loss']['im']) for b in branches)
+    charging = (p['charging23_pu']/2*(abs(v[1])**2+abs(v[2])**2) if p['branch23'] else 0)+p['shunt3_pu']*abs(v[2])**2
+    metrics = dict(p3_pu=powers[2].real, q3_pu=powers[2].imag,
+                   p3_mw=100*powers[2].real, q3_mvar=100*powers[2].imag,
+                   mismatch_p_pu=-p['load_p_mw']/100-powers[2].real,
+                   mismatch_q_pu=-p['load_q_mvar']/100-powers[2].imag,
+                   real_loss_mw=100*loss.real, reactive_absorption_mvar=100*total.imag,
+                   symmetry_max=max(abs(ybus[i][k]-ybus[k][i]) for i in range(3) for k in range(3)),
+                   row_sum_max=max(abs(sum(row)) for row in ybus))
+    for i, s in enumerate(powers, 1):
+        metrics[f'p{i}_pu'], metrics[f'q{i}_pu'] = s.real, s.imag
+    for i, row in enumerate(ybus, 1):
+        for k, y in enumerate(row, 1):
+            metrics[f'y{i}{k}_re'], metrics[f'y{i}{k}_im'] = y.real, y.imag
+    # Match the JavaScript JSON field names; "from" is a Python keyword.
+    for b in branches:
+        b['from'], b['to'] = b.pop('from_bus'), b.pop('to_bus')
+    return dict(metrics=metrics,
+                network=dict(ybus=[[describe(y) for y in row] for row in ybus], voltages=list(map(describe, v)),
+                             currents=list(map(describe, current)), powers=list(map(describe, powers)), branches=branches),
+                checks=dict(matrix_kcl_residual=max(abs(a-b) for a, b in zip(current, physical)),
+                            real_power_balance=total.real-loss.real,
+                            reactive_power_balance=total.imag-loss.imag+charging))
+
+
+def power_flow(p):
+    positive(p, 'v1_re', 'v2_re', 'impedance_scale', 'tap12')
+    bounded(p, 'v3_re', .5, 1.5)
+    bounded(p, 'v3_im', -.5, .5)
+    bounded(p, 'tap12', .8, 1.2)
+    bounded(p, 'shift12_deg', -30, 30)
+    bounded(p, 'charging23_pu', 0, .5)
+    bounded(p, 'shunt3_pu', -.5, .5)
+    choice(p, 'branch23', [0, 1])
+    nonnegative(p, 'load_p_mw', 'load_q_mvar')
+    result = power_flow_state(p)
+    angles, volts = [-12+i*.4 for i in range(41)], [.9+i*.005 for i in range(41)]
+    magnitude, angle = abs(complex(p['v3_re'], p['v3_im'])), cmath.phase(complex(p['v3_re'], p['v3_im']))
+    samples = [power_flow_state(dict(p, v3_re=magnitude*math.cos(math.radians(a)),
+                                    v3_im=magnitude*math.sin(math.radians(a))))['metrics'] for a in angles]
+    q = [power_flow_state(dict(p, v3_re=v*math.cos(angle), v3_im=v*math.sin(angle)))['metrics']['q3_pu'] for v in volts]
+    result['plots'] = [plot(angles, {'Calculated P3': [m['p3_pu'] for m in samples],
+                                   'Specified P3': [-p['load_p_mw']/100 for _ in angles]}, 'trial V3 angle / deg', 'pu'),
+                       plot(volts, {'Calculated Q3': q, 'Specified Q3': [-p['load_q_mvar']/100 for _ in volts]},
+                            'trial |V3| / pu', 'pu')]
+    return result
+
+
 HANDLERS = dict(overview=overview,generation=generation,transformers=transformers)
+HANDLERS.update({'power-flow-balance':power_flow, 'power-flow-ybus':power_flow})
 HANDLERS.update({'single-phase':single_phase,'three-phase':three_phase,'per-unit':per_unit})
 HANDLERS.update({'transformer-banks':transformer_banks,'transformer-network':transformer_network})
 HANDLERS.update({'line-conductor':line_conductor,'line-inductance':line_inductance,

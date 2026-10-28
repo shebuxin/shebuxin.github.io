@@ -234,5 +234,34 @@
       "en": "One phase GMD, two bundle self-distances",
       "zh": "一个相间 GMD，两套分裂自距离"
     }
+  },
+  "L32": {
+    "concept_indices": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "focus": {
+      "en": "Physical network equations and bus balance",
+      "zh": "网络物理方程与母线平衡"
+    }
+  },
+  "L33": {
+    "concept_indices": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
+    "focus": {
+      "en": "Y-bus assembly and equipment updates",
+      "zh": "Y-bus 组装与设备更新"
+    }
   }
 }

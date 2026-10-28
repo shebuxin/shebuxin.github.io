@@ -21,6 +21,8 @@ The course diagrams show the modeled electrical connection or a quantitative rel
 | L23 | Phase positions drawn to scale and three equal-length transposition sections | Line parameters II, complete transposition and GMD |
 | L24 | Leading charging-current phasor and nominal π with both capacitive shunts | Line parameters III, local terminal voltage and shunt splitting |
 | L25 | Common phase-center GMD for L/C, separate magnetic/electric bundle self-distances, square diagonal, and calculated per-phase π branch | Revised Line parameters IV, slides 6–13 and 20–23 |
+| L32 | Three physical buses, paired inward branch-port references, trial-voltage currents/powers and load mismatch | Power Flow I, slides 11–23 |
+| L33 | Same network with explicit shunts/tap and a complete live 3×3 Y-bus, current and power table | Power Flow II, slides 22–33; complex-tap backup 36–40 |
 
 The renderer is `assets/js/ece685-stage-diagrams.js`. The live experiments and the static baseline illustrations use that same renderer. Static illustrations contain their own styles and arrow definitions, work without JavaScript, and have separate English and Chinese labels.
 
@@ -28,7 +30,7 @@ After changing the renderer or baseline model inputs, run:
 
 ```sh
 node scripts/build_ece685_diagram_assets.cjs
-node --test tests/ece685_diagrams_test.cjs tests/ece685_stage_test.cjs tests/ece685_line_parameters_test.cjs tests/l05_phasor_test.cjs
+node --test tests/ece685_diagrams_test.cjs tests/ece685_stage_test.cjs tests/ece685_line_parameters_test.cjs tests/ece685_power_flow_test.cjs tests/l05_phasor_test.cjs
 node scripts/build_ece685_diagram_assets.cjs --check
 ```
 
