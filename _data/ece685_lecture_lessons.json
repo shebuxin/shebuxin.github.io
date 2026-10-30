@@ -263,5 +263,20 @@
       "en": "Y-bus assembly and equipment updates",
       "zh": "Y-bus 组装与设备更新"
     }
+  },
+  "L34": {
+    "concept_indices": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
+    "focus": {
+      "en": "Operating specifications, bus types and power transfer",
+      "zh": "运行约束、母线类型与功率传输"
+    }
   }
 }

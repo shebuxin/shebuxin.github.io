@@ -91,7 +91,7 @@ test('all public controls, boundary scans and Python network outputs agree',()=>
  const py=spawnSync('python3',['-c',`import json,sys,importlib.util\ns=importlib.util.spec_from_file_location('m','assets/code/ece685_stage_one.py');m=importlib.util.module_from_spec(s);s.loader.exec_module(m)\nprint(json.dumps([m.solve(c) for c in json.load(sys.stdin)]))`],{cwd:path.join(__dirname,'..'),input:JSON.stringify(cases),encoding:'utf8',maxBuffer:20*1024*1024});
  assert.equal(py.status,0,py.stderr);const results=JSON.parse(py.stdout);
  function compare(a,b,where=''){
-  if(typeof a==='number'){near(a,b,1e-8);return;}
+  if(typeof a==='number'){if(where.endsWith('.angle_deg'))near(model.wrap(a-b),0,1e-8);else near(a,b,1e-8);return;}
   if(a===null||typeof a!=='object'){assert.equal(a,b,where);return;}
   assert.deepEqual(Object.keys(a).sort(),Object.keys(b).sort(),where);
   Object.keys(a).forEach(k=>compare(a[k],b[k],where+'.'+k));
@@ -109,4 +109,60 @@ test('rendered diagrams preserve bus connections, complete matrix and conditiona
   assert.match(updated.markup,/t12/);assert.match(updated.markup,/jbc\/2/);assert.match(updated.markup,/y3,sh/);
  }
  for(const p of [{tap12:0},{impedance_scale:0},{charging23_pu:-.1},{branch23:2},{shift12_deg:31},{v3_re:0}])assert.throws(()=>solve(p));
+});
+
+test('L34 reproduces the source solved slack/PV/PQ operating point',()=>{
+ const r=model.solve('power-flow-operating'),m=r.metrics;
+ near(m.v3_mag,.96441,.0000051);near(m.theta2_deg,.3108,.000051);near(m.theta3_deg,-3.6523,.000051);
+ near(m.pg1_mw,37.8855,.000051);near(m.qg1_mvar,54.8871,.000051);near(m.qg2_mvar,-16.1649,.000051);
+ near(m.real_loss_mw,2.8855,.000051);assert.ok(m.max_mismatch_pu<1e-10);checks(r);
+ assert.deepEqual(r.operating.voltage_unknowns,['theta2','theta3','|V3|']);
+ assert.deepEqual(r.operating.dependent_quantities,['P1','Q1','Q2']);
+ near(r.network.voltages[0].rms,1.03);near(r.network.voltages[0].angle_deg,0);near(r.network.voltages[1].rms,1.01);
+ near(m.p2_pu,.55);near(m.p3_pu,-.9);near(m.q3_pu,-.3);
+ assert.ok(m.qg2_mvar<0,'regulated generator can absorb Q');
+});
+
+test('L34 physical port currents independently reconcile all selected power equations',()=>{
+ const cases=[{}, {load_p_mw:0,load_q_mvar:0,pg2_mw:0,v1_mag:1,v2_mag:1},
+ {load_p_mw:140,load_q_mvar:55,pg2_mw:90}, {v1_mag:1.07,v2_mag:.98}, {v1_mag:.98,v2_mag:1.07},
+ {impedance_scale:1.3,load_p_mw:140,load_q_mvar:55,v1_mag:.97,v2_mag:.97}];
+ for(const p of cases){
+  const r=model.solve('power-flow-operating',p),v=r.network.voltages;
+  const supplied=[{re:0,im:0},{re:0,im:0},{re:0,im:0}];let loss=0;
+  for(const b of r.network.branches){
+   const i=b.from-1,k=b.to-1,z=b.z,d={re:v[i].re-v[k].re,im:v[i].im-v[k].im};
+   const den=z.re*z.re+z.im*z.im,I={re:(d.re*z.re+d.im*z.im)/den,im:(d.im*z.re-d.re*z.im)/den};
+   supplied[i].re+=I.re;supplied[i].im+=I.im;supplied[k].re-=I.re;supplied[k].im-=I.im;
+   loss+=z.re*(I.re**2+I.im**2)*100;
+  }
+  supplied.forEach((I,i)=>{near(v[i].re*I.re+v[i].im*I.im,r.network.powers[i].re);near(v[i].im*I.re-v[i].re*I.im,r.network.powers[i].im);});
+  near(loss,r.metrics.real_loss_mw);near(r.metrics.pg1_mw+r.parameters.pg2_mw-r.parameters.load_p_mw,loss);
+  near(r.metrics.qg1_mvar+r.metrics.qg2_mvar-r.parameters.load_q_mvar,r.metrics.reactive_absorption_mvar);checks(r);
+ }
+ const idle=model.solve('power-flow-operating',cases[1]);near(idle.metrics.real_loss_mw,0);near(idle.metrics.pg1_mw,0);near(idle.metrics.v3_mag,1);
+});
+
+test('lossless line is independent from the solved three-bus case and obeys terminal identities',()=>{
+ const baseline=model.solve('power-flow-operating');
+ for(const delta of [-120,-20,0,20,90,120]){
+  const r=model.solve('power-flow-operating',{line_angle_deg:delta}),m=r.metrics;
+  assert.deepEqual(r.network,baseline.network);near(m.line_pi_mw,515*Math.sin(delta*Math.PI/180));
+  near(m.line_qi_mvar+m.line_qk_mvar,100*(1.03**2+1-2*1.03*Math.cos(delta*Math.PI/180))/.2);
+  assert.equal(r.plots[0].markers[0].x,delta);near(r.plots[0].markers[0].y,m.line_pi_mw);
+  checks(r);
+ }
+ const zero=model.solve('power-flow-operating',{line_angle_deg:0});near(zero.metrics.line_pi_mw,0);near(zero.metrics.line_qi_mvar,15.45);near(zero.metrics.line_qk_mvar,-15);
+ const peak=model.solve('power-flow-operating',{line_angle_deg:90});near(peak.metrics.line_pi_mw,peak.metrics.line_pmax_mw);
+ const reverse=model.solve('power-flow-operating',{line_angle_deg:0,line_vi:1,line_vk:1.03});assert.ok(reverse.metrics.line_qi_mvar<0);assert.ok(reverse.metrics.line_qk_mvar>0);
+ const twice=model.solve('power-flow-operating',{line_x_pu:.4});near(twice.metrics.line_pi_mw,baseline.metrics.line_pi_mw/2);assert.deepEqual(twice.network,baseline.network);
+});
+
+test('L34 refuses unsupported or nonconverged inputs instead of fabricating a solved state',()=>{
+ for(const p of [{line_x_pu:0},{v1_mag:0},{impedance_scale:0},{load_p_mw:-1},{load_p_mw:1e7},{v2_mag:NaN}])assert.throws(()=>model.solve('power-flow-operating',p));
+ for(const lang of ['en','zh']){
+  const d=diagrams.render('power-flow-operating',model.solve('power-flow-operating'),lang).markup;
+  assert.ok(!d.includes('Trial-voltage'));assert.match(d,/Slack 1 \/ PV 2 \/ PQ 3/);
+  assert.match(d,/Q2 = -16\.1649/);assert.ok(d.includes(lang==='zh'?'独立的两端无损线路':'Separate two-terminal lossless line'));
+ }
 });

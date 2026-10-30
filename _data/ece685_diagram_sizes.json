@@ -12,5 +12,6 @@
   "line-capacitance": 602,
   "line-bundles": 613,
   "power-flow-balance": 744,
-  "power-flow-ybus": 900
+  "power-flow-ybus": 900,
+  "power-flow-operating": 1053
 }

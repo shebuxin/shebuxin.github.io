@@ -469,15 +469,17 @@
       "group": "power-flow",
       "title_zh": "潮流分析 III",
       "summary": {
-        "en": "Form polar power equations, choose the state, calculate mismatches, and apply a stopping tolerance.",
-        "zh": "建立极坐标功率方程，确定状态量，计算不平衡量并应用收敛容差。"
+        "en": "Specify slack/PV/PQ data, reproduce the solved three-bus case, and interpret a separate lossless line.",
+        "zh": "给定 Slack/PV/PQ 运行约束，复现三母线潮流解，并分析独立的无损线路示例。"
       },
       "lab_focus": {
-        "en": "Change a trial voltage state and inspect real/reactive mismatches and the residual norm.",
-        "zh": "改变试算电压状态，观察有功与无功不平衡量及残差范数。"
+        "en": "Change the load, generator schedule or voltage targets and explain the solved bus 3 voltage, slack P and PV Q. Then expand the independent lossless-line controls: compare delta=0° and 20°, and test the power-angle maximum. These two-terminal controls do not change the three-bus solution.",
+        "zh": "改变负荷、发电计划或电压目标，解释母线 3 的求解电压、Slack P 和 PV Q。随后展开独立无损线路控件，比较 delta=0°、20°，并检查功角最大值。该两端线路的控件不改变三母线潮流解。"
       },
-      "released": false,
-      "frozen_source": false
+      "released": true,
+      "frozen_source": true,
+      "interactive_model": "power-flow-operating",
+      "lesson": "integrated"
     },
     "L35": {
       "group": "power-flow",

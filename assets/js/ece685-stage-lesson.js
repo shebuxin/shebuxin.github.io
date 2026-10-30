@@ -37,8 +37,9 @@
       const d=c.values.map((v,i)=>i===0?`M${x(xs[i])} ${y(v)}`:step?`H${x(xs[i])}V${y(v)}`:`L${x(xs[i])} ${y(v)}`).join(' ');
       return `<path d="${d}" fill="none" stroke="${c.color||colors[index%colors.length]}" stroke-width="2.6" ${c.dash?'stroke-dasharray="7 4"':''}/>`;
     }).join('');
+    const markers=(Array.isArray(p.markers)?p.markers:[]).filter(m=>m&&Number.isFinite(m.x)&&Number.isFinite(m.y)&&m.x>=xMin&&m.x<=xMax&&m.y>=low&&m.y<=high).map(m=>`<g data-plot-marker><title>${esc(m.label||'Selected point')}</title><circle cx="${x(m.x)}" cy="${y(m.y)}" r="5" fill="#67359b" stroke="#fff" stroke-width="2"/></g>`).join('');
     svg.setAttribute('viewBox','0 0 600 320');
-    svg.innerHTML=`<title>${esc(p.y_unit)} ${words('随','versus')} ${esc(p.x_unit)}</title><g class="stage-svg-text">${grid}<text x="62" y="24">${esc(p.y_unit)}</text><text x="568" y="310" text-anchor="end">${esc(p.x_unit)}</text></g><path d="M62 46V263H568" class="stage-axis"/>${paths}`;
+    svg.innerHTML=`<title>${esc(p.y_unit)} ${words('随','versus')} ${esc(p.x_unit)}</title><g class="stage-svg-text">${grid}<text x="62" y="24">${esc(p.y_unit)}</text><text x="568" y="310" text-anchor="end">${esc(p.x_unit)}</text></g><path d="M62 46V263H568" class="stage-axis"/>${paths}${markers}`;
   }
   function legend(el,p){
     el.replaceChildren(...p.curves.map((curve,i)=>{
@@ -70,7 +71,7 @@
         const z=value=>`${fmt(value.re,9)} ${value.im<0?'-':'+'} j${fmt(Math.abs(value.im),9)}`;
         rows.push('\nYbus / pu (bus order 1, 2, 3)',...result.network.ybus.map(row=>row.map(z).join(' | ')));
         result.network.currents.forEach((value,i)=>rows.push(`I${i+1} = ${z(value)} pu; S${i+1} = ${z(result.network.powers[i])} pu`));
-        rows.push(words('试探电压求值；指定功率不平衡量尚未求解。','Trial-voltage evaluation; specified power mismatches have not been solved.'));
+        rows.push(result.operating?words('已求解运行点；求解变量为 theta2、theta3、|V3|。','Solved operating point; voltage unknowns are theta2, theta3 and |V3|.'):words('试探电压求值；指定功率不平衡量尚未求解。','Trial-voltage evaluation; specified power mismatches have not been solved.'));
       }
       find('[data-stage-checks]').textContent=rows.join('\n');
       if(runner){runner.markStale();runner.redraw();}
@@ -89,7 +90,8 @@
     return r.plots.every(p=>Array.isArray(p.x)&&p.x.length>=2&&p.x.length<=10000&&p.x.every((v,i)=>Number.isFinite(v)&&(i===0||v>p.x[i-1]))&&
       Array.isArray(p.curves)&&p.curves.length>0&&p.curves.length<=8&&p.curves.every(c=>Array.isArray(c.values)&&c.values.length===p.x.length&&c.values.every(Number.isFinite))&&typeof p.x_unit==='string'&&typeof p.y_unit==='string');
   }
-  const baseline=`# ${practiceId} companion model: ${kind}. case contains a fresh control snapshot.\n# Edit an input before solve(case), then inspect the checks.\nresult = solve(case)\nimport json\nprint(json.dumps(result["metrics"], indent=2, ensure_ascii=False))\nprint("Numerical checks:", result["checks"])`+(kind.startsWith('power-flow-')?'\nprint("Ybus / pu; bus order 1, 2, 3:")\nfor row in result["network"]["ybus"]:\n    print([complex(z["re"], z["im"]) for z in row])\nprint("Trial-voltage evaluation; not a solved operating point.")':'');
+  const networkLabel=kind==='power-flow-operating'?'Solved operating point; independent lossless-line inputs do not change the network.':'Trial-voltage evaluation; not a solved operating point.';
+  const baseline=`# ${practiceId} companion model: ${kind}. case contains a fresh control snapshot.\n# Edit an input before solve(case), then inspect the checks.\nresult = solve(case)\nimport json\nprint(json.dumps(result["metrics"], indent=2, ensure_ascii=False))\nprint("Numerical checks:", result["checks"])`+(kind.startsWith('power-flow-')?'\nprint("Ybus / pu; bus order 1, 2, 3:")\nfor row in result["network"]["ybus"]:\n    print([complex(z["re"], z["im"]) for z in row])\nprint("'+networkLabel+'")':'');
   const scan=`# Vary one parameter; retain the original control case.\nscan_case = dict(case)\nfor value in ${JSON.stringify(config.code_values)}:\n    scan_case["${config.code_key}"] = value\n    result = solve(scan_case)\n    print("${config.code_key} =", value)\n    print(result["metrics"])\n    print("Checks:", result["checks"])\n# The figure shows the last scanned case, alongside current controls.`;
   if(window.CoursePythonRunner){
     const codeRoot=find('#stage-python'),summary=find('[data-stage-code-summary]');
@@ -100,7 +102,7 @@
         // Keep each original time grid; do not extrapolate a shorter Python run.
         const curves=py.curves.map((c,i)=>({...c,x:py.x,step:py.step,color:colors[i],name:'Python: '+c.name}));
         if(compatible)ref.curves.forEach((c,i)=>curves.push({...c,x:ref.x,step:ref.step,color:colors[i],dash:true,name:'reference: '+c.name}));
-        const combined={x:py.x,x_unit:py.x_unit,y_unit:py.y_unit,curves};
+        const combined={x:py.x,x_unit:py.x_unit,y_unit:py.y_unit,curves,markers:Array.isArray(py.markers)?py.markers:[]};
         chart(svg,combined);summary.hidden=false;
         const differences=Object.keys(model.defaults[kind]).filter(k=>r.parameters[k]!==state[k]).map(k=>k+'='+r.parameters[k]);
         summary.textContent=words('实线：上次 Python；同色虚线：当前参考。','Solid: last Python run; same-color dashed: current reference.')+' '+

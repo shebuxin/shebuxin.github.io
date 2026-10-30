@@ -4306,15 +4306,15 @@
     {
       "group": "power-flow",
       "summary": {
-        "en": "Form polar power equations, choose the state, calculate mismatches, and apply a stopping tolerance.",
-        "zh": "建立极坐标功率方程，确定状态量，计算不平衡量并应用收敛容差。"
+        "en": "Specify slack/PV/PQ data, reproduce the solved three-bus case, and interpret a separate lossless line.",
+        "zh": "给定 Slack/PV/PQ 运行约束，复现三母线潮流解，并分析独立的无损线路示例。"
       },
       "lab_focus": {
-        "en": "Change a trial voltage state and inspect real/reactive mismatches and the residual norm.",
-        "zh": "改变试算电压状态，观察有功与无功不平衡量及残差范数。"
+        "en": "Change the load, generator schedule or voltage targets and explain the solved bus 3 voltage, slack P and PV Q. Then expand the independent lossless-line controls: compare delta=0° and 20°, and test the power-angle maximum. These two-terminal controls do not change the three-bus solution.",
+        "zh": "改变负荷、发电计划或电压目标，解释母线 3 的求解电压、Slack P 和 PV Q。随后展开独立无损线路控件，比较 delta=0°、20°，并检查功角最大值。该两端线路的控件不改变三母线潮流解。"
       },
-      "released": false,
-      "frozen_source": false,
+      "released": true,
+      "frozen_source": true,
       "id": "L34",
       "slug": "l34-power-flow-iii",
       "title": {
@@ -4323,134 +4323,124 @@
       },
       "source_directory": "L34_power_flow_iii",
       "source_file": "L34_power_flow_iii.pdf",
-      "slide_count": 31,
+      "slide_count": 28,
       "slide_outline": [
         {
           "slide": 1,
-          "title": "Lecture outline"
+          "title": "Power Flow III"
         },
         {
           "slide": 2,
-          "title": "Starting problem"
+          "title": "Lecture outline"
         },
         {
           "slide": 3,
-          "title": "Current from a voltage state"
+          "title": "PART 1: Power equations"
         },
         {
           "slide": 4,
-          "title": "Complex power at a bus"
+          "title": "Current and power relations"
         },
         {
           "slide": 5,
-          "title": "Combining current and power"
+          "title": "The general bus power equation"
         },
         {
           "slide": 6,
-          "title": "Polar notation"
+          "title": "Polar form and conjugation"
         },
         {
           "slide": 7,
-          "title": "Expanding one coupling term"
+          "title": "Expanding each term"
         },
         {
           "slide": 8,
-          "title": "Real-power injection"
+          "title": "Separating real and reactive power"
         },
         {
           "slide": 9,
-          "title": "Reactive-power injection"
+          "title": "Bus injection equations"
         },
         {
           "slide": 10,
-          "title": "Angle difference and real power"
+          "title": "Specified operating data"
         },
         {
           "slide": 11,
-          "title": "Active equations by bus type"
+          "title": "Determined by the network"
         },
         {
           "slide": 12,
-          "title": "State and equation counts"
+          "title": "PART 2: Bus types"
         },
         {
           "slide": 13,
-          "title": "The three-bus state"
+          "title": "Quantities and equations"
         },
         {
           "slide": 14,
-          "title": "Mismatch convention"
+          "title": "Specified and unknown quantities"
         },
         {
           "slide": 15,
-          "title": "PV reactive power"
+          "title": "Bus types and equation selection"
         },
         {
           "slide": 16,
-          "title": "Residual norm"
+          "title": "The power flow problem"
         },
         {
           "slide": 17,
-          "title": "Example: complete input record"
+          "title": "PART 3: Power transfer on an inductive line"
         },
         {
           "slide": 18,
-          "title": "Example: initial voltage state"
+          "title": "The inductive line model"
         },
         {
           "slide": 19,
-          "title": "Example: calculation workflow"
+          "title": "Real and reactive line power"
         },
         {
           "slide": 20,
-          "title": "Example: bus-3 current"
+          "title": "Maximum real power transfer"
         },
         {
           "slide": 21,
-          "title": "Example: bus-3 power"
+          "title": "Secure operational region"
         },
         {
           "slide": 22,
-          "title": "Example: bus-3 mismatch"
+          "title": "Reactive power and the magnitude difference"
         },
         {
           "slide": 23,
-          "title": "Example: bus-2 power"
+          "title": "PART 4: Worked example"
         },
         {
           "slide": 24,
-          "title": "Example: PV-bus mismatch"
+          "title": "Example: Three-bus system"
         },
         {
           "slide": 25,
-          "title": "Example: complete mismatch"
+          "title": "Example: Known and unknown quantities"
         },
         {
           "slide": 26,
-          "title": "Example: stopping test"
+          "title": "Example: Power flow equations"
         },
         {
           "slide": 27,
-          "title": "Tolerance in physical units"
+          "title": "Example: Numerical solution"
         },
         {
           "slide": 28,
-          "title": "Stored values and display rounding"
-        },
-        {
-          "slide": 29,
-          "title": "Practice: mismatch and stopping"
-        },
-        {
-          "slide": 30,
-          "title": "Practice: mismatch answer"
-        },
-        {
-          "slide": 31,
           "title": "Summary"
         }
       ],
-      "status": "unreleased"
+      "status": "live",
+      "interactive_model": "power-flow-operating",
+      "lesson": "integrated"
     },
     {
       "group": "power-flow",

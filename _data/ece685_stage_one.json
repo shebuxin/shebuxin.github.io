@@ -6149,6 +6149,521 @@
           "zh": "试探幅值：计算 Q3 与指定 Q3"
         }
       ]
+    },
+    {
+      "id": "power-flow-operating",
+      "number": 15,
+      "title": {
+        "en": "Operating specifications, bus types and power transfer",
+        "zh": "运行约束、母线类型与功率传输"
+      },
+      "summary": {
+        "en": "Specify slack/PV/PQ data, reproduce the solved three-bus case, and interpret a separate lossless line.",
+        "zh": "给定 Slack/PV/PQ 运行约束，复现三母线潮流解，并分析独立的无损线路示例。"
+      },
+      "sources": [
+        "L34"
+      ],
+      "extension": [],
+      "opening": {
+        "en": "L32 wrote the physical equations and L33 evaluated trial voltages. Now choose the specified quantities: which three voltages must be solved, and why is a negative generator Q a valid result?",
+        "zh": "L32 写出物理方程，L33 在试探电压下求值。现在选定运行约束：还要求解哪三个电压未知量？发电机 Q 为负，为什么也可能是正确结果？"
+      },
+      "goals": [
+        {
+          "en": "Derive full P/Q sums including each self term and distinguish them from branch formulas.",
+          "zh": "推导包含自项的完整 P/Q 求和，区分母线方程与支路公式。"
+        },
+        {
+          "en": "Identify specified and dependent quantities at PQ, PV and slack buses.",
+          "zh": "识别 PQ、PV、Slack 母线的指定量和待求量。"
+        },
+        {
+          "en": "Reproduce the source solution and check load matching, generator outputs and losses.",
+          "zh": "复现课件潮流解，核查负荷匹配、发电机出力与损耗。"
+        },
+        {
+          "en": "Explain the assumptions behind a separate lossless line power-angle curve.",
+          "zh": "解释独立无损线路功角曲线的模型假设。"
+        }
+      ],
+      "concepts": [
+        {
+          "title": {
+            "en": "1. Keep the self term and conjugate the full current",
+            "zh": "1. 保留自项，并对完整电流取共轭"
+          },
+          "body": {
+            "en": "Every Yik is an entry of the assembled Y-bus. The sums include k=i: the diagonal contributes |Vi|²Gii to P and −|Vi|²Bii to Q. The positive Bik sin term follows from (−j)(j)=+1. Net bus powers are generation minus local load on the common three-phase base.",
+            "zh": "Yik 均指组装后的 Y-bus 元素。求和包含 k=i：对角项对 P 的贡献是 |Vi|²Gii，对 Q 的贡献是 −|Vi|²Bii。Bik sin 项的正号来自 (−j)(j)=+1。母线净功率采用公共三相基准上的“发电减本地负荷”。"
+          },
+          "formula": "\\begin{aligned}P_i&=|V_i|\\sum_{k=1}^{n}|V_k|\\\\&\\quad(G_{ik}\\cos\\theta_{ik}+B_{ik}\\sin\\theta_{ik})\\\\Q_i&=|V_i|\\sum_{k=1}^{n}|V_k|\\\\&\\quad(G_{ik}\\sin\\theta_{ik}-B_{ik}\\cos\\theta_{ik})\\end{aligned}"
+        },
+        {
+          "title": {
+            "en": "2. Count all quantities, then the voltage unknowns",
+            "zh": "2. 先数全部量，再数电压未知量"
+          },
+          "body": {
+            "en": "Each bus has four real quantities P, Q, |V| and angle. The 2n power relations plus 2n operating specifications determine 2n remaining quantities. After eliminating dependent powers, one connected network with one slack has 2nPQ+nPV voltage unknowns. In this example there are six remaining quantities in total, but only three voltage unknowns.",
+            "zh": "每条母线有 P、Q、|V|、相角四个实数量。2n 条功率关系配合 2n 个运行指定量，确定剩余 2n 个量。消去从属功率后，一个连通网络、一个平衡母线的电压未知量为 2nPQ+nPV。本例共有六个待求量，其中只有三个是电压未知量。"
+          },
+          "formula": "4n-2n=2n,\\qquad n_{V,\\rm unknown}=2n_{PQ}+n_{PV}"
+        },
+        {
+          "title": {
+            "en": "3. A bus type chooses specifications, not different physics",
+            "zh": "3. 母线类型选择约束，不改变物理关系"
+          },
+          "body": {
+            "en": "PQ fixes P and Q; solve magnitude and angle. PV fixes net P and magnitude; solve angle, then calculate Q. Slack fixes magnitude and reference angle; calculate P and Q. Every bus still obeys both power relations. A generator icon alone does not assign its operating role.",
+            "zh": "PQ 指定 P、Q，求幅值和相角；PV 指定净 P 和幅值，求相角后计算 Q；Slack 指定幅值与参考相角，再计算 P、Q。每条母线始终满足两条功率关系，不能仅凭发电机符号判断母线类型。"
+          },
+          "formula": "\\begin{gathered}PQ:(P,Q)\\to(|V|,\\theta)\\\\PV:(P,|V|)\\to(\\theta,Q)\\\\Slack:(|V|,\\theta)\\to(P,Q)\\end{gathered}"
+        },
+        {
+          "title": {
+            "en": "4. Reproduce the specified three-bus operating point",
+            "zh": "4. 复现给定的三母线运行点"
+          },
+          "body": {
+            "en": "Use the unchanged L32/L33 series impedances on 100 MVA. Bus 1 now has |V1|=1.03 and angle 0. Bus 2 has net P2=0.55 and |V2|=1.01. Bus 3 has P3=−0.90, Q3=−0.30. Solve theta2, theta3 and |V3| using P2, P3 and Q3. The web numerical helper reproduces the state; iteration methods are developed in later lectures.",
+            "zh": "采用 L32/L33 相同的串联阻抗及 100 MVA 基准。母线 1 现在指定 |V1|=1.03、相角 0；母线 2 指定净 P2=0.55、|V2|=1.01；母线 3 指定 P3=−0.90、Q3=−0.30。用 P2、P3、Q3 方程求 theta2、theta3、|V3|。网页数值工具用于复算该状态，迭代方法留待后续讲次展开。"
+          },
+          "formula": "\\begin{gathered}x=(\\theta_2,\\theta_3,|V_3|)\\\\f=(P_{2,\\rm spec}-P_2,\\ P_{3,\\rm spec}-P_3,\\ Q_{3,\\rm spec}-Q_3)\\end{gathered}"
+        },
+        {
+          "title": {
+            "en": "5. Recover generator powers and reconcile the network",
+            "zh": "5. 还原发电机功率并核对全网"
+          },
+          "body": {
+            "en": "At the source solution, Q2≈−16.1649 Mvar means generator 2 absorbs reactive power while supplying 55 MW. PV voltage control does not prescribe the sign of Q. With no local loads at buses 1 and 2, their injections equal generator outputs. Total generation supplies the 90 MW demand plus about 2.8855 MW of resistive losses. This experiment does not impose generator Q limits.",
+            "zh": "课件解中 Q2≈−16.1649 Mvar，表示发电机 2 在提供 55 MW 有功的同时吸收无功。PV 电压控制不预先规定 Q 的正负。母线 1、2 无本地负荷，因此注入即发电机出力。总发电供给 90 MW 负荷及约 2.8855 MW 电阻损耗。本实验不施加发电机 Q 限值。"
+          },
+          "formula": "P_{G1}+P_{G2}-P_L=\\sum R_{ik}|I_{ik}|^2"
+        },
+        {
+          "title": {
+            "en": "6. Separate line: ideal power-angle relation",
+            "zh": "6. 独立线路：理想功角关系"
+          },
+          "body": {
+            "en": "For a separate two-terminal line with z=jX, X>0, no charging or shunts, hold both voltage magnitudes fixed. Its branch susceptance is −1/X, whereas its Y-bus off-diagonal is +j/X. Real power reaches its algebraic maximum at 90°. This is not a thermal rating or proof of secure operation; actual operating margins depend on the network and contingencies.",
+            "zh": "独立两端线路采用 z=jX、X>0，忽略充电和并联元件，并固定两端电压幅值。其支路电纳为 −1/X，而 Y-bus 非对角项为 +j/X。有功在 90° 达到代数最大值，但这不是热额定值或安全运行证明；实际运行裕度取决于网络和故障条件。"
+          },
+          "formula": "\\begin{gathered}P_{ik}=\\frac{|V_i||V_k|}{X}\\sin\\delta=-P_{ki}\\\\P_{\\max}=\\frac{|V_i||V_k|}{X},\\qquad\\delta=\\theta_i-\\theta_k\\end{gathered}"
+        },
+        {
+          "title": {
+            "en": "7. Zero real loss does not mean zero reactive absorption",
+            "zh": "7. 无有功损耗不等于无无功吸收"
+          },
+          "body": {
+            "en": "Both terminal powers are positive into the line. At equal angles and Vi>Vk, the high-voltage end supplies Q and the other end receives part of it; the line absorbs the difference. At nonzero angle, both ends may supply Q. The separate line controls and curves do not change the full three-bus network or certify a secure operating region.",
+            "zh": "两端功率均以进入线路为正。等相角且 Vi>Vk 时，高压端提供无功，另一端接收其中一部分，线路吸收其差额。相角差非零时，两端都可能提供无功。独立线路的控件与曲线不改变完整三母线网络，也不用于认证安全运行区。"
+          },
+          "formula": "\\begin{gathered}Q_{ik}=\\frac{|V_i|^2-|V_i||V_k|\\cos\\delta}{X}\\\\Q_{ki}=\\frac{|V_k|^2-|V_i||V_k|\\cos\\delta}{X}\\\\Q_{ik}+Q_{ki}=\\frac{|V_i-V_k|^2}{X}\\ge0\\end{gathered}"
+        }
+      ],
+      "controls": [
+        {
+          "key": "load_p_mw",
+          "label": {
+            "en": "Bus 3 specified load P",
+            "zh": "母线 3 指定负荷 P"
+          },
+          "min": 0,
+          "max": 150,
+          "step": 1,
+          "unit": "MW",
+          "advanced": false,
+          "type": "range"
+        },
+        {
+          "key": "load_q_mvar",
+          "label": {
+            "en": "Bus 3 specified load Q",
+            "zh": "母线 3 指定负荷 Q"
+          },
+          "min": 0,
+          "max": 60,
+          "step": 1,
+          "unit": "Mvar",
+          "advanced": false,
+          "type": "range"
+        },
+        {
+          "key": "pg2_mw",
+          "label": {
+            "en": "PV bus 2 real generation",
+            "zh": "PV 母线 2 发电有功"
+          },
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "unit": "MW",
+          "advanced": false,
+          "type": "range"
+        },
+        {
+          "key": "v1_mag",
+          "label": {
+            "en": "Slack bus 1 voltage target",
+            "zh": "Slack 母线 1 电压目标"
+          },
+          "min": 0.97,
+          "max": 1.08,
+          "step": 0.001,
+          "unit": "pu",
+          "advanced": false,
+          "type": "range"
+        },
+        {
+          "key": "v2_mag",
+          "label": {
+            "en": "PV bus 2 voltage target",
+            "zh": "PV 母线 2 电压目标"
+          },
+          "min": 0.97,
+          "max": 1.08,
+          "step": 0.001,
+          "unit": "pu",
+          "advanced": false,
+          "type": "range"
+        },
+        {
+          "key": "impedance_scale",
+          "label": {
+            "en": "Scale the full network impedances",
+            "zh": "全网阻抗统一倍率"
+          },
+          "min": 0.7,
+          "max": 1.3,
+          "step": 0.05,
+          "unit": "×",
+          "advanced": true,
+          "type": "range"
+        },
+        {
+          "key": "line_vi",
+          "label": {
+            "en": "Separate lossless line: |Vi|",
+            "zh": "独立无损线路：|Vi|"
+          },
+          "min": 0.9,
+          "max": 1.1,
+          "step": 0.005,
+          "unit": "pu",
+          "advanced": true,
+          "type": "range"
+        },
+        {
+          "key": "line_vk",
+          "label": {
+            "en": "Separate lossless line: |Vk|",
+            "zh": "独立无损线路：|Vk|"
+          },
+          "min": 0.9,
+          "max": 1.1,
+          "step": 0.005,
+          "unit": "pu",
+          "advanced": true,
+          "type": "range"
+        },
+        {
+          "key": "line_x_pu",
+          "label": {
+            "en": "Separate lossless line: X",
+            "zh": "独立无损线路：X"
+          },
+          "min": 0.1,
+          "max": 0.4,
+          "step": 0.01,
+          "unit": "pu",
+          "advanced": true,
+          "type": "range"
+        },
+        {
+          "key": "line_angle_deg",
+          "label": {
+            "en": "Separate lossless line: angle difference",
+            "zh": "独立无损线路：相角差"
+          },
+          "min": -120,
+          "max": 120,
+          "step": 1,
+          "unit": "°",
+          "advanced": true,
+          "type": "range"
+        }
+      ],
+      "metrics": [
+        {
+          "key": "v3_mag",
+          "label": {
+            "en": "Solved PQ bus |V3|",
+            "zh": "PQ 母线求解幅值 |V3|"
+          },
+          "unit": "pu",
+          "digits": 5
+        },
+        {
+          "key": "theta2_deg",
+          "label": {
+            "en": "Solved PV bus angle",
+            "zh": "PV 母线求解相角"
+          },
+          "unit": "°",
+          "digits": 5
+        },
+        {
+          "key": "theta3_deg",
+          "label": {
+            "en": "Solved PQ bus angle",
+            "zh": "PQ 母线求解相角"
+          },
+          "unit": "°",
+          "digits": 5
+        },
+        {
+          "key": "pg1_mw",
+          "label": {
+            "en": "Slack real generation",
+            "zh": "Slack 发电有功"
+          },
+          "unit": "MW",
+          "digits": 4
+        },
+        {
+          "key": "qg1_mvar",
+          "label": {
+            "en": "Slack reactive generation",
+            "zh": "Slack 发电无功"
+          },
+          "unit": "Mvar",
+          "digits": 4
+        },
+        {
+          "key": "qg2_mvar",
+          "label": {
+            "en": "PV reactive generation (+ supply)",
+            "zh": "PV 发电无功（正值为供给）"
+          },
+          "unit": "Mvar",
+          "digits": 4
+        },
+        {
+          "key": "real_loss_mw",
+          "label": {
+            "en": "Full network real loss",
+            "zh": "全网有功损耗"
+          },
+          "unit": "MW",
+          "digits": 4
+        },
+        {
+          "key": "max_mismatch_pu",
+          "label": {
+            "en": "Largest selected power mismatch",
+            "zh": "选定功率方程的最大不平衡量"
+          },
+          "unit": "pu",
+          "digits": 9
+        },
+        {
+          "key": "line_pi_mw",
+          "label": {
+            "en": "Separate line: P into end i",
+            "zh": "独立线路：i 端进入有功"
+          },
+          "unit": "MW",
+          "digits": 4
+        },
+        {
+          "key": "line_qi_mvar",
+          "label": {
+            "en": "Separate line: Q into end i",
+            "zh": "独立线路：i 端进入无功"
+          },
+          "unit": "Mvar",
+          "digits": 4
+        },
+        {
+          "key": "line_qk_mvar",
+          "label": {
+            "en": "Separate line: Q into end k",
+            "zh": "独立线路：k 端进入无功"
+          },
+          "unit": "Mvar",
+          "digits": 4
+        },
+        {
+          "key": "line_pmax_mw",
+          "label": {
+            "en": "Separate line: ideal Pmax",
+            "zh": "独立线路：理想 Pmax"
+          },
+          "unit": "MW",
+          "digits": 4
+        }
+      ],
+      "given": {
+        "en": "Full network: 100 MVA base; z12=0.018+j0.060, z13=0.070+j0.210, z23=0.045+j0.135 pu; unity taps, no charging or shunts. Slack V1=1.03∠0°, PV P2=55 MW and |V2|=1.01; PQ load=90 MW+j30 Mvar. Independently, the illustrative lossless line has |Vi|=1.03, |Vk|=1.00, X=0.20 pu and delta=20° on the same 100 MVA base.",
+        "zh": "全网：100 MVA 基准；z12=0.018+j0.060、z13=0.070+j0.210、z23=0.045+j0.135 pu；分接为 1，无充电或并联元件。Slack V1=1.03∠0°，PV P2=55 MW、|V2|=1.01；PQ 负荷为 90 MW+j30 Mvar。另一个独立无损线路示例采用 |Vi|=1.03、|Vk|=1.00、X=0.20 pu、delta=20°，也采用 100 MVA 基准。"
+      },
+      "worked": [
+        {
+          "en": "Use the P2, P3 and Q3 equations for the three voltage unknowns (theta2, theta3, |V3|); calculate P1, Q1 and Q2 afterward.",
+          "zh": "用 P2、P3、Q3 方程求三个电压未知量 (theta2, theta3, |V3|)，之后再计算 P1、Q1、Q2。"
+        },
+        {
+          "en": "The reproduced solution is V2=1.01000∠0.31081324° and V3=0.96441375∠−3.65230906°, consistent with the source rounded values.",
+          "zh": "复算得到 V2=1.01000∠0.31081324°、V3=0.96441375∠−3.65230906°，与课件的舍入值一致。"
+        },
+        {
+          "en": "P1=37.88547754 MW, Q1=54.88714872 Mvar, and Q2=−16.16487306 Mvar. Negative Q2 is reactive absorption at the regulated generator.",
+          "zh": "P1=37.88547754 MW、Q1=54.88714872 Mvar、Q2=−16.16487306 Mvar。Q2 为负表示受控发电机吸收无功。"
+        },
+        {
+          "en": "Total real loss is 37.88547754+55−90=2.88547754 MW. Check the same result by summing branch R|I|².",
+          "zh": "总有功损耗为 37.88547754+55−90=2.88547754 MW；再将各支路 R|I|² 相加独立核对。"
+        },
+        {
+          "en": "The selected mismatches are specified minus calculated (P2, P3, Q3); all approach zero. Full polar P/Q and complex VI* calculations agree.",
+          "zh": "选定的不平衡量采用指定减计算 (P2、P3、Q3)，均接近零；完整极坐标 P/Q 与复数 VI* 的计算一致。"
+        },
+        {
+          "en": "For the separate lossless line at 20°, P=176.1404 MW, Qi=46.5083 Mvar and Qk=16.0583 Mvar. Both terminals supply reactive power into that line. Its ideal Pmax is 515 MW at 90°, not an operating rating.",
+          "zh": "独立无损线路在 20° 时，P=176.1404 MW、Qi=46.5083 Mvar、Qk=16.0583 Mvar；两端均向线路提供无功。其理想 Pmax 在 90° 为 515 MW，不是运行额定值。"
+        },
+        {
+          "en": "Set the separate line angle to zero: P=0, Qi=15.45 Mvar, Qk=−15.00 Mvar, so the line absorbs 0.45 Mvar.",
+          "zh": "将独立线路相角差设为零：P=0、Qi=15.45 Mvar、Qk=−15.00 Mvar，线路吸收 0.45 Mvar。"
+        }
+      ],
+      "practice": [
+        {
+          "key": "v3_mag",
+          "label": {
+            "en": "Solved |V3|",
+            "zh": "求解 |V3|"
+          },
+          "unit": "pu",
+          "tolerance": 2e-05,
+          "hint": {
+            "en": "Solve the three selected voltage equations; do not reuse the L33 trial magnitude.",
+            "zh": "求解三个选定电压方程，不能照搬 L33 的试探幅值。"
+          }
+        },
+        {
+          "key": "pg1_mw",
+          "label": {
+            "en": "Slack P1",
+            "zh": "Slack P1"
+          },
+          "unit": "MW",
+          "tolerance": 0.001,
+          "hint": {
+            "en": "Slack supplies remaining demand plus losses, not just 90−55.",
+            "zh": "Slack 提供剩余负荷及损耗，不只是 90−55。"
+          }
+        },
+        {
+          "key": "qg2_mvar",
+          "label": {
+            "en": "PV Q2 (+ supply)",
+            "zh": "PV Q2（正值为供给）"
+          },
+          "unit": "Mvar",
+          "tolerance": 0.001,
+          "hint": {
+            "en": "Calculate Q2 from the solved voltages and retain its negative absorption sign.",
+            "zh": "由求解电压计算 Q2，保留无功吸收的负号。"
+          }
+        },
+        {
+          "key": "real_loss_mw",
+          "label": {
+            "en": "Total real network loss",
+            "zh": "全网有功损耗"
+          },
+          "unit": "MW",
+          "tolerance": 0.001,
+          "hint": {
+            "en": "Subtract total load from total generator real power.",
+            "zh": "总发电有功减去总负荷有功。"
+          }
+        }
+      ],
+      "quiz": {
+        "question": {
+          "en": "At the PV bus, Q2≈−16.1649 Mvar. Which interpretation matches this model?",
+          "zh": "PV 母线的 Q2≈−16.1649 Mvar，哪种解释符合本模型？"
+        },
+        "choices": [
+          {
+            "value": "0",
+            "label": {
+              "en": "A PV generator must supply positive Q, so the solution is invalid",
+              "zh": "PV 发电机必须提供正无功，因此解无效"
+            }
+          },
+          {
+            "value": "1",
+            "label": {
+              "en": "Q is calculated after solving voltages; here the generator absorbs Q",
+              "zh": "求解电压后计算 Q；本例发电机吸收无功"
+            }
+          },
+          {
+            "value": "2",
+            "label": {
+              "en": "The PV bus no longer obeys its reactive power relation",
+              "zh": "PV 母线不再满足无功物理关系"
+            }
+          }
+        ],
+        "correct": "1",
+        "feedback": [
+          {
+            "en": "Voltage regulation does not fix the sign of Q. Generator capability limits would require an additional model.",
+            "zh": "电压调节不预先固定 Q 的正负；机组能力限值需要额外模型。"
+          },
+          {
+            "en": "Correct. This experiment keeps the PV voltage target and calculates Q without a capability-limit switch.",
+            "zh": "正确。本实验保持 PV 电压目标并计算 Q，不包含能力限值触发的母线类型切换。"
+          },
+          {
+            "en": "Every bus obeys both P and Q relations; selecting voltage equations does not remove the Q identity.",
+            "zh": "每条母线都满足 P、Q 关系；选择电压求解方程不等于删除 Q 物理关系。"
+          }
+        ]
+      },
+      "challenge": {
+        "en": "Change the load, generator schedule or voltage targets and explain the solved bus 3 voltage, slack P and PV Q. Then expand the independent lossless-line controls: compare delta=0° and 20°, and test the power-angle maximum. These two-terminal controls do not change the three-bus solution.",
+        "zh": "改变负荷、发电计划或电压目标，解释母线 3 的求解电压、Slack P 和 PV Q。随后展开独立无损线路控件，比较 delta=0°、20°，并检查功角最大值。该两端线路的控件不改变三母线潮流解。"
+      },
+      "limits": {
+        "en": "Balanced positive-sequence steady state on 100 MVA; fixed three-bus topology, series impedances, unity taps, no charging or shunts. The numerical helper seeks the high-voltage solution from a flat start; it does not enumerate all roots or impose generator Q, thermal or contingency limits. A nonconverged case is not displayed as a solved point. The separate lossless line uses its own stated inputs; its algebraic maximum is not a secure transfer limit.",
+        "zh": "采用 100 MVA 基准的平衡正序稳态模型；固定三母线拓扑、串联阻抗、额定分接，无充电或并联元件。数值工具从平坦启动寻找高电压解，不枚举全部根，也不施加发电机 Q、热稳定或故障限值。不收敛的情况不会显示为已求解运行点。独立无损线路采用单独声明的输入，其代数最大值不是安全传输限值。"
+      },
+      "code_key": "line_x_pu",
+      "code_values": [
+        0.15,
+        0.2,
+        0.3
+      ],
+      "plot_titles": [
+        {
+          "en": "Separate lossless line: fixed-magnitude power-angle curve",
+          "zh": "独立无损线路：固定幅值的功角曲线"
+        },
+        {
+          "en": "Separate lossless line: reactive transfer at equal angles",
+          "zh": "独立无损线路：等相角下的无功传输"
+        }
+      ]
     }
   ]
 }

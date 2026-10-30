@@ -325,11 +325,11 @@
     return{height:613,body:b};
   }
   const handlers={overview,generation,'single-phase':singlePhase,'three-phase':threePhase,transformers,'per-unit':perUnit,'transformer-banks':banks,'exam-review':review,'line-conductor':lineConductor,'line-inductance':lineInductance,'line-capacitance':lineCapacitance,'line-bundles':lineBundles};
-  function powerFlowNetwork(r,c){
-    const {w,f,t,line,path,arrow,node,component,complex}=c,p=r.parameters,n=r.network;
+  function powerFlowNetwork(r,c,solved=false){
+    const {w,f,t,line,path,arrow,node,component,complex}=c,p={tap12:1,shift12_deg:0,branch23:1,charging23_pu:0,shunt3_pu:0,...r.parameters},n=r.network;
     let b=t(400,28,w('三母线网络：端点、设备与参考方向','Three-bus network: terminals, devices and references'),'ed-heading');
-    b+=t(400,53,w('试探电压求值 · 尚未求解指定负荷','Trial-voltage evaluation · specified load is not solved'),'ed-small');
-    const label=(x,y,i)=>t(x,y,'V'+i+' = '+complex(n.voltages[i-1].re,n.voltages[i-1].im,3),'ed-small');
+    b+=t(400,53,solved?w('已求解 AC 运行点 · Slack 1 / PV 2 / PQ 3','Solved AC operating point · Slack 1 / PV 2 / PQ 3'):w('试探电压求值 · 尚未求解指定负荷','Trial-voltage evaluation · specified load is not solved'),'ed-small');
+    const label=(x,y,i)=>t(x,y,'V'+i+' = '+(solved?f(n.voltages[i-1].rms,5)+' ∠ '+f(n.voltages[i-1].angle_deg,4)+'°':complex(n.voltages[i-1].re,n.voltages[i-1].im,3)),'ed-small');
     // Actual electrical connections: paired generator terminals, series
     // impedances, three busbars and separately connected shunt devices.
     for(const [x,cx,name] of [[140,65,'G1'],[660,735,'G2']]){
@@ -396,7 +396,29 @@
     b+=t(400,878,w('有并联或非额定分接时行和可非零；移相时互元素可不对称。','Shunts or taps can change row sums; phase shifting can make mutual entries asymmetric.'),'ed-small');
     return{height:900,body:b};
   }
-  handlers['power-flow-balance']=powerFlowBalance;handlers['power-flow-ybus']=powerFlowYbus;
+  function powerFlowOperating(r,c){
+    const {w,f,t,line,component,arrow}=c,m=r.metrics,p=r.parameters;
+    let b=powerFlowNetwork(r,c,true)+line(40,491,760,491,'#e5dfec',1);
+    b+=t(400,522,w('蓝：指定量 · 紫：由网络计算的量','Blue: specified · Purple: calculated from the network'),'ed-heading');
+    const rows=[
+      {name:'1 · Slack',known:'|V1| = '+f(p.v1_mag,3)+' · θ1 = 0°',found:'P1 = '+f(m.pg1_mw,4)+' MW · Q1 = '+f(m.qg1_mvar,4)+' Mvar'},
+      {name:'2 · PV',known:'P2 = '+f(p.pg2_mw,1)+' MW · |V2| = '+f(p.v2_mag,3),found:'θ2 = '+f(m.theta2_deg,4)+'° · Q2 = '+f(m.qg2_mvar,4)+' Mvar'},
+      {name:'3 · PQ',known:'P3 = −'+f(p.load_p_mw,1)+' MW · Q3 = −'+f(p.load_q_mvar,1)+' Mvar',found:'|V3| = '+f(m.v3_mag,5)+' · θ3 = '+f(m.theta3_deg,4)+'°'}
+    ];
+    rows.forEach((row,i)=>{const y=561+60*i;b+=t(76,y+8,row.name,'ed-label')+t(420,y,row.known,'ed-text','middle',palette.blue)+t(420,y+24,row.found,'ed-text','middle',palette.purple);});
+    b+=t(400,744,'PG1 + PG2 − PL = '+f(m.real_loss_mw,5)+' MW · '+w('有功损耗','real losses'),'ed-label');
+    b+=t(400,771,w('Q2 < 0 表示发电机吸收无功；此模型不施加 Q 限值。','Negative Q2 means generator reactive absorption; Q limits are not imposed.'),'ed-small');
+    b+=line(40,792,760,792,'#e5dfec',1)+t(400,821,w('独立的两端无损线路 · 与上方三母线算例分开','Separate two-terminal lossless line · independent of the network above'),'ed-heading');
+    b+=line(140,886,140,922,palette.purple,5)+line(660,886,660,922,palette.purple,5)+component(140,904,660,904,'coil');
+    b+=t(140,868,'i · |Vi| = '+f(p.line_vi,3),'ed-label')+t(660,868,'k · |Vk| = '+f(p.line_vk,3),'ed-label')+t(400,852,'jX = j'+f(p.line_x_pu,3)+' pu','ed-small');
+    b+=arrow(173,930,225,930,'purple')+arrow(627,930,575,930,'teal');
+    b+=t(195,956,'Pik = '+f(m.line_pi_mw,3)+' MW','ed-text')+t(605,956,'Pki = '+f(-m.line_pi_mw,3)+' MW','ed-text');
+    b+=t(195,979,'Qik = '+f(m.line_qi_mvar,3)+' Mvar','ed-text')+t(605,979,'Qki = '+f(m.line_qk_mvar,3)+' Mvar','ed-text');
+    b+=t(400,1007,'δ = '+f(p.line_angle_deg,0)+'° · '+w('两端正功率均指向线路内部','positive terminal powers enter the line'),'ed-small');
+    b+=t(400,1032,w('Pmax 是固定电压幅值下的理想上限，不是安全运行额定值。','Pmax is an ideal fixed-magnitude ceiling, not a secure operating rating.'),'ed-small');
+    return{height:1053,body:b};
+  }
+  handlers['power-flow-balance']=powerFlowBalance;handlers['power-flow-ybus']=powerFlowYbus;handlers['power-flow-operating']=powerFlowOperating;
   function render(kind,r,lang='en'){
     const c=context(kind,lang);
     if(kind==='transformer-network'){

@@ -15,6 +15,7 @@
     'line-bundles':{spacing_ab_m:9.7536,spacing_bc_m:9.7536,position_angle_deg:0,bundle_count:2,bundle_spacing_m:.4572,gmr_mm:17.92224,radius_mm:22.3774,resistance_sub_ohm_km:.0344488188976378,length_km:128.74752,frequency_hz:60,voltage_ll_kv:500,voltage_base_kv:500,s_base_mva:100,circuits:1},
     'power-flow-balance':{v1_re:1.02,v2_re:1,v3_re:.98,v3_im:-.02,angle_ref_deg:0,impedance_scale:1,branch23:1,charging23_pu:0,shunt3_pu:0,tap12:1,shift12_deg:0,load_p_mw:90,load_q_mvar:30},
     'power-flow-ybus':{v1_re:1.02,v2_re:1,v3_re:.98,v3_im:-.02,angle_ref_deg:0,impedance_scale:1,branch23:1,charging23_pu:0,shunt3_pu:0,tap12:1,shift12_deg:0,load_p_mw:90,load_q_mvar:30},
+    'power-flow-operating':{v1_mag:1.03,v2_mag:1.01,pg2_mw:55,load_p_mw:90,load_q_mvar:30,impedance_scale:1,line_vi:1.03,line_vk:1,line_x_pu:.2,line_angle_deg:20},
   };
   Object.values(defaults).forEach(Object.freeze);Object.freeze(defaults);
   const rad=x=>x*Math.PI/180, wrap=x=>((x+180)%360+360)%360-180;
@@ -123,9 +124,9 @@
   }
   // L32/L33: evaluate the physical network at trial voltages. No bus control
   // specification or nonlinear voltage solve is implied. All data use 100 MVA.
-  function powerFlowState(p){
+  function powerFlowState(p,voltageOverride=null){
     const zero=()=>({re:0,im:0}),scale=(z,k)=>({re:z.re*k,im:z.im*k});
-    const rotation=polar(1,p.angle_ref_deg),v=[{re:p.v1_re,im:0},{re:p.v2_re,im:0},{re:p.v3_re,im:p.v3_im}].map(z=>mul(z,rotation));
+    const rotation=polar(1,p.angle_ref_deg),v=(voltageOverride||[{re:p.v1_re,im:0},{re:p.v2_re,im:0},{re:p.v3_re,im:p.v3_im}]).map(z=>mul(z,rotation));
     const Y=Array.from({length:3},()=>Array.from({length:3},zero)),currents=Array.from({length:3},zero),branches=[];
     for(const [i,k,R,X] of [[0,1,.018,.060],[0,2,.070,.210],[1,2,.045,.135]]){
       if(i===1&&!p.branch23)continue;
@@ -170,6 +171,63 @@
     return{...r,plots:[plot(angles,{'Calculated P3':samples.map(m=>m.p3_pu),'Specified P3':angles.map(()=>-p.load_p_mw/100)},'trial V3 angle / deg','pu'),
       plot(volts,{'Calculated Q3':q,'Specified Q3':volts.map(()=>-p.load_q_mvar/100)},'trial |V3| / pu','pu')]};
   }
+  function operatingLinear(matrix,rhs){
+    const a=matrix.map((row,i)=>[...row,rhs[i]]),n=rhs.length;
+    for(let k=0;k<n;k++){
+      let pivot=k;for(let i=k+1;i<n;i++)if(Math.abs(a[i][k])>Math.abs(a[pivot][k]))pivot=i;
+      if(Math.abs(a[pivot][k])<1e-12)throw Error('Singular voltage-equation Jacobian');
+      [a[k],a[pivot]]=[a[pivot],a[k]];
+      for(let i=k+1;i<n;i++){const factor=a[i][k]/a[k][k];for(let j=k;j<=n;j++)a[i][j]-=factor*a[k][j];}
+    }
+    const answer=Array(n).fill(0);
+    for(let i=n-1;i>=0;i--)answer[i]=(a[i][n]-a[i].slice(i+1,n).reduce((s,v,j)=>s+v*answer[i+1+j],0))/a[i][i];
+    return answer;
+  }
+  function operatingInjections(Y,vm,theta){
+    const P=[0,0,0],Q=[0,0,0];
+    for(let i=0;i<3;i++)for(let k=0;k<3;k++){
+      const d=theta[i]-theta[k],s=vm[i]*vm[k],y=Y[i][k];
+      P[i]+=s*(y.re*Math.cos(d)+y.im*Math.sin(d));Q[i]+=s*(y.re*Math.sin(d)-y.im*Math.cos(d));
+    }
+    return{P,Q};
+  }
+  function powerFlowOperating(p){
+    positive(p,['v1_mag','v2_mag','impedance_scale','line_vi','line_vk','line_x_pu']);
+    range(p,'v1_mag',.9,1.15);range(p,'v2_mag',.9,1.15);range(p,'impedance_scale',.5,2);
+    nonnegative(p,['load_p_mw','load_q_mvar','pg2_mw']);range(p,'line_angle_deg',-180,180);
+    const base={...defaults['power-flow-balance'],impedance_scale:p.impedance_scale,load_p_mw:p.load_p_mw,load_q_mvar:p.load_q_mvar};
+    const Y=powerFlowState(base).network.ybus,spec=[p.pg2_mw/100,-p.load_p_mw/100,-p.load_q_mvar/100];
+    const calculate=x=>{const vm=[p.v1_mag,p.v2_mag,x[2]],theta=[0,x[0],x[1]],s=operatingInjections(Y,vm,theta);return{vm,theta,...s,f:[spec[0]-s.P[1],spec[1]-s.P[2],spec[2]-s.Q[2]]};};
+    const norm=s=>Math.max(...s.f.map(Math.abs));let x=[0,0,1],state=calculate(x),iterations=0;
+    for(;norm(state)>1e-11&&iterations<30;iterations++){
+      const {vm,theta,P,Q}=state;
+      const J=[[1,false],[2,false],[2,true]].map(([i,reactive])=>[1,2,3].map(variable=>{
+        const k=variable===3?2:variable,d=theta[i]-theta[k],g=Y[i][k].re,b=Y[i][k].im;
+        if(variable===3)return i===k?(reactive?Q[i]/vm[i]-b*vm[i]:P[i]/vm[i]+g*vm[i]):vm[i]*(reactive?g*Math.sin(d)-b*Math.cos(d):g*Math.cos(d)+b*Math.sin(d));
+        return i===k?(reactive?P[i]-g*vm[i]**2:-Q[i]-b*vm[i]**2):(reactive?-vm[i]*vm[k]*(g*Math.cos(d)+b*Math.sin(d)):vm[i]*vm[k]*(g*Math.sin(d)-b*Math.cos(d)));
+      }));
+      const step=operatingLinear(J,state.f);let accepted=false;
+      for(let damping=1;damping>=1/1024;damping/=2){
+        const trial=x.map((v,i)=>v+damping*step[i]);if(trial[2]<.2||trial[2]>1.6)continue;
+        const next=calculate(trial);if(norm(next)<norm(state)){x=trial;state=next;accepted=true;break;}
+      }
+      if(!accepted)throw Error('Voltage solve did not converge; reduce loading or restore baseline inputs');
+    }
+    if(norm(state)>1e-11)throw Error('Voltage solve did not converge; no solved operating point is displayed');
+    const volts=state.vm.map((v,i)=>polar(v,state.theta[i]*180/Math.PI)),r=powerFlowState(base,volts),m=r.metrics;
+    const delta=rad(p.line_angle_deg),ceiling=p.line_vi*p.line_vk/p.line_x_pu;
+    const pi=ceiling*Math.sin(delta),qi=(p.line_vi**2-p.line_vi*p.line_vk*Math.cos(delta))/p.line_x_pu,qk=(p.line_vk**2-p.line_vi*p.line_vk*Math.cos(delta))/p.line_x_pu;
+    Object.assign(m,{v3_mag:state.vm[2],theta2_deg:x[0]*180/Math.PI,theta3_deg:x[1]*180/Math.PI,
+      pg1_mw:100*state.P[0],qg1_mvar:100*state.Q[0],qg2_mvar:100*state.Q[1],max_mismatch_pu:norm(state),
+      line_pi_mw:100*pi,line_qi_mvar:100*qi,line_qk_mvar:100*qk,line_pmax_mw:100*ceiling});
+    Object.assign(r.checks,{polar_complex_agreement:Math.max(...state.P.map((v,i)=>Math.abs(v-r.network.powers[i].re)),...state.Q.map((v,i)=>Math.abs(v-r.network.powers[i].im))),
+      specified_p2:spec[0]-m.p2_pu,specified_p3:spec[1]-m.p3_pu,specified_q3:spec[2]-m.q3_pu,
+      lossless_line_q:qi+qk-(p.line_vi**2+p.line_vk**2-2*p.line_vi*p.line_vk*Math.cos(delta))/p.line_x_pu});
+    const angles=Array.from({length:121},(_,i)=>-180+3*i),receiving=Array.from({length:41},(_,i)=>.9+i*.005);
+    return{...r,operating:{iterations,voltage_unknowns:['theta2','theta3','|V3|'],dependent_quantities:['P1','Q1','Q2'],specifications:spec},
+      plots:[{...plot(angles,{'Lossless P at fixed magnitudes':angles.map(a=>100*ceiling*Math.sin(rad(a))),'Ideal Pmax':angles.map(()=>100*ceiling)},'separate line angle / deg','MW'),markers:[{x:p.line_angle_deg,y:100*pi,label:'Selected line angle'}]},
+        plot(receiving,{'Qik at equal angles':receiving.map(v=>100*p.line_vi*(p.line_vi-v)/p.line_x_pu),'Delivered -Qki at equal angles':receiving.map(v=>100*v*(p.line_vi-v)/p.line_x_pu)},'separate line |Vk| / pu (delta = 0)','Mvar')]};
+  }
   function screening(p){
     const difference=p.gt_variable-p.cc_variable, fixedDifference=p.cc_fixed-p.gt_fixed;
     const crossover=difference===0?null:fixedDifference/difference;
@@ -206,6 +264,7 @@
       plots:[plot(x,{Va:vwave[0],Vb:vwave[1],Vc:vwave[2]},'ms','V'),plot(x,{Ia:iwave[0],Ib:iwave[1],Ic:iwave[2]},'ms','A')]};
   }
   const handlers={
+    'power-flow-operating':powerFlowOperating,
     'power-flow-balance':powerFlow,'power-flow-ybus':powerFlow,
     'line-conductor':lineConductor,'line-inductance':lineInductance,'line-capacitance':lineCapacitance,'line-bundles':lineBundles,
     'transformer-banks':transformerBanks,

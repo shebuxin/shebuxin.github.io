@@ -44,6 +44,9 @@ DEFAULTS = {
     'power-flow-ybus': dict(v1_re=1.02, v2_re=1, v3_re=.98, v3_im=-.02, angle_ref_deg=0,
                            impedance_scale=1, branch23=1, charging23_pu=0, shunt3_pu=0,
                            tap12=1, shift12_deg=0, load_p_mw=90, load_q_mvar=30),
+    'power-flow-operating': dict(v1_mag=1.03, v2_mag=1.01, pg2_mw=55, load_p_mw=90,
+                                load_q_mvar=30, impedance_scale=1, line_vi=1.03,
+                                line_vk=1, line_x_pu=.2, line_angle_deg=20),
 }
 
 
@@ -490,14 +493,15 @@ def transformer_network(p):
                        plot(loading,{'LV terminal voltage':[load_v(k) for k in loading]},'rated input-current loading','pu')])
 
 
-def power_flow_state(p):
+def power_flow_state(p, voltage_override=None):
     """Assemble a network and independently sum physical port currents.
 
     Trial voltages are inputs, not a solved PQ/PV/slack operating point.
     All quantities use the lecture's fixed common 100-MVA base.
     """
     rotation = phasor(1, p['angle_ref_deg'])
-    v = [z*rotation for z in [complex(p['v1_re']), complex(p['v2_re']), complex(p['v3_re'], p['v3_im'])]]
+    initial = voltage_override if voltage_override is not None else [complex(p['v1_re']), complex(p['v2_re']), complex(p['v3_re'], p['v3_im'])]
+    v = [z*rotation for z in initial]
     ybus, physical, branches = [[0j]*3 for _ in range(3)], [0j]*3, []
     for i, k, resistance, reactance in [(0, 1, .018, .060), (0, 2, .070, .210), (1, 2, .045, .135)]:
         if i == 1 and not p['branch23']:
@@ -572,7 +576,119 @@ def power_flow(p):
     return result
 
 
+def operating_linear(matrix, rhs):
+    a = [list(row)+[rhs[i]] for i, row in enumerate(matrix)]
+    n = len(rhs)
+    for k in range(n):
+        pivot = max(range(k, n), key=lambda i: abs(a[i][k]))
+        if abs(a[pivot][k]) < 1e-12:
+            raise ValueError('Singular voltage-equation Jacobian')
+        a[k], a[pivot] = a[pivot], a[k]
+        for i in range(k+1, n):
+            factor = a[i][k]/a[k][k]
+            for j in range(k, n+1):
+                a[i][j] -= factor*a[k][j]
+    answer = [0.0]*n
+    for i in range(n-1, -1, -1):
+        answer[i] = (a[i][n]-sum(a[i][j]*answer[j] for j in range(i+1, n)))/a[i][i]
+    return answer
+
+
+def operating_injections(ybus, vm, theta):
+    """Full polar P/Q sums include k=i, exactly as in L34 slides 5–9."""
+    p, q = [0.0]*3, [0.0]*3
+    for i in range(3):
+        for k in range(3):
+            d = theta[i]-theta[k]
+            y = ybus[i][k]
+            p[i] += vm[i]*vm[k]*(y['re']*math.cos(d)+y['im']*math.sin(d))
+            q[i] += vm[i]*vm[k]*(y['re']*math.sin(d)-y['im']*math.cos(d))
+    return p, q
+
+
+def power_flow_operating(p):
+    """Reproduce L34's specified slack/PV/PQ case with a numerical helper.
+
+    The lecture inspects a solved state; numerical iteration is a web extension.
+    Python estimates derivatives centrally, independently of the browser's
+    analytic Jacobian. No Q-limit switching or operational-security assessment.
+    The separate lossless two-terminal line is not a branch of the solved case.
+    """
+    positive(p, 'v1_mag', 'v2_mag', 'impedance_scale', 'line_vi', 'line_vk', 'line_x_pu')
+    bounded(p, 'v1_mag', .9, 1.15)
+    bounded(p, 'v2_mag', .9, 1.15)
+    bounded(p, 'impedance_scale', .5, 2)
+    bounded(p, 'line_angle_deg', -180, 180)
+    nonnegative(p, 'load_p_mw', 'load_q_mvar', 'pg2_mw')
+    base = dict(DEFAULTS['power-flow-balance'], impedance_scale=p['impedance_scale'],
+                load_p_mw=p['load_p_mw'], load_q_mvar=p['load_q_mvar'])
+    ybus = power_flow_state(base)['network']['ybus']
+    spec = [p['pg2_mw']/100, -p['load_p_mw']/100, -p['load_q_mvar']/100]
+
+    def calculate(x):
+        vm, theta = [p['v1_mag'], p['v2_mag'], x[2]], [0, x[0], x[1]]
+        real, reactive = operating_injections(ybus, vm, theta)
+        f = [spec[0]-real[1], spec[1]-real[2], spec[2]-reactive[2]]
+        return dict(vm=vm, theta=theta, P=real, Q=reactive, f=f)
+
+    norm = lambda state: max(abs(v) for v in state['f'])
+    x, iterations = [0.0, 0.0, 1.0], 0
+    state = calculate(x)
+    while norm(state) > 1e-11 and iterations < 30:
+        epsilon, jacobian = 1e-6, [[0.0]*3 for _ in range(3)]
+        for k in range(3):
+            hi, lo = list(x), list(x)
+            hi[k] += epsilon
+            lo[k] -= epsilon
+            a, b = calculate(hi)['f'], calculate(lo)['f']
+            for i in range(3):
+                jacobian[i][k] = -(a[i]-b[i])/(2*epsilon)
+        step = operating_linear(jacobian, state['f'])
+        damping, accepted = 1.0, False
+        while damping >= 1/1024:
+            trial = [v+damping*d for v, d in zip(x, step)]
+            if .2 <= trial[2] <= 1.6:
+                candidate = calculate(trial)
+                if norm(candidate) < norm(state):
+                    x, state, accepted = trial, candidate, True
+                    break
+            damping /= 2
+        if not accepted:
+            raise ValueError('Voltage solve did not converge; reduce loading or restore baseline inputs')
+        iterations += 1
+    if norm(state) > 1e-11:
+        raise ValueError('Voltage solve did not converge; no solved operating point is displayed')
+    volts = [cmath.rect(v, a) for v, a in zip(state['vm'], state['theta'])]
+    r = power_flow_state(base, volts)
+    m = r['metrics']
+    delta = math.radians(p['line_angle_deg'])
+    ceiling = p['line_vi']*p['line_vk']/p['line_x_pu']
+    pi = ceiling*math.sin(delta)
+    qi = (p['line_vi']**2-p['line_vi']*p['line_vk']*math.cos(delta))/p['line_x_pu']
+    qk = (p['line_vk']**2-p['line_vi']*p['line_vk']*math.cos(delta))/p['line_x_pu']
+    m.update(v3_mag=state['vm'][2], theta2_deg=math.degrees(x[0]), theta3_deg=math.degrees(x[1]),
+             pg1_mw=100*state['P'][0], qg1_mvar=100*state['Q'][0], qg2_mvar=100*state['Q'][1],
+             max_mismatch_pu=norm(state), line_pi_mw=100*pi, line_qi_mvar=100*qi,
+             line_qk_mvar=100*qk, line_pmax_mw=100*ceiling)
+    r['checks'].update(polar_complex_agreement=max([abs(v-r['network']['powers'][i]['re']) for i, v in enumerate(state['P'])]
+                                                  +[abs(v-r['network']['powers'][i]['im']) for i, v in enumerate(state['Q'])]),
+                       specified_p2=spec[0]-m['p2_pu'], specified_p3=spec[1]-m['p3_pu'],
+                       specified_q3=spec[2]-m['q3_pu'],
+                       lossless_line_q=qi+qk-(p['line_vi']**2+p['line_vk']**2-2*p['line_vi']*p['line_vk']*math.cos(delta))/p['line_x_pu'])
+    angles, receiving = [-180+3*i for i in range(121)], [.9+i*.005 for i in range(41)]
+    r['operating'] = dict(iterations=iterations, voltage_unknowns=['theta2','theta3','|V3|'],
+                          dependent_quantities=['P1','Q1','Q2'], specifications=spec)
+    r['plots'] = [plot(angles, {'Lossless P at fixed magnitudes': [100*ceiling*math.sin(math.radians(a)) for a in angles],
+                               'Ideal Pmax': [100*ceiling for _ in angles]}, 'separate line angle / deg', 'MW'),
+                  plot(receiving, {'Qik at equal angles': [100*p['line_vi']*(p['line_vi']-v)/p['line_x_pu'] for v in receiving],
+                                    'Delivered -Qki at equal angles': [100*v*(p['line_vi']-v)/p['line_x_pu'] for v in receiving]},
+                       'separate line |Vk| / pu (delta = 0)', 'Mvar')]
+    r['plots'][0]['markers'] = [dict(x=p['line_angle_deg'], y=100*pi, label='Selected line angle')]
+    return r
+
+
 HANDLERS = dict(overview=overview,generation=generation,transformers=transformers)
+HANDLERS.update({'power-flow-operating':power_flow_operating})
 HANDLERS.update({'power-flow-balance':power_flow, 'power-flow-ybus':power_flow})
 HANDLERS.update({'single-phase':single_phase,'three-phase':three_phase,'per-unit':per_unit})
 HANDLERS.update({'transformer-banks':transformer_banks,'transformer-network':transformer_network})
