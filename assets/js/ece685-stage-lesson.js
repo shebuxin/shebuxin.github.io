@@ -26,7 +26,7 @@
 
   function chart(svg,p){
     const allX=p.curves.flatMap(c=>c.x||p.x),xMin=Math.min(...allX),xMax=Math.max(...allX),flat=p.curves.flatMap(c=>c.values);
-    let low=Math.min(0,...flat),high=Math.max(0,...flat);if(high===low)high=low+1;
+    let low=p.zero_base===false?Math.min(...flat):Math.min(0,...flat),high=p.zero_base===false?Math.max(...flat):Math.max(0,...flat);if(high===low)high=low+1;
     const pad=(high-low)*.08;high+=pad;if(low<0)low-=pad;
     const x=v=>62+(v-xMin)/(xMax-xMin||1)*506,y=v=>263-(v-low)/(high-low)*217;
     const number=v=>Math.abs(v)>=1e5?(v/1e3).toFixed(0)+'k':Math.abs(v)>=100?fmt(v,0):fmt(v,2);
@@ -59,6 +59,7 @@
     try{
       result=model.solve(kind,state);find('.stage-live-results').hidden=false;find('[data-stage-status]').dataset.state='ready';
       find('[data-stage-status]').textContent=words('当前输入已计算。先解释变化，再展开中间量核查。','Calculated. Explain the change, then inspect intermediate values and checks.');
+      if(result.iteration){const it=result.iteration;const run=it.converged?words('完整运行收敛于第 '+result.metrics.run_sweeps+' 轮。','The full run converges at sweep '+result.metrics.run_sweeps+'.'):words('运行达到迭代上限，未收敛。','The run reached its iteration cap without convergence.');find('[data-stage-status]').textContent=words('显示完成轮次 ','Displaying completed sweep ')+it.selected_sweep+' · '+(it.selected_converged?words('此状态通过判据。','this state passes the test.'):words('此状态尚未被接受。','this state is not accepted.'))+' '+run+' '+words('超出已完成历史的查看轮次会显示最后状态。','A requested sweep beyond the completed history shows the last state.');}
       config.metrics.forEach(m=>{find(`[data-stage-metric="${m.key}"]`).textContent=fmt(result.metrics[m.key],m.digits)+(result.metrics[m.key]===null?'':' '+m.unit);});
       diagram(find('[data-stage-diagram]'),result);
       all('[data-stage-plot]').forEach(svg=>{const i=Number(svg.dataset.stagePlot),p=result.plots[i];svg.closest('figure').hidden=!p;if(p){chart(svg,p);legend(find(`[data-stage-legend="${i}"]`),p);}});
@@ -71,8 +72,9 @@
         const z=value=>`${fmt(value.re,9)} ${value.im<0?'-':'+'} j${fmt(Math.abs(value.im),9)}`;
         rows.push('\nYbus / pu (bus order 1, 2, 3)',...result.network.ybus.map(row=>row.map(z).join(' | ')));
         result.network.currents.forEach((value,i)=>rows.push(`I${i+1} = ${z(value)} pu; S${i+1} = ${z(result.network.powers[i])} pu`));
-        rows.push(result.operating?words('已求解运行点；求解变量为 theta2、theta3、|V3|。','Solved operating point; voltage unknowns are theta2, theta3 and |V3|.'):words('试探电压求值；指定功率不平衡量尚未求解。','Trial-voltage evaluation; specified power mismatches have not been solved.'));
+        rows.push(result.iteration?words('GS 所选迭代状态；是否通过判据请查看状态提示。','Selected GS iteration state; see the status for acceptance.'):result.operating?words('已求解运行点；求解变量为 theta2、theta3、|V3|。','Solved operating point; voltage unknowns are theta2, theta3 and |V3|.'):words('试探电压求值；指定功率不平衡量尚未求解。','Trial-voltage evaluation; specified power mismatches have not been solved.'));
       }
+      if(result.iteration){rows.push('\n'+words('完整迭代历史：轮次 / 类型 / 最大功率不平衡量','Complete history: sweep / role / max power mismatch'),...result.iteration.history.map(s=>`${s.sweep} / ${s.mode} / ${s.norm.toExponential(9)} pu`),'\n'+words('所选轮次的各次访问','Visits in selected sweep'),JSON.stringify(result.iteration.selected_visits,null,2));}
       find('[data-stage-checks]').textContent=rows.join('\n');
       if(runner){runner.markStale();runner.redraw();}
     }catch(error){result=null;find('.stage-live-results').hidden=true;find('[data-stage-status]').dataset.state='error';find('[data-stage-status]').textContent=words('输入尚不相容，请核对读数：','Inconsistent inputs; check the readings: ')+error.message;if(runner){runner.markStale();runner.redraw();}}
@@ -90,7 +92,7 @@
     return r.plots.every(p=>Array.isArray(p.x)&&p.x.length>=2&&p.x.length<=10000&&p.x.every((v,i)=>Number.isFinite(v)&&(i===0||v>p.x[i-1]))&&
       Array.isArray(p.curves)&&p.curves.length>0&&p.curves.length<=8&&p.curves.every(c=>Array.isArray(c.values)&&c.values.length===p.x.length&&c.values.every(Number.isFinite))&&typeof p.x_unit==='string'&&typeof p.y_unit==='string');
   }
-  const networkLabel=kind==='power-flow-operating'?'Solved operating point; independent lossless-line inputs do not change the network.':'Trial-voltage evaluation; not a solved operating point.';
+  const networkLabel=kind==='power-flow-gs'?'Selected GS iteration state; inspect iteration.converged and iteration.selected_converged separately.':kind==='power-flow-operating'?'Solved operating point; independent lossless-line inputs do not change the network.':'Trial-voltage evaluation; not a solved operating point.';
   const baseline=`# ${practiceId} companion model: ${kind}. case contains a fresh control snapshot.\n# Edit an input before solve(case), then inspect the checks.\nresult = solve(case)\nimport json\nprint(json.dumps(result["metrics"], indent=2, ensure_ascii=False))\nprint("Numerical checks:", result["checks"])`+(kind.startsWith('power-flow-')?'\nprint("Ybus / pu; bus order 1, 2, 3:")\nfor row in result["network"]["ybus"]:\n    print([complex(z["re"], z["im"]) for z in row])\nprint("'+networkLabel+'")':'');
   const scan=`# Vary one parameter; retain the original control case.\nscan_case = dict(case)\nfor value in ${JSON.stringify(config.code_values)}:\n    scan_case["${config.code_key}"] = value\n    result = solve(scan_case)\n    print("${config.code_key} =", value)\n    print(result["metrics"])\n    print("Checks:", result["checks"])\n# The figure shows the last scanned case, alongside current controls.`;
   if(window.CoursePythonRunner){
@@ -102,7 +104,7 @@
         // Keep each original time grid; do not extrapolate a shorter Python run.
         const curves=py.curves.map((c,i)=>({...c,x:py.x,step:py.step,color:colors[i],name:'Python: '+c.name}));
         if(compatible)ref.curves.forEach((c,i)=>curves.push({...c,x:ref.x,step:ref.step,color:colors[i],dash:true,name:'reference: '+c.name}));
-        const combined={x:py.x,x_unit:py.x_unit,y_unit:py.y_unit,curves,markers:Array.isArray(py.markers)?py.markers:[]};
+        const combined={x:py.x,x_unit:py.x_unit,y_unit:py.y_unit,zero_base:py.zero_base,curves,markers:Array.isArray(py.markers)?py.markers:[]};
         chart(svg,combined);summary.hidden=false;
         const differences=Object.keys(model.defaults[kind]).filter(k=>r.parameters[k]!==state[k]).map(k=>k+'='+r.parameters[k]);
         summary.textContent=words('实线：上次 Python；同色虚线：当前参考。','Solid: last Python run; same-color dashed: current reference.')+' '+

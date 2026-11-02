@@ -4445,15 +4445,15 @@
     {
       "group": "power-flow",
       "summary": {
-        "en": "Run Gauss–Seidel PQ and PV updates, restore PV magnitude, and check reactive-power capability.",
-        "zh": "执行高斯—赛德尔 PQ、PV 更新，恢复 PV 电压幅值并检查无功能力。"
+        "en": "Trace PQ and PV updates, distinguish intermediate estimates from completed-sweep mismatch, and test generator Q limits.",
+        "zh": "追踪 PQ、PV 更新，区分中间估计与整轮不平衡量，并检验发电机 Q 限值。"
       },
       "lab_focus": {
-        "en": "Step through an ordered sweep and compare voltage updates, residuals, and PV reactive limits.",
-        "zh": "逐步执行有序迭代，比较电压更新、残差和 PV 无功限值。"
+        "en": "Compare sweeps 0, 1, 10 and 11. Explain the visit-time and end-of-sweep Q difference. Reverse the bus order, then set Qmin=0 and inspect the changed bus role, voltage magnitude and active mismatch vector. Finally set the cap to one sweep and explain why the run is not accepted.",
+        "zh": "比较第 0、1、10、11 轮，解释访问时与整轮后 Q 的差别。交换访问顺序，再设 Qmin=0，检查母线类型、幅值及有效不平衡量向量的变化。最后将上限设为一轮，解释为何该运行不能被接受。"
       },
-      "released": false,
-      "frozen_source": false,
+      "released": true,
+      "frozen_source": true,
       "id": "L35",
       "slug": "l35-power-flow-iv",
       "title": {
@@ -4466,138 +4466,140 @@
       "slide_outline": [
         {
           "slide": 1,
-          "title": "Lecture outline"
+          "title": "Power Flow IV"
         },
         {
           "slide": 2,
-          "title": "Starting problem"
+          "title": "Lecture outline"
         },
         {
           "slide": 3,
-          "title": "The PQ-bus equation"
+          "title": "PART 1: The iteration framework"
         },
         {
           "slide": 4,
-          "title": "Isolating the diagonal term"
+          "title": "Review: Variables and equations"
         },
         {
           "slide": 5,
-          "title": "The indexed PQ update"
+          "title": "Nonlinear bus power equations"
         },
         {
           "slide": 6,
-          "title": "Bus order within a sweep"
+          "title": "The general iteration loop"
         },
         {
           "slide": 7,
-          "title": "PV-bus update"
+          "title": "Choose initial voltages"
         },
         {
           "slide": 8,
-          "title": "PV magnitude projection"
+          "title": "Calculate the power mismatch"
         },
         {
           "slide": 9,
-          "title": "Example: PQ then PV"
+          "title": "Test convergence and continue"
         },
         {
           "slide": 10,
-          "title": "Example: declared procedure"
+          "title": "PART 2: Gauss–Seidel bus updates"
         },
         {
           "slide": 11,
-          "title": "Example: network matrix"
+          "title": "Review: Bus specifications and unknowns"
         },
         {
           "slide": 12,
-          "title": "Example: initial mismatch"
+          "title": "PQ bus: Power equation to current"
         },
         {
           "slide": 13,
-          "title": "Example: first-sweep workflow"
+          "title": "PQ bus: Isolate the voltage"
         },
         {
           "slide": 14,
-          "title": "Step 1: PQ power term"
+          "title": "PQ bus: Gauss–Seidel update"
         },
         {
           "slide": 15,
-          "title": "Step 1: neighbor subtotal"
+          "title": "PV bus: Fixed magnitude, unknown angle"
         },
         {
           "slide": 16,
-          "title": "Step 1: new PQ voltage"
+          "title": "PV bus: Calculate the new angle"
         },
         {
           "slide": 17,
-          "title": "Step 2: required PV reactive power"
+          "title": "PV bus: Keep magnitude, update angle"
         },
         {
           "slide": 18,
-          "title": "Step 2: capability check"
+          "title": "PV to PQ at a reactive power limit"
         },
         {
           "slide": 19,
-          "title": "Step 3: provisional PV voltage"
+          "title": "Slack bus: Keep the voltage fixed"
         },
         {
           "slide": 20,
-          "title": "Step 3: restored PV magnitude"
+          "title": "PART 3: Worked example"
         },
         {
           "slide": 21,
-          "title": "Step 4: completed-sweep mismatch"
+          "title": "Example: Generators, load, and bus types"
         },
         {
           "slide": 22,
-          "title": "Step 4: progress toward balance"
+          "title": "Example: Specified injections and unknowns"
         },
         {
           "slide": 23,
-          "title": "Example: convergence history"
+          "title": "Example: Symbolic PQ update"
         },
         {
           "slide": 24,
-          "title": "Example: convergence curve"
+          "title": "Example: Symbolic PV update"
         },
         {
           "slide": 25,
-          "title": "Example: converged voltages"
+          "title": "Example: Initial state and mismatch"
         },
         {
           "slide": 26,
-          "title": "Example: final reactive capability"
+          "title": "Example: PQ voltage update"
         },
         {
           "slide": 27,
-          "title": "Optional: relaxation factor"
+          "title": "Example: PV reactive estimate"
         },
         {
           "slide": 28,
-          "title": "Practice: stale neighbor voltage"
+          "title": "Example: PV angle and stored voltage"
         },
         {
           "slide": 29,
-          "title": "Practice: stale-value answer"
+          "title": "Example: Mismatch after one sweep"
         },
         {
           "slide": 30,
-          "title": "Practice: tighter reactive limit"
+          "title": "Example: Repeated sweeps"
         },
         {
           "slide": 31,
-          "title": "Practice: limit-enforcement answer"
+          "title": "Example: Calculate the slack output"
         },
         {
           "slide": 32,
-          "title": "Common update errors"
+          "title": "Example: Solved voltages and outputs"
         },
         {
           "slide": 33,
           "title": "Summary"
         }
       ],
-      "status": "unreleased"
+      "status": "live",
+      "interactive_model": "power-flow-gs",
+      "lesson": "integrated"
     },
     {
       "group": "power-flow",

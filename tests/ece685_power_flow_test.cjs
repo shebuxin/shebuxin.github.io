@@ -91,12 +91,14 @@ test('all public controls, boundary scans and Python network outputs agree',()=>
  const py=spawnSync('python3',['-c',`import json,sys,importlib.util\ns=importlib.util.spec_from_file_location('m','assets/code/ece685_stage_one.py');m=importlib.util.module_from_spec(s);s.loader.exec_module(m)\nprint(json.dumps([m.solve(c) for c in json.load(sys.stdin)]))`],{cwd:path.join(__dirname,'..'),input:JSON.stringify(cases),encoding:'utf8',maxBuffer:20*1024*1024});
  assert.equal(py.status,0,py.stderr);const results=JSON.parse(py.stdout);
  function compare(a,b,where=''){
-  if(typeof a==='number'){if(where.endsWith('.angle_deg'))near(model.wrap(a-b),0,1e-8);else near(a,b,1e-8);return;}
+  // Logs amplify roundoff in residuals near machine precision. Physical
+  // values and the original residuals retain the 1e-8 absolute comparison.
+  if(typeof a==='number'){if(where.endsWith('.angle_deg'))near(model.wrap(a-b),0,1e-8);else near(a,b,where.startsWith('power-flow-gs.')&&(where.includes('.plots.0.curves.0.values.')||where.endsWith('.plots.0.markers.0.y'))?1e-4:1e-8);return;}
   if(a===null||typeof a!=='object'){assert.equal(a,b,where);return;}
   assert.deepEqual(Object.keys(a).sort(),Object.keys(b).sort(),where);
   Object.keys(a).forEach(k=>compare(a[k],b[k],where+'.'+k));
  }
- cases.forEach((c,i)=>{const {module,...parameters}=c;compare(model.solve(module,parameters),results[i]);});
+ cases.forEach((c,i)=>{const {module,...parameters}=c;compare(model.solve(module,parameters),results[i],module);});
 });
 
 test('rendered diagrams preserve bus connections, complete matrix and conditional equipment',()=>{
@@ -164,5 +166,52 @@ test('L34 refuses unsupported or nonconverged inputs instead of fabricating a so
   const d=diagrams.render('power-flow-operating',model.solve('power-flow-operating'),lang).markup;
   assert.ok(!d.includes('Trial-voltage'));assert.match(d,/Slack 1 \/ PV 2 \/ PQ 3/);
   assert.match(d,/Q2 = -16\.1649/);assert.ok(d.includes(lang==='zh'?'独立的两端无损线路':'Separate two-terminal lossless line'));
+ }
+});
+
+test('L35 reproduces the source first sweep, mixed-time PV estimate and projection',()=>{
+ const r=model.solve('power-flow-gs'),it=r.iteration,[pq,pv]=it.selected_visits;
+ assert.deepEqual(it.order,[3,2]);assert.equal(pq.bus,3);assert.equal(pv.bus,2);
+ near(pq.stored.re,.968521739,.51e-9);near(pq.stored.im,-.065739130,.51e-9);
+ near(pv.q_estimate_pu,-.177129371,.51e-9);near(pv.temporary.re,1.011364010,.51e-9);near(pv.temporary.im,.004398320,.51e-9);
+ near(pv.stored.re,1.009990449,.51e-9);near(pv.stored.im,.004392346,.51e-9);
+ near(pv.stored.rms,1.01);near(pv.stored.angle_deg,pv.temporary.angle_deg);
+ near(r.metrics.qg2_mvar,-20.5197242,1e-7);near(r.metrics.selected_mismatch_pu,.080047480,.51e-9);
+ near(it.history[0].norm,.834920635,.51e-9);assert.equal(it.selected_converged,false);assert.equal(it.converged,true);checks(r);
+ // Independently calculate the PV current with the latest PQ neighbor.
+ const z=pq.stored,Y=r.network.ybus,old=1.01;
+ const current={re:Y[1][0].re*1.03+Y[1][1].re*old+Y[1][2].re*z.re-Y[1][2].im*z.im,
+ im:Y[1][0].im*1.03+Y[1][1].im*old+Y[1][2].re*z.im+Y[1][2].im*z.re};
+ near(-old*current.im,pv.q_estimate_pu);
+ assert.ok(Math.abs(pv.q_estimate_pu-r.metrics.q2_pu)>.02);
+});
+
+test('L35 first accepts sweep 11 using power mismatch and matches the L34 root',()=>{
+ const r=model.solve('power-flow-gs',{sweep:20}),it=r.iteration,root=model.solve('power-flow-operating');
+ assert.equal(it.history.length,12);assert.equal(it.selected_sweep,11);assert.equal(it.selected_converged,true);
+ near(it.history[10].norm,1.50701e-8,1e-13);near(it.history[11].norm,3.65317e-9,1e-13);
+ assert.ok(it.history.slice(0,-1).every(s=>s.norm>it.epsilon));
+ for(const key of ['v3_mag','theta2_deg','theta3_deg','pg1_mw','qg1_mvar','qg2_mvar'])near(r.metrics[key],root.metrics[key],1e-6);
+ for(const s of it.history){near(s.voltages[0].re,1.03);near(s.voltages[0].im,0);near(s.voltages[1].rms,1.01);}
+ const changed=model.solve('power-flow-gs',{order:1,sweep:1});assert.notEqual(changed.metrics.selected_mismatch_pu,model.solve('power-flow-gs').metrics.selected_mismatch_pu);
+ const final=model.solve('power-flow-gs',{order:1,sweep:100,enforce_limits:0});assert.ok(final.iteration.converged);near(final.metrics.v3_mag,root.metrics.v3_mag,1e-7);
+});
+
+test('L35 enforces Q bounds as PQ, releases magnitude and adds the Q residual',()=>{
+ const r=model.solve('power-flow-gs',{qmin_mvar:0,sweep:100}),it=r.iteration;
+ assert.ok(it.converged);assert.equal(it.selected_mode,'PQ-min');assert.equal(it.history[1].mode,'PQ-min');
+ assert.equal(it.history[1].mismatch.length,4);assert.ok(Math.abs(r.metrics.v2_mag-1.01)>.008);
+ near(r.metrics.qg2_mvar,0,1e-6);assert.ok(it.history.slice(1).every(s=>s.mode==='PQ-min'));
+ const ignored=model.solve('power-flow-gs',{qmin_mvar:0,enforce_limits:0,sweep:100});assert.equal(ignored.iteration.selected_mode,'PV');near(ignored.metrics.v2_mag,1.01);assert.ok(ignored.metrics.qg2_mvar<0);
+ // Generator upper-bound case exercises the other active set.
+ const upper=model.solve('power-flow-gs',{v2_mag:1.08,qmax_mvar:0,sweep:100});assert.equal(upper.iteration.selected_mode,'PQ-max');assert.ok(upper.iteration.converged);near(upper.metrics.qg2_mvar,0,1e-6);checks(r);
+});
+
+test('L35 exposes initial and capped states without accepting them',()=>{
+ const initial=model.solve('power-flow-gs',{sweep:0});assert.equal(initial.metrics.visit_q2_mvar,null);assert.equal(initial.iteration.selected_converged,false);
+ const cap=model.solve('power-flow-gs',{max_sweeps:1,sweep:20});assert.equal(cap.iteration.converged,false);assert.equal(cap.iteration.selected_converged,false);assert.equal(cap.metrics.selected_sweep,1);assert.equal(cap.iteration.history.length,2);
+ for(const bad of [{sweep:1.5},{max_sweeps:0},{qmin_mvar:51},{v3_start:0},{order:2},{load_p_mw:1e9}])assert.throws(()=>model.solve('power-flow-gs',bad));
+ for(const lang of ['en','zh'])for(const p of [{},{sweep:0},{qmin_mvar:0,sweep:20},{max_sweeps:1}]){
+  const d=diagrams.render('power-flow-gs',model.solve('power-flow-gs',p),lang);assert.ok(!/NaN|undefined/.test(d.markup));assert.match(d.markup,/data-network-branch="2-3"/);
  }
 });

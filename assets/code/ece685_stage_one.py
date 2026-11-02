@@ -47,6 +47,7 @@ DEFAULTS = {
     'power-flow-operating': dict(v1_mag=1.03, v2_mag=1.01, pg2_mw=55, load_p_mw=90,
                                 load_q_mvar=30, impedance_scale=1, line_vi=1.03,
                                 line_vk=1, line_x_pu=.2, line_angle_deg=20),
+    'power-flow-gs': dict(sweep=1,load_p_mw=90,load_q_mvar=30,pg2_mw=55,v2_mag=1.01,qmin_mvar=-25,qmax_mvar=50,v3_start=1,start_angle_deg=0,order=0,enforce_limits=1,tolerance_exp=-8,max_sweeps=100),
 }
 
 
@@ -687,7 +688,77 @@ def power_flow_operating(p):
     return r
 
 
+def power_flow_gs(p):
+    """Unrelaxed sequential complex updates; generator limits latch PV to PQ.
+
+    All residuals use a single completed voltage vector. Q estimates inside
+    a sweep use the newest stored neighbors and differ from end-of-sweep Q.
+    """
+    for key in ['v3_start','v2_mag']:
+        if p[key] <= 0: raise ValueError(key+' must be positive')
+    for key in ['load_p_mw','load_q_mvar','pg2_mw']:
+        if p[key] < 0: raise ValueError(key+' must be nonnegative')
+    for key, low, high in [('v3_start',.9,1.1),('start_angle_deg',-10,10),('v2_mag',.97,1.08),('sweep',0,100),('max_sweeps',1,100),('tolerance_exp',-12,-4)]:
+        if not low <= p[key] <= high: raise ValueError(key+' outside supported range')
+    for key in ['sweep','max_sweeps','tolerance_exp']:
+        if int(p[key]) != p[key]: raise ValueError(key+' must be an integer')
+    if p['order'] not in (0,1) or p['enforce_limits'] not in (0,1): raise ValueError('Invalid algorithm option')
+    if p['qmin_mvar'] > p['qmax_mvar']: raise ValueError('Qmin must not exceed Qmax')
+    base=dict(DEFAULTS['power-flow-balance'],load_p_mw=p['load_p_mw'],load_q_mvar=p['load_q_mvar'])
+    matrix=power_flow_state(base)['network']['ybus']
+    y=[[complex(z['re'],z['im']) for z in row] for row in matrix]
+    def powers(voltages):
+        return [voltages[i]*sum(y[i][k]*voltages[k] for k in range(3)).conjugate() for i in range(3)]
+    epsilon=10**p['tolerance_exp']
+    v=[complex(1.03),complex(p['v2_mag']),p['v3_start']*complex(math.cos(math.radians(p['start_angle_deg'])),math.sin(math.radians(p['start_angle_deg'])))]
+    mode,q_bound='PV',None
+    def snapshot(sweep,visits):
+        s=powers(v)
+        mismatch=[p['pg2_mw']/100-s[1].real,-p['load_p_mw']/100-s[2].real,-p['load_q_mvar']/100-s[2].imag]
+        if mode!='PV': mismatch.append(q_bound-s[1].imag)
+        norm=max(abs(value) for value in mismatch)
+        capability=not p['enforce_limits'] or mode!='PV' or p['qmin_mvar']-1e-8 <= s[1].imag*100 <= p['qmax_mvar']+1e-8
+        return dict(sweep=sweep,mode=mode,q_bound_pu=q_bound,voltages=[describe(z) for z in v],powers=[describe(z) for z in s],mismatch=mismatch,norm=norm,converged=norm<=epsilon and capability,visits=visits)
+    history=[snapshot(0,[])]
+    for sweep in range(1,int(p['max_sweeps'])+1):
+        if history[-1]['converged']: break
+        visits=[]
+        for i in ([2,1] if p['order']==0 else [1,2]):
+            old=v[i]
+            if abs(old)<1e-8: raise ValueError('Zero voltage encountered during Gauss–Seidel update')
+            neighbors=sum(y[i][k]*v[k] for k in range(3) if k!=i)
+            q,q_estimate=-p['load_q_mvar']/100,None
+            if i==1:
+                q_estimate=(old*(y[i][i]*old+neighbors).conjugate()).imag
+                if mode=='PV' and p['enforce_limits'] and not p['qmin_mvar']<=q_estimate*100<=p['qmax_mvar']:
+                    q_bound=(p['qmin_mvar'] if q_estimate*100<p['qmin_mvar'] else p['qmax_mvar'])/100
+                    mode='PQ-min' if q_estimate*100<p['qmin_mvar'] else 'PQ-max'
+                q=q_estimate if mode=='PV' else q_bound
+            real=p['pg2_mw']/100 if i==1 else -p['load_p_mw']/100
+            temporary=((complex(real,-q)/old.conjugate())-neighbors)/y[i][i]
+            length=abs(temporary)
+            if not math.isfinite(length) or length<1e-8 or length>5: raise ValueError('Gauss–Seidel update failed; restore baseline or reduce loading')
+            v[i]=p['v2_mag']*temporary/length if i==1 and mode=='PV' else temporary
+            visits.append(dict(bus=i+1,mode=mode if i==1 else 'PQ',old=describe(old),neighbors=describe(neighbors),q_estimate_pu=q_estimate,q_used_pu=q,temporary=describe(temporary),stored=describe(v[i])))
+        history.append(snapshot(sweep,visits))
+    final=history[-1]
+    selected=history[min(int(p['sweep']),final['sweep'])]
+    r=power_flow_state(base,[complex(z['re'],z['im']) for z in selected['voltages']])
+    visit=next((s for s in selected['visits'] if s['bus']==2),None)
+    r['metrics'].update(selected_sweep=selected['sweep'],run_sweeps=final['sweep'],selected_mismatch_pu=selected['norm'],final_mismatch_pu=final['norm'],v3_mag=selected['voltages'][2]['rms'],theta3_deg=selected['voltages'][2]['angle_deg'],v2_mag=selected['voltages'][1]['rms'],theta2_deg=selected['voltages'][1]['angle_deg'],pg1_mw=100*selected['powers'][0]['re'],qg1_mvar=100*selected['powers'][0]['im'],qg2_mvar=100*selected['powers'][1]['im'],visit_q2_mvar=100*visit['q_estimate_pu'] if visit else None,pv_temporary_mag=visit['temporary']['rms'] if visit else None)
+    r['checks']['slack_voltage']=abs(complex(selected['voltages'][0]['re'],selected['voltages'][0]['im'])-1.03)
+    r['checks']['pv_projection']=selected['voltages'][1]['rms']-p['v2_mag'] if selected['mode']=='PV' else 0
+    r['iteration']=dict(method='Gauss–Seidel',order=[3,2] if p['order']==0 else [2,3],epsilon=epsilon,converged=final['converged'],selected_converged=selected['converged'],selected_sweep=selected['sweep'],selected_mode=selected['mode'],final_mode=final['mode'],selected_visits=selected['visits'],history=history,limit_policy='A violated generator Q bound is latched as PQ for the rest of this run; changing an input starts a new run. No PV restoration or relaxation.')
+    xs=[s['sweep'] for s in history]
+    if len(xs)==1: xs.append(1)
+    def extend(values): return values*2 if len(values)==1 else values
+    r['plots']=[plot(xs,{'Power mismatch':extend([math.log10(max(s['norm'],1e-16)) for s in history]),'Tolerance':[p['tolerance_exp'] for _ in xs]},'completed sweeps','log10(max mismatch / pu)'),plot(xs,{'Bus 3 magnitude':extend([s['voltages'][2]['rms'] for s in history]),'Bus 2 magnitude':extend([s['voltages'][1]['rms'] for s in history]),'PV target (released at limit)':[p['v2_mag'] for _ in xs]},'completed sweeps','pu')]
+    r['plots'][0]['markers']=[dict(x=selected['sweep'],y=math.log10(max(selected['norm'],1e-16)),label='Selected completed sweep')]
+    r['plots'][1]['zero_base']=False
+    return r
+
 HANDLERS = dict(overview=overview,generation=generation,transformers=transformers)
+HANDLERS.update({'power-flow-gs':power_flow_gs})
 HANDLERS.update({'power-flow-operating':power_flow_operating})
 HANDLERS.update({'power-flow-balance':power_flow, 'power-flow-ybus':power_flow})
 HANDLERS.update({'single-phase':single_phase,'three-phase':three_phase,'per-unit':per_unit})

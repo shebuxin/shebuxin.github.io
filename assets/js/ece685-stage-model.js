@@ -16,6 +16,7 @@
     'power-flow-balance':{v1_re:1.02,v2_re:1,v3_re:.98,v3_im:-.02,angle_ref_deg:0,impedance_scale:1,branch23:1,charging23_pu:0,shunt3_pu:0,tap12:1,shift12_deg:0,load_p_mw:90,load_q_mvar:30},
     'power-flow-ybus':{v1_re:1.02,v2_re:1,v3_re:.98,v3_im:-.02,angle_ref_deg:0,impedance_scale:1,branch23:1,charging23_pu:0,shunt3_pu:0,tap12:1,shift12_deg:0,load_p_mw:90,load_q_mvar:30},
     'power-flow-operating':{v1_mag:1.03,v2_mag:1.01,pg2_mw:55,load_p_mw:90,load_q_mvar:30,impedance_scale:1,line_vi:1.03,line_vk:1,line_x_pu:.2,line_angle_deg:20},
+    'power-flow-gs':{sweep:1,load_p_mw:90,load_q_mvar:30,pg2_mw:55,v2_mag:1.01,qmin_mvar:-25,qmax_mvar:50,v3_start:1,start_angle_deg:0,order:0,enforce_limits:1,tolerance_exp:-8,max_sweeps:100},
   };
   Object.values(defaults).forEach(Object.freeze);Object.freeze(defaults);
   const rad=x=>x*Math.PI/180, wrap=x=>((x+180)%360+360)%360-180;
@@ -171,6 +172,66 @@
     return{...r,plots:[plot(angles,{'Calculated P3':samples.map(m=>m.p3_pu),'Specified P3':angles.map(()=>-p.load_p_mw/100)},'trial V3 angle / deg','pu'),
       plot(volts,{'Calculated Q3':q,'Specified Q3':volts.map(()=>-p.load_q_mvar/100)},'trial |V3| / pu','pu')]};
   }
+  function powerFlowGS(p){
+    positive(p,['v3_start','v2_mag']);nonnegative(p,['load_p_mw','load_q_mvar','pg2_mw']);
+    range(p,'v3_start',.9,1.1);range(p,'start_angle_deg',-10,10);range(p,'v2_mag',.97,1.08);
+    for(const [k,lo,hi] of [['sweep',0,100],['max_sweeps',1,100],['tolerance_exp',-12,-4]]){range(p,k,lo,hi);if(!Number.isInteger(p[k]))throw Error(k+' must be an integer');}
+    choice(p,'order',[0,1]);choice(p,'enforce_limits',[0,1]);
+    if(p.qmin_mvar>p.qmax_mvar)throw Error('Qmin must not exceed Qmax');
+    const base={...defaults['power-flow-balance'],load_p_mw:p.load_p_mw,load_q_mvar:p.load_q_mvar};
+    const Y=powerFlowState(base).network.ybus,epsilon=10**p.tolerance_exp;
+    const powers=v=>Y.map((row,i)=>mul(v[i],conj(row.map((y,k)=>mul(y,v[k])).reduce(add,{re:0,im:0}))));
+    let v=[{re:1.03,im:0},{re:p.v2_mag,im:0},polar(p.v3_start,p.start_angle_deg)],mode='PV',qBound=null;
+    const history=[];
+    function snapshot(sweep,visits){
+      const s=powers(v),mismatch=[p.pg2_mw/100-s[1].re,-p.load_p_mw/100-s[2].re,-p.load_q_mvar/100-s[2].im];
+      if(mode!=='PV')mismatch.push(qBound-s[1].im);
+      const norm=Math.max(...mismatch.map(Math.abs));
+      const capability=!p.enforce_limits||mode!=='PV'||(s[1].im*100>=p.qmin_mvar-1e-8&&s[1].im*100<=p.qmax_mvar+1e-8);
+      return{sweep,mode,q_bound_pu:qBound,voltages:v.map(describe),powers:s.map(describe),mismatch,norm,converged:norm<=epsilon&&capability,visits};
+    }
+    history.push(snapshot(0,[]));
+    for(let sweep=1;!history.at(-1).converged&&sweep<=p.max_sweeps;sweep++){
+      const visits=[];
+      for(const i of p.order===0?[2,1]:[1,2]){
+        const old={...v[i]};if(Math.hypot(old.re,old.im)<1e-8)throw Error('Zero voltage encountered during Gauss–Seidel update');
+        const neighbors=Y[i].map((y,k)=>k===i?{re:0,im:0}:mul(y,v[k])).reduce(add,{re:0,im:0});
+        let q=-p.load_q_mvar/100,qEstimate=null;
+        if(i===1){
+          qEstimate=mul(old,conj(add(mul(Y[i][i],old),neighbors))).im;
+          if(mode==='PV'&&p.enforce_limits&&(qEstimate*100<p.qmin_mvar||qEstimate*100>p.qmax_mvar)){
+            qBound=(qEstimate*100<p.qmin_mvar?p.qmin_mvar:p.qmax_mvar)/100;mode=qEstimate*100<p.qmin_mvar?'PQ-min':'PQ-max';
+          }
+          q=mode==='PV'?qEstimate:qBound;
+        }
+        const P=i===1?p.pg2_mw/100:-p.load_p_mw/100;
+        const temporary=div(sub(div({re:P,im:-q},conj(old)),neighbors),Y[i][i]);
+        const length=Math.hypot(temporary.re,temporary.im);
+        if(!Number.isFinite(length)||length<1e-8||length>5)throw Error('Gauss–Seidel update failed; restore baseline or reduce loading');
+        v[i]=i===1&&mode==='PV'?{re:p.v2_mag*temporary.re/length,im:p.v2_mag*temporary.im/length}:temporary;
+        visits.push({bus:i+1,mode:i===1?mode:'PQ',old:describe(old),neighbors:describe(neighbors),q_estimate_pu:qEstimate,q_used_pu:q,temporary:describe(temporary),stored:describe(v[i])});
+      }
+      history.push(snapshot(sweep,visits));
+    }
+    const final=history.at(-1),selected=history[Math.min(p.sweep,final.sweep)],r=powerFlowState(base,selected.voltages);
+    const pvVisit=selected.visits.find(s=>s.bus===2)||null;
+    Object.assign(r.metrics,{selected_sweep:selected.sweep,run_sweeps:final.sweep,selected_mismatch_pu:selected.norm,final_mismatch_pu:final.norm,
+      v3_mag:selected.voltages[2].rms,theta3_deg:selected.voltages[2].angle_deg,v2_mag:selected.voltages[1].rms,theta2_deg:selected.voltages[1].angle_deg,
+      pg1_mw:100*selected.powers[0].re,qg1_mvar:100*selected.powers[0].im,qg2_mvar:100*selected.powers[1].im,
+      visit_q2_mvar:pvVisit?100*pvVisit.q_estimate_pu:null,pv_temporary_mag:pvVisit?pvVisit.temporary.rms:null});
+    r.checks.slack_voltage=Math.hypot(selected.voltages[0].re-1.03,selected.voltages[0].im);
+    r.checks.pv_projection=selected.mode==='PV'?selected.voltages[1].rms-p.v2_mag:0;
+    r.iteration={method:'Gauss–Seidel',order:p.order===0?[3,2]:[2,3],epsilon,converged:final.converged,selected_converged:selected.converged,
+      selected_sweep:selected.sweep,selected_mode:selected.mode,final_mode:final.mode,selected_visits:selected.visits,history,
+      limit_policy:'A violated generator Q bound is latched as PQ for the rest of this run; changing an input starts a new run. No PV restoration or relaxation.'};
+    const xs=history.map(s=>s.sweep);if(xs.length===1)xs.push(1);
+    const extend=values=>values.length===1?[values[0],values[0]]:values;
+    r.plots=[{...plot(xs,{'Power mismatch':extend(history.map(s=>Math.log10(Math.max(s.norm,1e-16)))),'Tolerance':xs.map(()=>p.tolerance_exp)},'completed sweeps','log10(max mismatch / pu)'),markers:[{x:selected.sweep,y:Math.log10(Math.max(selected.norm,1e-16)),label:'Selected completed sweep'}]},
+      plot(xs,{'Bus 3 magnitude':extend(history.map(s=>s.voltages[2].rms)),'Bus 2 magnitude':extend(history.map(s=>s.voltages[1].rms)),'PV target (released at limit)':xs.map(()=>p.v2_mag)},'completed sweeps','pu')];
+    r.plots[1].zero_base=false;
+    return r;
+  }
+
   function operatingLinear(matrix,rhs){
     const a=matrix.map((row,i)=>[...row,rhs[i]]),n=rhs.length;
     for(let k=0;k<n;k++){
@@ -264,6 +325,7 @@
       plots:[plot(x,{Va:vwave[0],Vb:vwave[1],Vc:vwave[2]},'ms','V'),plot(x,{Ia:iwave[0],Ib:iwave[1],Ic:iwave[2]},'ms','A')]};
   }
   const handlers={
+    'power-flow-gs':powerFlowGS,
     'power-flow-operating':powerFlowOperating,
     'power-flow-balance':powerFlow,'power-flow-ybus':powerFlow,
     'line-conductor':lineConductor,'line-inductance':lineInductance,'line-capacitance':lineCapacitance,'line-bundles':lineBundles,

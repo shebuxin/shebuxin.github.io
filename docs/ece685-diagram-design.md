@@ -25,6 +25,8 @@ The course diagrams show the modeled electrical connection or a quantitative rel
 | L33 | Same network with explicit shunts/tap and a complete live 3×3 Y-bus, current and power table | Power Flow II, slides 22–33; complex-tap backup 36–40 |
 | L34 | Solved slack/PV/PQ network, blue specified and purple calculated quantities, followed by a separately labeled two-terminal inductive line | Power Flow III, slides 14–15, 18–22 and 24–27 |
 
+| L35 | Same physical three-bus circuit at the selected completed sweep, active bus role and mismatches, visit-time versus completed-sweep Q, and an equal-scale complex-plane projection inset | Power Flow IV, slides 14–18 and 23–32 |
+
 The renderer is `assets/js/ece685-stage-diagrams.js`. The live experiments and the static baseline illustrations use that same renderer. Static illustrations contain their own styles and arrow definitions, work without JavaScript, and have separate English and Chinese labels.
 
 After changing the renderer or baseline model inputs, run:

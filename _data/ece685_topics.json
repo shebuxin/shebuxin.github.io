@@ -485,15 +485,17 @@
       "group": "power-flow",
       "title_zh": "潮流分析 IV",
       "summary": {
-        "en": "Run Gauss–Seidel PQ and PV updates, restore PV magnitude, and check reactive-power capability.",
-        "zh": "执行高斯—赛德尔 PQ、PV 更新，恢复 PV 电压幅值并检查无功能力。"
+        "en": "Trace PQ and PV updates, distinguish intermediate estimates from completed-sweep mismatch, and test generator Q limits.",
+        "zh": "追踪 PQ、PV 更新，区分中间估计与整轮不平衡量，并检验发电机 Q 限值。"
       },
       "lab_focus": {
-        "en": "Step through an ordered sweep and compare voltage updates, residuals, and PV reactive limits.",
-        "zh": "逐步执行有序迭代，比较电压更新、残差和 PV 无功限值。"
+        "en": "Compare sweeps 0, 1, 10 and 11. Explain the visit-time and end-of-sweep Q difference. Reverse the bus order, then set Qmin=0 and inspect the changed bus role, voltage magnitude and active mismatch vector. Finally set the cap to one sweep and explain why the run is not accepted.",
+        "zh": "比较第 0、1、10、11 轮，解释访问时与整轮后 Q 的差别。交换访问顺序，再设 Qmin=0，检查母线类型、幅值及有效不平衡量向量的变化。最后将上限设为一轮，解释为何该运行不能被接受。"
       },
-      "released": false,
-      "frozen_source": false
+      "released": true,
+      "frozen_source": true,
+      "interactive_model": "power-flow-gs",
+      "lesson": "integrated"
     },
     "L36": {
       "group": "power-flow",

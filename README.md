@@ -51,7 +51,7 @@ The Chinese publications page reuses the English publication list and translates
 
 ## Course development
 
-Teaching links to ECE 685 at `/teaching/ece685/`, with a Chinese mirror at `/zh/teaching/ece685/`. Both contain the same 30 knowledge lectures in 10 topic groups, retaining the original IDs, L09b supplement and numbering gaps. There are 25 released lectures: L01–L15 including L09b, L17–L18, L22–L25, and L32–L34. Each released page combines its original slides with diagrams, experiments, editable Python, companion practice and the shared AI entry. L26–L28 and L35–L36 remain **to be released**. Exam 1 practice/review, Exam 2 review and the comprehensive final review are excluded from navigation, pages and published assets. The old DC power-flow demo remains removed.
+Teaching links to ECE 685 at `/teaching/ece685/`, with a Chinese mirror at `/zh/teaching/ece685/`. Both contain the same 30 knowledge lectures in 10 topic groups, retaining the original IDs, L09b supplement and numbering gaps. There are 26 released lectures: L01–L15 including L09b, L17–L18, L22–L25, and L32–L35. Each released page combines its original slides with diagrams, experiments, editable Python, companion practice and the shared AI entry. L26–L28 and L36 remain **to be released**. Exam 1 practice/review, Exam 2 review and the comprehensive final review are excluded from navigation, pages and published assets. The old DC power-flow demo remains removed.
 
 GitHub Pages and the named Cloudflare mirror `https://shebuxin.pages.dev` both publish **`master`**. Commit student course changes to this branch once; do not maintain a separate student curriculum on `codex/ece685-chat-preview`. Cloudflare project `shebuxin` uses `bash scripts/build_shebuxin_pages.sh`, output `_site`, and the public `services/course-chat/shebuxin.yml` overlay for its hostname. Both frontends call the existing invitation-gated API on `power-edu`; its backend preview deployment remains separate. Host-specific progress keys preserve existing browser reading and practice marks. CI builds both student sites and checks that the complete bilingual course contents, navigation, slides, code and AI entry match.
 
@@ -183,3 +183,5 @@ Public country records contain only names, ISO codes, coarse country centroids, 
 ## Updating dependencies
 
 Dependabot opens monthly npm, Bundler, and GitHub Actions updates. After accepting an npm dependency update, commit both `package-lock.json` and any regenerated `assets/js/main.min.js`. After accepting a Ruby dependency update, commit `Gemfile.lock`.
+
+L35 follows unrelaxed Gauss–Seidel visits (PQ 3 then PV 2), displays completed-sweep history and a quantitative PV projection inset, and checks generator Q bounds. The first violated Q bound is held as PQ for the remainder of that run; no PV restoration is implemented. Intermediate and capped states remain inspectable and explicitly unaccepted.

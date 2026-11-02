@@ -248,5 +248,15 @@
     "first_page": "/assets/slides/ece685/l34/page-001.webp",
     "pages_json": "/assets/slides/ece685/l34/pages.json",
     "source": "01_lectures/L34_power_flow_iii/L34_power_flow_iii.pdf"
+  },
+  "L35": {
+    "pdf": "/assets/slides/ece685/l35/L35_power_flow_iv.pdf",
+    "sha256": "6b2af6914ed0ea159edfa7bc4a6c0a1a64fb37ec0c8d241242ec3c306b928584",
+    "page_count": 33,
+    "width": 1600,
+    "height": 901,
+    "first_page": "/assets/slides/ece685/l35/page-001.webp",
+    "pages_json": "/assets/slides/ece685/l35/pages.json",
+    "source": "01_lectures/L35_power_flow_iv/L35_power_flow_iv.pdf"
   }
 }

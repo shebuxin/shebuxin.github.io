@@ -6664,6 +6664,545 @@
           "zh": "独立无损线路：等相角下的无功传输"
         }
       ]
+    },
+    {
+      "id": "power-flow-gs",
+      "number": 16,
+      "title": {
+        "en": "Gauss–Seidel: one sweep at a time",
+        "zh": "高斯—赛德尔：逐轮观察电压更新"
+      },
+      "summary": {
+        "en": "Trace PQ and PV updates, distinguish intermediate estimates from completed-sweep mismatch, and test generator Q limits.",
+        "zh": "追踪 PQ、PV 更新，区分中间估计与整轮不平衡量，并检验发电机 Q 限值。"
+      },
+      "sources": [
+        "L35"
+      ],
+      "extension": [],
+      "opening": {
+        "en": "L34 specified the operating point. How can successive complex voltage updates reach that point? Follow the source order, compare the temporary PV phasor with its stored value, and decide when the run has actually converged.",
+        "zh": "L34 给出了运行点。连续复电压更新如何到达这个点？按课件访问顺序，比较 PV 临时相量与存储值，并判断何时才能宣布收敛。"
+      },
+      "goals": [
+        {
+          "en": "Derive the PQ update from the conjugated power equation.",
+          "zh": "从共轭功率方程推导 PQ 更新。"
+        },
+        {
+          "en": "Use each newly stored neighbor immediately; preserve the slack phasor.",
+          "zh": "立即使用邻居最新存储值，并保持 Slack 相量固定。"
+        },
+        {
+          "en": "Separate PV reactive estimation, temporary angle and magnitude projection.",
+          "zh": "区分 PV 无功估计、临时相角与幅值投影。"
+        },
+        {
+          "en": "Apply the completed-sweep power test and explain PV-to-PQ switching.",
+          "zh": "使用整轮功率判据，并解释 PV 转 PQ。"
+        }
+      ],
+      "concepts": [
+        {
+          "title": {
+            "en": "1. Isolate voltage without losing the conjugate",
+            "zh": "1. 分离电压时保留共轭"
+          },
+          "body": {
+            "en": "Conjugating S=VI* gives (P−jQ)/V*. Separate YiiVi, then divide by Yii. The old voltage remains in the denominator, so this is an iterative update rather than a direct linear solve. P and Q are net injections on the common 100 MVA base.",
+            "zh": "对 S=VI* 取共轭得到 (P−jQ)/V*，分离 YiiVi 后除以 Yii。分母仍含旧电压，因此这是迭代更新，不是一次直接线性求解。P、Q 采用公共 100 MVA 基准上的净注入。"
+          },
+          "formula": "V_i^{(r+1)}=\\frac{1}{Y_{ii}}\\left[\\frac{P_i^{\\rm spec}-jQ_i^{\\rm spec}}{(V_i^{(r)})^*}-\\sum_{k\\ne i}Y_{ik}\\widehat V_k\\right]"
+        },
+        {
+          "title": {
+            "en": "2. A sweep uses the newest stored neighbors",
+            "zh": "2. 每次访问使用最新存储的邻居电压"
+          },
+          "body": {
+            "en": "The source visits PQ bus 3 before PV bus 2, with no relaxation. Bus 3 uses the old V2; bus 2 immediately uses the new V3. Reusing only old neighbors would define a different iteration. Bus 1 remains 1.03∠0° at every visit.",
+            "zh": "课件先访问 PQ 母线 3，再访问 PV 母线 2，不加松弛。母线 3 使用旧 V2，母线 2 立即使用新 V3。若始终使用旧邻居电压，就改变了迭代方法。每次访问中母线 1 都保持 1.03∠0°。"
+          },
+          "formula": "\\widehat V_k=\\begin{cases}V_k^{(r+1)},&\\text{already visited}\\\\V_k^{(r)},&\\text{not yet visited}\\\\V_k^{\\rm spec},&\\text{slack}\\end{cases}"
+        },
+        {
+          "title": {
+            "en": "3. Estimate reactive power at the PV visit",
+            "zh": "3. 在 PV 访问时估计无功"
+          },
+          "body": {
+            "en": "Calculate Qest using the old voltage at this bus and its newest neighbors, including YiiVi. This is a mixed-time intermediate estimate. With local reactive load, check generator capability using QG,est=Qnet,est+QL; this source example has no local load at bus 2.",
+            "zh": "用本母线旧电压和邻居最新电压计算 Qest，保留 YiiVi。它是轮内的混合时刻估计。存在本地无功负荷时，应使用 QG,est=Qnet,est+QL 检查发电机能力；本课件母线 2 无本地负荷。"
+          },
+          "formula": "Q_i^{\\rm est}=\\operatorname{Im}\\!\\left\\{V_i^{(r)}\\left(Y_{ii}V_i^{(r)}+\\sum_{k\\ne i}Y_{ik}\\widehat V_k\\right)^*\\right\\}"
+        },
+        {
+          "title": {
+            "en": "4. Store the PV angle at the specified magnitude",
+            "zh": "4. 保留 PV 临时相角并恢复指定幅值"
+          },
+          "body": {
+            "en": "Within Q limits, insert estimated net Q in the complex update. The temporary voltage generally has the wrong magnitude. Normalize it to |Vi|spec before storing it; the new angle is retained. Neither its real part nor its imaginary part is independently fixed.",
+            "zh": "在 Q 限值内，将估计净 Q 代入复电压更新。临时电压的幅值通常不符合要求，必须归一化至 |Vi|spec 后再存储，并保留其新相角。不能单独固定实部或虚部。"
+          },
+          "formula": "V_i^{(r+1)}=|V_i|_{\\rm spec}\\frac{\\widetilde V_i}{|\\widetilde V_i|},\\qquad\\arg V_i^{(r+1)}=\\arg\\widetilde V_i"
+        },
+        {
+          "title": {
+            "en": "5. Test powers from one completed vector",
+            "zh": "5. 用同一个整轮电压向量检验功率"
+          },
+          "body": {
+            "en": "Recompute every bus power after all visits. While bus 2 is PV, test ΔP2, ΔP3 and ΔQ3, not slack P/Q or PV Q. A small voltage change alone is not the course stopping test. The run accepts only when the infinity norm is within epsilon and the active voltage/capability constraints hold; otherwise report the iteration cap.",
+            "zh": "完成全部访问后，重新计算每条母线功率。母线 2 为 PV 时，检验 ΔP2、ΔP3、ΔQ3，不检验 Slack P/Q 或 PV Q。电压变化小不等于通过本课的停止判据。只有无穷范数不超过 epsilon 且当前电压和能力约束满足时才接受，否则报告迭代上限。"
+          },
+          "formula": "\\Delta^{(r)}=(\\Delta P_2,\\Delta P_3,\\Delta Q_3)^T,\\qquad\\|\\Delta^{(r)}\\|_\\infty\\le\\varepsilon"
+        },
+        {
+          "title": {
+            "en": "6. A reactive limit releases voltage magnitude",
+            "zh": "6. 无功限值会释放电压幅值约束"
+          },
+          "body": {
+            "en": "If estimated generator Q violates a bound, use Qnet,spec=QG,lim−QL and treat the bus as PQ. Stop restoring its former voltage magnitude and add its Q mismatch to the active test. This teaching implementation latches the first violated bound for the rest of that run; each input change restarts the run. It does not implement PV restoration or a general capability curve.",
+            "zh": "发电机 Q 估计越限时，采用 Qnet,spec=QG,lim−QL，将该母线作为 PQ。停止恢复原电压幅值，并把其 Q 不平衡量加入判据。本教学实现会在单次运行内保持首次触及的边界；改变输入会重新启动运行。未实现 PQ 恢复为 PV 或完整能力曲线。"
+          },
+          "formula": "Q_i^{\\rm spec}=Q_{G,i}^{\\rm lim}-Q_{L,i},\\qquad(P_i,|V_i|)\\longrightarrow(P_i,Q_i)"
+        },
+        {
+          "title": {
+            "en": "7. Compare the first sweep with the accepted state",
+            "zh": "7. 比较首轮与最终接受状态"
+          },
+          "body": {
+            "en": "The flat start is [1.03,1.01,1]. Initially the maximum mismatch is 0.834920635 pu. The first complete sweep gives 0.080047480 pu, so it is not solved. With source Q bounds [−25,50] Mvar, sweep 11 is the first state below 1e−8 pu and reproduces L34. Q2 remains negative but within capability.",
+            "zh": "平坦启动为 [1.03,1.01,1]，初始最大不平衡量为 0.834920635 pu。首个完整迭代后为 0.080047480 pu，仍未求解完成。采用课件 Q 限值 [−25,50] Mvar 时，第 11 轮首次低于 1e−8 pu 并复现 L34。Q2 为负，但仍在能力范围内。"
+          },
+          "formula": "\\|\\Delta^{(10)}\\|_\\infty\\approx1.50701\\times10^{-8},\\quad\\|\\Delta^{(11)}\\|_\\infty\\approx3.65317\\times10^{-9}"
+        }
+      ],
+      "controls": [
+        {
+          "key": "sweep",
+          "label": {
+            "en": "Inspect completed sweep",
+            "zh": "查看已完成轮次"
+          },
+          "min": 0,
+          "max": 20,
+          "step": 1,
+          "unit": "round",
+          "advanced": false,
+          "type": "range"
+        },
+        {
+          "key": "load_p_mw",
+          "label": {
+            "en": "Bus 3 load P",
+            "zh": "母线 3 负荷 P"
+          },
+          "min": 60,
+          "max": 120,
+          "step": 1,
+          "unit": "MW",
+          "advanced": false,
+          "type": "range"
+        },
+        {
+          "key": "load_q_mvar",
+          "label": {
+            "en": "Bus 3 load Q",
+            "zh": "母线 3 负荷 Q"
+          },
+          "min": 10,
+          "max": 50,
+          "step": 1,
+          "unit": "Mvar",
+          "advanced": false,
+          "type": "range"
+        },
+        {
+          "key": "qmin_mvar",
+          "label": {
+            "en": "Generator 2 Q minimum",
+            "zh": "发电机 2 Q 下限"
+          },
+          "min": -40,
+          "max": 0,
+          "step": 1,
+          "unit": "Mvar",
+          "advanced": false,
+          "type": "range"
+        },
+        {
+          "key": "qmax_mvar",
+          "label": {
+            "en": "Generator 2 Q maximum",
+            "zh": "发电机 2 Q 上限"
+          },
+          "min": 20,
+          "max": 70,
+          "step": 1,
+          "unit": "Mvar",
+          "advanced": false,
+          "type": "range"
+        },
+        {
+          "key": "pg2_mw",
+          "label": {
+            "en": "Generator 2 specified P",
+            "zh": "发电机 2 指定 P"
+          },
+          "min": 35,
+          "max": 75,
+          "step": 1,
+          "unit": "MW",
+          "advanced": true,
+          "type": "range"
+        },
+        {
+          "key": "v2_mag",
+          "label": {
+            "en": "Bus 2 voltage target",
+            "zh": "母线 2 电压目标"
+          },
+          "min": 0.98,
+          "max": 1.05,
+          "step": 0.001,
+          "unit": "pu",
+          "advanced": true,
+          "type": "range"
+        },
+        {
+          "key": "v3_start",
+          "label": {
+            "en": "Initial bus 3 magnitude",
+            "zh": "母线 3 初始幅值"
+          },
+          "min": 0.95,
+          "max": 1.05,
+          "step": 0.005,
+          "unit": "pu",
+          "advanced": true,
+          "type": "range"
+        },
+        {
+          "key": "start_angle_deg",
+          "label": {
+            "en": "Initial bus 3 angle",
+            "zh": "母线 3 初始相角"
+          },
+          "min": -5,
+          "max": 5,
+          "step": 0.5,
+          "unit": "°",
+          "advanced": true,
+          "type": "range"
+        },
+        {
+          "key": "tolerance_exp",
+          "label": {
+            "en": "Tolerance exponent: epsilon=10^value",
+            "zh": "误差指数：epsilon=10^该值"
+          },
+          "min": -10,
+          "max": -4,
+          "step": 1,
+          "unit": "",
+          "advanced": true,
+          "type": "range"
+        },
+        {
+          "key": "max_sweeps",
+          "label": {
+            "en": "Iteration cap",
+            "zh": "迭代上限"
+          },
+          "min": 1,
+          "max": 100,
+          "step": 1,
+          "unit": "round",
+          "advanced": true,
+          "type": "range"
+        },
+        {
+          "key": "order",
+          "label": {
+            "en": "Bus visit order",
+            "zh": "母线访问顺序"
+          },
+          "type": "select",
+          "unit": "",
+          "advanced": true,
+          "options": [
+            {
+              "value": "0",
+              "label": {
+                "en": "PQ 3 → PV 2 (source)",
+                "zh": "PQ 3 → PV 2（课件）"
+              }
+            },
+            {
+              "value": "1",
+              "label": {
+                "en": "PV 2 → PQ 3",
+                "zh": "PV 2 → PQ 3"
+              }
+            }
+          ]
+        },
+        {
+          "key": "enforce_limits",
+          "label": {
+            "en": "Enforce generator Q bounds",
+            "zh": "施加发电机 Q 限值"
+          },
+          "type": "select",
+          "unit": "",
+          "advanced": true,
+          "options": [
+            {
+              "value": "1",
+              "label": {
+                "en": "Enforce and latch PV → PQ",
+                "zh": "施加限值并在运行中保持 PQ"
+              }
+            },
+            {
+              "value": "0",
+              "label": {
+                "en": "Ignore Q limits",
+                "zh": "忽略 Q 限值"
+              }
+            }
+          ]
+        }
+      ],
+      "metrics": [
+        {
+          "key": "selected_sweep",
+          "label": {
+            "en": "Displayed completed sweep",
+            "zh": "当前显示的完成轮次"
+          },
+          "unit": "",
+          "digits": 0
+        },
+        {
+          "key": "selected_mismatch_pu",
+          "label": {
+            "en": "Displayed state max mismatch",
+            "zh": "显示状态的最大不平衡量"
+          },
+          "unit": "pu",
+          "digits": 10
+        },
+        {
+          "key": "v3_mag",
+          "label": {
+            "en": "Displayed |V3|",
+            "zh": "显示状态 |V3|"
+          },
+          "unit": "pu",
+          "digits": 6
+        },
+        {
+          "key": "v2_mag",
+          "label": {
+            "en": "Displayed |V2|",
+            "zh": "显示状态 |V2|"
+          },
+          "unit": "pu",
+          "digits": 6
+        },
+        {
+          "key": "visit_q2_mvar",
+          "label": {
+            "en": "Q2 estimate at visit",
+            "zh": "访问时 Q2 估计"
+          },
+          "unit": "Mvar",
+          "digits": 6
+        },
+        {
+          "key": "qg2_mvar",
+          "label": {
+            "en": "Q2 after complete sweep",
+            "zh": "整轮后 Q2"
+          },
+          "unit": "Mvar",
+          "digits": 6
+        },
+        {
+          "key": "run_sweeps",
+          "label": {
+            "en": "Run completed sweeps",
+            "zh": "本次运行完成轮数"
+          },
+          "unit": "",
+          "digits": 0
+        },
+        {
+          "key": "final_mismatch_pu",
+          "label": {
+            "en": "Run final max mismatch",
+            "zh": "本次运行最终不平衡量"
+          },
+          "unit": "pu",
+          "digits": 10
+        }
+      ],
+      "given": {
+        "en": "100 MVA; z12=0.018+j0.060, z13=0.070+j0.210, z23=0.045+j0.135 pu; no charging/shunts, unity taps. Slack V1=1.03∠0°, PV P2=55 MW and |V2|=1.01, PQ load=90 MW+j30 Mvar. Start [1.03,1.01,1], visit 3 then 2, no relaxation. QG2 bounds [−25,50] Mvar, epsilon=1e−8, cap=100. Practice asks for the first complete sweep and the full run.",
+        "zh": "100 MVA；z12=0.018+j0.060、z13=0.070+j0.210、z23=0.045+j0.135 pu；无充电或并联支路，分接为 1。Slack V1=1.03∠0°，PV P2=55 MW、|V2|=1.01，PQ 负荷 90 MW+j30 Mvar。初始 [1.03,1.01,1]，先 3 后 2，不加松弛。QG2 限值 [−25,50] Mvar，epsilon=1e−8，上限 100 轮。练习同时考察首轮和完整运行。"
+      },
+      "worked": [
+        {
+          "en": "First PQ update: V3=0.968521739−j0.065739130 pu. Store this complex voltage immediately.",
+          "zh": "首次 PQ 更新：V3=0.968521739−j0.065739130 pu，立即存储该复电压。"
+        },
+        {
+          "en": "At the PV visit, Q2,est=−0.177129371 pu=−17.7129371 Mvar lies within [−25,50].",
+          "zh": "PV 访问时 Q2,est=−0.177129371 pu=−17.7129371 Mvar，处于 [−25,50] 内。"
+        },
+        {
+          "en": "Temporary V2=1.011364010+j0.004398320; after projection V2=1.009990449+j0.004392346 pu, with magnitude exactly 1.01.",
+          "zh": "临时 V2=1.011364010+j0.004398320；投影后 V2=1.009990449+j0.004392346 pu，幅值精确为 1.01。"
+        },
+        {
+          "en": "After the complete sweep, mismatches are [+0.008681607,+0.019085452,−0.080047480] pu. End-of-sweep Q2=−20.5197242 Mvar differs from the visit estimate.",
+          "zh": "整轮结束后不平衡量为 [+0.008681607,+0.019085452,−0.080047480] pu；此时 Q2=−20.5197242 Mvar，与访问时估计不同。"
+        },
+        {
+          "en": "Sweep 10 still exceeds epsilon; sweep 11 passes. Final V3≈0.964414∠−3.652309°, P1≈37.88548 MW, Q1≈54.88715 Mvar and Q2≈−16.16487 Mvar.",
+          "zh": "第 10 轮仍超出 epsilon，第 11 轮通过。最终 V3≈0.964414∠−3.652309°，P1≈37.88548 MW、Q1≈54.88715 Mvar、Q2≈−16.16487 Mvar。"
+        },
+        {
+          "en": "Set Qmin=0 Mvar: the first negative reactive estimate triggers PQ-min. Its Q becomes specified at zero and |V2| is allowed to depart from 1.01. Do not keep both constraints.",
+          "zh": "设 Qmin=0 Mvar：首个负无功估计触发 PQ-min，Q 指定为零，允许 |V2| 偏离 1.01。不能继续同时保持这两个约束。"
+        }
+      ],
+      "practice": [
+        {
+          "key": "selected_mismatch_pu",
+          "label": {
+            "en": "First-sweep maximum mismatch",
+            "zh": "首轮最大不平衡量"
+          },
+          "unit": "pu",
+          "tolerance": 1e-07,
+          "hint": {
+            "en": "Recompute P2, P3 and Q3 from the complete stored vector; take the largest absolute mismatch.",
+            "zh": "用完整存储向量重新计算 P2、P3、Q3，再取不平衡量绝对值的最大值。"
+          }
+        },
+        {
+          "key": "visit_q2_mvar",
+          "label": {
+            "en": "First PV-visit Q estimate",
+            "zh": "首次 PV 访问 Q 估计"
+          },
+          "unit": "Mvar",
+          "tolerance": 0.0001,
+          "hint": {
+            "en": "Use the newly stored V3 and old V2 before the projection.",
+            "zh": "在投影前，使用最新存储的 V3 与旧 V2。"
+          }
+        },
+        {
+          "key": "qg2_mvar",
+          "label": {
+            "en": "Q2 after the first complete sweep",
+            "zh": "首个整轮后的 Q2"
+          },
+          "unit": "Mvar",
+          "tolerance": 0.0001,
+          "hint": {
+            "en": "This uses the new V2 and V3 together, so it differs from the PV visit estimate.",
+            "zh": "此时同时使用新 V2、新 V3，因此与 PV 访问估计不同。"
+          }
+        },
+        {
+          "key": "run_sweeps",
+          "label": {
+            "en": "First passing completed sweep",
+            "zh": "首次通过判据的完成轮次"
+          },
+          "unit": "round",
+          "tolerance": 0.01,
+          "hint": {
+            "en": "Sweep 10 is still above 1e−8 pu.",
+            "zh": "第 10 轮仍高于 1e−8 pu。"
+          }
+        }
+      ],
+      "quiz": {
+        "question": {
+          "en": "Qmin=0 forces generator 2 to its lower bound. What must the next updates do?",
+          "zh": "Qmin=0 迫使发电机 2 运行在下限，后续更新应如何处理？"
+        },
+        "choices": [
+          {
+            "value": "0",
+            "label": {
+              "en": "Keep Q=0 and also restore |V2|=1.01",
+              "zh": "既保持 Q=0，也恢复 |V2|=1.01"
+            }
+          },
+          {
+            "value": "1",
+            "label": {
+              "en": "Use a PQ update at Q=0 and release the magnitude setpoint",
+              "zh": "在 Q=0 处采用 PQ 更新，释放幅值目标"
+            }
+          },
+          {
+            "value": "2",
+            "label": {
+              "en": "Remove the bus from all mismatch tests",
+              "zh": "从所有不平衡量检验中删除该母线"
+            }
+          }
+        ],
+        "correct": "1",
+        "feedback": [
+          {
+            "en": "Those are three specifications with P fixed; the reactive limit replaces the voltage-magnitude specification.",
+            "zh": "P 已固定，同时指定这两项会过约束；无功限值取代电压幅值约束。"
+          },
+          {
+            "en": "Correct. Test both P and Q at the limited bus; this teaching run holds it as PQ until restarted.",
+            "zh": "正确。限值母线应检验 P、Q，本教学运行在重新启动前保持 PQ。"
+          },
+          {
+            "en": "The limited bus still obeys both physical power relations and now has a Q target.",
+            "zh": "限值母线仍满足全部物理功率关系，而且现在有 Q 目标。"
+          }
+        ]
+      },
+      "challenge": {
+        "en": "Compare sweeps 0, 1, 10 and 11. Explain the visit-time and end-of-sweep Q difference. Reverse the bus order, then set Qmin=0 and inspect the changed bus role, voltage magnitude and active mismatch vector. Finally set the cap to one sweep and explain why the run is not accepted.",
+        "zh": "比较第 0、1、10、11 轮，解释访问时与整轮后 Q 的差别。交换访问顺序，再设 Qmin=0，检查母线类型、幅值及有效不平衡量向量的变化。最后将上限设为一轮，解释为何该运行不能被接受。"
+      },
+      "limits": {
+        "en": "Balanced three-bus steady state on 100 MVA; fixed impedances, no shunts/charging, unity taps and no local load at generator buses. Sequential unrelaxed GS; no guarantee of convergence from every start. A Q violation latches that bound as PQ for the remainder of this run; no PV restoration or general capability curve. The displayed sweep is clamped to the completed history when the run stops. Intermediate/capped states remain visible and are labeled unaccepted; failed or invalid updates show an error. Thermal and contingency limits are outside this model. With this latched-limit policy, changing the visit order or starting vector can trigger a different transient bound and lead to a different constrained endpoint.",
+        "zh": "100 MVA 基准上的平衡三母线稳态；固定阻抗，无并联元件、充电或非额定分接，发电母线无本地负荷。采用无松弛的顺序 GS，不保证任意初始值都收敛。Q 越限后在本次运行内保持该边界并作为 PQ，不实现恢复 PV 或完整能力曲线。运行停止后，显示轮次以实际完成历史为上限。中间或达到迭代上限的状态仍可查看，并明确标记未被接受；无效输入或更新失败显示错误。不含热稳定与故障约束。 在本运行内保持限值的策略下，改变访问顺序或初始向量可能触发不同的暂态边界，因而到达不同的受限运行点。"
+      },
+      "code_key": "order",
+      "code_values": [
+        0,
+        1
+      ],
+      "plot_titles": [
+        {
+          "en": "Power mismatch after each completed sweep",
+          "zh": "每个完整迭代后的功率不平衡量"
+        },
+        {
+          "en": "Voltage magnitudes and the active PV target",
+          "zh": "电压幅值与当前 PV 幅值目标"
+        }
+      ]
     }
   ]
 }

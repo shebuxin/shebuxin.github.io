@@ -325,10 +325,10 @@
     return{height:613,body:b};
   }
   const handlers={overview,generation,'single-phase':singlePhase,'three-phase':threePhase,transformers,'per-unit':perUnit,'transformer-banks':banks,'exam-review':review,'line-conductor':lineConductor,'line-inductance':lineInductance,'line-capacitance':lineCapacitance,'line-bundles':lineBundles};
-  function powerFlowNetwork(r,c,solved=false){
+  function powerFlowNetwork(r,c,solved=false,caption=null){
     const {w,f,t,line,path,arrow,node,component,complex}=c,p={tap12:1,shift12_deg:0,branch23:1,charging23_pu:0,shunt3_pu:0,...r.parameters},n=r.network;
     let b=t(400,28,w('三母线网络：端点、设备与参考方向','Three-bus network: terminals, devices and references'),'ed-heading');
-    b+=t(400,53,solved?w('已求解 AC 运行点 · Slack 1 / PV 2 / PQ 3','Solved AC operating point · Slack 1 / PV 2 / PQ 3'):w('试探电压求值 · 尚未求解指定负荷','Trial-voltage evaluation · specified load is not solved'),'ed-small');
+    b+=t(400,53,caption||(solved?w('已求解 AC 运行点 · Slack 1 / PV 2 / PQ 3','Solved AC operating point · Slack 1 / PV 2 / PQ 3'):w('试探电压求值 · 尚未求解指定负荷','Trial-voltage evaluation · specified load is not solved')),'ed-small');
     const label=(x,y,i)=>t(x,y,'V'+i+' = '+(solved?f(n.voltages[i-1].rms,5)+' ∠ '+f(n.voltages[i-1].angle_deg,4)+'°':complex(n.voltages[i-1].re,n.voltages[i-1].im,3)),'ed-small');
     // Actual electrical connections: paired generator terminals, series
     // impedances, three busbars and separately connected shunt devices.
@@ -419,6 +419,43 @@
     return{height:1053,body:b};
   }
   handlers['power-flow-balance']=powerFlowBalance;handlers['power-flow-ybus']=powerFlowYbus;handlers['power-flow-operating']=powerFlowOperating;
+  handlers['power-flow-gs']=function(r,c){
+    const {w,f,t,line,path,complex}=c,it=r.iteration,m=r.metrics,p=r.parameters,selected=it.history[it.selected_sweep];
+    const state=it.selected_converged?w('该状态已通过判据','this state passes the test'):w('该状态尚未被接受','this state is not accepted');
+    let b=powerFlowNetwork(r,c,false,'GS · '+w('完成轮次 ','completed sweep ')+it.selected_sweep+' · '+state);
+    b+=line(40,491,760,491,'#e5dfec',1)+t(400,522,w('当前存储状态 · 母线 2 类型：','Stored state · bus 2 role: ')+it.selected_mode,'ed-heading');
+    b+=t(400,555,'|V2| = '+f(m.v2_mag,7)+' · Q2 = '+f(m.qg2_mvar,6)+' Mvar','ed-label');
+    b+=t(400,585,'max |Δ| = '+m.selected_mismatch_pu.toExponential(5)+' pu · ε = '+it.epsilon.toExponential(0),'ed-label');
+    b+=t(400,615,(it.converged?w('完整运行首次通过于 ','Full run first passes at '):w('完整运行达到上限，未收敛：','Full run capped, not converged: '))+m.run_sweeps+w(' 轮',' sweeps'),'ed-small');
+    b+=t(400,645,w('有效功率不平衡量：','Active power mismatches: ')+(it.selected_mode==='PV'?'ΔP2, ΔP3, ΔQ3':'ΔP2, ΔP3, ΔQ3, ΔQ2'),'ed-small');
+    b+=line(40,669,760,669,'#e5dfec',1)+t(400,701,w('本轮访问：','Visits in this sweep: ')+it.order.join(' → '),'ed-heading');
+    const visit=it.selected_visits.find(v=>v.bus===2),pq=it.selected_visits.find(v=>v.bus===3);
+    if(!visit){b+=t(400,743,w('初始电压；尚未访问任何非平衡母线。','Initial voltages; no non-slack bus has been visited.'),'ed-label');return{height:1055,body:b};}
+    b+=t(400,737,'V3 stored = '+complex(pq.stored.re,pq.stored.im,7)+' pu','ed-text');
+    b+=t(400,768,'Q2,est = '+f(visit.q_estimate_pu*100,6)+' Mvar · Q2,end = '+f(m.qg2_mvar,6)+' Mvar','ed-text');
+    b+=t(400,798,w('轮内 Q 估计与整轮 Q 不是同一时刻。','Visit-time Q and completed-sweep Q use different voltage states.'),'ed-small');
+    b+=t(190,849,w('母线 2 临时与存储相量','Bus 2 temporary and stored phasors'),'ed-heading');
+    b+=t(190,883,'Vtemp = '+complex(visit.temporary.re,visit.temporary.im,7),'ed-text');
+    b+=t(190,913,'Vstored = '+complex(visit.stored.re,visit.stored.im,7),'ed-text');
+    b+=t(190,946,'|Vtemp| = '+f(visit.temporary.rms,9),'ed-text');
+    b+=t(190,976,'|Vstored| = '+f(visit.stored.rms,9),'ed-text');
+    b+=t(190,1010,it.selected_mode==='PV'?w('只恢复幅值，保持新相角。','Restore magnitude, retain the new angle.'):w('Q 限值下作为 PQ；不作幅值投影。','At a Q limit: PQ, no magnitude projection.'),'ed-small');
+    // Equal-scale rectangular inset around the positive-real setpoint.
+    // Values remain quantitative even when the phasor angle is very small.
+    const a=visit.temporary,z=visit.stored,target=p.v2_mag,e=1.3*Math.max(.006,Math.abs(a.re-target),Math.abs(a.im),Math.abs(z.re-target),Math.abs(z.im));
+    const scale=96/e,x=value=>605+(value-target)*scale,y=value=>927-value*scale;
+    b+=t(605,813,w('复平面局部放大（等尺度）','Equal-scale complex-plane inset'),'ed-small');
+    b+=line(500,927,710,927,'#b9b0c3',1)+line(605,821,605,1033,'#b9b0c3',1);
+    b+=t(712,946,'Re','ed-small')+t(724,855,'Im','ed-small');
+    for(const k of [-1,0,1]){b+=t(605+k*90,1048,f(target+k*90/scale,4),'ed-small');}
+    for(const k of [-1,0,1]){b+=t(470,931-k*90,f(k*90/scale,4),'ed-small');}
+    const circle=[];for(let k=0;k<=60;k++){const q=-e+(2*e*k/60);if(Math.abs(q)<target){const real=Math.sqrt(target*target-q*q);circle.push([x(real),y(q)]);}}
+    b+=path(circle.map(([px,py],i)=>(i?'L':'M')+px+' '+py).join(' '),palette.teal,2);
+    b+=line(x(a.re),y(a.im),x(z.re),y(z.im),palette.purple,2);
+    b+=`<circle cx="${x(a.re)}" cy="${y(a.im)}" r="5" fill="${palette.blue}"><title>Temporary V2</title></circle><circle cx="${x(z.re)}" cy="${y(z.im)}" r="4" fill="${palette.purple}"><title>Stored V2</title></circle>`;
+    b+=t(400,1084,it.selected_mode==='PV'?w('蓝点：临时值 · 紫点：存储值 · 绿弧：指定幅值圆','Blue: temporary · Purple: stored · Green arc: specified-magnitude circle'):w('蓝点：临时值 · 紫点：存储值 · 绿弧：原 PV 幅值参考','Blue: temporary · Purple: stored · Green arc: former PV magnitude target'),'ed-small');
+    return{height:1106,body:b};
+  };
   function render(kind,r,lang='en'){
     const c=context(kind,lang);
     if(kind==='transformer-network'){
