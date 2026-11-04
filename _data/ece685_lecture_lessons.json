@@ -293,5 +293,19 @@
       "en": "Gauss–Seidel: one sweep at a time",
       "zh": "高斯—赛德尔：逐轮观察电压更新"
     }
+  },
+  "L36": {
+    "concept_indices": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "focus": {
+      "en": "Newton corrections and the power-flow Jacobian",
+      "zh": "Newton 修正与潮流 Jacobian"
+    }
   }
 }

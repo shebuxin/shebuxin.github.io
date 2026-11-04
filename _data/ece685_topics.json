@@ -501,15 +501,17 @@
       "group": "power-flow",
       "title_zh": "潮流分析 V",
       "summary": {
-        "en": "Use Newton's Jacobian and corrections, then validate convergence, branch flows, and operating limits.",
-        "zh": "利用牛顿法雅可比矩阵与修正量，检验收敛、支路潮流和运行限值。"
+        "en": "Connect tangent intercepts, coupled corrections and the selected power-flow Jacobian.",
+        "zh": "连接切线截距、耦合修正与选定潮流 Jacobian。"
       },
       "lab_focus": {
-        "en": "Inspect Newton corrections and distinguish a converged solution from an acceptable operating point.",
-        "zh": "观察牛顿修正量，区分求解收敛与运行点满足限值。"
+        "en": "Inspect scalar corrections 0 through 4. Change the trial bus angles or magnitude and inspect J, dx and the new nonlinear residual. Explain why radians and the residual sign must be consistent.",
+        "zh": "查看标量第0至4次修正。改变试探母线相角或幅值，检查 J、dx 与新的非线性残差，解释弧度和残差符号为何必须一致。"
       },
-      "released": false,
-      "frozen_source": false
+      "released": true,
+      "frozen_source": true,
+      "interactive_model": "power-flow-nr",
+      "lesson": "integrated"
     },
     "L17": {
       "group": "three-phase-transformers",

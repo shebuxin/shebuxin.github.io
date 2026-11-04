@@ -48,6 +48,7 @@ DEFAULTS = {
                                 load_q_mvar=30, impedance_scale=1, line_vi=1.03,
                                 line_vk=1, line_x_pu=.2, line_angle_deg=20),
     'power-flow-gs': dict(sweep=1,load_p_mw=90,load_q_mvar=30,pg2_mw=55,v2_mag=1.01,qmin_mvar=-25,qmax_mvar=50,v3_start=1,start_angle_deg=0,order=0,enforce_limits=1,tolerance_exp=-8,max_sweeps=100),
+    'power-flow-nr':dict(scalar_start=1.5,iteration=0,theta2_deg=0,theta3_deg=0,v3_mag=1),
 }
 
 
@@ -757,7 +758,37 @@ def power_flow_gs(p):
     r['plots'][1]['zero_base']=False
     return r
 
+def power_flow_nr(p):
+    for k,a,b in [('scalar_start',.2,3),('iteration',0,8),('theta2_deg',-5,5),('theta3_deg',-10,5),('v3_mag',.9,1.1)]:
+        if not a<=p[k]<=b: raise ValueError(k+' outside supported range')
+    if int(p['iteration'])!=p['iteration']: raise ValueError('Iteration must be an integer')
+    x=p['scalar_start'];history=[x]
+    for _ in range(int(p['iteration'])): x=(x+1/x)/2;history.append(x)
+    nxt=(x+1/x)/2
+    base=dict(DEFAULTS['power-flow-balance'],load_p_mw=90,load_q_mvar=30)
+    vm=[1.03,1.01,p['v3_mag']];theta=[0,math.radians(p['theta2_deg']),math.radians(p['theta3_deg'])]
+    r=power_flow_state(base,[cmath.rect(v,t) for v,t in zip(vm,theta)]);y=r['network']['ybus']
+    def calculate(a):
+        real,q=operating_injections(y,[1.03,1.01,a[2]],[0,a[0],a[1]])
+        return [real[1]-.55,real[2]+.9,q[2]+.3]
+    state=[theta[1],theta[2],vm[2]];f=calculate(state);J=[[0.0]*3 for _ in range(3)]
+    for k in range(3):
+        a=state[:];b=state[:];a[k]+=1e-6;b[k]-=1e-6;fa=calculate(a);fb=calculate(b)
+        for i in range(3):J[i][k]=(fa[i]-fb[i])/2e-6
+    dx=operating_linear(J,[-v for v in f]);after=calculate([v+d for v,d in zip(state,dx)])
+    r['metrics'].update(scalar_x=x,scalar_residual=x*x-1,scalar_next=nxt,scalar_next_residual=nxt*nxt-1,delta_theta2_rad=dx[0],delta_theta3_rad=dx[1],delta_v3=dx[2],power_residual=max(map(abs,f)),power_after=max(map(abs,after)),coupled_u=2.125,coupled_v=1.125,coupled_residual=.78125)
+    r['nr']=dict(f=f,J=J,dx=dx,after=after,history=history)
+    r['checks']['newton_linear']=max(abs(sum(v*d for v,d in zip(row,dx))+f[i]) for i,row in enumerate(J))
+    xs=[.1+i*.04 for i in range(81)];ys=[]
+    for i in range(9):
+        a=p['scalar_start']
+        for _ in range(i):a=(a+1/a)/2
+        ys.append(math.log10(max(abs(a*a-1),1e-16)))
+    r['plots']=[plot(xs,{'Original f(x)=x²−1':[v*v-1 for v in xs],'Tangent at selected x':[x*x-1+2*x*(v-x) for v in xs]},'x','function value'),plot(list(range(9)),{'Original residual magnitude':ys},'Newton corrections','log10 absolute residual')]
+    return r
+
 HANDLERS = dict(overview=overview,generation=generation,transformers=transformers)
+HANDLERS.update({'power-flow-nr':power_flow_nr})
 HANDLERS.update({'power-flow-gs':power_flow_gs})
 HANDLERS.update({'power-flow-operating':power_flow_operating})
 HANDLERS.update({'power-flow-balance':power_flow, 'power-flow-ybus':power_flow})

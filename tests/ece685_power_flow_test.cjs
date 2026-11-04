@@ -215,3 +215,13 @@ test('L35 exposes initial and capped states without accepting them',()=>{
   const d=diagrams.render('power-flow-gs',model.solve('power-flow-gs',p),lang);assert.ok(!/NaN|undefined/.test(d.markup));assert.match(d.markup,/data-network-branch="2-3"/);
  }
 });
+
+test('L36 tangent, coupled example and analytic Jacobian obey independent equations',()=>{
+ const r=model.solve('power-flow-nr');near(r.metrics.scalar_next,13/12);near(r.metrics.scalar_next_residual,25/144);near(r.metrics.coupled_residual,.78125);
+ assert.ok(model.solve('power-flow-nr',{iteration:3}).metrics.scalar_residual>1e-8);assert.ok(Math.abs(model.solve('power-flow-nr',{iteration:4}).metrics.scalar_residual)<1e-8);
+ for(const p of [{},{theta2_deg:3,theta3_deg:-5,v3_mag:.94}]){
+  const a=model.solve('power-flow-nr',p),keys=['theta2_deg','theta3_deg','v3_mag'];
+  keys.forEach((key,k)=>{const h=1e-4,base=a.parameters[key],l=model.solve('power-flow-nr',{...p,[key]:base-h}),u=model.solve('power-flow-nr',{...p,[key]:base+h});a.nr.f.forEach((_,i)=>near((u.nr.f[i]-l.nr.f[i])/(2*h)*(k<2?180/Math.PI:1),a.nr.J[i][k],1e-7));});checks(a);
+  assert.ok(a.metrics.power_after>1e-8);assert.deepEqual(a.network.voltages[0],r.network.voltages[0]);near(a.network.voltages[1].rms,1.01);
+ }
+});

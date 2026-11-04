@@ -4604,15 +4604,15 @@
     {
       "group": "power-flow",
       "summary": {
-        "en": "Use Newton's Jacobian and corrections, then validate convergence, branch flows, and operating limits.",
-        "zh": "利用牛顿法雅可比矩阵与修正量，检验收敛、支路潮流和运行限值。"
+        "en": "Connect tangent intercepts, coupled corrections and the selected power-flow Jacobian.",
+        "zh": "连接切线截距、耦合修正与选定潮流 Jacobian。"
       },
       "lab_focus": {
-        "en": "Inspect Newton corrections and distinguish a converged solution from an acceptable operating point.",
-        "zh": "观察牛顿修正量，区分求解收敛与运行点满足限值。"
+        "en": "Inspect scalar corrections 0 through 4. Change the trial bus angles or magnitude and inspect J, dx and the new nonlinear residual. Explain why radians and the residual sign must be consistent.",
+        "zh": "查看标量第0至4次修正。改变试探母线相角或幅值，检查 J、dx 与新的非线性残差，解释弧度和残差符号为何必须一致。"
       },
-      "released": false,
-      "frozen_source": false,
+      "released": true,
+      "frozen_source": true,
       "id": "L36",
       "slug": "l36-power-flow-v",
       "title": {
@@ -4621,174 +4621,172 @@
       },
       "source_directory": "L36_power_flow_v",
       "source_file": "L36_power_flow_v.pdf",
-      "slide_count": 41,
+      "slide_count": 40,
       "slide_outline": [
         {
           "slide": 1,
-          "title": "Lecture outline"
+          "title": "Power Flow V"
         },
         {
           "slide": 2,
-          "title": "From sequential to coupled updates"
+          "title": "Lecture outline"
         },
         {
           "slide": 3,
-          "title": "A scalar Newton step"
+          "title": "PART 1: General Newton–Raphson method"
         },
         {
           "slide": 4,
-          "title": "Linearizing the power equations"
+          "title": "Gradient descent on a quadratic"
         },
         {
           "slide": 5,
-          "title": "Jacobian blocks"
+          "title": "Solving an equation means finding a zero"
         },
         {
           "slide": 6,
-          "title": "Use radians for angle corrections"
+          "title": "Use one tangent to predict the zero"
         },
         {
           "slide": 7,
-          "title": "Two-bus example"
+          "title": "The correction is a horizontal distance"
         },
         {
           "slide": 8,
-          "title": "Two-bus equations"
+          "title": "The scalar Newton update"
         },
         {
           "slide": 9,
-          "title": "Two-state Jacobian"
+          "title": "Calculate the first correction"
         },
         {
           "slide": 10,
-          "title": "Flat start"
+          "title": "Check the original curve"
         },
         {
           "slide": 11,
-          "title": "First Newton correction"
+          "title": "Repeat the tangent construction"
         },
         {
           "slide": 12,
-          "title": "State update"
+          "title": "Track the original residual"
         },
         {
           "slide": 13,
-          "title": "Recalculate the original powers"
+          "title": "Two coupled nonlinear equations"
         },
         {
           "slide": 14,
-          "title": "First residual check"
+          "title": "Stack the correction equations"
         },
         {
           "slide": 15,
-          "title": "Second Jacobian"
+          "title": "Newton–Raphson in vector form"
         },
         {
           "slide": 16,
-          "title": "Optional: second Newton correction"
+          "title": "Coupled example: Evaluate the current point"
         },
         {
           "slide": 17,
-          "title": "Optional: second residual check"
+          "title": "Coupled example: Solve and update"
         },
         {
           "slide": 18,
-          "title": "Two-bus convergence history"
+          "title": "Coupled example: Check both equations"
         },
         {
           "slide": 19,
-          "title": "Two-bus solved voltage"
+          "title": "The general Newton iteration"
         },
         {
           "slide": 20,
-          "title": "Two-bus power balance"
+          "title": "PART 2: Newton–Raphson power flow"
         },
         {
           "slide": 21,
-          "title": "Two-bus operating checks"
+          "title": "Apply the same Newton method"
         },
         {
           "slide": 22,
-          "title": "Common case: data and initial state"
+          "title": "Voltage determines the network injections"
         },
         {
           "slide": 23,
-          "title": "Common case: Jacobian order"
+          "title": "Move the power balance to one side"
         },
         {
           "slide": 24,
-          "title": "Reference: off-diagonal derivatives"
+          "title": "Select equations that match the unknowns"
         },
         {
           "slide": 25,
-          "title": "Reference: diagonal derivatives"
+          "title": "The power flow problem is a zero-residual system"
         },
         {
           "slide": 26,
-          "title": "Common case: Newton system"
+          "title": "Apply the local model to P and Q separately"
         },
         {
           "slide": 27,
-          "title": "Common case: first correction"
+          "title": "Collect the scalar equations into two vector equations"
         },
         {
           "slide": 28,
-          "title": "Common case: convergence history"
+          "title": "Stack them into the Newton matrix equation"
         },
         {
           "slide": 29,
-          "title": "Common case: solved bus records"
+          "title": "Add the correction and check the original equations"
         },
         {
           "slide": 30,
-          "title": "If the PV reactive limit binds"
+          "title": "What a Jacobian entry means"
         },
         {
           "slide": 31,
-          "title": "Branch-flow sign convention"
+          "title": "Jacobian blocks"
         },
         {
           "slide": 32,
-          "title": "Example: power on branch 2–3"
+          "title": "The power terms to differentiate"
         },
         {
           "slide": 33,
-          "title": "Common case: real-power paths"
+          "title": "Neighbor angle derivatives"
         },
         {
           "slide": 34,
-          "title": "Common case: flows and ratings"
+          "title": "Neighbor magnitude derivatives"
         },
         {
           "slide": 35,
-          "title": "Common case: independent power balance"
+          "title": "Diagonal angle derivatives"
         },
         {
           "slide": 36,
-          "title": "Common case: operating checks"
+          "title": "Diagonal magnitude derivatives"
         },
         {
           "slide": 37,
-          "title": "Stored precision and displayed precision"
+          "title": "The complete Newton power flow iteration"
         },
         {
           "slide": 38,
-          "title": "Practice: change one branch rating"
+          "title": "Recover the powers that were not specified"
         },
         {
           "slide": 39,
-          "title": "Practice: rating-change answer"
+          "title": "Angle units in the Newton system"
         },
         {
           "slide": 40,
-          "title": "Optional: comparing the methods"
-        },
-        {
-          "slide": 41,
-          "title": "Complete power-flow workflow"
+          "title": "Summary"
         }
       ],
-      "status": "unreleased"
+      "status": "live",
+      "interactive_model": "power-flow-nr",
+      "lesson": "integrated"
     }
   ]
 }

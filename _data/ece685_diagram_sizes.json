@@ -14,5 +14,6 @@
   "power-flow-balance": 744,
   "power-flow-ybus": 900,
   "power-flow-operating": 1053,
-  "power-flow-gs": 1106
+  "power-flow-gs": 1106,
+  "power-flow-nr": 880
 }

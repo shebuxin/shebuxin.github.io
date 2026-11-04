@@ -7203,6 +7203,385 @@
           "zh": "电压幅值与当前 PV 幅值目标"
         }
       ]
+    },
+    {
+      "id": "power-flow-nr",
+      "number": 17,
+      "title": {
+        "en": "Newton corrections and the power-flow Jacobian",
+        "zh": "Newton 修正与潮流 Jacobian"
+      },
+      "summary": {
+        "en": "Connect tangent intercepts, coupled corrections and the selected power-flow Jacobian.",
+        "zh": "连接切线截距、耦合修正与选定潮流 Jacobian。"
+      },
+      "sources": [
+        "L36"
+      ],
+      "extension": [],
+      "opening": {
+        "en": "A tangent predicts a zero. Check the original equation before accepting it, then apply the same correction system to power balance.",
+        "zh": "切线预测零点，接受前必须检验原方程；再把相同的修正系统用于功率平衡。"
+      },
+      "goals": [
+        {
+          "en": "Explain a correction and check the nonlinear residual.",
+          "zh": "解释修正并检验非线性残差。"
+        },
+        {
+          "en": "Select and differentiate the same power balance equations.",
+          "zh": "选取并微分同一组功率平衡方程。"
+        }
+      ],
+      "concepts": [
+        {
+          "title": {
+            "en": "Scalar Newton",
+            "zh": "标量 Newton"
+          },
+          "body": {
+            "en": "For f=x²−1, x0=1.5 gives f=1.25 and slope=3. The correction is −0.4166667; x1=1.0833333 still has f=0.1736111. Four corrections first pass 1e−8.",
+            "zh": "f=x²−1、x0=1.5 时，f=1.25、斜率为 3。修正为 −0.4166667，x1=1.0833333 的原残差仍为 0.1736111。第四次修正首次通过 1e−8。"
+          },
+          "formula": "x^{r+1}=x^r-f(x^r)/f\\prime(x^r)"
+        },
+        {
+          "title": {
+            "en": "Coupled corrections",
+            "zh": "耦合修正"
+          },
+          "body": {
+            "en": "For f1=u²+v²−5 and f2=u−v−1, start (1.5,.5). J=[[3,1],[1,−1]], so both corrections are .625. At (2.125,1.125), f1=.78125 and f2=0: one linear solve is not convergence.",
+            "zh": "f1=u²+v²−5、f2=u−v−1，从 (1.5,.5) 启动。J=[[3,1],[1,−1]]，两个修正均为 .625。新点 (2.125,1.125) 的 f1=.78125、f2=0，不能宣布收敛。"
+          },
+          "formula": "J\\Delta x=-f,\\quad x^{r+1}=x^r+\\Delta x"
+        },
+        {
+          "title": {
+            "en": "Residual sign and selection",
+            "zh": "残差符号与方程选择"
+          },
+          "body": {
+            "en": "Use calculated minus specified: fP=P+PD−PG and fQ=Q+QD−QG. In the three-bus companion x=[theta2,theta3,v3], f=[P2−.55,P3+.90,Q3+.30]. This is the negative of L35 mismatch; J is its derivative, so solve J dx=−f.",
+            "zh": "采用计算减指定：fP=P+PD−PG、fQ=Q+QD−QG。三母线配套示例 x=[theta2,theta3,v3]，f=[P2−.55,P3+.90,Q3+.30]。它与 L35 不平衡量反号，J 为它的导数，求解 J dx=−f。"
+          },
+          "formula": "x=(\\theta_2,\\theta_3,v_3)^T"
+        },
+        {
+          "title": {
+            "en": "Jacobian rows and columns",
+            "zh": "Jacobian 行列"
+          },
+          "body": {
+            "en": "Rows are P2,P3,Q3; columns are theta2,theta3,v3. Slack phasors and PV magnitudes have no correction columns. H,N,M,L collect P/angle, P/magnitude, Q/angle and Q/magnitude derivatives.",
+            "zh": "行对应 P2、P3、Q3，列对应 theta2、theta3、v3。Slack 相量和 PV 幅值不设修正列。H、N、M、L 分别汇集 P/相角、P/幅值、Q/相角、Q/幅值导数。"
+          },
+          "formula": "J=\\begin{bmatrix}H&N\\\\M&L\\end{bmatrix}"
+        },
+        {
+          "title": {
+            "en": "Self terms and angle units",
+            "zh": "自项与相角单位"
+          },
+          "body": {
+            "en": "Diagonal identities use CURRENT CALCULATED P and Q, including self terms: Hii=−Qi−Bii vi², Mii=Pi−Gii vi², Nii=Pi/vi+Gii vi, Lii=Qi/vi−Bii vi. Angles in state, derivatives and corrections are radians; display degrees only. A degree derivative needs pi/180.",
+            "zh": "对角恒等式必须使用包含自项的当前计算 P、Q：Hii=−Qi−Bii vi²、Mii=Pi−Gii vi²、Nii=Pi/vi+Gii vi、Lii=Qi/vi−Bii vi。状态、导数及修正采用弧度，仅显示时转角度；对角度求导需乘 pi/180。"
+          },
+          "formula": "\\partial P/\\partial d=(\\pi/180)\\partial P/\\partial\\theta"
+        },
+        {
+          "title": {
+            "en": "Equation solution versus operating checks",
+            "zh": "方程收敛与运行检查"
+          },
+          "body": {
+            "en": "Recompute original balances after updating. The inner solve holds bus types fixed. After convergence recover slack P/Q and PV Q, then check capability. At a Q limit, release PV magnitude, fix net Q=QGlim−QL and rebuild as PQ. This companion shows a single Newton correction, not an outer Q-limit solver.",
+            "zh": "更新后重新计算原功率方程。内层求解固定母线类型；收敛后还原 Slack P/Q 与 PV Q，再检验能力。Q 越限时释放 PV 幅值、固定净 Q=QGlim−QL 并重建 PQ 方程。本配套实验展示一次 Newton 修正，不实现外层 Q 限值求解。"
+          },
+          "formula": "\\|f(x^{r+1})\\|_\\infty\\le\\varepsilon"
+        }
+      ],
+      "controls": [
+        {
+          "key": "scalar_start",
+          "label": {
+            "en": "Scalar initial x",
+            "zh": "标量初始 x"
+          },
+          "min": 0.5,
+          "max": 2.5,
+          "step": 0.1,
+          "unit": "",
+          "type": "range",
+          "advanced": false
+        },
+        {
+          "key": "iteration",
+          "label": {
+            "en": "Scalar corrections already applied",
+            "zh": "标量已完成修正次数"
+          },
+          "min": 0,
+          "max": 6,
+          "step": 1,
+          "unit": "",
+          "type": "range",
+          "advanced": false
+        },
+        {
+          "key": "theta2_deg",
+          "label": {
+            "en": "Trial bus 2 angle",
+            "zh": "试探母线 2 相角"
+          },
+          "min": -5,
+          "max": 5,
+          "step": 0.5,
+          "unit": "°",
+          "type": "range",
+          "advanced": false
+        },
+        {
+          "key": "theta3_deg",
+          "label": {
+            "en": "Trial bus 3 angle",
+            "zh": "试探母线 3 相角"
+          },
+          "min": -10,
+          "max": 5,
+          "step": 0.5,
+          "unit": "°",
+          "type": "range",
+          "advanced": false
+        },
+        {
+          "key": "v3_mag",
+          "label": {
+            "en": "Trial bus 3 magnitude",
+            "zh": "试探母线 3 幅值"
+          },
+          "min": 0.9,
+          "max": 1.1,
+          "step": 0.005,
+          "unit": "pu",
+          "type": "range",
+          "advanced": false
+        }
+      ],
+      "metrics": [
+        {
+          "key": "scalar_x",
+          "label": {
+            "en": "Selected scalar x",
+            "zh": "当前标量 x"
+          },
+          "unit": "",
+          "digits": 7
+        },
+        {
+          "key": "scalar_residual",
+          "label": {
+            "en": "Original scalar residual",
+            "zh": "原标量残差"
+          },
+          "unit": "",
+          "digits": 7
+        },
+        {
+          "key": "scalar_next",
+          "label": {
+            "en": "Tangent intercept (next x)",
+            "zh": "切线截距（下一 x）"
+          },
+          "unit": "",
+          "digits": 7
+        },
+        {
+          "key": "scalar_next_residual",
+          "label": {
+            "en": "Original residual at next x",
+            "zh": "下一 x 的原残差"
+          },
+          "unit": "",
+          "digits": 7
+        },
+        {
+          "key": "delta_theta2_rad",
+          "label": {
+            "en": "Power correction delta theta2",
+            "zh": "潮流修正 delta theta2"
+          },
+          "unit": "rad",
+          "digits": 7
+        },
+        {
+          "key": "delta_v3",
+          "label": {
+            "en": "Power correction delta v3",
+            "zh": "潮流修正 delta v3"
+          },
+          "unit": "pu",
+          "digits": 7
+        },
+        {
+          "key": "power_residual",
+          "label": {
+            "en": "Current power residual norm",
+            "zh": "当前功率残差范数"
+          },
+          "unit": "pu",
+          "digits": 7
+        },
+        {
+          "key": "power_after",
+          "label": {
+            "en": "After one power correction",
+            "zh": "一次潮流修正后残差"
+          },
+          "unit": "pu",
+          "digits": 7
+        }
+      ],
+      "given": {
+        "en": "Scalar f=x²−1, x0=1.5, iteration=0. Coupled example: f1=u²+v²−5, f2=u−v−1 at (1.5,.5). Separate three-bus companion: 100 MVA; z12=.018+j.060, z13=.070+j.210, z23=.045+j.135 pu; slack1.03∠0, PV2 P=.55 and magnitude1.01, PQ3 P=−.90,Q=−.30. No shunts, unity taps. Power controls are trial inputs; one full Newton correction is evaluated.",
+        "zh": "标量 f=x²−1、x0=1.5、iteration=0。耦合例题 f1=u²+v²−5、f2=u−v−1，在 (1.5,.5) 处求值。独立三母线配套示例：100 MVA；z12=.018+j.060、z13=.070+j.210、z23=.045+j.135 pu；Slack1.03∠0、PV2 P=.55 且幅值1.01、PQ3 P=−.90、Q=−.30。无并联元件，分接为1。潮流控件为试探输入，评估一次完整 Newton 修正。"
+      },
+      "worked": [
+        {
+          "en": "For f=x²−1, x0=1.5 gives f=1.25 and slope=3. The correction is −0.4166667; x1=1.0833333 still has f=0.1736111. Four corrections first pass 1e−8.",
+          "zh": "f=x²−1、x0=1.5 时，f=1.25、斜率为 3。修正为 −0.4166667，x1=1.0833333 的原残差仍为 0.1736111。第四次修正首次通过 1e−8。"
+        },
+        {
+          "en": "For f1=u²+v²−5 and f2=u−v−1, start (1.5,.5). J=[[3,1],[1,−1]], so both corrections are .625. At (2.125,1.125), f1=.78125 and f2=0: one linear solve is not convergence.",
+          "zh": "f1=u²+v²−5、f2=u−v−1，从 (1.5,.5) 启动。J=[[3,1],[1,−1]]，两个修正均为 .625。新点 (2.125,1.125) 的 f1=.78125、f2=0，不能宣布收敛。"
+        },
+        {
+          "en": "Use calculated minus specified: fP=P+PD−PG and fQ=Q+QD−QG. In the three-bus companion x=[theta2,theta3,v3], f=[P2−.55,P3+.90,Q3+.30]. This is the negative of L35 mismatch; J is its derivative, so solve J dx=−f.",
+          "zh": "采用计算减指定：fP=P+PD−PG、fQ=Q+QD−QG。三母线配套示例 x=[theta2,theta3,v3]，f=[P2−.55,P3+.90,Q3+.30]。它与 L35 不平衡量反号，J 为它的导数，求解 J dx=−f。"
+        }
+      ],
+      "practice": [
+        {
+          "key": "scalar_next",
+          "label": {
+            "en": "First scalar next x",
+            "zh": "首次标量下一 x"
+          },
+          "unit": "",
+          "tolerance": 1e-06,
+          "hint": {
+            "en": "Use 1.5−1.25/3.",
+            "zh": "采用 1.5−1.25/3。"
+          }
+        },
+        {
+          "key": "scalar_next_residual",
+          "label": {
+            "en": "Residual at first next x",
+            "zh": "首次下一 x 处原残差"
+          },
+          "unit": "",
+          "tolerance": 1e-06,
+          "hint": {
+            "en": "Evaluate x²−1 again.",
+            "zh": "重新计算 x²−1。"
+          }
+        },
+        {
+          "key": "coupled_u",
+          "label": {
+            "en": "Coupled example new u",
+            "zh": "耦合例题新 u"
+          },
+          "unit": "",
+          "tolerance": 1e-06,
+          "hint": {
+            "en": "Add .625 to 1.5.",
+            "zh": "将 .625 加到 1.5。"
+          }
+        },
+        {
+          "key": "coupled_residual",
+          "label": {
+            "en": "Coupled example new f1",
+            "zh": "耦合例题新 f1"
+          },
+          "unit": "",
+          "tolerance": 1e-06,
+          "hint": {
+            "en": "Evaluate at (2.125,1.125).",
+            "zh": "在 (2.125,1.125) 重新求值。"
+          }
+        }
+      ],
+      "quiz": {
+        "question": {
+          "en": "The linear model reaches zero after one correction. Is the original problem solved?",
+          "zh": "一次修正后线性模型到零，原问题是否已解？"
+        },
+        "choices": [
+          {
+            "value": "0",
+            "label": {
+              "en": "Yes, always",
+              "zh": "总是如此"
+            }
+          },
+          {
+            "value": "1",
+            "label": {
+              "en": "Recompute original nonlinear residuals and test tolerance",
+              "zh": "重新计算原非线性残差并检验容差"
+            }
+          },
+          {
+            "value": "2",
+            "label": {
+              "en": "Keep the initial Jacobian forever",
+              "zh": "始终保留初始 Jacobian"
+            }
+          }
+        ],
+        "correct": "1",
+        "feedback": [
+          {
+            "en": "A tangent is local.",
+            "zh": "切线只是局部模型。"
+          },
+          {
+            "en": "Correct: rebuild at the new state if the original residual still fails.",
+            "zh": "正确：若原残差仍不通过，应在新状态重建。"
+          },
+          {
+            "en": "The derivatives change with the state.",
+            "zh": "导数随状态改变。"
+          }
+        ]
+      },
+      "challenge": {
+        "en": "Inspect scalar corrections 0 through 4. Change the trial bus angles or magnitude and inspect J, dx and the new nonlinear residual. Explain why radians and the residual sign must be consistent.",
+        "zh": "查看标量第0至4次修正。改变试探母线相角或幅值，检查 J、dx 与新的非线性残差，解释弧度和残差符号为何必须一致。"
+      },
+      "limits": {
+        "en": "Separate scalar and power examples. Fixed slack/PV/PQ classification; this experiment evaluates one undamped power correction, not a complete operating-feasibility solve or Q-limit switching. The full numerical worked iteration is subsequent material. Python independently checks derivatives by central differences. Newton is local and need not converge from every start.",
+        "zh": "标量与潮流是分开的示例。固定 Slack/PV/PQ 分类；本实验评估一次无阻尼潮流修正，不是完整运行可行性求解，也不执行 Q 限值切换。完整数值迭代留给后续例题。Python 使用中心差分独立核对导数。Newton 是局部方法，不保证任意启动都收敛。"
+      },
+      "code_key": "scalar_start",
+      "code_values": [
+        0.5,
+        1.5,
+        2.5
+      ],
+      "plot_titles": [
+        {
+          "en": "Original curve and selected tangent",
+          "zh": "原曲线与当前切线"
+        },
+        {
+          "en": "Original scalar residual after corrections",
+          "zh": "修正后的原标量残差"
+        }
+      ]
     }
   ]
 }

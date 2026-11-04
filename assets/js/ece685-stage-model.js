@@ -17,6 +17,7 @@
     'power-flow-ybus':{v1_re:1.02,v2_re:1,v3_re:.98,v3_im:-.02,angle_ref_deg:0,impedance_scale:1,branch23:1,charging23_pu:0,shunt3_pu:0,tap12:1,shift12_deg:0,load_p_mw:90,load_q_mvar:30},
     'power-flow-operating':{v1_mag:1.03,v2_mag:1.01,pg2_mw:55,load_p_mw:90,load_q_mvar:30,impedance_scale:1,line_vi:1.03,line_vk:1,line_x_pu:.2,line_angle_deg:20},
     'power-flow-gs':{sweep:1,load_p_mw:90,load_q_mvar:30,pg2_mw:55,v2_mag:1.01,qmin_mvar:-25,qmax_mvar:50,v3_start:1,start_angle_deg:0,order:0,enforce_limits:1,tolerance_exp:-8,max_sweeps:100},
+    'power-flow-nr':{scalar_start:1.5,iteration:0,theta2_deg:0,theta3_deg:0,v3_mag:1},
   };
   Object.values(defaults).forEach(Object.freeze);Object.freeze(defaults);
   const rad=x=>x*Math.PI/180, wrap=x=>((x+180)%360+360)%360-180;
@@ -232,6 +233,25 @@
     return r;
   }
 
+  function powerFlowNR(p){
+    range(p,'scalar_start',.2,3);range(p,'iteration',0,8);if(!Number.isInteger(p.iteration))throw Error('Iteration must be an integer');
+    range(p,'theta2_deg',-5,5);range(p,'theta3_deg',-10,5);range(p,'v3_mag',.9,1.1);
+    let x=p.scalar_start;const history=[x];for(let k=0;k<p.iteration;k++){x=(x+1/x)/2;history.push(x);}
+    const next=(x+1/x)/2,base={...defaults['power-flow-balance'],load_p_mw:90,load_q_mvar:30};
+    const vm=[1.03,1.01,p.v3_mag],theta=[0,rad(p.theta2_deg),rad(p.theta3_deg)],volts=vm.map((v,i)=>polar(v,theta[i]*180/Math.PI));
+    const r=powerFlowState(base,volts),Y=r.network.ybus,{P,Q}=operatingInjections(Y,vm,theta),f=[P[1]-.55,P[2]+.9,Q[2]+.3];
+    const J=[[1,false],[2,false],[2,true]].map(([i,q])=>[1,2,3].map(variable=>{
+      const k=variable===3?2:variable,d=theta[i]-theta[k],g=Y[i][k].re,b=Y[i][k].im;
+      if(variable===3)return i===k?(q?Q[i]/vm[i]-b*vm[i]:P[i]/vm[i]+g*vm[i]):vm[i]*(q?g*Math.sin(d)-b*Math.cos(d):g*Math.cos(d)+b*Math.sin(d));
+      return i===k?(q?P[i]-g*vm[i]**2:-Q[i]-b*vm[i]**2):(q?-vm[i]*vm[k]*(g*Math.cos(d)+b*Math.sin(d)):vm[i]*vm[k]*(g*Math.sin(d)-b*Math.cos(d)));
+    }));
+    const dx=operatingLinear(J,f.map(v=>-v)),newVm=[vm[0],vm[1],vm[2]+dx[2]],newTheta=[0,theta[1]+dx[0],theta[2]+dx[1]],s=operatingInjections(Y,newVm,newTheta),after=[s.P[1]-.55,s.P[2]+.9,s.Q[2]+.3];
+    r.metrics={...r.metrics,scalar_x:x,scalar_residual:x*x-1,scalar_next:next,scalar_next_residual:next*next-1,delta_theta2_rad:dx[0],delta_theta3_rad:dx[1],delta_v3:dx[2],power_residual:Math.max(...f.map(Math.abs)),power_after:Math.max(...after.map(Math.abs)),coupled_u:2.125,coupled_v:1.125,coupled_residual:.78125};
+    r.nr={f,J,dx,after,history};r.checks.newton_linear=Math.max(...J.map((row,i)=>Math.abs(row.reduce((a,v,k)=>a+v*dx[k],f[i]))));
+    const xs=Array.from({length:81},(_,i)=>.1+i*.04);
+    r.plots=[plot(xs,{'Original f(x)=x²−1':xs.map(v=>v*v-1),'Tangent at selected x':xs.map(v=>x*x-1+2*x*(v-x))},'x','function value'),plot(Array.from({length:9},(_,i)=>i),{'Original residual magnitude':Array.from({length:9},(_,i)=>{let a=p.scalar_start;for(let k=0;k<i;k++)a=(a+1/a)/2;return Math.log10(Math.max(Math.abs(a*a-1),1e-16));})},'Newton corrections','log10 absolute residual')];return r;
+  }
+
   function operatingLinear(matrix,rhs){
     const a=matrix.map((row,i)=>[...row,rhs[i]]),n=rhs.length;
     for(let k=0;k<n;k++){
@@ -325,6 +345,7 @@
       plots:[plot(x,{Va:vwave[0],Vb:vwave[1],Vc:vwave[2]},'ms','V'),plot(x,{Ia:iwave[0],Ib:iwave[1],Ic:iwave[2]},'ms','A')]};
   }
   const handlers={
+    'power-flow-nr':powerFlowNR,
     'power-flow-gs':powerFlowGS,
     'power-flow-operating':powerFlowOperating,
     'power-flow-balance':powerFlow,'power-flow-ybus':powerFlow,

@@ -456,6 +456,18 @@
     b+=t(400,1084,it.selected_mode==='PV'?w('蓝点：临时值 · 紫点：存储值 · 绿弧：指定幅值圆','Blue: temporary · Purple: stored · Green arc: specified-magnitude circle'):w('蓝点：临时值 · 紫点：存储值 · 绿弧：原 PV 幅值参考','Blue: temporary · Purple: stored · Green arc: former PV magnitude target'),'ed-small');
     return{height:1106,body:b};
   };
+  handlers['power-flow-nr']=function(r,c){
+    const {w,t,f,line,complex}=c,n=r.nr;
+    let b=powerFlowNetwork({...r,parameters:{...r.parameters,load_p_mw:90,load_q_mvar:30}},c,false,w('Newton 修正前的试探状态','Trial state before a Newton correction'))+line(40,491,760,491,'#e5dfec',1);
+    b+=t(400,525,w('行：P2, P3, Q3 · 列：theta2, theta3, v3','Rows: P2, P3, Q3 · Columns: theta2, theta3, v3'),'ed-heading');
+    n.J.forEach((row,i)=>row.forEach((v,k)=>{b+=t(180+k*220,568+i*38,f(v,7),'ed-text');}));
+    b+=t(400,697,'J dx = −f · '+w('相角修正采用弧度','angle corrections in radians'),'ed-heading');
+    b+=t(400,735,'f = ['+n.f.map(v=>f(v,6)).join(', ')+']','ed-text');
+    b+=t(400,773,'dx = ['+n.dx.map(v=>f(v,7)).join(', ')+']','ed-text');
+    b+=t(400,815,w('一次修正后的原残差范数：','Original residual norm after one correction: ')+r.metrics.power_after.toExponential(5)+' pu','ed-label');
+    b+=t(400,853,w('线性模型到零之后，仍需重新检验非线性方程。','Zero in the linear model still requires checking the nonlinear equations.'),'ed-small');
+    return{height:880,body:b};
+  };
   function render(kind,r,lang='en'){
     const c=context(kind,lang);
     if(kind==='transformer-network'){

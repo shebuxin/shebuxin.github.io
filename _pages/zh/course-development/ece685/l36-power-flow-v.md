@@ -1,9 +1,11 @@
 ---
 layout: ece685
 ece685: true
+ece685_slides: true
+ece685_lab: true
 lang: zh
 title: "L36 · 潮流分析 V"
-description: "利用牛顿法雅可比矩阵与修正量，检验收敛、支路潮流和运行限值。"
+description: "连接切线截距、耦合修正与选定潮流 Jacobian。"
 lecture_id: L36
 permalink: /zh/teaching/ece685/l36-power-flow-v/
 redirect_from:

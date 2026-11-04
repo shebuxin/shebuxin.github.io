@@ -27,6 +27,8 @@ The course diagrams show the modeled electrical connection or a quantitative rel
 
 | L35 | Same physical three-bus circuit at the selected completed sweep, active bus role and mismatches, visit-time versus completed-sweep Q, and an equal-scale complex-plane projection inset | Power Flow IV, slides 14–18 and 23–32 |
 
+| L36 | Trial three-bus circuit, selected 3×3 Jacobian, radian corrections and recomputed nonlinear residual; separate scalar tangent curves | Power Flow V, slides 6–12 and 25–39 |
+
 The renderer is `assets/js/ece685-stage-diagrams.js`. The live experiments and the static baseline illustrations use that same renderer. Static illustrations contain their own styles and arrow definitions, work without JavaScript, and have separate English and Chinese labels.
 
 After changing the renderer or baseline model inputs, run:
