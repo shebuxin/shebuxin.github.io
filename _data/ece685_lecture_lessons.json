@@ -307,5 +307,18 @@
       "en": "Newton corrections and the power-flow Jacobian",
       "zh": "Newton 修正与潮流 Jacobian"
     }
+  },
+  "L37": {
+    "concept_indices": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "focus": {
+      "en": "Newton power flow: the complete worked iteration",
+      "zh": "Newton 潮流：完整迭代算例"
+    }
   }
 }

@@ -53,8 +53,8 @@ class LectureShellTest(unittest.TestCase):
     def test_one_complete_navigation_and_release_states(self):
         ids = [lecture["id"] for lecture in MANIFEST["lectures"]]
         released = [lecture for lecture in MANIFEST["lectures"] if lecture["status"] == "live"]
-        self.assertEqual(len(ids), 30)
-        self.assertEqual(len(released), 27)
+        self.assertEqual(len(ids), 31)
+        self.assertEqual(len(released), 28)
         self.assertEqual(len(MANIFEST["groups"]), 10)
         self.assertEqual(set(SLIDES), {lecture["id"] for lecture in released})
         for prefix in ("", "zh/"):

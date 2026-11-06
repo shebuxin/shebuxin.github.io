@@ -49,6 +49,7 @@ DEFAULTS = {
                                 line_vk=1, line_x_pu=.2, line_angle_deg=20),
     'power-flow-gs': dict(sweep=1,load_p_mw=90,load_q_mvar=30,pg2_mw=55,v2_mag=1.01,qmin_mvar=-25,qmax_mvar=50,v3_start=1,start_angle_deg=0,order=0,enforce_limits=1,tolerance_exp=-8,max_sweeps=100),
     'power-flow-nr':dict(scalar_start=1.5,iteration=0,theta2_deg=0,theta3_deg=0,v3_mag=1),
+    'power-flow-nr-worked':dict(step=2,max_steps=100,tolerance_exp=-3,theta2_deg=0,theta3_deg=0,v3_mag=1),
 }
 
 
@@ -787,7 +788,25 @@ def power_flow_nr(p):
     r['plots']=[plot(xs,{'Original f(x)=x²−1':[v*v-1 for v in xs],'Tangent at selected x':[x*x-1+2*x*(v-x) for v in xs]},'x','function value'),plot(list(range(9)),{'Original residual magnitude':ys},'Newton corrections','log10 absolute residual')]
     return r
 
+def power_flow_nr_worked(p):
+    for k,a,b in [('step',0,10),('max_steps',1,100),('tolerance_exp',-8,-3)]:
+        if not a<=p[k]<=b or int(p[k])!=p[k]:raise ValueError(k+' must be an integer in range')
+    eps=10**p['tolerance_exp'];state=dict(scalar_start=1.5,iteration=0,theta2_deg=p['theta2_deg'],theta3_deg=p['theta3_deg'],v3_mag=p['v3_mag']);history=[]
+    for k in range(int(p['max_steps'])+1):
+        r=power_flow_nr(state);norm=r['metrics']['power_residual'];history.append(dict(step=k,norm=norm,f=r['nr']['f'],J=r['nr']['J'],dx=r['nr']['dx'],voltages=r['network']['voltages'],q2_mvar=100*r['network']['powers'][1]['im']))
+        if norm<=eps or k==p['max_steps']:break
+        state.update(theta2_deg=state['theta2_deg']+math.degrees(r['nr']['dx'][0]),theta3_deg=state['theta3_deg']+math.degrees(r['nr']['dx'][1]),v3_mag=state['v3_mag']+r['nr']['dx'][2])
+    last=history[-1];selected=history[min(int(p['step']),last['step'])];v=selected['voltages'];r=power_flow_nr(dict(scalar_start=1.5,iteration=0,theta2_deg=v[1]['angle_deg'],theta3_deg=v[2]['angle_deg'],v3_mag=v[2]['rms']))
+    r['metrics'].update(selected_step=selected['step'],run_steps=last['step'],selected_norm=selected['norm'],final_norm=last['norm'],v3_mag=v[2]['rms'],theta2_deg=v[1]['angle_deg'],theta3_deg=v[2]['angle_deg'],pg1_mw=100*r['network']['powers'][0]['re'],qg1_mvar=100*r['network']['powers'][0]['im'],qg2_mvar=100*r['network']['powers'][1]['im'])
+    r['trace']=dict(history=history,epsilon=eps,converged=last['norm']<=eps,selected_converged=selected['norm']<=eps,capability_ok=-25<=last['q2_mvar']<=50,selected_step=selected['step'])
+    xs=[h['step'] for h in history]
+    if len(xs)==1:xs.append(1)
+    def ext(a):return a*2 if len(a)==1 else a
+    r['plots']=[plot(xs,{'Max original residual':ext([math.log10(max(h['norm'],1e-16)) for h in history]),'Tolerance':[p['tolerance_exp'] for _ in xs]},'completed corrections','log10 residual / pu'),plot(xs,{'Bus 3 magnitude':ext([h['voltages'][2]['rms'] for h in history])},'completed corrections','pu')];r['plots'][1]['zero_base']=False
+    return r
+
 HANDLERS = dict(overview=overview,generation=generation,transformers=transformers)
+HANDLERS.update({'power-flow-nr-worked':power_flow_nr_worked})
 HANDLERS.update({'power-flow-nr':power_flow_nr})
 HANDLERS.update({'power-flow-gs':power_flow_gs})
 HANDLERS.update({'power-flow-operating':power_flow_operating})

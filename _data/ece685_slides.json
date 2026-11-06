@@ -261,12 +261,22 @@
   },
   "L36": {
     "pdf": "/assets/slides/ece685/l36/L36_power_flow_v.pdf",
-    "sha256": "bc251b459ce545fc7f589e5bfb68af92521955696054eabd9e5c147c6ecd4632",
-    "page_count": 40,
+    "sha256": "c37d217aef275829ec53f932a4c5ff506401e81c8915b4e63c4afed2fe5c75ab",
+    "page_count": 43,
     "width": 1600,
     "height": 901,
     "first_page": "/assets/slides/ece685/l36/page-001.webp",
     "pages_json": "/assets/slides/ece685/l36/pages.json",
     "source": "01_lectures/L36_power_flow_v/L36_power_flow_v.pdf"
+  },
+  "L37": {
+    "pdf": "/assets/slides/ece685/l37/L37_power_flow_vi.pdf",
+    "sha256": "1ec6eb1c96193796019f36041f9cb9760f0a0ab026ee2205bd381c88ba643aed",
+    "page_count": 44,
+    "width": 1600,
+    "height": 901,
+    "first_page": "/assets/slides/ece685/l37/page-001.webp",
+    "pages_json": "/assets/slides/ece685/l37/pages.json",
+    "source": "01_lectures/L37_power_flow_vi/L37_power_flow_vi.pdf"
   }
 }

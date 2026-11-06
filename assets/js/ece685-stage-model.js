@@ -18,6 +18,7 @@
     'power-flow-operating':{v1_mag:1.03,v2_mag:1.01,pg2_mw:55,load_p_mw:90,load_q_mvar:30,impedance_scale:1,line_vi:1.03,line_vk:1,line_x_pu:.2,line_angle_deg:20},
     'power-flow-gs':{sweep:1,load_p_mw:90,load_q_mvar:30,pg2_mw:55,v2_mag:1.01,qmin_mvar:-25,qmax_mvar:50,v3_start:1,start_angle_deg:0,order:0,enforce_limits:1,tolerance_exp:-8,max_sweeps:100},
     'power-flow-nr':{scalar_start:1.5,iteration:0,theta2_deg:0,theta3_deg:0,v3_mag:1},
+    'power-flow-nr-worked':{step:2,max_steps:100,tolerance_exp:-3,theta2_deg:0,theta3_deg:0,v3_mag:1},
   };
   Object.values(defaults).forEach(Object.freeze);Object.freeze(defaults);
   const rad=x=>x*Math.PI/180, wrap=x=>((x+180)%360+360)%360-180;
@@ -252,6 +253,22 @@
     r.plots=[plot(xs,{'Original f(x)=x²−1':xs.map(v=>v*v-1),'Tangent at selected x':xs.map(v=>x*x-1+2*x*(v-x))},'x','function value'),plot(Array.from({length:9},(_,i)=>i),{'Original residual magnitude':Array.from({length:9},(_,i)=>{let a=p.scalar_start;for(let k=0;k<i;k++)a=(a+1/a)/2;return Math.log10(Math.max(Math.abs(a*a-1),1e-16));})},'Newton corrections','log10 absolute residual')];return r;
   }
 
+  function powerFlowNRWorked(p){
+    for(const [k,a,b] of [['step',0,10],['max_steps',1,100],['tolerance_exp',-8,-3]]){range(p,k,a,b);if(!Number.isInteger(p[k]))throw Error(k+' must be an integer');}
+    const eps=10**p.tolerance_exp;let state={scalar_start:1.5,iteration:0,theta2_deg:p.theta2_deg,theta3_deg:p.theta3_deg,v3_mag:p.v3_mag};const history=[];
+    for(let k=0;k<=p.max_steps;k++){
+      const r=powerFlowNR(state),norm=r.metrics.power_residual;history.push({step:k,norm,f:r.nr.f,J:r.nr.J,dx:r.nr.dx,voltages:r.network.voltages,q2_mvar:100*r.network.powers[1].im});
+      if(norm<=eps||k===p.max_steps)break;
+      state={...state,theta2_deg:state.theta2_deg+r.nr.dx[0]*180/Math.PI,theta3_deg:state.theta3_deg+r.nr.dx[1]*180/Math.PI,v3_mag:state.v3_mag+r.nr.dx[2]};
+    }
+    const last=history.at(-1),selected=history[Math.min(p.step,last.step)],v=selected.voltages;
+    const r=powerFlowNR({scalar_start:1.5,iteration:0,theta2_deg:v[1].angle_deg,theta3_deg:v[2].angle_deg,v3_mag:v[2].rms});
+    Object.assign(r.metrics,{selected_step:selected.step,run_steps:last.step,selected_norm:selected.norm,final_norm:last.norm,v3_mag:v[2].rms,theta2_deg:v[1].angle_deg,theta3_deg:v[2].angle_deg,pg1_mw:100*r.network.powers[0].re,qg1_mvar:100*r.network.powers[0].im,qg2_mvar:100*r.network.powers[1].im});
+    r.trace={history,epsilon:eps,converged:last.norm<=eps,selected_converged:selected.norm<=eps,capability_ok:last.q2_mvar>=-25&&last.q2_mvar<=50,selected_step:selected.step};
+    const xs=history.map(h=>h.step);if(xs.length===1)xs.push(1);const ext=a=>a.length===1?[a[0],a[0]]:a;
+    r.plots=[plot(xs,{'Max original residual':ext(history.map(h=>Math.log10(Math.max(h.norm,1e-16)))),'Tolerance':xs.map(()=>p.tolerance_exp)},'completed corrections','log10 residual / pu'),plot(xs,{'Bus 3 magnitude':ext(history.map(h=>h.voltages[2].rms))},'completed corrections','pu')];r.plots[1].zero_base=false;return r;
+  }
+
   function operatingLinear(matrix,rhs){
     const a=matrix.map((row,i)=>[...row,rhs[i]]),n=rhs.length;
     for(let k=0;k<n;k++){
@@ -345,6 +362,7 @@
       plots:[plot(x,{Va:vwave[0],Vb:vwave[1],Vc:vwave[2]},'ms','V'),plot(x,{Ia:iwave[0],Ib:iwave[1],Ic:iwave[2]},'ms','A')]};
   }
   const handlers={
+    'power-flow-nr-worked':powerFlowNRWorked,
     'power-flow-nr':powerFlowNR,
     'power-flow-gs':powerFlowGS,
     'power-flow-operating':powerFlowOperating,

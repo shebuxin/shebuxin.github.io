@@ -93,7 +93,7 @@ test('all public controls, boundary scans and Python network outputs agree',()=>
  function compare(a,b,where=''){
   // Logs amplify roundoff in residuals near machine precision. Physical
   // values and the original residuals retain the 1e-8 absolute comparison.
-  if(typeof a==='number'){if(where.endsWith('.angle_deg'))near(model.wrap(a-b),0,1e-8);else near(a,b,where.startsWith('power-flow-gs.')&&(where.includes('.plots.0.curves.0.values.')||where.endsWith('.plots.0.markers.0.y'))?1e-4:1e-8);return;}
+  if(typeof a==='number'){if(where.endsWith('.angle_deg'))near(model.wrap(a-b),0,1e-8);else near(a,b,(where.startsWith('power-flow-gs.')||where.startsWith('power-flow-nr-worked.'))&&(where.includes('.plots.0.curves.0.values.')||where.endsWith('.plots.0.markers.0.y'))?1e-4:1e-8);return;}
   if(a===null||typeof a!=='object'){assert.equal(a,b,where);return;}
   assert.deepEqual(Object.keys(a).sort(),Object.keys(b).sort(),where);
   Object.keys(a).forEach(k=>compare(a[k],b[k],where+'.'+k));
@@ -224,4 +224,15 @@ test('L36 tangent, coupled example and analytic Jacobian obey independent equati
   keys.forEach((key,k)=>{const h=1e-4,base=a.parameters[key],l=model.solve('power-flow-nr',{...p,[key]:base-h}),u=model.solve('power-flow-nr',{...p,[key]:base+h});a.nr.f.forEach((_,i)=>near((u.nr.f[i]-l.nr.f[i])/(2*h)*(k<2?180/Math.PI:1),a.nr.J[i][k],1e-7));});checks(a);
   assert.ok(a.metrics.power_after>1e-8);assert.deepEqual(a.network.voltages[0],r.network.voltages[0]);near(a.network.voltages[1].rms,1.01);
  }
+});
+
+test('L37 reproduces the source tolerance-dependent Newton path and outputs',()=>{
+ const r=model.solve('power-flow-nr-worked'),h=r.trace.history,m=r.metrics;
+ assert.equal(h.length,3);assert.equal(m.run_steps,2);assert.equal(r.trace.converged,true);assert.equal(r.trace.capability_ok,true);
+ near(h[0].norm,.834920635,1e-9);near(h[1].norm,.034828757,1e-9);near(h[2].norm,.0001508627,1e-10);
+ near(m.v3_mag,.964430645,1e-9);near(m.pg1_mw,37.873990,1e-6);near(m.qg1_mvar,54.882232,1e-6);near(m.qg2_mvar,-16.176200,1e-6);
+ near(h[1].dx[0],-.000677730,1e-9);near(h[1].J[0][0],22.583933,1e-6);assert.notDeepEqual(h[0].J,h[1].J);
+ const strict=model.solve('power-flow-nr-worked',{tolerance_exp:-8,step:5});assert.ok(strict.metrics.run_steps>2);assert.ok(Math.abs(strict.metrics.pg1_mw-m.pg1_mw)>.01);
+ const cap=model.solve('power-flow-nr-worked',{max_steps:1,step:5});assert.equal(cap.trace.converged,false);assert.equal(cap.trace.selected_converged,false);assert.equal(cap.metrics.selected_step,1);
+ const initial=model.solve('power-flow-nr-worked',{step:0});assert.equal(initial.trace.converged,true);assert.equal(initial.trace.selected_converged,false);checks(r);
 });

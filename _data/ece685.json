@@ -4621,7 +4621,7 @@
       },
       "source_directory": "L36_power_flow_v",
       "source_file": "L36_power_flow_v.pdf",
-      "slide_count": 40,
+      "slide_count": 43,
       "slide_outline": [
         {
           "slide": 1,
@@ -4761,32 +4761,247 @@
         },
         {
           "slide": 35,
-          "title": "Diagonal angle derivatives"
+          "title": "Local angle derivative of real power"
         },
         {
           "slide": 36,
-          "title": "Diagonal magnitude derivatives"
+          "title": "Local angle derivative of reactive power"
         },
         {
           "slide": 37,
-          "title": "The complete Newton power flow iteration"
+          "title": "Local magnitude derivative of real power"
         },
         {
           "slide": 38,
-          "title": "Recover the powers that were not specified"
+          "title": "Local magnitude derivative of reactive power"
         },
         {
           "slide": 39,
-          "title": "Angle units in the Newton system"
+          "title": "Relationships among the Jacobian blocks"
         },
         {
           "slide": 40,
+          "title": "The complete Newton power flow iteration"
+        },
+        {
+          "slide": 41,
+          "title": "Recover the powers that were not specified"
+        },
+        {
+          "slide": 42,
+          "title": "Angle units in the Newton system"
+        },
+        {
+          "slide": 43,
           "title": "Summary"
         }
       ],
       "status": "live",
       "interactive_model": "power-flow-nr",
       "lesson": "integrated"
+    },
+    {
+      "group": "power-flow",
+      "id": "L37",
+      "slug": "l37-power-flow-vi",
+      "title": {
+        "en": "Power Flow VI",
+        "zh": "潮流分析 VI"
+      },
+      "source_directory": "L37_power_flow_vi",
+      "source_file": "L37_power_flow_vi.pdf",
+      "status": "live",
+      "released": true,
+      "frozen_source": true,
+      "interactive_model": "power-flow-nr-worked",
+      "lesson": "integrated",
+      "summary": {
+        "en": "Track rebuilt Jacobians, corrections and original residuals through the accepted voltage state.",
+        "zh": "追踪重建 Jacobian、修正与原残差，直到获得接受电压状态。"
+      },
+      "lab_focus": {
+        "en": "Inspect states0,1,2; compare their f and rebuilt J. Tighten epsilon to1e−8 or cap the run at1, then explain acceptance and PV capability separately.",
+        "zh": "查看状态0、1、2，比较f与重建J。将epsilon收紧至1e−8，或把上限设为1，分别解释方程接受与PV能力。"
+      },
+      "slide_count": 44,
+      "slide_outline": [
+        {
+          "slide": 1,
+          "title": "Power Flow VI"
+        },
+        {
+          "slide": 2,
+          "title": "Lecture outline"
+        },
+        {
+          "slide": 3,
+          "title": "PART1: Quickreview"
+        },
+        {
+          "slide": 4,
+          "title": "Review: Scalar Newton iteration"
+        },
+        {
+          "slide": 5,
+          "title": "Review: Vector Newton iteration"
+        },
+        {
+          "slide": 6,
+          "title": "Review: Power flow in zero-residual form"
+        },
+        {
+          "slide": 7,
+          "title": "Review: Selected unknowns and residuals"
+        },
+        {
+          "slide": 8,
+          "title": "Review: Power flow Newton update"
+        },
+        {
+          "slide": 9,
+          "title": "PART2: Thecomplete worked example"
+        },
+        {
+          "slide": 10,
+          "title": "Example: Generators, load, and network"
+        },
+        {
+          "slide": 11,
+          "title": "Example: Specified data and unknowns"
+        },
+        {
+          "slide": 12,
+          "title": "Network calculation: Branch admittances"
+        },
+        {
+          "slide": 13,
+          "title": "Network calculation: The complete Y-bus"
+        },
+        {
+          "slide": 14,
+          "title": "Initial guess and residual order"
+        },
+        {
+          "slide": 15,
+          "title": "The network functions inside the residuals"
+        },
+        {
+          "slide": 16,
+          "title": "Iteration 0: Calculate P2 and P3"
+        },
+        {
+          "slide": 17,
+          "title": "Iteration 0: Calculate Q3 and Q2"
+        },
+        {
+          "slide": 18,
+          "title": "Iteration 0: Evaluate the residual"
+        },
+        {
+          "slide": 19,
+          "title": "Iteration 0: Label the Jacobian"
+        },
+        {
+          "slide": 20,
+          "title": "Iteration 0: The P2 derivative row"
+        },
+        {
+          "slide": 21,
+          "title": "Iteration 0: The P3 derivative row"
+        },
+        {
+          "slide": 22,
+          "title": "Iteration 0: The Q3 derivative row"
+        },
+        {
+          "slide": 23,
+          "title": "Iteration 0: Solve for the correction"
+        },
+        {
+          "slide": 24,
+          "title": "First correction: Update the voltage state"
+        },
+        {
+          "slide": 25,
+          "title": "Voltage changes after correction 1"
+        },
+        {
+          "slide": 26,
+          "title": "What the first linear model predicts"
+        },
+        {
+          "slide": 27,
+          "title": "At state 1: Recalculate P2"
+        },
+        {
+          "slide": 28,
+          "title": "At state 1: Recalculate P3 and Q3"
+        },
+        {
+          "slide": 29,
+          "title": "At state 1: Test the original residual"
+        },
+        {
+          "slide": 30,
+          "title": "Why the first correction leaves a residual"
+        },
+        {
+          "slide": 31,
+          "title": "Iteration 1: Inputs for the new Jacobian"
+        },
+        {
+          "slide": 32,
+          "title": "Iteration 1: The P2 derivative row"
+        },
+        {
+          "slide": 33,
+          "title": "Iteration 1: The P3 derivative row"
+        },
+        {
+          "slide": 34,
+          "title": "Iteration 1: The Q3 derivative row"
+        },
+        {
+          "slide": 35,
+          "title": "Iteration 1: Rebuild and solve"
+        },
+        {
+          "slide": 36,
+          "title": "Correction 2: Add the new state change"
+        },
+        {
+          "slide": 37,
+          "title": "At state 2: Evaluate the power terms"
+        },
+        {
+          "slide": 38,
+          "title": "At state 2: Test the original residual"
+        },
+        {
+          "slide": 39,
+          "title": "Voltage changes after correction 2"
+        },
+        {
+          "slide": 40,
+          "title": "Convergence of every selected equation"
+        },
+        {
+          "slide": 41,
+          "title": "PV capability at every tested state"
+        },
+        {
+          "slide": 42,
+          "title": "Accepted state: Calculate the slack power"
+        },
+        {
+          "slide": 43,
+          "title": "Example: Accepted voltages and outputs"
+        },
+        {
+          "slide": 44,
+          "title": "Summary"
+        }
+      ]
     }
   ]
 }

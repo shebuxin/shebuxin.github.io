@@ -15,5 +15,6 @@
   "power-flow-ybus": 900,
   "power-flow-operating": 1053,
   "power-flow-gs": 1106,
-  "power-flow-nr": 880
+  "power-flow-nr": 880,
+  "power-flow-nr-worked": 880
 }

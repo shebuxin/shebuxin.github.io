@@ -544,6 +544,31 @@
       "frozen_source": true,
       "lesson": "integrated",
       "interactive_model": "transformer-network"
+    },
+    "L37": {
+      "group": "power-flow",
+      "id": "L37",
+      "slug": "l37-power-flow-vi",
+      "title": {
+        "en": "Power Flow VI",
+        "zh": "潮流分析 VI"
+      },
+      "source_directory": "L37_power_flow_vi",
+      "source_file": "L37_power_flow_vi.pdf",
+      "status": "live",
+      "released": true,
+      "frozen_source": true,
+      "interactive_model": "power-flow-nr-worked",
+      "lesson": "integrated",
+      "summary": {
+        "en": "Track rebuilt Jacobians, corrections and original residuals through the accepted voltage state.",
+        "zh": "追踪重建 Jacobian、修正与原残差，直到获得接受电压状态。"
+      },
+      "lab_focus": {
+        "en": "Inspect states0,1,2; compare their f and rebuilt J. Tighten epsilon to1e−8 or cap the run at1, then explain acceptance and PV capability separately.",
+        "zh": "查看状态0、1、2，比较f与重建J。将epsilon收紧至1e−8，或把上限设为1，分别解释方程接受与PV能力。"
+      },
+      "title_zh": "潮流分析 VI"
     }
   },
   "excluded_lectures": [

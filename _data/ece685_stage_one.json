@@ -7582,6 +7582,391 @@
           "zh": "修正后的原标量残差"
         }
       ]
+    },
+    {
+      "id": "power-flow-nr-worked",
+      "number": 18,
+      "title": {
+        "en": "Newton power flow: the complete worked iteration",
+        "zh": "Newton 潮流：完整迭代算例"
+      },
+      "summary": {
+        "en": "Track rebuilt Jacobians, corrections and original residuals through the accepted voltage state.",
+        "zh": "追踪重建 Jacobian、修正与原残差，直到获得接受电压状态。"
+      },
+      "sources": [
+        "L37"
+      ],
+      "extension": [],
+      "opening": {
+        "en": "Apply L36 to the complete three-bus example. The source teaching tolerance is 1e−3 pu, so the first accepted state is after two corrections.",
+        "zh": "将 L36 用于完整三母线例题。课件教学容差为 1e−3 pu，因此首次接受状态在两次修正后。"
+      },
+      "goals": [
+        {
+          "en": "Reproduce both source corrections and test every residual.",
+          "zh": "复现课件两次修正并检验每条残差。"
+        },
+        {
+          "en": "Compare accepted states at different tolerances.",
+          "zh": "比较不同容差下的接受状态。"
+        }
+      ],
+      "concepts": [
+        {
+          "title": {
+            "en": "State and sign",
+            "zh": "状态与符号"
+          },
+          "body": {
+            "en": "Use x=[theta2,theta3,v3] with angles in radians. f=[P2−.55,P3+.90,Q3+.30] is calculated minus specified. Slack V1=1.03∠0 and PV magnitude1.01 remain fixed.",
+            "zh": "采用 x=[theta2,theta3,v3]，相角以弧度计。f=[P2−.55,P3+.90,Q3+.30] 为计算减指定。Slack V1=1.03∠0 与 PV 幅值1.01 保持固定。"
+          },
+          "formula": "J(x)\\Delta x=-f(x)"
+        },
+        {
+          "title": {
+            "en": "First correction",
+            "zh": "首次修正"
+          },
+          "body": {
+            "en": "At x0=[0,0,1], f=[−.620216106,.834920635,.104761905]. The correction is [.006105173,−.060900164,−.032049579]. The new magnitude is .967950421. The original residual norm is still .034828757, above1e−3.",
+            "zh": "x0=[0,0,1] 时，f=[−.620216106,.834920635,.104761905]，修正为 [.006105173,−.060900164,−.032049579]。新幅值为 .967950421，但原残差范数仍为 .034828757，高于1e−3。"
+          },
+          "formula": "x^{(1)}=x^{(0)}+\\Delta x^{(0)}"
+        },
+        {
+          "title": {
+            "en": "Rebuild at the same state",
+            "zh": "在同一状态重建"
+          },
+          "body": {
+            "en": "Y-bus stays fixed. Rebuild every Jacobian coefficient at state1, including calculated Q2 for H22. Use the same state for f and J. The second correction is [−.000677730,−.002832790,−.003519776].",
+            "zh": "Y-bus 固定；在状态1重建所有 Jacobian 系数，包括用于 H22 的计算 Q2。f 和 J 必须采用同一状态。第二次修正为 [−.000677730,−.002832790,−.003519776]。"
+          },
+          "formula": "H_{22}=-Q_2-B_{22}v_2^2"
+        },
+        {
+          "title": {
+            "en": "Accept at the stated tolerance",
+            "zh": "按声明容差接受"
+          },
+          "body": {
+            "en": "State2=[.005427443,−.063732955,.964430645] has max residual .0001508627 pu ≤.001. Accept after2 corrections. On100MVA, .001pu is .1MW or Mvar per equation. Do not replace the accepted values with the tighter L34 root.",
+            "zh": "状态2=[.005427443,−.063732955,.964430645] 的最大残差为 .0001508627 pu≤.001，两次修正后接受。在100MVA上，.001pu对应每条方程.1MW或Mvar。不能把本次接受值替换为L34更严格的根。"
+          },
+          "formula": "\\|f(x^{(2)})\\|_\\infty\\le10^{-3}"
+        },
+        {
+          "title": {
+            "en": "Recover and check outputs",
+            "zh": "还原并检查出力"
+          },
+          "body": {
+            "en": "At accepted state2, slack P1=37.873990MW,Q1=54.882232Mvar; PV Q2=−16.176200Mvar, within[−25,50]. Actual P2=54.99530MW and P3=−89.98491MW retain small allowed residuals. Fixed bus types here; no outer PV/PQ limit switching is implemented.",
+            "zh": "接受状态2下，Slack P1=37.873990MW、Q1=54.882232Mvar，PV Q2=−16.176200Mvar，处于[−25,50]内。实际P2=54.99530MW、P3=−89.98491MW仍保留允许的小残差。本实验固定母线类型，未实现外层PV/PQ限值切换。"
+          },
+          "formula": "S_i=V_i(YV)_i^*"
+        }
+      ],
+      "controls": [
+        {
+          "key": "step",
+          "label": {
+            "en": "Inspect completed correction",
+            "zh": "查看完成修正次数"
+          },
+          "min": 0,
+          "max": 5,
+          "step": 1,
+          "unit": "",
+          "type": "range",
+          "advanced": false
+        },
+        {
+          "key": "tolerance_exp",
+          "label": {
+            "en": "Tolerance exponent (10^value)",
+            "zh": "容差指数（10^该值）"
+          },
+          "min": -8,
+          "max": -3,
+          "step": 1,
+          "unit": "",
+          "type": "range",
+          "advanced": false
+        },
+        {
+          "key": "max_steps",
+          "label": {
+            "en": "Correction cap",
+            "zh": "修正次数上限"
+          },
+          "min": 1,
+          "max": 100,
+          "step": 1,
+          "unit": "",
+          "type": "range",
+          "advanced": true
+        },
+        {
+          "key": "theta2_deg",
+          "label": {
+            "en": "Initial bus 2 angle",
+            "zh": "母线2初始相角"
+          },
+          "min": -1,
+          "max": 1,
+          "step": 0.5,
+          "unit": "°",
+          "type": "range",
+          "advanced": true
+        },
+        {
+          "key": "theta3_deg",
+          "label": {
+            "en": "Initial bus 3 angle",
+            "zh": "母线3初始相角"
+          },
+          "min": -5,
+          "max": 0,
+          "step": 0.5,
+          "unit": "°",
+          "type": "range",
+          "advanced": true
+        },
+        {
+          "key": "v3_mag",
+          "label": {
+            "en": "Initial bus 3 magnitude",
+            "zh": "母线3初始幅值"
+          },
+          "min": 0.96,
+          "max": 1.04,
+          "step": 0.005,
+          "unit": "pu",
+          "type": "range",
+          "advanced": true
+        }
+      ],
+      "metrics": [
+        {
+          "key": "selected_step",
+          "label": {
+            "en": "Displayed completed corrections",
+            "zh": "显示完成修正次数"
+          },
+          "unit": "",
+          "digits": 0
+        },
+        {
+          "key": "run_steps",
+          "label": {
+            "en": "Run completed corrections",
+            "zh": "运行完成修正次数"
+          },
+          "unit": "",
+          "digits": 0
+        },
+        {
+          "key": "selected_norm",
+          "label": {
+            "en": "Displayed max residual",
+            "zh": "显示状态最大残差"
+          },
+          "unit": "pu",
+          "digits": 9
+        },
+        {
+          "key": "final_norm",
+          "label": {
+            "en": "Run final max residual",
+            "zh": "运行最终最大残差"
+          },
+          "unit": "pu",
+          "digits": 9
+        },
+        {
+          "key": "v3_mag",
+          "label": {
+            "en": "Displayed bus 3 magnitude",
+            "zh": "显示母线3幅值"
+          },
+          "unit": "pu",
+          "digits": 7
+        },
+        {
+          "key": "pg1_mw",
+          "label": {
+            "en": "Displayed slack P",
+            "zh": "显示Slack P"
+          },
+          "unit": "MW",
+          "digits": 7
+        },
+        {
+          "key": "qg1_mvar",
+          "label": {
+            "en": "Displayed slack Q",
+            "zh": "显示Slack Q"
+          },
+          "unit": "Mvar",
+          "digits": 7
+        },
+        {
+          "key": "qg2_mvar",
+          "label": {
+            "en": "Displayed PV Q",
+            "zh": "显示PV Q"
+          },
+          "unit": "Mvar",
+          "digits": 7
+        }
+      ],
+      "given": {
+        "en": "100MVA; z12=.018+j.060,z13=.070+j.210,z23=.045+j.135 pu. Slack1.03∠0, PV2 P=.55,v2=1.01; PQ3 P=−.90,Q=−.30. No local loads at generators, no shunts, unity taps. Flat start [0,0,1], full undamped Newton steps, tolerance1e−3, cap100.",
+        "zh": "100MVA；z12=.018+j.060、z13=.070+j.210、z23=.045+j.135 pu。Slack1.03∠0、PV2 P=.55且v2=1.01、PQ3 P=−.90且Q=−.30。发电母线无本地负荷，无并联元件，分接为1。平坦启动[0,0,1]，完整无阻尼Newton步，容差1e−3，上限100。"
+      },
+      "worked": [
+        {
+          "en": "At x0=[0,0,1], f=[−.620216106,.834920635,.104761905]. The correction is [.006105173,−.060900164,−.032049579]. The new magnitude is .967950421. The original residual norm is still .034828757, above1e−3.",
+          "zh": "x0=[0,0,1] 时，f=[−.620216106,.834920635,.104761905]，修正为 [.006105173,−.060900164,−.032049579]。新幅值为 .967950421，但原残差范数仍为 .034828757，高于1e−3。"
+        },
+        {
+          "en": "Y-bus stays fixed. Rebuild every Jacobian coefficient at state1, including calculated Q2 for H22. Use the same state for f and J. The second correction is [−.000677730,−.002832790,−.003519776].",
+          "zh": "Y-bus 固定；在状态1重建所有 Jacobian 系数，包括用于 H22 的计算 Q2。f 和 J 必须采用同一状态。第二次修正为 [−.000677730,−.002832790,−.003519776]。"
+        },
+        {
+          "en": "State2=[.005427443,−.063732955,.964430645] has max residual .0001508627 pu ≤.001. Accept after2 corrections. On100MVA, .001pu is .1MW or Mvar per equation. Do not replace the accepted values with the tighter L34 root.",
+          "zh": "状态2=[.005427443,−.063732955,.964430645] 的最大残差为 .0001508627 pu≤.001，两次修正后接受。在100MVA上，.001pu对应每条方程.1MW或Mvar。不能把本次接受值替换为L34更严格的根。"
+        },
+        {
+          "en": "At accepted state2, slack P1=37.873990MW,Q1=54.882232Mvar; PV Q2=−16.176200Mvar, within[−25,50]. Actual P2=54.99530MW and P3=−89.98491MW retain small allowed residuals. Fixed bus types here; no outer PV/PQ limit switching is implemented.",
+          "zh": "接受状态2下，Slack P1=37.873990MW、Q1=54.882232Mvar，PV Q2=−16.176200Mvar，处于[−25,50]内。实际P2=54.99530MW、P3=−89.98491MW仍保留允许的小残差。本实验固定母线类型，未实现外层PV/PQ限值切换。"
+        }
+      ],
+      "practice": [
+        {
+          "key": "run_steps",
+          "label": {
+            "en": "First accepted correction count",
+            "zh": "首次接受的修正次数"
+          },
+          "unit": "",
+          "tolerance": 0.01,
+          "hint": {
+            "en": "Use epsilon1e−3.",
+            "zh": "使用epsilon1e−3。"
+          }
+        },
+        {
+          "key": "v3_mag",
+          "label": {
+            "en": "Accepted v3",
+            "zh": "接受的v3"
+          },
+          "unit": "pu",
+          "tolerance": 1e-06,
+          "hint": {
+            "en": "Use state2, not the tighter root.",
+            "zh": "采用状态2，不是更严格的根。"
+          }
+        },
+        {
+          "key": "pg1_mw",
+          "label": {
+            "en": "Accepted slack P",
+            "zh": "接受的Slack P"
+          },
+          "unit": "MW",
+          "tolerance": 0.0001,
+          "hint": {
+            "en": "Use accepted voltages in VI*.",
+            "zh": "把接受电压代入VI*。"
+          }
+        },
+        {
+          "key": "qg2_mvar",
+          "label": {
+            "en": "Accepted PV Q",
+            "zh": "接受的PV Q"
+          },
+          "unit": "Mvar",
+          "tolerance": 0.0001,
+          "hint": {
+            "en": "Keep the absorption sign.",
+            "zh": "保留吸收的负号。"
+          }
+        }
+      ],
+      "quiz": {
+        "question": {
+          "en": "Why is P2 not exactly55MW at the accepted state?",
+          "zh": "接受状态的P2为何不精确等于55MW？"
+        },
+        "choices": [
+          {
+            "value": "0",
+            "label": {
+              "en": "A PV bus has no P equation",
+              "zh": "PV没有P方程"
+            }
+          },
+          {
+            "value": "1",
+            "label": {
+              "en": "The original residual is nonzero but within the stated tolerance",
+              "zh": "原残差非零但在声明的容差内"
+            }
+          },
+          {
+            "value": "2",
+            "label": {
+              "en": "The linear prediction replaces the original power function",
+              "zh": "线性预测取代了原功率函数"
+            }
+          }
+        ],
+        "correct": "1",
+        "feedback": [
+          {
+            "en": "P2 is a selected equation.",
+            "zh": "P2是选定方程。"
+          },
+          {
+            "en": "Correct. Tightening tolerance produces a different accepted approximation.",
+            "zh": "正确。收紧容差会产生不同的接受近似。"
+          },
+          {
+            "en": "Always recompute the nonlinear power equations.",
+            "zh": "必须重新计算非线性功率方程。"
+          }
+        ]
+      },
+      "challenge": {
+        "en": "Inspect states0,1,2; compare their f and rebuilt J. Tighten epsilon to1e−8 or cap the run at1, then explain acceptance and PV capability separately.",
+        "zh": "查看状态0、1、2，比较f与重建J。将epsilon收紧至1e−8，或把上限设为1，分别解释方程接受与PV能力。"
+      },
+      "limits": {
+        "en": "Fixed three-bus topology and bus types. Full undamped corrections; failed updates report errors, capped runs are unaccepted. Generator Q capability is checked separately, without PV/PQ switching. Requested display beyond completed history shows the last state. At an accepted state, the displayed next correction is diagnostic and is not applied.",
+        "zh": "固定三母线拓扑和母线类型。完整无阻尼修正；更新失败报告错误，达到上限但未收敛的运行不被接受。单独检查发电机Q能力，不执行PV/PQ切换。请求显示超出历史时显示最后状态。接受状态中显示的下一修正仅作诊断，不会实际执行。"
+      },
+      "code_key": "tolerance_exp",
+      "code_values": [
+        -3,
+        -6,
+        -8
+      ],
+      "plot_titles": [
+        {
+          "en": "Original residual and tolerance",
+          "zh": "原残差与容差"
+        },
+        {
+          "en": "PQ voltage magnitude through corrections",
+          "zh": "修正过程中的PQ幅值"
+        }
+      ]
     }
   ]
 }
