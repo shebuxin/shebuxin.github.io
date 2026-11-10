@@ -25,6 +25,8 @@ author_profile: true
 ## 2026
 {: #2026}
 
+* Junjie Yin, **Buxin She**, Jinning Wang, Fangxing Li, "[Encoding Frequency Dynamics into Economic Operation of IBR-Penetrated Power Systems: Quantification, Integration, and Validation](https://ieeexplore.ieee.org/document/11783485)", *IEEE Transactions on Smart Grid*, 2026, doi: [10.1109/TSG.2026.3752129](https://doi.org/10.1109/TSG.2026.3752129).
+
 * **Buxin She**, "[Security-Constrained Operation of IBR-Dominated Power Systems: Static and Dynamic Security Across Preventive and Corrective Decisions](https://arxiv.org/abs/2608.12609)", arXiv preprint arXiv:2608.12609, 2026.
 
 * Honglin Li, **Buxin She**, Jie Zhang, "[Techno-Economic Boundary Analysis of Small Modular Reactor Cogeneration for Hyperscale Data Center IT and Cooling Loads](https://arxiv.org/abs/2608.10999)", arXiv preprint arXiv:2608.10999, 2026.
